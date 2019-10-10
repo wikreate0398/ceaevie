@@ -37,7 +37,7 @@
 
 <link rel="stylesheet" type="text/css" href="{{ asset('admin_theme') }}/theme/assets/global/plugins/jquery-tags-input/jquery.tagsinput.css"/>
 
-<link href="/styles/loader.css" rel="stylesheet" type="text/css">
+<link href="/css/loader.css" rel="stylesheet" type="text/css">
 
 <link rel="stylesheet" type="text/css" href="{{ asset('admin_theme') }}/theme/assets/global/plugins/jstree/dist/themes/default/style.min.css"/>
 

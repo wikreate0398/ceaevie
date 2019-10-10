@@ -43,7 +43,7 @@ License: You must have a valid license purchased only from themeforest(the above
 <link href="/admin_theme/theme/assets/admin/layout/css/custom.css" rel="stylesheet" type="text/css"/>
 <link rel="stylesheet" href="/admin_theme/assets/css/admin.css?v=<?=time()?>">
 <!-- Main styles -->
-<link href="{{ asset('styles/loader.css') . '?v=' . time() }}" rel="stylesheet">
+<link href="{{ asset('css/loader.css') . '?v=' . time() }}" rel="stylesheet">
 
 <!-- END THEME STYLES -->
 <link rel="shortcut icon" href="favicon.ico"/>

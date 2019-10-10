@@ -96,11 +96,13 @@ Route::group(['prefix' => $adminPath, 'namespace' => 'Admin', 'middleware' => ['
     });
 
 	Route::group(['prefix' => 'profile'], function() { 
-		Route::get('/', 'ProfileController@showForm')->name('profile');
-		Route::post('edit', 'ProfileController@edit');
-		Route::post('addNewUser', 'ProfileController@addNewUser');
+        Route::get('/', 'ProfileController@showForm')->name('profile');
+        Route::get('{id}/edit-user', 'ProfileController@editAdminUser');
+        Route::post('{id}/update-admin-user', 'ProfileController@updateAdminUser');
+        Route::post('edit', 'ProfileController@edit');
+        Route::post('addNewUser', 'ProfileController@addNewUser');
         Route::get('/logs-report/{id_user}', 'ProfileController@showLogsReport');
-	}); 
+    }); 
   
 	Route::group(['prefix' => 'user', 'namespace' => 'Users',], function() { 
 		Route::post('fastRegister', 'SiteUser@fastRegister');  

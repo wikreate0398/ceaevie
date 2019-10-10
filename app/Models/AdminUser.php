@@ -33,14 +33,5 @@ class AdminUser extends Authenticatable
      */
     protected $hidden = [
         'password', 'remember_token',
-    ];
-
-    public function admin_logs_report()
-    {
-        return $this->hasMany('App\Models\LogsReport', 'id_user', 'id')
-                    ->where('guard', '1')
-                    ->orderBy('id', 'desc');
-    }
-
-
+    ]; 
 }
