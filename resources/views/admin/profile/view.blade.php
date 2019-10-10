@@ -123,8 +123,7 @@
 			<thead>
 				<tr>
 					<th style="width: 50px;">Name</th>
-					<th>Login/E-mail</th>
-                    <th style="width: 5%; white-space: nowrap;">Log report</th>
+					<th>Login/E-mail</th> 
 					<th style="width: 50px;"><i class="fa fa-cogs" aria-hidden="true"></i></th>
 				</tr>
 			</thead>
@@ -132,15 +131,7 @@
 				@foreach($users as $user)
 					<tr>
 						<td style="white-space: nowrap;">{{ ucfirst($user['name']) }}</td>
-						<td>{{ $user['email'] }}</td>
-                        <td style="text-align: center">
-                            @if($user->admin_logs_report->count())
-                                <a href="{{ setAdminUri('profile/logs-report/' . $user->id) }}">
-                                    <i class="fa fa-file-text-o" aria-hidden="true"></i>
-                                </a>
-                            @else
-                            @endif
-                        </td>
+						<td>{{ $user['email'] }}</td> 
 						<td style="white-space: nowrap;">
 							<input type="checkbox" 
 	          		       class="make-switch" data-size="mini" {{ !empty($user['active']) ? 'checked' : '' }} 
