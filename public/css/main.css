@@ -76,3 +76,55 @@
   font-size: 16px;
   margin-bottom: 0px !important;
 }
+
+.registration-page .navbar{
+  display: none !important;
+}
+
+#ajax-notify{
+    min-width: 350px;
+    display: none;
+}
+
+.notify-inner{
+    font-size: 14px; 
+    font-weight: 500;
+    padding-right: 20px;
+}
+
+.notify-inner p{
+  margin:0;
+}
+
+#ajax-notify.notify-success, .alert-success{
+    background-color: rgb(133, 181, 82);
+    color: #fff;
+}
+
+#ajax-notify.notify-danger, .alert-error{
+    background: #ec5359;
+    color: #fff;
+}
+
+.req{
+    color: #ec5359;
+}
+
+.logout-v1{
+  color: #fff;
+  font-size: 18px;
+}
+
+.top-username i{
+  font-size: 18px;
+  margin-right: 5px;
+}
+
+.top-username{
+  color: #fff;
+}
+
+.top-username:hover, .logout-v1:hover{
+  color:#e6e5e5;
+  text-decoration: none;
+}

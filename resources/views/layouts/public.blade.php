@@ -9,6 +9,8 @@
     <link rel="icon" href="/favicon.ico">
     <title>Чаевые онлайн</title>
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.1.25/jquery.fancybox.min.css" />
+    
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link href="/css/all.min.css" rel="stylesheet">
     <link href="/css/style.css?v={{ time() }}" rel="stylesheet" type="text/css">
@@ -47,39 +49,43 @@
             }, 1000);
         }
     });
-</script>
-@php $pageData = \Pages::pageData(); @endphp
-<body class="{{ (@$pageData->page_type != 'home') ? 'no-home-page' : '' }}">
+</script> 
+<body class="{{ (@$page_data->page_type != 'home') ? 'no-home-page' : '' }} {{ (uri(2) == 'registration') ? 'registration-page' : '' }}">
     <nav class="navbar navbar-expand-md bg-grey-red no-mob-bg-grey-red pt-45 justify-content-center">
         <div class="container">
             <a href="/" class="navbar-brand">
                 <img src="/img/header-home/logo.png" alt="">
             </a>
+            
+            @if(Auth::check())
+                <a href=""><i class="fa fa-user-circle-o" aria-hidden="true" style="font-size: 18px;"></i> </a>
+            @else
+                <ul class="navbar-nav mx-auto text-center sign-menu d-block d-sm-none">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            Войти
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Оплатить чаевые</a>
+                    </li>
+                </ul>
+            @endif
 
-            <ul class="navbar-nav mx-auto text-center sign-menu d-block d-sm-none">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        Войти
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Оплатить чаевые</a>
-                </li>
-            </ul>
             <button class="navbar-toggler ml-1" type="button" data-toggle="collapse" data-target="#collapsingNavbar2">
-                <span class="navbar-toggler-icon"><i class="fas fa-bars"></i></span>
+                <span class="navbar-toggler-icon"><i class="fa fa-bars"></i></span>
             </button>
             <div class="navbar-collapse collapse justify-content-between align-items-center w-100" id="collapsingNavbar2">
                 <ul class="navbar-nav mx-auto text-center"> 
                     @foreach(\Pages::top() as $menu)
                         @php
-                            if($menu->toggle or $pageData->page_type == 'home' && $menu->page_type == 'home')
+                            if($menu->toggle or @$page_data->page_type == 'home' && $menu->page_type == 'home')
                             {
                                 $toggle = true;
                             }
                             if(!empty($toggle))
                             {
-                                if(@$pageData->page_type == 'home')
+                                if(@$page_data->page_type == 'home')
                                 {
                                     $link  = '#' . $menu->page_type;
                                     $class = 'toggle-link';
@@ -100,11 +106,24 @@
                     @endforeach
                 </ul>
                 <ul class="nav navbar-nav flex-row justify-content-center flex-nowrap d-none d-sm-block">
-                    <li class="nav-item text-white">
-                        <a class="nav-link btn btn-sign" href="#">
-                            Войти
-                        </a>
-                        <span>Оплатить чаевые</span>
+                    <li class="nav-item text-white"> 
+                        @if(!Auth::check())
+                            <a class="nav-link btn btn-sign" href="#">
+                                Войти
+                            </a>
+                            <span>Оплатить чаевые</span>
+                        @else
+                            <a class="top-username" href="">
+                                <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                                <span>{{ Auth::user()->name }}</span>
+                            </a>
+                            &nbsp;&nbsp;
+                            |
+                            &nbsp;&nbsp;
+                            <a href="{{ route('logout', ['lang' => $lang]) }}" class="logout-v1">
+                                <i class="fa fa-power-off" aria-hidden="true"></i> 
+                            </a>
+                        @endif
                     </li>
                 </ul>
             </div>
@@ -165,10 +184,14 @@
             </div>
         </div>
     </footer>
- 
+
+    <div id="ajax-notify">
+        <div class="notify-inner"></div>
+    </div> 
+    <script src="https://use.fontawesome.com/7d23dee490.js"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.1.25/jquery.fancybox.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <script src="/js/all.min.js"></script> 
+    <script src="/js/bootstrap.min.js"></script> 
     <script src="/js/main.js?v={{ time() }}"></script>
     <script src="/js/ajax.js?v={{ time() }}"></script>
     <script src="/js/notify.js?v={{ time() }}"></script>

@@ -44,11 +44,16 @@ class RegisterController extends Controller
         $this->middleware('guest', ['except' => 'confirmation']);
     }
 
+    public function showForm()
+    {
+        return view('auth/registration');
+    }
+
     public function register(Request $request)
     {
         $input = $request->all();
 
-        if(!$request->name or !$request->email or !$request->password or !$request->password_confirmation or !$request->terms)
+        if(!$request->name or !$request->email or !$request->password or !$request->password_confirmation)
         {
             return \JsonResponse::error(['messages' => \Constant::get('REQ_FIELDS')]);
         }
@@ -71,12 +76,11 @@ class RegisterController extends Controller
         $confirm_hash = md5(microtime());
 
         $user = User::create([
-            'name'           => $request->name,
-            'email'          => $request->email,
-            'confirm_hash'   => $confirm_hash,
-            'password'       => bcrypt($request->password),
-            'account_number' => generateAccountNumber(),
-            'lang'           => lang()
+            'name'         => $request->name,
+            'email'        => $request->email,
+            'confirm_hash' => $confirm_hash,
+            'password'     => bcrypt($request->password),
+            'lang'         => lang()
         ]);
 
         $user->notify(new ConfirmRegistration($confirm_hash, lang()));
@@ -97,7 +101,7 @@ class RegisterController extends Controller
     }
 
     public function confirmation($lang, $confirmation_hash)
-    {
+    { 
         $user = User::where('confirm_hash', $confirmation_hash)->first();
 
         if(!$user) abort('404');

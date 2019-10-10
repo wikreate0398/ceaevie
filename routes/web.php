@@ -125,9 +125,10 @@ Route::post('messages', function(\Illuminate\Http\Request $request){
 
 Route::group(['prefix' => '{lang}', 'middleware' => ['lang', 'web']], function() {
     Route::get('/', 'HomeController@index'); 
-    Route::get('/payment', 'PaymentController@index');
-  
+    Route::post('questions', 'HomeController@questions'); 
+    
     Route::group(['middlewars' => 'guest'], function(){
+        Route::get('registration', 'Auth\RegisterController@showForm')->name('registration');
         Route::post('register', 'Auth\RegisterController@register')->name('register');
         Route::get('finish-registration', 'Auth\RegisterController@finish_registration')->name('finish_registration');
         Route::get('registration-confirm/{confirmation_hash}', 'Auth\RegisterController@confirmation')->name('registration_confirm');
@@ -141,12 +142,7 @@ Route::group(['prefix' => '{lang}', 'middleware' => ['lang', 'web']], function()
             Route::get('change-password', 'ProfileController@changePass')->name('change_pass');
             Route::post('change-password', 'ProfileController@savePassword')->name('save_new_password');
 
-            Route::group(['prefix' => 'register'], function() {
-                Route::get('offers-placed', 'RegisterController@offersPlaced')->name('offers_placed');
-                Route::get('transactions', 'RegisterController@transactions')->name('transactions');
-                Route::get('orders', 'RegisterController@orders')->name('orders');
-               // Route::get('bids', 'RegisterController@bids')->name('register_bids');
-            });
+             
         });
     });
       

@@ -9,7 +9,7 @@
                         ЧАЕВЫЕ БЕЗ НАЛИЧНЫХ <br> - ЭТО ПРОСТО!
                     </h1>
                     <p class="mb-30">Получайте чаевые, даже если у Ваших клиентов <br> нет с собой наличных</p>
-                    <a href="#" class="btn btn-red mb-30">Зарегистрироваться</a>
+                    <a href="{{ route('registration', ['lang' => $lang]) }}" class="btn btn-red mb-30">Зарегистрироваться</a>
                     <ul class="list-inline payments-header">
                     	@foreach($payments as $payment)
 							<li class="list-inline-item">
@@ -164,7 +164,7 @@
 	                        	<li> {{ $advantage["name_$lang"] }}</li>
 	                        @endforeach
 	                    </ul>
-	                    <a href="#" class="btn btn-red">Присоединится к нам</a>
+	                    <a href="{{ route('registration', ['lang' => $lang]) }}" class="btn btn-red">Присоединится к нам</a>
 	                </div>
                 @endif
             </div>
@@ -180,16 +180,17 @@
                     <p class="text-center mb-50">
                         Мы всегда рады пообщаться, оставьте контакты и мы Вам перезвоним.
                     </p>
-                    <form>
+                    <form class="ajax__submit" action="{{ route('questions', ['lang' => $lang]) }}">
+                        {{ csrf_field() }}
                         <div class="row">
                             <div class="form-group col-12 col-sm-6 col-md-6">
-                                <input type="text" class="form-control" placeholder="Ваше имя">
+                                <input type="text" class="form-control" name="name" placeholder="Ваше имя">
                             </div>
                             <div class="form-group col-12 col-sm-6 col-md-6">
-                                <input type="text" class="form-control" placeholder="Ваш телефон">
+                                <input type="text" class="form-control" name="phone" placeholder="Ваш телефон">
                             </div>
                             <div class="form-group col-12">
-                                <input type="text" class="form-control" placeholder="Введите текст вашего вопроса">
+                                <input type="text" class="form-control" name="message" placeholder="Введите текст вашего вопроса">
                             </div>
                             <div class="form-group col-12 text-center">
                                 <button type="submit" class="btn btn-red">Отправить</button>

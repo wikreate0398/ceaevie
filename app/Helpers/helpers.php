@@ -235,13 +235,13 @@ function adminMenu()
             'edit' => 'Редактировать'
         ],  
 
-        // 'settings' => [
-        //     'name' => 'Настройки',
-        //     'icon' => '<i class="fa fa-sliders" aria-hidden="true"></i>',
-        //     'link' => '/'.config('admin.path').'/settings/',
-        //     'view' => true,
-        //     'edit' => 'Редактировать'
-        // ],
+        'settings' => [
+            'name' => 'Настройки',
+            'icon' => '<i class="fa fa-sliders" aria-hidden="true"></i>',
+            'link' => '/'.config('admin.path').'/settings/',
+            'view' => true,
+            'edit' => 'Редактировать'
+        ],
 
         'constants' => [
             'name' => 'Константы',

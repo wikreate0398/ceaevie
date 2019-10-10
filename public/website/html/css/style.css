@@ -237,6 +237,23 @@ a:hover {
     color: #cf1c24;
 }
 
+.text-grey {
+    color: #989898;
+}
+
+.text-grey a {
+    color: #989898;
+    text-decoration: underline;
+}
+
+.text-grey a:hover {
+    color: #cf1c24;
+}
+
+.text-small {
+    font-size: 0.875rem;
+}
+
 /* Footer */
 footer {
     color: #ffffff;
@@ -257,6 +274,10 @@ footer .social_block img {
 
 footer .copyright {
     font-size: 0.875rem;
+}
+
+footer a {
+    color: #fff;
 }
 
 /* Backgrounds */
@@ -299,8 +320,16 @@ footer .copyright {
     padding-bottom: 5.625rem;
 }
 
+.mt-45 {
+    margin-top: 2.8125rem;
+}
+
 .mt-80 {
     margin-top: 5rem;
+}
+
+.mt-90 {
+    margin-top: 5.625rem;
 }
 
 .mb-30 {

@@ -29,7 +29,7 @@ var Notify = function () {
     this.show = function () {
         $('#ajax-notify').removeClass('notify-success').removeClass('notify-danger');
         $('#ajax-notify').addClass('notify-' + self.status);
-        $('#ajax-notify .inner').html(self.message);
+        $('#ajax-notify .notify-inner').html(self.message);
         $.fancybox.open({
             src  : '#ajax-notify',
             type : 'inline'
@@ -39,7 +39,7 @@ var Notify = function () {
             $.fancybox.close({
                 src  : '#ajax-notify'
             });
-        }, 7000);
+        }, 7000000);
     };
 }
 var Notify = new Notify();
