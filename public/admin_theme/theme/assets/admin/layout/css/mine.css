@@ -1,0 +1,98 @@
+.t-right{
+	text-align: right;
+}
+
+.modal{
+	text-align: left !important;
+}
+
+td.handle , .handle   {
+	background-image:url(/theme/theme/assets/admin/layout/img/move.png); 
+    background-repeat:no-repeat; 
+    background-position: center center;   
+    cursor:pointer;  
+}
+
+.group_move_placeholder {
+  display: table-row; 
+}
+
+ .table-advance i.fa-center{
+	display: block;
+	text-align: center;
+}
+
+.ms-container{
+	width: 100% !important;
+}
+
+#multi-image, #related-products{
+	display: none;
+}
+
+div.tagsinput{
+	border: 1px solid #e5e5e5;
+}
+
+.form-horizontal .control-label{
+	text-align: left !important;
+}
+
+#fade-respond {
+    display: none;
+    position: fixed;
+    top: 100px;
+    right: 50px;
+    border-radius: 20px !important;
+    z-index: 100990;
+    padding: 20px;
+    font-size: 14px;
+}
+.success-respond {
+    background-color: #52bf52;
+    color: #fff;
+    cursor: pointer;
+}
+.success-respond:hover {
+    background-color: rgba(81, 163, 81, .7);
+}
+
+#mask_price, #mask_old_price{
+    text-align: left !important;
+}
+
+.radio-list > label{
+    display: inline-block;
+}
+
+.fileinput-new.thumbnail{
+    background: #ededed;
+}
+
+ #preloader {
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    background-color:#fff; /* change if the mask should have another color then white */
+    z-index:9999; /* makes sure it stays on top */
+}
+
+#status {
+    width:200px;
+    height:200px;
+    position:absolute;
+    left:50%; /* centers the loading animation horizontally one the screen */
+    top:50%; /* centers the loading animation vertically one the screen */
+    background-image:url(../img/status.gif); /* path to your loading animation */
+    background-repeat:no-repeat;
+    background-position:center;
+    margin:-100px 0 0 -100px; /* is width and height divided by two */
+}
+.alert-danger{
+    background: #ff7171;
+    font-size: 18px; 
+    color: #fff;
+    font-weight: bold;
+}
