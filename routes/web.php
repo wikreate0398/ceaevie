@@ -125,7 +125,7 @@ Route::post('messages', function(\Illuminate\Http\Request $request){
 
 Route::group(['prefix' => '{lang}', 'middleware' => ['lang', 'web']], function() {
     Route::get('/', 'HomeController@index'); 
-    Route::post('questions', 'HomeController@questions'); 
+    Route::post('questions', 'HomeController@questions')->name('questions'); 
     
     Route::group(['middlewars' => 'guest'], function(){
         Route::get('registration', 'Auth\RegisterController@showForm')->name('registration');
