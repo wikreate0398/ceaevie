@@ -37,6 +37,7 @@ class MakeQuestion extends Mailable
     public function build()
     {
         return $this->from(setting('mailbox'))
+                    ->subject('☆'.config('app.name').': Новое сообщение')
                     ->markdown('mails.question')
                     ->with([
                         'name'    => $this->name,
