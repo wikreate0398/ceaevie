@@ -37,6 +37,11 @@ class MakeQuestion extends Mailable
     public function build()
     {
         return $this->from(setting('mailbox'))
-                    ->markdown('mails.question');
+                    ->markdown('mails.question')
+                    ->with([
+                        'name'    => $this->name,
+                        'phone'   => $this->phone,
+                        'message' => $this->message
+                    ]);
     }
 }
