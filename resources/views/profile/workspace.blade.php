@@ -21,32 +21,29 @@
                 </div>
                 <div class="modal-body">
                     <h2>Добавить новый QR код</h2>
-                    <form class="forms-sample ajax__submit" action="{{ route('add_qr', ['lang' => $lang]) }}">
-                        {{ csrf_field() }}
+                    <form class="forms-sample">
                         <div class="form-group">
-                            <label for="visitCardMessageInput1">Подпись на визитке <span class="req">*</span></label>
+                            <label for="visitCardMessageInput1">Подпись на визитке:*</label>
                             <input type="text" class="form-control"
                                    id="visitCardMessageInput1"
-                                   name="card_signature" 
-                                   placeholder="Спасибо, что нас посетили" value="">
+                                   placeholder="Спасибо, что нас посетили" value="Спасибо, что нас посетили">
                         </div>
                         <div class="form-group">
                             <label
-                                for="companyNameInput1">Название заведения <span class="req">*</span></label>
-                            <input type="text" class="form-control"
+                                for="companyNameInput1">Название заведения:</label>
+                            <input type="email" class="form-control"
                                    id="companyNameInput1"
-                                   name="institution_name" 
                                    placeholder="Введите название заведения">
                         </div>
                         
                         <div class="form-group"> 
-                             <label>Выберите цвет подложки <span class="req">*</span></label>
+                             <label>Выберите цвет подложки:</label>
 
                             <div style="margin-top: 5px;">
 
                                 @foreach($backgrounds as $background)
                                     <label class="radio">
-                                        <input type="radio" name="background" value="{{ $background->id }}" checked>
+                                        <input type="radio" name="answer" value="{{ $background->id }}" checked>
                                         <span style="background-color: {{ $background->color }}"></span>
                                     </label>
                                 @endforeach

@@ -130,17 +130,16 @@ Route::group(['prefix' => $adminPath, 'namespace' => 'Admin', 'middleware' => ['
 
 Route::get('/', 'HomeController@index')->middleware(['lang', 'web']);
 
-Route::get('make-payment', 'HomeController@makePayment')->middleware(['lang', 'web']);
-Route::get('pay-tip', 'HomeController@payTip')->middleware(['lang', 'web']);
 
 Route::post('messages', function(\Illuminate\Http\Request $request){ 
     \App\Events\ItemAdded::dispatch($request->body);
 });
 
 Route::group(['prefix' => '{lang}', 'middleware' => ['lang', 'web']], function() {
-    Route::get('/', 'HomeController@index'); 
+    Route::get('/', 'HomeController@index');
     Route::post('questions', 'HomeController@questions')->name('questions'); 
-    
+    Route::get('make-payment', 'HomeController@makePayment')->middleware(['lang', 'web']);
+    Route::get('pay-tip', 'HomeController@payTip')->middleware(['lang', 'web']);
     Route::group(['middlewars' => 'guest'], function(){
         Route::get('registration', 'Auth\RegisterController@showForm')->name('registration');
         Route::post('register', 'Auth\RegisterController@register')->name('register');
@@ -164,12 +163,7 @@ Route::group(['prefix' => '{lang}', 'middleware' => ['lang', 'web']], function()
                 Route::post('send', 'ContactController@send')->name('send_contact_us'); 
             }); 
 
-            Route::group(['prefix' => 'workspace'], function() {
-                Route::get('/', 'WorkspaceController@index')->name('workspace');
-                Route::post('add-qr', 'WorkspaceController@addQrCode')->name('add_qr'); 
-            }); 
-
-             
+            Route::get('workspace', 'WorkspaceController@index')->name('workspace');
             Route::get('enrollment', 'EnrollmentController@index')->name('enrollment');
             Route::get('ballance', 'BallanceController@index')->name('ballance'); 
              

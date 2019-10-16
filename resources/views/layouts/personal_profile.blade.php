@@ -21,7 +21,7 @@
 	<link rel="stylesheet" href="{{ asset('profile_theme') }}/assets/css/main.css">
 	<link rel="stylesheet" href="/css/loader.css?v={{ time() }}">
 	<!-- End layout styles -->
-	<!-- <link rel="shortcut icon" href="{{ asset('profile_theme') }}/assets/images/favicon.png"/> -->
+	<link rel="shortcut icon" href="{{ asset('profile_theme') }}/assets/images/favicon.png"/>
 </head>
 <body>
 <div class="container-scroller">
@@ -30,9 +30,9 @@
 		class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
 		<div
 			class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-			<a class="navbar-brand brand-logo" href="/"><img
+			<a class="navbar-brand brand-logo" href="index.html"><img
 				src="/img/logo.png" alt="logo"/></a>
-			<a class="navbar-brand brand-logo-mini" href="/"><img
+			<a class="navbar-brand brand-logo-mini" href="index.html"><img
 				src="/img/logo.png" alt="logo"/></a>
 		</div>
 		<div class="navbar-menu-wrapper d-flex align-items-stretch">

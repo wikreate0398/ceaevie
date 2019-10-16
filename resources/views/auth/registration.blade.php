@@ -1,15 +1,15 @@
 @extends('layouts.public')
 
 @section('content')
-	<section class="bg-white pt-90 pb-90">
+	<section class="bg-white pt-90 pb-90 register-page">
         <div class="container">
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <a href="/"><img src="/img/logo.png" alt=""></a>
-                    <h3 class="section-header mt-90 mb-90">
+                    <a href="/"><img src="/img/logo.png" alt="logo"></a>
+                    <h3 class="section-header mt-50 mb-30">
                         Регистрация нового пользователя
                     </h3>
-                    <p class="mb-30">Заполните форму, чтобы получать чаевые через сервис</p>
+                    <p class="page-description">Заполните форму, чтобы получать чаевые через сервис</p>
                 </div>
                 <div class="col-md-6 offset-md-3">
                     <form class="ajax__submit" action="{{ route('register', ['lang' => $lang]) }}">
