@@ -170,6 +170,7 @@ return [
         Balping\BladeFunction\BladeFunctionServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
 
 
         /*
@@ -240,6 +241,7 @@ return [
         'Banner'   => App\Utils\BannerUtil::class,
         'Constant' => App\Utils\Constants::class,
         'Excel'    => Maatwebsite\Excel\Facades\Excel::class,
+        'QrCode'   => SimpleSoftwareIO\QrCode\Facades\QrCode::class
     ],
 
 ];
