@@ -130,6 +130,9 @@ Route::group(['prefix' => $adminPath, 'namespace' => 'Admin', 'middleware' => ['
 
 Route::get('/', 'HomeController@index')->middleware(['lang', 'web']);
 
+Route::get('make-payment', 'HomeController@makePayment')->middleware(['lang', 'web']);
+Route::get('pay-tip', 'HomeController@payTip')->middleware(['lang', 'web']);
+
 Route::post('messages', function(\Illuminate\Http\Request $request){ 
     \App\Events\ItemAdded::dispatch($request->body);
 });

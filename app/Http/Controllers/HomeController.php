@@ -44,4 +44,14 @@ class HomeController extends Controller
             'messages' => 'Ваше сообщение успешно отпарвлено. Наш менеджер свяжется с вами в близжайшее время'
         ]);
     }
+
+    public function makePayment()
+    {
+        return view('public/make_payment');
+    }
+
+    public function payTip()
+    {
+        return view('public/pay_tip');
+    }
 }

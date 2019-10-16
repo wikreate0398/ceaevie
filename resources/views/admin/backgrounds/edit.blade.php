@@ -3,11 +3,7 @@
 @section('content')
 <div class="row">
 	<div class="col-md-12"> 
-	 <div class="portlet light bg-inverse"> 
-
-			<div class="portlet-title"> 
-	            @include('admin.utils.language_switcher') 
-	         </div>
+	 <div class="portlet light bg-inverse">  
 
 			<div class="portlet-body form">
 			 

@@ -40,26 +40,14 @@
                              <label>Выберите цвет подложки:</label>
 
                             <div style="margin-top: 5px;">
-                                <label class="radio">
-                                    <input type="radio" name="answer" value="grey_1" checked>
-                                    <span style="background-color: rgba(242, 242, 242, 1)"></span>
-                                </label>
-                                <label class="radio">
-                                    <input type="radio" name="answer" value="grey_2">
-                                    <span style="background-color: rgba(215, 215, 215, 1);"></span>
-                                </label>
-                                <label class="radio">
-                                    <input type="radio" name="answer" value="grey_3">
-                                    <span style="background-color: rgba(170, 170, 170, 1);"></span>
-                                </label>
-                                <label class="radio">
-                                    <input type="radio" name="answer" value="grey_4">
-                                    <span style="background-color: rgba(127, 127, 127, 1);"></span>
-                                </label>
-                                <label class="radio">
-                                    <input type="radio" name="answer" value="grey_5">
-                                    <span style="background-color: rgba(85, 85, 85, 1);"></span>
-                                </label>
+
+                                @foreach($backgrounds as $background)
+                                    <label class="radio">
+                                        <input type="radio" name="answer" value="{{ $background->id }}" checked>
+                                        <span style="background-color: {{ $background->color }}"></span>
+                                    </label>
+                                @endforeach
+                                 
                             </div>
                         </div>
                         
@@ -97,7 +85,7 @@
             </div>
         </div>
         
-       <!--  <div class="col-md-4 grid-margin stretch-card">
+        <div class="col-md-4 grid-margin stretch-card">
             <div class="card new-qr created">
                 <div class="card-body">
                     <div class="created-qr" style="background-color:#f6f6f6;">
@@ -120,8 +108,8 @@
                     </div>
                 </div>
             </div>
-        </div> -->
-        <div class="col-md-4 grid-margin stretch-card">
+        </div>
+      <!--   <div class="col-md-4 grid-margin stretch-card">
             <div class="card new-qr">
                 <div class="card-body">
                     <img src="{{ asset('profile_theme') }}/assets/images/logo.png" alt="logo">
@@ -131,7 +119,7 @@
                     <h2>892-5</h2>
                 </div>
             </div>
-        </div>
+        </div> -->
         
     </div>
 @stop

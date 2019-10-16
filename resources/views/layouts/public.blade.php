@@ -25,7 +25,7 @@
         @endif
     });
 </script> 
-<body class="{{ (@$page_data->page_type != 'home') ? 'no-home-page' : '' }} {{ (uri(2) == 'registration') ? 'registration-page' : '' }}">
+<body class="{{ (@$page_data->page_type != 'home') ? 'no-home-page' : '' }} {{ (in_array(uri(2), ['registration', 'make-payment', 'pay-tip'])) ? 'no-nav' : '' }}">
     <nav class="navbar navbar-expand-md bg-grey-red no-mob-bg-grey-red pt-45 justify-content-center">
         <div class="container">
             <a href="/" class="navbar-brand">
