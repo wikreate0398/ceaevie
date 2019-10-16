@@ -34,7 +34,7 @@ class ForgotPasswordController extends Controller
     }
 
     public function sendResetPassword(Request $request)
-    {
+    { 
         if (empty($request->email))
         {
             return \JsonResponse::error(['messages' => \Constant::get('ENTER_EMAIL')]);
@@ -46,7 +46,7 @@ class ForgotPasswordController extends Controller
             return \JsonResponse::error(['messages' => \Constant::get('USER_NOT_EXIST')]);
         }
 
-        $newPassword    = random_str();
+        $newPassword    = random_str(8);
         $user->password = bcrypt($newPassword);
         $user->save();
 

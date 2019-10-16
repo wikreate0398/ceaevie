@@ -128,3 +128,13 @@
   color:#e6e5e5;
   text-decoration: none;
 }
+
+.mobile-auth-icon{
+  display: none;
+}
+
+@media screen and (max-width: 500px){
+  .mobile-auth-icon{
+    display: block;
+  }
+}

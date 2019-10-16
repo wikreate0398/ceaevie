@@ -58,7 +58,7 @@ class LoginController extends Controller
                     'active'   => 1,
                     'confirm'  => 1], false) == true)
             {
-                return \JsonResponse::success(['redirect' => $this->redirectTo], false);
+                return \JsonResponse::success(['redirect' => route('workspace', ['lang' => lang()])], false);
             }
             else
             {
@@ -67,5 +67,10 @@ class LoginController extends Controller
         } catch (validationException $e) {
             return \JsonResponse::error(['messages' => \Constant::get('AUTH_ERR')]);
         }
+    }
+
+    public function showLogin()
+    {
+        return view('auth/login');
     }
 }

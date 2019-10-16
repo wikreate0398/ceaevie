@@ -9,8 +9,7 @@
     <link rel="icon" href="/favicon.ico">
     <title>Чаевые онлайн</title>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.1.25/jquery.fancybox.min.css" />
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.1.25/jquery.fancybox.min.css" /> 
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link href="/css/all.min.css" rel="stylesheet">
     <link href="/css/style.css?v={{ time() }}" rel="stylesheet" type="text/css">
@@ -21,33 +20,9 @@
 
 <script>
     $(document).ready(function(){
-        $(window).scroll(function(e){
-            var body = e.target.body, scrollT = $(this).scrollTop(); 
-            if (scrollT > 200) {
-                $('.navbar').addClass('fixed-header');
-                $('.fixed-header').css({
-                    'top': "0",
-                    'opacity': '1'
-                }); 
-            }else{ 
-                $('.navbar').removeClass('fixed-header');
-            } 
-        }); 
-
-        $('.toggle-link').click(function(e){
-            e.preventDefault(); 
-            scrollToBlock($(this).attr('href')); 
-        });
-
         @if(request()->toggle)
             scrollToBlock('#{{ request()->toggle }}'); 
         @endif
-
-        function scrollToBlock(id){
-            $('html, body').animate({
-                scrollTop: $(id).offset().top-75
-            }, 1000);
-        }
     });
 </script> 
 <body class="{{ (@$page_data->page_type != 'home') ? 'no-home-page' : '' }} {{ (uri(2) == 'registration') ? 'registration-page' : '' }}">
@@ -58,11 +33,13 @@
             </a>
             
             @if(Auth::check())
-                <a href=""><i class="fa fa-user-circle-o" aria-hidden="true" style="font-size: 18px;"></i> </a>
+                <a href="{{ route('workspace', ['lang' => $lang]) }}" class="mobile-auth-icon">
+                    <i class="fa fa-user-circle-o" aria-hidden="true" style="font-size: 18px;"></i> 
+                </a>
             @else
                 <ul class="navbar-nav mx-auto text-center sign-menu d-block d-sm-none">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="{{ route('show_login', ['lang' => $lang]) }}" target="_blank">
                             Войти
                         </a>
                     </li>
@@ -108,14 +85,14 @@
                 <ul class="nav navbar-nav flex-row justify-content-center flex-nowrap d-none d-sm-block">
                     <li class="nav-item text-white"> 
                         @if(!Auth::check())
-                            <a class="nav-link btn btn-sign" href="#">
+                            <a class="nav-link btn btn-sign" href="{{ route('show_login', ['lang' => $lang]) }}" target="_blank">
                                 Войти
                             </a>
                             <span>Оплатить чаевые</span>
                         @else
-                            <a class="top-username" href="">
+                            <a class="top-username" href="{{ route('workspace', ['lang' => $lang]) }}">
                                 <i class="fa fa-user-circle-o" aria-hidden="true"></i>
-                                <span>{{ Auth::user()->name }}</span>
+                                <span>{{ Auth::user()->name }} {{ Auth::user()->lastname }}</span>
                             </a>
                             &nbsp;&nbsp;
                             |
@@ -188,6 +165,7 @@
     <div id="ajax-notify">
         <div class="notify-inner"></div>
     </div> 
+
     <script src="https://use.fontawesome.com/7d23dee490.js"></script> 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.1.25/jquery.fancybox.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>

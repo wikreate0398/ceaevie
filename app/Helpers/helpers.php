@@ -169,32 +169,7 @@ function adminMenu()
         //         ], 
         //     ]
         // ],
-
-        // 'statistics' => [
-        //     'name'   => 'Statistics',
-        //     'icon'   => '<i class="fa fa-bar-chart" aria-hidden="true"></i>',
-        //     'link'   => '/'.config('admin.path').'/statistics',
-        //     'view'   => true,
-        //     'edit'   => 'Редактировать',
-        //     'childs' => [
-        //         'daily-reports' => [
-        //             'name' => 'Daily reports',
-        //             'icon' => '<i class="fa fa-book" aria-hidden="true"></i>',
-        //             'link' => '/'.config('admin.path').'/statistics/daily-reports/',
-        //             'view' => true,
-        //             'edit' => 'Редактировать'
-        //         ],
-
-        //         'client-history' => [
-        //             'name' => 'Client History',
-        //             'icon' => '<i class="fa fa-book" aria-hidden="true"></i>',
-        //             'link' => '/'.config('admin.path').'/statistics/client-history/',
-        //             'view' => true,
-        //             'edit' => 'Редактировать'
-        //         ], 
-        //     ]
-        // ],  
-
+ 
         'how-it-works' => [
             'name' => 'Как это работает',
             'icon' => '<i class="fa fa-question-circle-o" aria-hidden="true"></i>',
@@ -220,12 +195,37 @@ function adminMenu()
         ],  
 
         'clients' => [
-            'name' => 'Клиенты',
+            'name' => 'Официанты',
             'icon' => '<i class="fa fa-users" aria-hidden="true"></i>',
             'link' => '/'.config('admin.path').'/clients/',
             'view' => true,
             'edit' => 'Редактировать'
         ], 
+
+        'oficiant-profile' => [
+            'name'   => 'ЛК Официанта',
+            'icon'   => '<i class="fa fa-address-book-o" aria-hidden="true"></i>',
+            'link'   => '/'.config('admin.path').'/oficiant-profile',
+            'view'   => true,
+            'edit'   => 'Редактировать',
+            'childs' => [
+                'backgrounds' => [
+                    'name' => 'Цвет подложки',
+                    'icon' => '<i class="fa fa-book" aria-hidden="true"></i>',
+                    'link' => '/'.config('admin.path').'/oficiant-profile/backgrounds/',
+                    'view' => true,
+                    'edit' => 'Редактировать'
+                ],
+
+                'client-history' => [
+                    'name' => 'Сообщения',
+                    'icon' => '<i class="fa fa-book" aria-hidden="true"></i>',
+                    'link' => '/'.config('admin.path').'/oficiant-profile/messages/',
+                    'view' => true,
+                    'edit' => 'Редактировать'
+                ], 
+            ]
+        ],  
       
         'email-templates' => [
             'name' => 'E-mail Шаблоны',

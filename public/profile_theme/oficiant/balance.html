@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport"
+	      content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>Admin | Balance</title>
+	<!-- plugins:css -->
+	<link rel="stylesheet"
+	      href="../assets/vendors/mdi/css/materialdesignicons.min.css">
+	<link rel="stylesheet" href="../assets/vendors/css/vendor.bundle.base.css">
+	<!-- endinject -->
+	<!-- Plugin css for this page -->
+	<!-- End plugin css for this page -->
+	<!-- inject:css -->
+	<!-- endinject -->
+	<!-- Layout styles -->
+	<link rel="stylesheet" href="../assets/css/style.css">
+	<link rel="stylesheet" href="../assets/css/main.css">
+	<!-- End layout styles -->
+	<link rel="shortcut icon" href="../assets/images/favicon.png"/>
+</head>
+<body>
+<div class="container-scroller">
+	<!--Modal-->
+	<div class="modal fade" id="myModal" role="dialog">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						&times;
+					</button>
+				</div>
+				<div class="modal-body">
+					<h2>Привязать карту</h2>
+					<form class="forms-sample row">
+						<div class="form-group col-md-12">
+							<label for="ownerCardInput1">Укажите держателя
+								карты*</label>
+							<input type="text" class="form-control"
+							       id="ownerCardInput1"
+							       placeholder="Имя фамилия на латинице">
+						</div>
+						<div class="form-group col-md-12">
+							<label for="cardNrInput1">Укажите номер
+								карты*</label>
+							<input type="text" class="form-control"
+							       id="cardNrInput1"
+							       placeholder="4276   ....   ....   ..96">
+						</div>
+						
+						<div class="form-group col-md-6">
+							<label for="expirationDateOfCard">Срок действия
+								карты*</label>
+							<input type="text" class="form-control"
+							       id="expirationDateOfCard"
+							       placeholder="11/19">
+						</div>
+						<div class="form-group col-md-6">
+							<label for="cvvInput">CSV*</label>
+							<input type="text" class="form-control"
+							       id="cvvInput"
+							       placeholder="123">
+						</div>
+						
+						<div style="text-align: center" class="col-md-12">
+							<button type="submit"
+							        class="btn btn-gradient-info mr-2">Привязать
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- partial:partials/_navbar.html -->
+	<nav
+		class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+		<div
+			class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+			<a class="navbar-brand brand-logo" href="index.html"><img
+				src="../assets/images/logo.png" alt="logo"/></a>
+			<a class="navbar-brand brand-logo-mini" href="index.html"><img
+				src="../assets/images/logo.png" alt="logo"/></a>
+		</div>
+		<div class="navbar-menu-wrapper d-flex align-items-stretch">
+			<button class="navbar-toggler navbar-toggler align-self-center"
+			        type="button" data-toggle="minimize">
+				<span class="mdi mdi-menu"></span>
+			</button>
+			
+			<ul class="navbar-nav navbar-nav-right">
+				<li class="nav-item nav-profile dropdown">
+					<a class="nav-link dropdown-toggle" id="profileDropdown"
+					   href="#" data-toggle="dropdown" aria-expanded="false">
+						<div class="nav-profile-img">
+							<img src="../assets/images/faces/face1.jpg"
+							     alt="image">
+							<span class="availability-status online"></span>
+						</div>
+						<div class="nav-profile-text">
+							<p class="mb-1 text-black">David Greymaax</p>
+						</div>
+					</a>
+					<div class="dropdown-menu navbar-dropdown"
+					     aria-labelledby="profileDropdown">
+						<a class="dropdown-item" href="#">
+							<i class="mdi mdi-logout mr-2 text-primary"></i>
+							Signout </a>
+					</div>
+				</li>
+				<li class="nav-item nav-logout d-none d-lg-block">
+					<a class="nav-link" href="#">
+						<i class="mdi mdi-power"></i>
+					</a>
+				</li>
+			</ul>
+			<button
+				class="navbar-toggler navbar-toggler-right d-lg-none align-self-center"
+				type="button" data-toggle="offcanvas">
+				<span class="mdi mdi-menu"></span>
+			</button>
+		</div>
+	</nav>
+	
+	<!-- partial -->
+	<div class="container-fluid page-body-wrapper">
+		<!-- partial:partials/_sidebar.html -->
+		
+		<nav class="sidebar sidebar-offcanvas" id="sidebar">
+			<ul class="nav">
+				<li class="nav-item">
+					<a class="nav-link" href="main.html">
+						<span class="menu-title">Рабочая область</span>
+						<i class="mdi mdi-home menu-icon"></i>
+					</a>
+				</li>
+				
+				<li class="nav-item">
+					<a class="nav-link" href="history.html">
+						<span class="menu-title">История зачислений</span>
+						<i class="mdi mdi-chart-line menu-icon"></i>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="balance.html">
+						<span class="menu-title">Мой баланс</span>
+						<i class="mdi mdi-currency-usd menu-icon"></i>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="profile.html">
+						<span class="menu-title">Мой профиль</span>
+						<i class="mdi mdi-account menu-icon"></i>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="contact_us.html">
+						<span class="menu-title">Связаться с нами</span>
+						<i class="mdi mdi-phone-in-talk menu-icon"></i>
+					</a>
+				</li>
+			</ul>
+		</nav>
+		<!-- partial -->
+		<div class="main-panel">
+			<div class="content-wrapper">
+				<div class="row" id="proBanner">
+					<div class="col-12">
+                <span class="d-flex align-items-center purchase-popup">
+                  <p>Для вывода средств необходимо <a href="#">привязать банковскую карту</a>.  Вывод средств доступен только при достижении минимального порога в
+размере <span>3000 рублей</span>.</p>
+                  <i class="mdi mdi-close" id="bannerClose"></i>
+                </span>
+					</div>
+				</div>
+				
+				<div class="page-header">
+					<h3 class="page-title">
+                <span
+	                class="page-title-icon bg-gradient-danger text-white mr-2">
+                  <i class="mdi mdi-currency-usd"></i>
+                </span> Ваш баланс</h3>
+				</div>
+				<div class="row">
+					<div class="col-md-4 grid-margin">
+						<div
+							class="card bg-gradient-danger card-img-holder text-white">
+							<div class="card-body">
+								<h4 class="font-weight-normal mb-3">
+									Текущий баланс для вывода
+								</h4>
+								<h2>2 643 P <span> / 3000 P</span></h2>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-4 grid-margin">
+						<button type="submit"
+						        class="btn btn-gradient-info btn-rounded btn-block"
+						        style="min-height: 55px">
+							Заказать вывод средств
+						</button>
+					</div>
+				</div>
+				
+				<hr>
+				
+				<div class="row">
+					<div class="col-md-4 grid-margin stretch-card">
+						<div class="card card-added">
+							<div class="card-body">
+								<span class="name">IVAN SMIRNOV</span>
+								<span class="expiration-date">08/19</span>
+								<span
+									class="card-nr">4276   ....   ....   ..96</span>
+								<div class="card-type">
+									<img
+										src="../assets/images/dashboard/visa.png"
+										alt="card-type">
+									<img
+										src="../assets/images/socials/sberbank.png"
+										alt="bank">
+								</div>
+								<img src="../assets/images/trash.png"
+								     alt="delete">
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4 grid-margin stretch-card">
+						<div class="card add-card">
+							<div class="card-body align-center">
+								<div class="ellips" data-toggle="modal"
+								     data-target="#myModal">+
+								</div>
+								<p>Привязать <br> банковскую карту</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<hr>
+				
+				<form action="">
+					<div class="row">
+						<div class="col-md-12">
+							<h3 class="title-section">История вывода
+								средств</h3>
+							<h4 class="title">Отобразить платежи за период</h4>
+						</div>
+						
+						<div class="col-md-4 grid-margin">
+							<div class="input-date">
+								<input type="text" class="datepicker"
+								       placeholder="mm/dd/yy">
+								<img src="../assets/images/calendar.png"
+								     alt="calendar">
+							</div>
+						</div>
+						<div class="col-md-4 grid-margin">
+							<div class="input-date">
+								<input type="text" class="datepicker"
+								       placeholder="mm/dd/yy">
+								<img src="../assets/images/calendar.png"
+								     alt="calendar">
+							</div>
+						</div>
+						<div class="col-md-4 grid-margin">
+							<button type="submit"
+							        class="btn btn-gradient-info btn-rounded btn-block"
+							        style="min-height: 55px">Показать
+							</button>
+						</div>
+					</div>
+				</form>
+				
+				<form action="">
+					<div class="row">
+						<div class="col-md-8 grid-margin">
+							<div class="inline">
+								<label for="itemsPerPageSelect">Показывать
+									по</label>
+								<select
+									class="form-control form-control-lg per-page"
+									id="itemsPerPageSelect">
+									<option value="10" selected>10</option>
+									<option value="20">20</option>
+									<option value="50">50</option>
+								</select>
+								
+								<button type="button" class="sort-transaction">
+									За весь
+									период
+								</button>
+								<button type="button" class="sort-transaction">
+									За
+									неделю
+								</button>
+								<button type="button" class="sort-transaction">
+									За
+									месяц
+								</button>
+							</div>
+						
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<input type="text" class="form-control"
+								       placeholder="Поиск по номеру транзакции"/>
+							</div>
+						</div>
+					</div>
+				</form>
+				
+				<div class="row">
+					<div class="col-md-12 grid-margin table-history">
+						<table class="history">
+							<thead>
+							<tr>
+								<td>Номер транзакции</td>
+								<td>Дата зачисления <i
+									class="mdi mdi-chevron-down"></i></td>
+								<td>Сумма <i class="mdi mdi-chevron-down"></i>
+								</td>
+								<td>Номер карты <i
+									class="mdi mdi-chevron-down"></i></td>
+								<td>Статус <i class="mdi mdi-chevron-down"></i>
+								</td>
+							</tr>
+							</thead>
+							<tbody>
+							<tr>
+								<td>8451233</td>
+								<td>22.12.2019</td>
+								<td>100 Р</td>
+								<td class="code">4276 .... .... ..96</td>
+								<td>Не введен код авторизации</td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="col-md-6 align-center">
+						<span>Показано 10 из 16</span>
+					</div>
+					<div class="col-md-6">
+						<ul class="pages">
+							<li>
+								<a href="#"><i class="mdi mdi-chevron-left"></i></a>
+							</li>
+							<li class="active"><a href="#1">1</a></li>
+							<li><a href="#2">2</a></li>
+							<li>
+								<a href="#"><i
+									class="mdi mdi-chevron-right"></i></a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			
+			
+			</div>
+			<!-- content-wrapper ends -->
+			<!-- partial -->
+		</div>
+		<!-- main-panel ends -->
+	</div>
+	<!-- page-body-wrapper ends -->
+	
+	<footer>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-4">
+					<img src="../assets/images/logo-white.png" alt="logo">
+					<p>Сервис для оплаты чаевых <br> безналичным расчетом</p>
+					<p class="small">© чаевые-онлайн.рф</p>
+				</div>
+				<div class="col-md-4 text-center align-center">
+					<div class="partners">
+						<img src="../assets/images/socials/visa-big.png"
+						     alt="visa">
+						<img src="../assets/images/socials/mastercard.png"
+						     alt="mastercard">
+						<img src="../assets/images/socials/mir.png" alt="mir">
+					</div>
+					<a href="#" class="policy">Политики конфиденциальности</a>
+				</div>
+				<div class="col-md-4 align-center"
+				     style="align-items: flex-end;">
+					<p class="medium">Мы в соц. сетях:</p>
+					<div class="social_link">
+						<a href="#"><img
+							src="../assets/images/socials/facebook.png"
+							alt="facebook"></a>
+						<a href="#"><img src="../assets/images/socials/vk.png"
+						                 alt="vk"></a>
+						<a href="#"><img
+							src="../assets/images/socials/instagram.png"
+							alt="instagram"></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</footer>
+</div>
+<!-- container-scroller -->
+<!-- plugins:js -->
+<script src="../assets/vendors/js/vendor.bundle.base.js"></script>
+<!-- endinject -->
+<!-- Plugin js for this page -->
+<script src="../assets/vendors/chart.js/Chart.min.js"></script>
+<!-- End plugin js for this page -->
+<!-- inject:js -->
+<script src="../assets/js/off-canvas.js"></script>
+<script src="../assets/js/hoverable-collapse.js"></script>
+<script src="../assets/js/misc.js"></script>
+<!-- endinject -->
+<!-- Custom js for this page -->
+<script src="../assets/js/dashboard.js"></script>
+<script src="../assets/js/todolist.js"></script>
+<!-- End custom js for this page -->
+
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+<input type="text" id="datepicker">
+<script>
+	$(document).ready(function () {
+		$('.datepicker').datepicker({
+			dateFormat: 'dd-mm-yy',
+			defaultDate: +7
+		});
+	});
+</script>
+
+</body>
+</html>

@@ -41,7 +41,7 @@ class HomeController extends Controller
         Mail::to(\Constant::get('EMAIL'))->send(new MakeQuestion($request->name, $request->phone, $request->message));
 
         return \JsonResponse::success([
-            'messages' => 'Ваше сообщение успешно отпарвлено. Нам менеджер свяжется с вами в близжайшее время'
+            'messages' => 'Ваше сообщение успешно отпарвлено. Наш менеджер свяжется с вами в близжайшее время'
         ]);
     }
 }

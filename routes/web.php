@@ -95,6 +95,15 @@ Route::group(['prefix' => $adminPath, 'namespace' => 'Admin', 'middleware' => ['
         Route::get('{id}/autologin', 'ClientsController@autologin'); 
     });
 
+    Route::group(['prefix' => 'oficiant-profile'], function() { 
+        Route::group(['prefix' => 'backgrounds'], function() { 
+            Route::get('/', 'BackgroundsController@show')->name('admin_backgrounds');  
+            Route::get('{id}/edit', 'BackgroundsController@showeditForm');  
+            Route::post('create', 'BackgroundsController@create'); 
+            Route::post('{id}/update', 'BackgroundsController@update'); 
+        });  
+    }); 
+
 	Route::group(['prefix' => 'profile'], function() { 
         Route::get('/', 'ProfileController@showForm')->name('profile');
         Route::get('{id}/edit-user', 'ProfileController@editAdminUser');
@@ -134,17 +143,34 @@ Route::group(['prefix' => '{lang}', 'middleware' => ['lang', 'web']], function()
         Route::post('register', 'Auth\RegisterController@register')->name('register');
         Route::get('finish-registration', 'Auth\RegisterController@finish_registration')->name('finish_registration');
         Route::get('registration-confirm/{confirmation_hash}', 'Auth\RegisterController@confirmation')->name('registration_confirm');
+
         Route::post('login', 'Auth\LoginController@login')->name('login');
+        Route::get('login', 'Auth\LoginController@showLogin')->name('show_login');
         Route::post('reset-password', 'Auth\ForgotPasswordController@sendResetPassword')->name('send_reset_pass');
 
-        Route::group(['prefix' => 'profile', 'namespace' => 'User', 'middleware' => 'web_auth'], function() {
-            Route::get('personal-data', 'ProfileController@personalData')->name('personal_data');
-            Route::post('personal-data', 'ProfileController@savePersonalData')->name('save_personal_data');
+        Route::group(['prefix' => 'profile', 'namespace' => 'Profile', 'middleware' => 'web_auth'], function() {
+
+            Route::group(['prefix' => 'account'], function() {
+                Route::get('/', 'AccountController@index')->name('account');
+                Route::post('edit-userdata', 'AccountController@edit')->name('edit_userdata');
+                Route::post('change-password', 'AccountController@changePassword')->name('change_password'); 
+            }); 
+
+            Route::group(['prefix' => 'contact-us'], function() {
+                Route::get('/', 'ContactController@index')->name('contact');
+                Route::post('send', 'ContactController@send')->name('send_contact_us'); 
+            }); 
+
+            Route::get('workspace', 'WorkspaceController@index')->name('workspace');
+            Route::get('enrollment', 'EnrollmentController@index')->name('enrollment');
+            Route::get('ballance', 'BallanceController@index')->name('ballance'); 
+             
+             
+ 
+             
 
             Route::get('change-password', 'ProfileController@changePass')->name('change_pass');
-            Route::post('change-password', 'ProfileController@savePassword')->name('save_new_password');
-
-             
+            Route::post('change-password', 'ProfileController@savePassword')->name('save_new_password'); 
         });
     });
       

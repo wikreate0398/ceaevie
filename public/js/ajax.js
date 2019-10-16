@@ -37,6 +37,11 @@ var Ajax = function() {
                     Notify.setStatus('danger').setMessage(message).show();
 
                 } else {
+ 
+                    if($(form).closest('#forgot-inner').length > 0){
+                        changeForms('#forgot-inner', '#auth-inner');
+                    }
+
                     if ($(form).attr('data-redirect')) {
                         window.location = $(form).attr('data-redirect');
                     } else{

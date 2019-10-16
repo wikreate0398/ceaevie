@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport"
+	      content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>Admin</title>
+	<!-- plugins:css -->
+	<link rel="stylesheet"
+	      href="../assets/vendors/mdi/css/materialdesignicons.min.css">
+	<link rel="stylesheet" href="../assets/vendors/css/vendor.bundle.base.css">
+	<!-- endinject -->
+	<!-- Plugin css for this page -->
+	<!-- End plugin css for this page -->
+	<!-- inject:css -->
+	<!-- endinject -->
+	<!-- Layout styles -->
+	<link rel="stylesheet" href="../assets/css/style.css">
+	<link rel="stylesheet" href="../assets/css/main.css">
+	<!-- End layout styles -->
+	<link rel="shortcut icon" href="../assets/images/favicon.png"/>
+</head>
+<body>
+<div class="container-scroller">
+	<!-- partial:partials/_navbar.html -->
+	<nav
+		class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+		<div
+			class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+			<a class="navbar-brand brand-logo" href="index.html"><img
+				src="../assets/images/logo.png" alt="logo"/></a>
+			<a class="navbar-brand brand-logo-mini" href="index.html"><img
+				src="../assets/images/logo.png" alt="logo"/></a>
+		</div>
+		<div class="navbar-menu-wrapper d-flex align-items-stretch">
+			<button class="navbar-toggler navbar-toggler align-self-center"
+			        type="button" data-toggle="minimize">
+				<span class="mdi mdi-menu"></span>
+			</button>
+			
+			<ul class="navbar-nav navbar-nav-right">
+				<li class="nav-item nav-profile dropdown">
+					<a class="nav-link dropdown-toggle" id="profileDropdown"
+					   href="#" data-toggle="dropdown" aria-expanded="false">
+						<div class="nav-profile-img">
+							<img src="../assets/images/faces/face1.jpg"
+							     alt="image">
+							<span class="availability-status online"></span>
+						</div>
+						<div class="nav-profile-text">
+							<p class="mb-1 text-black">David Greymaax</p>
+						</div>
+					</a>
+					<div class="dropdown-menu navbar-dropdown"
+					     aria-labelledby="profileDropdown">
+						<a class="dropdown-item" href="#">
+							<i class="mdi mdi-logout mr-2 text-primary"></i>
+							Signout </a>
+					</div>
+				</li>
+				<li class="nav-item nav-logout d-none d-lg-block">
+					<a class="nav-link" href="#">
+						<i class="mdi mdi-power"></i>
+					</a>
+				</li>
+			</ul>
+			<button
+				class="navbar-toggler navbar-toggler-right d-lg-none align-self-center"
+				type="button" data-toggle="offcanvas">
+				<span class="mdi mdi-menu"></span>
+			</button>
+		</div>
+	</nav>
+	<!-- partial -->
+	<div class="container-fluid page-body-wrapper">
+		<!-- partial:partials/_sidebar.html -->
+		<nav class="sidebar sidebar-offcanvas" id="sidebar">
+			<ul class="nav">
+				<li class="nav-item active">
+					<a class="nav-link" href="main.html">
+						<span class="menu-title">Рабочая область</span>
+						<i class="mdi mdi-home menu-icon"></i>
+					</a>
+				</li>
+				
+				<li class="nav-item">
+					<a class="nav-link" href="history.html">
+						<span class="menu-title">История зачислений</span>
+						<i class="mdi mdi-chart-line menu-icon"></i>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="balance.html">
+						<span class="menu-title">Мой баланс</span>
+						<i class="mdi mdi-currency-usd menu-icon"></i>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="profile.html">
+						<span class="menu-title">Мой профиль</span>
+						<i class="mdi mdi-account menu-icon"></i>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="contact_us.html">
+						<span class="menu-title">Связаться с нами</span>
+						<i class="mdi mdi-phone-in-talk menu-icon"></i>
+					</a>
+				</li>
+			</ul>
+		</nav>
+		<!-- partial -->
+		<div class="main-panel">
+			<div class="content-wrapper">
+				<div class="row" id="proBanner">
+					<div class="col-12">
+                        <span class="d-flex align-items-center purchase-popup">
+                  <p>Like what you see? Check out our premium version for more.</p>
+                  <a href="https://github.com/BootstrapDash/PurpleAdmin-Free-Admin-Template"
+                     target="_blank" class="btn ml-auto download-button">Download Free Version</a>
+                  <a href="https://www.bootstrapdash.com/product/purple-bootstrap-4-admin-template/"
+                     target="_blank"
+                     class="btn bg-gradient-danger">Upgrade To Pro</a>
+                  <i class="mdi mdi-close" id="bannerClose"></i>
+                </span>
+					</div>
+				</div>
+				<div class="page-header">
+					<h3 class="page-title">
+                <span
+	                class="page-title-icon bg-gradient-danger text-white mr-2">
+                  <i class="mdi mdi-home"></i>
+                </span> Рабочая область </h3>
+				</div>
+				<div class="row">
+					<div class="col-md-4 stretch-card grid-margin">
+						<div
+							class="card bg-gradient-danger card-img-holder text-white">
+							<div class="card-body">
+								<h4 class="font-weight-normal mb-3">
+									Текущий баланс для вывода
+								</h4>
+								<h2>2 643 P <span> / 3000 P</span></h2>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4 stretch-card grid-margin">
+						<div
+							class="card bg-gradient-info card-img-holder text-white">
+							<div class="card-body">
+								<h4 class="font-weight-normal mb-3">
+									Заработано "чаевых" всего
+								</h4>
+								<h2>28 643 Р</h2>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4 stretch-card grid-margin">
+						<div
+							class="card bg-gradient-success card-img-holder text-white">
+							<div class="card-body">
+								<h4 class="font-weight-normal mb-3">
+									Заработано "чаевых" на этой неделе
+								</h4>
+								<h2>2 643 Р</h2>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--Modal-->
+				<div class="modal fade" id="myModal" role="dialog">
+					<div class="modal-dialog">
+						<!-- Modal content-->
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+							</div>
+							<div class="modal-body">
+								<h2>Добавить новый QR код</h2>
+								<form class="forms-sample">
+									<div class="form-group">
+										<label for="visitCardMessageInput1">Подпись на визитке:*</label>
+										<input type="text" class="form-control"
+										       id="visitCardMessageInput1"
+										       placeholder="Спасибо, что нас посетили" value="Спасибо, что нас посетили">
+									</div>
+									<div class="form-group">
+										<label
+											for="companyNameInput1">Название заведения:</label>
+										<input type="email" class="form-control"
+										       id="companyNameInput1"
+										       placeholder="Введите название заведения">
+									</div>
+									
+									<div class="form-group">
+										<label class="radio">
+											<input type="radio" name="answer" value="grey_1" checked>
+											<span style="background-color: rgba(242, 242, 242, 1)"></span>
+										</label>
+										<label class="radio">
+											<input type="radio" name="answer" value="grey_2">
+											<span style="background-color: rgba(215, 215, 215, 1);"></span>
+										</label>
+										<label class="radio">
+											<input type="radio" name="answer" value="grey_3">
+											<span style="background-color: rgba(170, 170, 170, 1);"></span>
+										</label>
+										<label class="radio">
+											<input type="radio" name="answer" value="grey_4">
+											<span style="background-color: rgba(127, 127, 127, 1);"></span>
+										</label>
+										<label class="radio">
+											<input type="radio" name="answer" value="grey_5">
+											<span style="background-color: rgba(85, 85, 85, 1);"></span>
+										</label>
+									</div>
+									
+									<div style="text-align: center">
+										<button type="submit" class="btn btn-gradient-info mr-2">Сохранить</button>
+										<button class="btn btn-light" type="button" data-dismiss="modal">Отмена</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-4 grid-margin stretch-card">
+						<div class="card new-qr">
+							<div class="card-body">
+								<img src="../assets/images/logo.png" alt="logo">
+								<div class="ellips" data-toggle="modal" data-target="#myModal">+</div>
+								<span class="title_1">Создать новый QR</span>
+								<h5>Иван Смирнов</h5>
+								<h2>892-5</h2>
+							</div>
+						</div>
+					</div>
+					
+					<div class="col-md-4 grid-margin stretch-card">
+						<div class="card new-qr created">
+							<div class="card-body">
+								<div class="created-qr" style="background-color:#f6f6f6;">
+									<img src="../assets/images/logo.png" alt="logo">
+									<img src="../assets/images/dashboard/qr.png" alt="qr-code">
+									<h5>Иван Смирнов</h5>
+									<h2>892-5</h2>
+								</div>
+								<p class="medium">Спасибо, за чаевые</p>
+								<span class="title_1">Бар "Клевое место"</span>
+								<p>Чтобы оставить чаевые, наведите камеру на QR-код или введите код получателя на <a href="pay.чаевые-онлайн.рф">pay.чаевые-онлайн.рф</a></p>
+								<div class="payment">
+									<img src="../assets/images/dashboard/visa.png" alt="visa">
+									<img src="../assets/images/dashboard/google-pay.png" alt="google-pay">
+									<img src="../assets/images/dashboard/apple-pay.png" alt="apple-pay">
+								</div>
+								<div class="action">
+									<img src="../assets/images/print.png" alt="print">
+									<img src="../assets/images/trash.png" alt="trash-icon">
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4 grid-margin stretch-card">
+						<div class="card new-qr">
+							<div class="card-body">
+								<img src="../assets/images/logo.png" alt="logo">
+								<div class="ellips" data-toggle="modal" data-target="#myModal">+</div>
+								<span class="title_1">Создать новый QR</span>
+								<h5>Иван Смирнов</h5>
+								<h2>892-5</h2>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+			<!-- content-wrapper ends -->
+			<!-- partial -->
+		</div>
+		<!-- main-panel ends -->
+	</div>
+	<!-- page-body-wrapper ends -->
+	
+	<!-- partial:partials/_footer.html -->
+	<footer>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-4">
+					<img src="../assets/images/logo-white.png" alt="logo">
+					<p>Сервис для оплаты чаевых <br> безналичным расчетом</p>
+					<p class="small">© чаевые-онлайн.рф</p>
+				</div>
+				<div class="col-md-4 text-center align-center">
+					<div class="partners">
+						<img src="../assets/images/socials/visa-big.png" alt="visa">
+						<img src="../assets/images/socials/mastercard.png" alt="mastercard">
+						<img src="../assets/images/socials/mir.png" alt="mir">
+					</div>
+					<a href="#" class="policy">Политики конфиденциальности</a>
+				</div>
+				<div class="col-md-4 align-center" style="align-items: flex-end;">
+					<p class="medium">Мы в соц. сетях:</p>
+					<div class="social_link">
+						<a href="#"><img src="../assets/images/socials/facebook.png" alt="facebook"></a>
+						<a href="#"><img src="../assets/images/socials/vk.png" alt="vk"></a>
+						<a href="#"><img src="../assets/images/socials/instagram.png" alt="instagram"></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</footer>
+	
+</div>
+<!-- container-scroller -->
+<!-- plugins:js -->
+<script src="../assets/vendors/js/vendor.bundle.base.js"></script>
+<!-- endinject -->
+<!-- Plugin js for this page -->
+<script src="../assets/vendors/chart.js/Chart.min.js"></script>
+<!-- End plugin js for this page -->
+<!-- inject:js -->
+<script src="../assets/js/off-canvas.js"></script>
+<script src="../assets/js/hoverable-collapse.js"></script>
+<script src="../assets/js/misc.js"></script>
+<!-- endinject -->
+<!-- Custom js for this page -->
+<script src="../assets/js/dashboard.js"></script>
+<script src="../assets/js/todolist.js"></script>
+<!-- End custom js for this page -->
+</body>
+</html>
