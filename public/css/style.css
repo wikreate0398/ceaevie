@@ -320,8 +320,16 @@ footer a {
     padding-bottom: 5.625rem;
 }
 
+.mt-30 {
+    margin-top: 1.875rem;
+}
+
 .mt-45 {
     margin-top: 2.8125rem;
+}
+
+.mt-50 {
+    margin-top: 3.125rem;
 }
 
 .mt-80 {
@@ -387,6 +395,7 @@ footer a {
     font-family: 'Ubuntu Bold';
     border-radius: 25rem;
     padding: 1.125rem 4.25rem;
+    transition: .15s ease-in-out;
 }
 
 .btn:hover {

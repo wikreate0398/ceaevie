@@ -130,17 +130,16 @@ Route::group(['prefix' => $adminPath, 'namespace' => 'Admin', 'middleware' => ['
 
 Route::get('/', 'HomeController@index')->middleware(['lang', 'web']);
 
-Route::get('make-payment', 'HomeController@makePayment')->middleware(['lang', 'web']);
-Route::get('pay-tip', 'HomeController@payTip')->middleware(['lang', 'web']);
 
 Route::post('messages', function(\Illuminate\Http\Request $request){ 
     \App\Events\ItemAdded::dispatch($request->body);
 });
 
 Route::group(['prefix' => '{lang}', 'middleware' => ['lang', 'web']], function() {
-    Route::get('/', 'HomeController@index'); 
+    Route::get('/', 'HomeController@index');
     Route::post('questions', 'HomeController@questions')->name('questions'); 
-    
+    Route::get('make-payment', 'HomeController@makePayment')->middleware(['lang', 'web']);
+    Route::get('pay-tip', 'HomeController@payTip')->middleware(['lang', 'web']);
     Route::group(['middlewars' => 'guest'], function(){
         Route::get('registration', 'Auth\RegisterController@showForm')->name('registration');
         Route::post('register', 'Auth\RegisterController@register')->name('register');
