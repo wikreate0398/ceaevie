@@ -27,7 +27,7 @@ function savePercent($retail, $price)
     return percentFormat(100 - (($price/100)*$retail));
 }
 
-function getAppUrl($subdomain = false){
+function getAppUrl($subdomain = false, $path = ''){
     $pre = 'http://';
     if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') { 
       $pre = 'https://';
@@ -36,7 +36,11 @@ function getAppUrl($subdomain = false){
     if (!empty($subdomain)) {
         $domain = $subdomain . '.' . $domain;
     }
-    return $pre . $domain; 
+    $url = $pre . $domain;
+    if ($path) {
+        $url .= '/' . trim(rtrim($path, '/'), '/');
+    }
+    return $url; 
 }
 
 function percentFormat($percent=null, $zecimals = 1)
@@ -229,13 +233,13 @@ function adminMenu()
                     'edit' => 'Редактировать'
                 ],
 
-                'client-history' => [
-                    'name' => 'Сообщения',
-                    'icon' => '<i class="fa fa-book" aria-hidden="true"></i>',
-                    'link' => '/'.config('admin.path').'/oficiant-profile/messages/',
-                    'view' => true,
-                    'edit' => 'Редактировать'
-                ], 
+                // 'client-history' => [
+                //     'name' => 'Сообщения',
+                //     'icon' => '<i class="fa fa-book" aria-hidden="true"></i>',
+                //     'link' => '/'.config('admin.path').'/oficiant-profile/messages/',
+                //     'view' => true,
+                //     'edit' => 'Редактировать'
+                // ], 
             ]
         ],  
       

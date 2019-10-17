@@ -54,7 +54,7 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapWebRoutes()
     {
         Route::domain($this->baseDomain())
-             ->middleware('web')
+             ->middleware(['web', 'cors'])
              ->namespace($this->namespace)
              ->group(base_path('routes/web.php'));
     }
@@ -77,7 +77,7 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapPayRoutes()
     { 
         Route::domain($this->baseDomain('pay'))
-             ->middleware('web')
+             ->middleware(['web', 'cors'])
              ->namespace($this->namespace)
              ->group(base_path('routes/pay_web.php'));
     }

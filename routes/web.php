@@ -133,6 +133,7 @@ Route::get('/', 'HomeController@index')->middleware(['lang', 'web']);
 Route::group(['prefix' => '{lang}', 'middleware' => ['lang', 'web']], function() {
     Route::get('/', 'HomeController@index');
     Route::post('questions', 'HomeController@questions')->name('questions'); 
+    Route::post('set-code', 'Pay\PaymentController@setСode')->name('set_code_home');
     
     Route::group(['middlewars' => 'guest'], function(){
         Route::get('registration', 'Auth\RegisterController@showForm')->name('registration');
@@ -150,6 +151,7 @@ Route::group(['prefix' => '{lang}', 'middleware' => ['lang', 'web']], function()
                 Route::get('/', 'AccountController@index')->name('account');
                 Route::post('edit-userdata', 'AccountController@edit')->name('edit_userdata');
                 Route::post('change-password', 'AccountController@changePassword')->name('change_password'); 
+                Route::post('save-avatar', 'AccountController@saveAvatar')->name('save_avatar');  
             }); 
 
             Route::group(['prefix' => 'contact-us'], function() {

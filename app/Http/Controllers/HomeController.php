@@ -14,7 +14,7 @@ use App\Models\Advantage;
 class HomeController extends Controller
 { 
     public function index()
-    { 
+    {  
         $payments   = PaymentType::orderByPageUp()->visible()->get();
         $howWork    = HowItWork::orderByPageUp()->visible()->get();
         $whom       = Whom::orderByPageUp()->visible()->get(); 

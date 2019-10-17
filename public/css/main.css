@@ -313,6 +313,10 @@ p.page-description{
   text-align: center !important;
 }
 
+.home-price-mask{
+  text-align: left !important;
+}
+
 .flip-square-loader {
   display: none;
   -webkit-perspective: 120px;
@@ -349,28 +353,23 @@ p.page-description{
   }
 }
 
-.load-page:after{
-    content: "";
-    background: rgba(247, 247, 247, .8);
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    left: 0;
-    top: 0;
-    z-index: 1;
+.load-page *{
+  opacity: .6;
+  z-index: 1;
 }
 
-.pay-tip-page{
-    position: relative;
+.loader-v2-inner{
+  position: relative;
 } 
 
 .load-page .flip-square-loader{
-    display: block;
-    position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 999;
-    margin:auto;
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 999;
+  margin:auto;
+  opacity: 1 !important;
 }

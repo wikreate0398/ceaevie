@@ -9,7 +9,11 @@
                         ЧАЕВЫЕ БЕЗ НАЛИЧНЫХ <br> - ЭТО ПРОСТО!
                     </h1>
                     <p class="mb-30">Получайте чаевые, даже если у Ваших клиентов <br> нет с собой наличных</p>
-                    <a href="{{ route('registration', ['lang' => $lang]) }}" class="btn btn-red mb-30">Зарегистрироваться</a>
+                    @if(!Auth::check())
+                        <a href="{{ route('registration', ['lang' => $lang]) }}" class="btn btn-red mb-30">
+                            Зарегистрироваться
+                        </a>
+                    @endif
                     <ul class="list-inline payments-header">
                     	@foreach($payments as $payment)
 							<li class="list-inline-item">
@@ -19,15 +23,17 @@
                     </ul>
                 </div>
                 <div class="col-md-4">
-                    <div class="bg-phone bg-phone-header">
+                    <div class="bg-phone bg-phone-header loader-v2-inner">
+                        <div class="flip-square-loader mx-auto"></div>
                         <img src="/img/header-home/bg-fon-logo.png" alt="" class="logo-phone">
                         <h4>Здравствуйте!</h4>
                         <p>Вам понравилось обслуживание в любимом заведении?</p>
                         <p>Оставьте чаевые официанту онлайн платежом при помощи его личного кода с визитки</p>
-                        <form>
+                        <form class="ajax__submit" action="{{ route('set_code_home', ['lang' => $lang]) }}">
+                            {{ csrf_field() }}
                             <div class="row">
                                 <div class="form-group col-12">
-                                    <input type="text" class="form-control code-mask" placeholder="XXX-X">
+                                    <input type="text" name="code" class="form-control code-mask" placeholder="XXX-X">
                                 </div>
                                 <div class="form-group col-12 text-center">
                                     <button type="submit" class="btn btn-blue">Отправить чаевые</button>
@@ -147,7 +153,7 @@
                                     <input type="text" class="form-control code-mask" placeholder="Код официанта">
                                 </div>
                                 <div class="form-group col-12">
-                                    <input type="text" class="form-control" placeholder="Сумма">
+                                    <input type="text" class="form-control home-price-mask" placeholder="Сумма">
                                 </div>
                                 <div class="form-group col-12 text-center">
                                     <button type="submit" class="btn btn-blue">Поблагодорить</button>
@@ -164,7 +170,9 @@
 	                        	<li> {{ $advantage["name_$lang"] }}</li>
 	                        @endforeach
 	                    </ul>
-	                    <a href="{{ route('registration', ['lang' => $lang]) }}" class="btn btn-red">Присоединится к нам</a>
+                        @if(!Auth::check())
+                            <a href="{{ route('registration', ['lang' => $lang]) }}" class="btn btn-red">Присоединится к нам</a>
+                        @endif 
 	                </div>
                 @endif
             </div>

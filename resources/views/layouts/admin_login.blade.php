@@ -46,7 +46,7 @@ License: You must have a valid license purchased only from themeforest(the above
 <link href="{{ asset('css/loader.css') . '?v=' . time() }}" rel="stylesheet">
 
 <!-- END THEME STYLES -->
-<link rel="shortcut icon" href="favicon.ico"/>
+<link rel="shortcut icon" href="/fav.ico">
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->

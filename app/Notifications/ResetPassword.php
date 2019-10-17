@@ -50,7 +50,7 @@ class ResetPassword extends Notification
 
         return (new MailMessage)
                     ->subject($emailTemplate["theme_{$notifiable->lang}"])
-                    ->from(\Constant::get('EMAIL')) 
+                    ->from(setting('mailbox')) 
                     ->line(new \Illuminate\Support\HtmlString($message));
     }
 

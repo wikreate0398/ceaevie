@@ -51,7 +51,7 @@ class ConfirmRegistration extends Notification
         $message = str_replace(['{CONFIRMATION_LINK}', '{USERNAME}'], [$this->confirmation_link, $notifiable->name], $emailTemplate["message_{$this->lang}"]);
         return (new MailMessage) 
                     ->subject($emailTemplate["theme_{$this->lang}"])
-                    ->from(\Constant::get('EMAIL')) 
+                    ->from(setting('mailbox')) 
                     ->line(new \Illuminate\Support\HtmlString($message)) ;
     }
 

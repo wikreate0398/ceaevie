@@ -24,6 +24,14 @@
                                 <input type="text" required name="name" class="form-control" placeholder="Имя">
                             </div>
                             <div class="form-group col-12 col-sm-12 col-md-12">
+                                <label>Фамилия <span class="req">*</span></label>
+                                <input type="text" required name="lastname" class="form-control" placeholder="Фамилия">
+                            </div>
+                            <div class="form-group col-12 col-sm-12 col-md-12">
+                                <label>Телефон <span class="req">*</span></label>
+                                <input type="text" required name="phone" class="form-control" placeholder="Телефон">
+                            </div>
+                            <div class="form-group col-12 col-sm-12 col-md-12">
                                 <label>Пароль <span class="req">*</span></label>
                                 <input type="password" required name="password" class="form-control" placeholder="Пароль">
                             </div>

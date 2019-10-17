@@ -55,7 +55,7 @@
 <link rel="stylesheet" href="{{ asset('admin_theme') }}/assets/css/admin.css?v=<?=time()?>">
 <link rel="stylesheet" href="{{ asset('admin_theme') }}/assets/css/nestable.css">
 <!-- END THEME STYLES -->
-<link rel="shortcut icon" href="favicon.ico"/>
+<link rel="shortcut icon" href="/fav.ico">
 
 
 <script src="{{ asset('admin_theme') }}/theme/assets/global/plugins/jquery.min.js" type="text/javascript"></script>

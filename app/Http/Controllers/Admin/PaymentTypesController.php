@@ -113,7 +113,7 @@ class PaymentTypesController extends Controller
             $input['image'] = $image;
         } 
 
-        if (!empty($image)) {
+        if (!empty($image_black_white)) {
             $input['image_black_white'] = $image_black_white;
         }  
 

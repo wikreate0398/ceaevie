@@ -41,7 +41,7 @@ function changeForms(from, to){
  
 function inputMask(){
     $("input.code-mask").inputmask("999-9");
-    $("input.price-mask").inputmask("decimal",{
+    $("input.price-mask, input.home-price-mask").inputmask("decimal",{
         alias: 'numeric',
         radixPoint:".", 
         groupSeparator: " ", 
@@ -69,3 +69,4 @@ function changeByKeyup(){
         });
     }); 
 } 
+ 

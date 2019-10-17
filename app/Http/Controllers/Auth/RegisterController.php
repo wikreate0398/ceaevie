@@ -53,7 +53,7 @@ class RegisterController extends Controller
     {
         $input = $request->all();
 
-        if(!$request->name or !$request->email or !$request->password or !$request->password_confirmation)
+        if(!$request->name or !$request->email or !$request->lastname or !$request->phone or !$request->password or !$request->password_confirmation)
         {
             return \JsonResponse::error(['messages' => \Constant::get('REQ_FIELDS')]);
         }
@@ -77,6 +77,8 @@ class RegisterController extends Controller
 
         $user = User::create([
             'name'         => $request->name,
+            'lastname'     => $request->lastname,
+            'phone'        => $request->phone,
             'email'        => $request->email,
             'confirm_hash' => $confirm_hash,
             'password'     => bcrypt($request->password),
@@ -116,7 +118,7 @@ class RegisterController extends Controller
             }
             Auth::guard('web')->login($user);
 
-            return redirect('/')->with('flash_message', trans('auth.success_login'));
+            return redirect()->route('workspace', ['lang' => lang()])->with('flash_message', trans('auth.success_login'));
         }
 
         return view('auth.confirmation', compact('user'));

@@ -6,14 +6,16 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\BackgroundColor; 
 use App\Models\QrCode;
+use App\Models\PaymentType;
 
 class WorkspaceController extends Controller
 { 
     public function index()
-    {  
+    {   
+        $payments    = PaymentType::orderByPageUp()->visible()->get();
     	$backgrounds = BackgroundColor::orderByPageUp()->visible()->get();
         $qr          = QrCode::where('id_user', \Auth::user()->id)->with('background')->get();
-        return view('profile.workspace', compact(['backgrounds', 'qr']));
+        return view('profile.workspace', compact(['backgrounds', 'qr', 'payments']));
     }  
 
     public function addQrCode(Request $request)

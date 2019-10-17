@@ -49,7 +49,7 @@ class SendLetter extends Notification
         
         return (new MailMessage) 
                     ->subject($this->theme)
-                    ->from(\Constant::get('EMAIL')) 
+                    ->from(setting('mailbox')) 
                     ->line(new \Illuminate\Support\HtmlString(nl2br($this->message))) ;
     }
 

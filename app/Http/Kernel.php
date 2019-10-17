@@ -60,6 +60,7 @@ class Kernel extends HttpKernel
         'lang'     => \App\Http\Middleware\Lang::class,
         //'const'    => \App\Http\Middleware\DetermineConst::class,
         'web_auth' => \App\Http\Middleware\WebAuthenticate::class,
-        'cart'     => \App\Http\Middleware\CartRegulations::class
+        'cart'     => \App\Http\Middleware\CartRegulations::class,
+        'cors' => \App\Http\Middleware\Cors::class,
     ];
 }

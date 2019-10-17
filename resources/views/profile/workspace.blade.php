@@ -63,13 +63,15 @@
             </div>
         </div>
     </div>
-
-    <div class="row">
-        <div class="col-md-3">
-            <button class="btn btn-gradient-info btn-rounded btn-block" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus" aria-hidden="true"></i>
-                 Добавить QR-код</button>
+    
+    @if($qr->count() < 3)
+        <div class="row">
+            <div class="col-md-3">
+                <button class="btn btn-gradient-info btn-rounded btn-block" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus" aria-hidden="true"></i>
+                     Добавить QR-код</button>
+            </div>
         </div>
-    </div>
+    @endif
 
     @if($qr->count())
         <div class="row" style="margin-top: 40px;">
@@ -86,11 +88,11 @@
                             <p class="medium">{{ $item->card_signature }}</p>
                             <span class="title_1">{{ $item->institution_name }}</span>
                             <p>Чтобы оставить чаевые, наведите камеру на QR-код или введите код получателя на
-                                <a href="pay.чаевые-онлайн.рф">pay.чаевые-онлайн.рф</a></p>
+                                <a href="{{ getAppUrl('pay') }}" target="blank">pay.{{ config('app.base_domain') }}</a></p>
                             <div class="payment">
-                                <img src="{{ asset('profile_theme') }}/assets/images/dashboard/visa.png" alt="visa">
-                                <img src="{{ asset('profile_theme') }}/assets/images/dashboard/google-pay.png" alt="google-pay">
-                                <img src="{{ asset('profile_theme') }}/assets/images/dashboard/apple-pay.png" alt="apple-pay">
+                                @foreach($payments as $payment)
+                                    <img src="/uploads/payment_types/{{ $payment->image_black_white }}" style="max-height: 17px;">
+                                @endforeach 
                             </div>
                             <div class="action">
                                 <img src="{{ asset('profile_theme') }}/assets/images/print.png" alt="print">

@@ -1,7 +1,8 @@
 @extends('layouts.public')
 
 @section('content')
-<section class="pt-90 pb-90 pay-tip-page">
+<section class="pt-90 pb-90 pay-tip-page loader-v2-inner">
+    <div class="flip-square-loader mx-auto"></div>
         <div class="container">
             <div class="row">
                 <div class="col-md-6 offset-md-3 text-center">

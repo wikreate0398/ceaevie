@@ -213,7 +213,7 @@ p.page-description{
 	width: 150px;
 	height: 150px;
 }
-.new-qr .card-body .ellips{
+.new-qr .card-body .ellips {
 	cursor: pointer;
 	width: 150px;
 	height: 150px;
@@ -225,6 +225,19 @@ p.page-description{
 	align-items: center;
 	font-size: 60px;
 }
+
+.img-ellipse{
+	cursor: pointer;
+	width: 150px;
+	height: 150px; 
+	border: 1px dashed #151515;
+	border-radius: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 60px;
+}
+
 .new-qr .card-body span.title_1{
 	font-size: 14px;
 	color: #151515;
@@ -705,4 +718,168 @@ footer {}
 
 .auth form .auth-link{
 	color: #b3b3b3;
+}
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file], input.avatar__fileimage{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+.avatar__fileimage:hover{
+	cursor: pointer;
+}
+
+.loading__save_image .preloader__image_content{
+    display: block !important;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    margin-top: -7px;
+    left: 0;
+    right: 0;
+} 
+
+.loading__save_image .actions__upload_photo{
+    display: flex;
+    cursor: default !important;
+    pointer-events: none;
+}
+
+.loading__save_image .actions__upload_photo input.avatar__fileimage, .loading__save_image .profile__img{
+    cursor: default !important;
+}
+
+.loading__save_image .actions__upload_photo .btn-file{
+    display: none;
+    cursor: default !important;
+}
+
+.preloader__image_content .ball-pulse > div{
+    width: 13px;
+    height: 13px;
+}
+
+.profile__img{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 50%;
+    padding-bottom: 50%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    /*border-radius: 50%;*/
+    margin-bottom: 20px;
+    background-color: #fff; 
+}
+ 
+.profile__img{
+    position: relative;
+    cursor: pointer;
+    background-size: contain;
+}
+
+.actions__upload_photo{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,.7);
+    top: 0;
+    left: 0;
+    /*border-radius: 50%;*/
+    justify-content: center;
+    display: none;
+    align-items: center;
+}
+
+.actions__upload_photo .btn-file{
+    background-color: #047edf ; 
+    display: inline-block;
+    color: #fff;
+   /* margin-right: 10px;*/
+    width: 35px;
+    height: 35px;
+    text-align: center;
+    line-height: 35px;
+    cursor: pointer;
+}
+
+.edit__profile__photo-icon{
+    color: #b93777;
+    width: 35px;
+    height: 35px;
+    text-align: center;
+    line-height: 35px;
+    background-color: #fff; 
+}
+
+.profile__img:hover .actions__upload_photo{
+    display: flex;
+}
+
+#overlay{
+	display: none;
+    background-color: rgba(0,0,0,.8);
+    position: fixed;
+    z-index: 1031;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.cropper__section{
+    padding:20px;
+    display: none;
+    width: 400px;
+    height: 400px;
+    margin: auto;
+    position: fixed;
+    z-index: 1032;
+    left: 0; top: 0; bottom: 0; right: 0;
+    border: 1px solid #ededed;
+    background-color: #fff;
+    -webkit-box-shadow: 0 2px 14px rgba(0,0,0,.8);
+    box-shadow: 0 2px 14px rgba(0,0,0,.8);
+}
+
+.cropper__image_content{
+    text-align: center;
+    margin-bottom: 20px;
+    height: 300px;
+}
+
+.cropper__image_content img{
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.cropper-view-box,
+.cropper-face {
+  /*border-radius: 50%;*/
+}
+
+.cropper__close{
+    position: absolute;
+    top: -15px;
+    right: 0;
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 9px;
+    cursor: pointer;
 }

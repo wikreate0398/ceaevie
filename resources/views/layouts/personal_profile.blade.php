@@ -11,6 +11,7 @@
 	      href="{{ asset('profile_theme') }}/assets/vendors/mdi/css/materialdesignicons.min.css">
 	<link rel="stylesheet" href="{{ asset('profile_theme') }}/assets/vendors/css/vendor.bundle.base.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.1.25/jquery.fancybox.min.css" />
+	<link  href="{{ asset('js/cropperjs/dist/cropper.css') }}" rel="stylesheet">
 	<!-- endinject -->
 	<!-- Plugin css for this page -->
 	<!-- End plugin css for this page -->
@@ -21,7 +22,7 @@
 	<link rel="stylesheet" href="{{ asset('profile_theme') }}/assets/css/main.css">
 	<link rel="stylesheet" href="/css/loader.css?v={{ time() }}">
 	<!-- End layout styles -->
-	<!-- <link rel="shortcut icon" href="{{ asset('profile_theme') }}/assets/images/favicon.png"/> -->
+	<link rel="shortcut icon" href="/fav.ico"> 
 </head>
 <body>
 <div class="container-scroller">
@@ -46,7 +47,7 @@
 					<a class="nav-link"
 					   href="{{ route('workspace', ['lang' => $lang]) }}">
 						<div class="nav-profile-img">
-							<img src="{{ asset('profile_theme') }}/assets/images/faces/face1.jpg"
+							<img src="{{ imageThumb(Auth::user()->image, 'uploads/clients', 181, 181, 0) }}"
 							     alt="image">
 							<span class="availability-status online"></span>
 						</div>
@@ -183,6 +184,7 @@
 <script src="/js/notify.js?v={{ time() }}"></script>
 <script src="{{ asset('profile_theme') }}/assets/js/main.js?v={{ time() }}"></script>
 
+<script src="{{ asset('js/cropperjs/dist/cropper.js') }}"></script>
 <script src="https://use.fontawesome.com/7d23dee490.js"></script> 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.1.25/jquery.fancybox.min.js"></script>
 <script

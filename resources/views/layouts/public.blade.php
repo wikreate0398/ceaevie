@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="/favicon.ico">
+    <link rel="shortcut icon" href="/fav.ico">
     <title>Чаевые онлайн</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.1.25/jquery.fancybox.min.css" /> 
@@ -166,14 +166,14 @@
         <div class="notify-inner"></div>
     </div> 
     
-    <script src="/js/inputmask.min.js"></script> 
+    <script src="{{ asset('js/inputmask.min.js') }}"></script> 
     <script src="https://use.fontawesome.com/7d23dee490.js"></script> 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.1.25/jquery.fancybox.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="/js/bootstrap.min.js"></script> 
-    <script src="/js/main.js?v={{ time() }}"></script>
-    <script src="/js/ajax.js?v={{ time() }}"></script>
-    <script src="/js/notify.js?v={{ time() }}"></script>
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script> 
+    <script src="{{ asset('js/main.js') }}?v={{ time() }}"></script>
+    <script src="{{ asset('js/ajax.js') }}?v={{ time() }}"></script>
+    <script src="{{ asset('js/notify.js') }}?v={{ time() }}"></script>
 </body>
 
 </html>

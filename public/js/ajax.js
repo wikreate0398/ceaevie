@@ -13,9 +13,11 @@ var Ajax = function() {
             processData: false,
             dataType: 'json',
             beforeSend: function() {
-                if($(form).closest('.pay-tip-page').length > 0){
-                    $(form).closest('.pay-tip-page').addClass('load-page');
-                }
+                if($(form).closest('.loader-v2-inner').length > 0){
+                    $(form).closest('.loader-v2-inner').addClass('load-page');
+                } 
+
+                $('.profile__image_form').addClass('loading__save_image');
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
                 if (XMLHttpRequest.status === 401) document.location.reload(true);
@@ -83,9 +85,15 @@ var Ajax = function() {
                          })
                          .text(button_txt);
 
-                if($(form).closest('.pay-tip-page').length > 0){
-                    $(form).closest('.pay-tip-page').removeClass('load-page');
+                if($(form).closest('.loader-v2-inner').length > 0){
+                    $(form).closest('.loader-v2-inner').removeClass('load-page');
                 }
+
+                $('.profile__image_form').removeClass('loading__save_image');
+                $(form).removeClass('preloader__form');
+                $(form).remove('.preloader__form_content');
+
+                inputMask();
             }
         });
     };

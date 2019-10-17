@@ -63,4 +63,23 @@ class AccountController extends Controller
 
         return \JsonResponse::success(['messages' => \Constant::get('PASS_SAVED'), 'reload' => true]);
     }
+
+    public function saveAvatar(Request $request)
+    {
+        if (empty($request->avatar)) 
+        {
+            return \App\Utils\JsonResponse::error(['messages' => 'Изображение не выбрано']); 
+        }
+
+        $filename = 'user-' . \Auth::user()->id . '-' . md5(microtime()) . '.png';
+        $avatarImagePath = public_path() . '/uploads/clients/' . $filename;  
+        uploadBase64($request->avatar, $avatarImagePath); 
+        
+        User::where('id', \Auth::user()->id)->
+          update([ 
+            'image'  => $avatarImageName 
+        ]); 
+
+        return \App\Utils\JsonResponse::success();
+    }
 }

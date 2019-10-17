@@ -1,14 +1,14 @@
 @extends('layouts.public')
 
 @section('content')
-<section class="pt-90 pb-90 pay-tip-page">
+<section class="pt-90 pb-90 pay-tip-page loader-v2-inner">
         <div class="flip-square-loader mx-auto"></div>
         <div class="container">
             <div class="row">
                 <div class="col-md-6 offset-md-3 text-center">
                     <img src="/img/logo.png" alt="logo"> 
                     <div class="profile-photo mt-50">
-                    	<img src="/img/profile.png" alt="profile">
+                    	<img src="{{ imageThumb($data->user->image, 'uploads/clients', 181, 181, 0) }}" alt="profile">
                     </div>
                     <h3 class="name">{{ $data->user->name }} <br>{{ $data->user->lastname }}</h3>
                     <p class="grey">{{ $data->card_signature }}</p>
