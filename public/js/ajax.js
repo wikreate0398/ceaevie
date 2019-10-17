@@ -93,7 +93,9 @@ var Ajax = function() {
                 $(form).removeClass('preloader__form');
                 $(form).remove('.preloader__form_content');
 
-                inputMask();
+                if (typeof myfunc !== 'undefined' && $.isFunction(myfinputMaskunc)) {
+                    inputMask();
+                } 
             }
         });
     };
