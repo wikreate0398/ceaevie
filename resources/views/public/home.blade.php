@@ -13,7 +13,7 @@
                     <ul class="list-inline payments-header">
                     	@foreach($payments as $payment)
 							<li class="list-inline-item">
-		                        <img src="/uploads/payment_types/{{ $payment->image }}" alt="">
+		                        <img src="/uploads/payment_types/{{ $payment->image_black_white }}" alt="">
 		                    </li>
                     	@endforeach 
                     </ul>
@@ -27,7 +27,7 @@
                         <form>
                             <div class="row">
                                 <div class="form-group col-12">
-                                    <input type="text" class="form-control" placeholder="XXX-X">
+                                    <input type="text" class="form-control code-mask" placeholder="XXX-X">
                                 </div>
                                 <div class="form-group col-12 text-center">
                                     <button type="submit" class="btn btn-blue">Отправить чаевые</button>
@@ -144,7 +144,7 @@
                         <form>
                             <div class="row">
                                 <div class="form-group col-12">
-                                    <input type="text" class="form-control" placeholder="Код официанта">
+                                    <input type="text" class="form-control code-mask" placeholder="Код официанта">
                                 </div>
                                 <div class="form-group col-12">
                                     <input type="text" class="form-control" placeholder="Сумма">

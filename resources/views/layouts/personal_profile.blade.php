@@ -79,9 +79,8 @@
 						<span class="menu-title">Рабочая область</span>
 						<i class="mdi mdi-home menu-icon"></i>
 					</a>
-				</li>
-				
-				<li class="nav-item">
+				</li> 
+				<!-- <li class="nav-item">
 					<a class="nav-link" href="{{ route('enrollment', ['lang' => $lang]) }}">
 						<span class="menu-title">История зачислений</span>
 						<i class="mdi mdi-chart-line menu-icon"></i>
@@ -92,7 +91,7 @@
 						<span class="menu-title">Мой баланс</span>
 						<i class="mdi mdi-currency-usd menu-icon"></i>
 					</a>
-				</li>
+				</li> -->
 				<li class="nav-item">
 					<a class="nav-link" href="{{ route('account', ['lang' => $lang]) }}">
 						<span class="menu-title">Мой профиль</span>
@@ -110,19 +109,18 @@
 		<!-- partial -->
 		<div class="main-panel {{ in_array(uri(3), ['account', 'contact-us']) ? 'profile-page' : '' }}">
 			<div class="content-wrapper">
-				<!-- <div class="row" id="proBanner">
-					<div class="col-12">
-                        <span class="d-flex align-items-center purchase-popup">
-                  <p>Like what you see? Check out our premium version for more.</p>
-                  <a href="https://github.com/BootstrapDash/PurpleAdmin-Free-Admin-Template"
-                     target="_blank" class="btn ml-auto download-button">Download Free Version</a>
-                  <a href="https://www.bootstrapdash.com/product/purple-bootstrap-4-admin-template/"
-                     target="_blank"
-                     class="btn bg-gradient-danger">Upgrade To Pro</a>
-                  <i class="mdi mdi-close" id="bannerClose"></i>
-                </span>
+
+				@if(\Session::has('lk_success'))
+					<div class="row" id="proBanner">
+						<div class="col-12">
+	                        <span class="d-flex align-items-center purchase-popup" style="justify-content: space-between;">
+			                  <p>{{ \Session::get('lk_success') }}</p>
+			              
+			                  <i class="mdi mdi-close" id="bannerClose"></i>
+			                </span>
+						</div>
 					</div>
-				</div> -->
+				@endif
   				 
   				@yield('content')
 
@@ -183,6 +181,7 @@
 
 <script src="/js/ajax.js?v={{ time() }}"></script>
 <script src="/js/notify.js?v={{ time() }}"></script>
+<script src="{{ asset('profile_theme') }}/assets/js/main.js?v={{ time() }}"></script>
 
 <script src="https://use.fontawesome.com/7d23dee490.js"></script> 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.1.25/jquery.fancybox.min.js"></script>
@@ -194,15 +193,6 @@
 <div id="ajax-notify">
     <div class="notify-inner"></div>
 </div>
-
-<script>
-	$(document).ready(function () {
-		$('.datepicker').datepicker({
-			dateFormat: 'dd-mm-yy',
-			defaultDate: +7
-		});
-	});
-</script>
-
+ 
 </body>
 </html>

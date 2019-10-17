@@ -10,9 +10,10 @@ use App\Models\QrCode;
 class WorkspaceController extends Controller
 { 
     public function index()
-    { 
+    {  
     	$backgrounds = BackgroundColor::orderByPageUp()->visible()->get();
-        return view('profile.workspace', compact(['backgrounds'])); 
+        $qr          = QrCode::where('id_user', \Auth::user()->id)->with('background')->get();
+        return view('profile.workspace', compact(['backgrounds', 'qr']));
     }  
 
     public function addQrCode(Request $request)
@@ -37,12 +38,22 @@ class WorkspaceController extends Controller
         return \JsonResponse::success(['messages' => \Constant::get('DATA_SAVED'), 'reload' => true]);
     }
 
+    public function deleteQrCode($lang, $id)
+    { 
+        $qrCode = QrCode::where('id_user', \Auth::user()->id)->whereId($id)->firstOrFail();
+        $qrCode->delete();
+        return redirect()->back()->with('lk_success', 'Запись успешно удалена');
+    }
+
     private function genereateQrCode($code)
     { 
         $qrImage = "qrcode_{$code}.png";
+
+        $url = getAppUrl('pay') . '/ru/make-payment/' . $code;
     	\QrCode::format('png')
                ->size(500)
-               ->generate(\URL::to("open-payment/$code"), public_path("uploads/qr_codes/{$qrImage}"));
+               ->margin(0)
+               ->generate($url, public_path("uploads/qr_codes/{$qrImage}"));
 
         return $qrImage;
     }

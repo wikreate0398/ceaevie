@@ -16,6 +16,16 @@ $(document).ready(function(){
         e.preventDefault(); 
         scrollToBlock($(this).attr('href')); 
     });  
+
+    inputMask();
+
+    changeByKeyup();
+
+    $('.number').keypress(function(event) {
+        if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+            event.preventDefault();
+        }
+    });  
 });
 
 function scrollToBlock(id){
@@ -28,3 +38,34 @@ function changeForms(from, to){
     $(from).hide();
     $(to).show();
 }
+ 
+function inputMask(){
+    $("input.code-mask").inputmask("999-9");
+    $("input.price-mask").inputmask("decimal",{
+        alias: 'numeric',
+        radixPoint:".", 
+        groupSeparator: " ", 
+        digits: 2,
+        autoGroup: true,
+        allowMinus: false  
+    });
+}
+
+function changeByKeyup(){
+    var delay = (function(){
+      var timer = 0;
+      return function(callback, ms){
+        clearTimeout (timer);
+        timer = setTimeout(callback, ms);
+      };
+    })();
+ 
+    $('body').find('.change_keyup').each(function(){ 
+        var area = $(this);
+        $(this).keyup(function() {
+            delay(function(){  
+                $(area).change()
+            }, 200 );
+        });
+    }); 
+} 

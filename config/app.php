@@ -27,6 +27,8 @@ return [
 
     'env' => env('APP_ENV', 'production'),
 
+    'base_domain' => env('APP_BASE_DOMAIN'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Debug Mode

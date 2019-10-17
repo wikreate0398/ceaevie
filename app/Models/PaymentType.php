@@ -17,6 +17,7 @@ class PaymentType extends Model
 	protected $fillable = [
         'name_ru', 
         'name_en', 
-        'image'
+        'image',
+        'image_black_white'
     ]; 
 }

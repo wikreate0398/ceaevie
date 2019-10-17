@@ -26,7 +26,9 @@
 							<div class="tab-content"> 
 								@include('admin.utils.input', ['label' => 'Название', 'lang' => true, 'name' => 'name']) 
 
-								@include('admin.utils.image', ['inputName' => 'image'])
+								@include('admin.utils.image', ['inputName' => 'image', 'label' => 'Цветное изображение'])
+
+								@include('admin.utils.image', ['inputName' => 'image_black_white', 'label' => 'Черно-белое изображение'])
 							</div> 
 						</div>
 						<div class="form-actions">

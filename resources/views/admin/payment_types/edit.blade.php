@@ -18,14 +18,22 @@
 				
 				<div class="form-body" style="padding-top: 20px;">  
 					@include('admin.utils.input', ['label' => 'Название', 'name' => 'name', 'lang' => true, 'data' => $data])
-					  
- 
+					   
 					@include('admin.utils.image', [
 						'inputName' => 'image',
+						'label' => 'Цветное изображение',
 						'table' => $table,
 						'folder' => $folder,
 						'id' => $data['id'],
 						'filename' => $data['image']]) 
+
+					@include('admin.utils.image', [
+						'inputName' => 'image_black_white',
+						'label' => 'Черно-белое изображение',
+						'table' => $table,
+						'folder' => $folder,
+						'id' => $data['id'],
+						'filename' => $data['image_black_white']]) 
 				</div>
 				<div class="form-actions">
 					<div class="btn-set pull-left"> 

@@ -20,5 +20,15 @@ class QrCode extends Model
         'code',
         'qr_code',
         'page_up'
-    ]; 
+    ];
+
+	public function background()
+    {
+        return $this->hasOne('App\Models\BackgroundColor', 'id', 'id_background');
+    }
+
+    public function user()
+    {
+        return $this->hasOne('App\Models\User', 'id', 'id_user');
+    } 
 }

@@ -25,7 +25,7 @@
         @endif
     });
 </script> 
-<body class="{{ (@$page_data->page_type != 'home') ? 'no-home-page' : '' }} {{ (in_array(uri(2), ['registration', 'make-payment', 'pay-tip'])) ? 'no-nav' : '' }}">
+<body class="{{ (@$page_data->page_type != 'home') ? 'no-home-page' : '' }} {{ (in_array(uri(2), ['registration']) or request()->getHost() != config('app.base_domain')) ? 'no-nav' : '' }}">
     <nav class="navbar navbar-expand-md bg-grey-red no-mob-bg-grey-red pt-45 justify-content-center">
         <div class="container">
             <a href="/" class="navbar-brand">
@@ -165,7 +165,8 @@
     <div id="ajax-notify">
         <div class="notify-inner"></div>
     </div> 
-
+    
+    <script src="/js/inputmask.min.js"></script> 
     <script src="https://use.fontawesome.com/7d23dee490.js"></script> 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.1.25/jquery.fancybox.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>

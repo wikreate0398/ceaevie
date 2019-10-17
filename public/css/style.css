@@ -398,7 +398,7 @@ footer a {
     transition: .15s ease-in-out;
 }
 
-.btn:hover {
+.btn:hover, .btn.active-payment-type {
     box-shadow: 0 20px 38px rgba(0, 0, 0, 0.16);
     transform: translateY(-3px);
     -webkit-transform: translateY(-3px);

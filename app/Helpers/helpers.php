@@ -27,6 +27,18 @@ function savePercent($retail, $price)
     return percentFormat(100 - (($price/100)*$retail));
 }
 
+function getAppUrl($subdomain = false){
+    $pre = 'http://';
+    if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') { 
+      $pre = 'https://';
+    }
+    $domain = config('app.base_domain');
+    if (!empty($subdomain)) {
+        $domain = $subdomain . '.' . $domain;
+    }
+    return $pre . $domain; 
+}
+
 function percentFormat($percent=null, $zecimals = 1)
 {
     if (empty($percent)) return '0'; 

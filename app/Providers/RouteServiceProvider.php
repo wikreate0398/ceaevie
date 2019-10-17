@@ -39,6 +39,8 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapWebRoutes();
 
+        $this->mapPayRoutes();
+
         //
     }
 
@@ -51,7 +53,8 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapWebRoutes()
     {
-        Route::middleware('web')
+        Route::domain($this->baseDomain())
+             ->middleware('web')
              ->namespace($this->namespace)
              ->group(base_path('routes/web.php'));
     }
@@ -69,5 +72,21 @@ class RouteServiceProvider extends ServiceProvider
              ->middleware('api')
              ->namespace($this->namespace)
              ->group(base_path('routes/api.php'));
+    }
+
+    protected function mapPayRoutes()
+    { 
+        Route::domain($this->baseDomain('pay'))
+             ->middleware('web')
+             ->namespace($this->namespace)
+             ->group(base_path('routes/pay_web.php'));
+    }
+
+    private function baseDomain(string $subdomain = ''): string
+    {
+        if (strlen($subdomain) > 0) {
+            $subdomain = "{$subdomain}.";
+        }
+        return $subdomain . config('app.base_domain');
     }
 }

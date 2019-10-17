@@ -5,7 +5,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6 offset-md-3 text-center">
-                    <a href="/"><img src="/img/logo.png" alt="logo"></a>
+                    <img src="/img/logo.png" alt="logo"> 
                     <h3 class="section-header mt-50 mb-30">
                         Здравствуйте!
                     </h3>
@@ -13,14 +13,14 @@
                     Оставьте чаевые официанту онлайн платежом при помощи его личного кода с визитки</p>
                 </div>
                 <div class="col-md-6 offset-md-3">
-                    <form class="ajax__submit" action="">
+                    <form class="ajax__submit" action="{{ route('set_code', ['lang' => $lang]) }}">
                     	{{ csrf_field() }}
                         <div class="row">
                             <div class="col-12 col-sm-12 col-md-12 mb-30">
-                                <input type="text" required name="" class="form-control rounded-input" onfocus="this.placeholder = ''" onblur="this.placeholder = 'XXX-X'" placeholder="XXX-X">
+                                <input type="text" required name="code" id=" " autocomplete="off" class="form-control rounded-input code-mask" onfocus="this.placeholder = ''" onblur="this.placeholder = 'XXX-X'" placeholder="XXX-X">
                             </div>
                             <div class="col-12 mb-90 text-center">
-                                <button type="submit" class="btn btn-blue">Зарегистрироваться</button>
+                                <button type="submit" class="btn btn-blue">Далее</button>
                             </div>
                         </div>
                     </form>

@@ -17,8 +17,7 @@ class HomeController extends Controller
     { 
         $payments   = PaymentType::orderByPageUp()->visible()->get();
         $howWork    = HowItWork::orderByPageUp()->visible()->get();
-        $whom       = Whom::orderByPageUp()->visible()->get();
-        $whom       = Whom::orderByPageUp()->visible()->get();
+        $whom       = Whom::orderByPageUp()->visible()->get(); 
         $advantages = Advantage::orderByPageUp()->visible()->get();
         return view('public/home', compact('payments', 'howWork', 'whom', 'advantages'));
     } 
@@ -43,15 +42,5 @@ class HomeController extends Controller
         return \JsonResponse::success([
             'messages' => 'Ваше сообщение успешно отпарвлено. Наш менеджер свяжется с вами в близжайшее время'
         ]);
-    }
-
-    public function makePayment()
-    {
-        return view('public/make_payment');
-    }
-
-    public function payTip()
-    {
-        return view('public/pay_tip');
-    }
+    } 
 }

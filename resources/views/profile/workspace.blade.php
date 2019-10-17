@@ -63,67 +63,46 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-4 grid-margin stretch-card">
-            <div class="card new-qr">
-                <div class="card-body">
-                    <img src="{{ asset('profile_theme') }}/assets/images/logo.png" alt="logo">
-                    <div class="ellips" data-toggle="modal" data-target="#myModal">+</div>
-                    <span class="title_1">Создать новый QR</span>
-                    <h5>Иван Смирнов</h5>
-                    <h2>892-5</h2>
-                </div>
-            </div>
-        </div>
 
-        <div class="col-md-4 grid-margin stretch-card">
-            <div class="card new-qr">
-                <div class="card-body">
-                    <img src="{{ asset('profile_theme') }}/assets/images/logo.png" alt="logo">
-                    <div class="ellips" data-toggle="modal" data-target="#myModal">+</div>
-                    <span class="title_1">Создать новый QR</span>
-                    <h5>Иван Смирнов</h5>
-                    <h2>892-5</h2>
-                </div>
-            </div>
+    <div class="row">
+        <div class="col-md-3">
+            <button class="btn btn-gradient-info btn-rounded btn-block" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus" aria-hidden="true"></i>
+                 Добавить QR-код</button>
         </div>
-        
-        <div class="col-md-4 grid-margin stretch-card">
-            <div class="card new-qr created">
-                <div class="card-body">
-                    <div class="created-qr" style="background-color:#f6f6f6;">
-                        <img src="{{ asset('profile_theme') }}/assets/images/logo.png" alt="logo">
-                        <img src="{{ asset('profile_theme') }}/assets/images/dashboard/qr.png" alt="qr-code">
-                        <h5>Иван Смирнов</h5>
-                        <h2>892-5</h2>
-                    </div>
-                    <p class="medium">Спасибо, за чаевые</p>
-                    <span class="title_1">Бар "Клевое место"</span>
-                    <p>Чтобы оставить чаевые, наведите камеру на QR-код или введите код получателя на <a href="pay.чаевые-онлайн.рф">pay.чаевые-онлайн.рф</a></p>
-                    <div class="payment">
-                        <img src="{{ asset('profile_theme') }}/assets/images/dashboard/visa.png" alt="visa">
-                        <img src="{{ asset('profile_theme') }}/assets/images/dashboard/google-pay.png" alt="google-pay">
-                        <img src="{{ asset('profile_theme') }}/assets/images/dashboard/apple-pay.png" alt="apple-pay">
-                    </div>
-                    <div class="action">
-                        <img src="{{ asset('profile_theme') }}/assets/images/print.png" alt="print">
-                        <img src="{{ asset('profile_theme') }}/assets/images/trash.png" alt="trash-icon">
-                    </div>
-                </div>
-            </div>
-        </div>
-      <!--   <div class="col-md-4 grid-margin stretch-card">
-            <div class="card new-qr">
-                <div class="card-body">
-                    <img src="{{ asset('profile_theme') }}/assets/images/logo.png" alt="logo">
-                    <div class="ellips" data-toggle="modal" data-target="#myModal">+</div>
-                    <span class="title_1">Создать новый QR</span>
-                    <h5>Иван Смирнов</h5>
-                    <h2>892-5</h2>
-                </div>
-            </div>
-        </div> -->
-        
     </div>
+
+    @if($qr->count())
+        <div class="row" style="margin-top: 40px;">
+            @foreach($qr as $item)
+                <div class="col-md-4 grid-margin stretch-card">
+                    <div class="card new-qr created">
+                        <div class="card-body">
+                            <div class="created-qr" style="background-color:{{ $item->background->color }};">
+                                <img src="{{ asset('profile_theme') }}/assets/images/logo.png" alt="logo">
+                                <img src="/public/uploads/qr_codes/{{ $item->qr_code }}" alt="qr-code">
+                                <h5>{{ Auth::user()->name }} {{ Auth::user()->lastname }}</h5>
+                                <h2>{{ $item->code }}</h2>
+                            </div>
+                            <p class="medium">{{ $item->card_signature }}</p>
+                            <span class="title_1">{{ $item->institution_name }}</span>
+                            <p>Чтобы оставить чаевые, наведите камеру на QR-код или введите код получателя на
+                                <a href="pay.чаевые-онлайн.рф">pay.чаевые-онлайн.рф</a></p>
+                            <div class="payment">
+                                <img src="{{ asset('profile_theme') }}/assets/images/dashboard/visa.png" alt="visa">
+                                <img src="{{ asset('profile_theme') }}/assets/images/dashboard/google-pay.png" alt="google-pay">
+                                <img src="{{ asset('profile_theme') }}/assets/images/dashboard/apple-pay.png" alt="apple-pay">
+                            </div>
+                            <div class="action">
+                                <img src="{{ asset('profile_theme') }}/assets/images/print.png" alt="print">
+                                <a href="{{ route('delete_qr', ['lang' => $lang, 'id' => $item->id]) }}" class="confirm_link" data-confirm="Вы действительно желаете удалить?">
+                                    <img src="{{ asset('profile_theme') }}/assets/images/trash.png" alt="trash-icon">
+                                </a> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    @endif
 @stop
 

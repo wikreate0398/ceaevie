@@ -12,7 +12,11 @@ var Ajax = function() {
             cache: false,
             processData: false,
             dataType: 'json',
-            beforeSend: function() {},
+            beforeSend: function() {
+                if($(form).closest('.pay-tip-page').length > 0){
+                    $(form).closest('.pay-tip-page').addClass('load-page');
+                }
+            },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
                 if (XMLHttpRequest.status === 401) document.location.reload(true);
             },
@@ -78,6 +82,10 @@ var Ajax = function() {
                             'padding-right': '0'
                          })
                          .text(button_txt);
+
+                if($(form).closest('.pay-tip-page').length > 0){
+                    $(form).closest('.pay-tip-page').removeClass('load-page');
+                }
             }
         });
     };

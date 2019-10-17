@@ -105,14 +105,18 @@ class PaymentTypesController extends Controller
             return trans('admin.req_fields');
         }
 
-        $uploadImage = new UploadImage;
-        $image = $uploadImage->upload('image', $this->uploadFolder);
+        $uploadImage       = new UploadImage;
+        $image             = $uploadImage->upload('image', $this->uploadFolder); 
+        $image_black_white = $uploadImage->upload('image_black_white', $this->uploadFolder);
 
         if (!empty($image)) {
             $input['image'] = $image;
+        } 
+
+        if (!empty($image)) {
+            $input['image_black_white'] = $image_black_white;
         }  
 
         return $input;
-    }
-
+    } 
 }

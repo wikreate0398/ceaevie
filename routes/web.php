@@ -129,17 +129,11 @@ Route::group(['prefix' => $adminPath, 'namespace' => 'Admin', 'middleware' => ['
 });
 
 Route::get('/', 'HomeController@index')->middleware(['lang', 'web']);
-
-
-Route::post('messages', function(\Illuminate\Http\Request $request){ 
-    \App\Events\ItemAdded::dispatch($request->body);
-});
-
+  
 Route::group(['prefix' => '{lang}', 'middleware' => ['lang', 'web']], function() {
     Route::get('/', 'HomeController@index');
     Route::post('questions', 'HomeController@questions')->name('questions'); 
-    Route::get('make-payment', 'HomeController@makePayment')->middleware(['lang', 'web']);
-    Route::get('pay-tip', 'HomeController@payTip')->middleware(['lang', 'web']);
+    
     Route::group(['middlewars' => 'guest'], function(){
         Route::get('registration', 'Auth\RegisterController@showForm')->name('registration');
         Route::post('register', 'Auth\RegisterController@register')->name('register');
@@ -166,16 +160,13 @@ Route::group(['prefix' => '{lang}', 'middleware' => ['lang', 'web']], function()
             Route::group(['prefix' => 'workspace'], function() {
                 Route::get('/', 'WorkspaceController@index')->name('workspace');
                 Route::post('add-qr', 'WorkspaceController@addQrCode')->name('add_qr'); 
+                Route::get('delete-qr/{id}', 'WorkspaceController@deleteQrCode')->name('delete_qr'); 
             }); 
 
              
             Route::get('enrollment', 'EnrollmentController@index')->name('enrollment');
             Route::get('ballance', 'BallanceController@index')->name('ballance'); 
-             
-             
- 
-             
-
+            
             Route::get('change-password', 'ProfileController@changePass')->name('change_pass');
             Route::post('change-password', 'ProfileController@savePassword')->name('save_new_password'); 
         });
@@ -190,7 +181,6 @@ Route::group(['prefix' => '{lang}', 'middleware' => ['lang', 'web']], function()
             return  redirect('/');
         })->name('logout');
     });
-
 
     /*
      * If not exist route
