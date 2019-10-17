@@ -77,7 +77,7 @@ class AccountController extends Controller
         
         User::where('id', \Auth::user()->id)->
           update([ 
-            'image'  => $avatarImageName 
+            'image'  => $filename 
         ]); 
 
         return \App\Utils\JsonResponse::success();
