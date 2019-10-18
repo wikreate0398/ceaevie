@@ -16,7 +16,7 @@ Route::get('page-404', function(){
 })->name('404');
 
 $adminPath = config('admin.path');
- 
+  
 Route::get($adminPath . '/login', 'Admin\LoginController@showLoginForm', ['guard' => 'admin'])->name('admin_login');
 Route::post($adminPath . '/login', 'Admin\LoginController@login', ['guard' => 'admin'])->name('admin_run_login'); 
 

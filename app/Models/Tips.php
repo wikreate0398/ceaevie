@@ -19,7 +19,7 @@ class Tips extends Model
         'rand',
         'amount',
         'withdraw',
-        'stauts'
+        'status'
     ];  
 
     protected $casts = [
