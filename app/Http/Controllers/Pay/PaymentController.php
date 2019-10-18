@@ -4,8 +4,9 @@ namespace App\Http\Controllers\Pay;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Utils\Payments\VisaPayment;
 use App\Models\QrCode;
-use App\Models\PaymentType;
+use App\Models\PaymentType; 
 
 class PaymentController extends Controller
 {
@@ -47,6 +48,26 @@ class PaymentController extends Controller
 
 	public function makePayment(Request $request)
     {
+    	if (!$request->payment or !$request->price) 
+    	{
+    		return \JsonResponse::error(['messages' => 'Укажите сумму и метод оплаты']);
+    	}
 
+    	$payment = PaymentType::visible()->whereId($request->id)->first();
+
+    	if ($request->payment == 1) {
+    		$paymentClass = new VisaPayment;
+
+    		try {
+    			$token = $paymentClass->orderId(generate_id())
+    		                      ->amount($request->price)
+    		                      ->description('Чаевые официанту')
+    		                      ->getToken();
+
+    		    return \JsonResponse::success(['redirect' => $token]); 
+    		} catch (\Exception $e) {
+    			return \JsonResponse::error(['messages' => $e->getMessage()]);
+    		}               
+    	}
     }
 }

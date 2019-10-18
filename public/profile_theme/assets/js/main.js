@@ -33,14 +33,11 @@ function profilePhoto(fileName){
         return;
     }
 
-    reader.onload = function (e) { 
-
+    reader.onload = function (e) {  
         $('.cropper__section, #overlay').fadeIn(150); 
-
+ 
         $('.cropper__image_content').html('<img src="" id="image__crop">');
         var image = $('img#image__crop');
-
-        console.log(image);
 
         $(image).attr('src', reader.result); 
         $('input#avatar').val(reader.result);
@@ -71,7 +68,7 @@ function profilePhoto(fileName){
 
           $('input#avatar').val(cropper);
           $('.profile__img').css('background-image', 'url('+cropper+')'); 
-          $('.save__cropped_image').show();
+          $('.save__cropped_image').show(); 
           $('form.profile__image_form').submit();
         };
     }; 
