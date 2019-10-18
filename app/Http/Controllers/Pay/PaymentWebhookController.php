@@ -42,7 +42,7 @@ class PaymentWebhookController extends Controller
 	{
 		PaymentLogResponse::create([
 			'payment_type' => 'visa',
-			'log'          => $data
+			'log'          => json_encode($data)
 		]);
 	}
 }
