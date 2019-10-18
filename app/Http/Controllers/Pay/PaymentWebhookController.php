@@ -16,7 +16,7 @@ class PaymentWebhookController extends Controller
 
 		$requestData = $request->all();
 
-		if ($requestData['Order_id']) 
+		if ($requestData->Order_id) 
 		{
 			$tip = Tips::where('rand', $requestData->Order_id)->first();
 			if ($tip) 
