@@ -39,13 +39,13 @@ class PaymentWebhookController extends Controller
 				{
 					$tip->amount = toFloat($request->NewAmount); 
 				} 
+ 
+				$tip->save();
 
 				if ($request->Status == 'CHARGED') 
 				{
 					$tip->user->notify(new NewTips($tip->amount));
 				}
-
-				$tip->save();
 			} 
 		} 
 	}
