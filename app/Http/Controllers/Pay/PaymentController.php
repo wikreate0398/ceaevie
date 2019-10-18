@@ -73,50 +73,30 @@ class PaymentController extends Controller
     	}
     }
 
-    public function visaCallback()
+    public function visaCallback(Request $request)
     {
-        switch (request()->type) {
+        switch ($request->type) {
             case 'success':
-                die('Оплата пошла успешна.');
+                exit('Оплата пошла успешна.');
                 break;
 
             case 'decline':
-                die('Оплата отклонена');
+                exit('Оплата отклонена');
                 break;
 
             case 'cancel':
-                die('Оплата отменена');
+                exit('Оплата отменена');
                 break;
 
             case 'account_id':
-                die('Фигня какая та');
+                exit('Фигня какая та');
                 break;
             
             default:
                 break;
         }
     }
-
-    public function success()
-    {
-        exit('Успешная оплаты');
-    }
-
-    public function fail()
-    {
-        exit('Ошибка оплаты');
-    }
-
-    public function notify()
-    {
-        exit('notify');
-    }
-
-    public function back()
-    {
-        exit('Добро пожаловать');
-    }
-
+ 
     private function makeOrder($request)
     {  
     	return Tips::create([
