@@ -47,12 +47,12 @@ class VisaPayment implements PaymentInterface
 			'amount'      => $this->amount,
 			'currency'    => $this->currency, 
 			'description' => $this->description,
-			'extra'       => [
+			'extra'       => json_encode([
 				'success_url' => route('visa_callback', ['type' => 'success']),
 				'decline_url' =>  route('visa_callback', ['type' => 'decline']),
 				'cancel_url'  =>  route('visa_callback', ['type' => 'cancel']),
 				'account_id'  =>  route('visa_callback', ['type' => 'account_id'])
-			]
+			])
 		], 'token');
 
 		if(@$xmlData->success != 'true' or !@$xmlData->token)
@@ -77,7 +77,7 @@ class VisaPayment implements PaymentInterface
 
 		$server_output = curl_exec ($ch);
 		curl_close ($ch);
-
+ 
 		return simplexml_load_string($server_output); 
 	}
 
