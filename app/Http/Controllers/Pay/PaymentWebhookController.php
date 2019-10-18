@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Pay;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Notifications\NewTips;
-use App\Utils\Payments\PaymentLogResponse; 
+use App\Models\PaymentLogResponse; 
 use App\Models\Tips; 
 
 class PaymentWebhookController extends Controller
