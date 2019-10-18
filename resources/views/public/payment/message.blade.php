@@ -8,7 +8,7 @@
                 <div class="col-md-6 offset-md-3 text-center message-page"> 
                     <img src="/img/logo.png" alt="logo"> 
                     <p class="grey">{{ $message }}</p>
-                    <a href="/" class="">На главную</a>
+                    <a href="{{ getAppUrl() }}" class="">На главную</a>
                 </div> 
             </div>
         </div>
