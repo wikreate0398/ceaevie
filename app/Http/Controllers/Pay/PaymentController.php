@@ -74,27 +74,31 @@ class PaymentController extends Controller
     }
 
     public function visaCallback(Request $request)
-    {
+    { 
         switch ($request->type) {
             case 'success':
-                exit('Оплата пошла успешна.');
+                $message = 'Оплата пошла успешна'; 
                 break;
 
             case 'decline':
-                exit('Оплата отклонена');
+                $message = 'Оплата отклонена'; 
                 break;
 
             case 'cancel':
-                exit('Оплата отменена');
+                $message = 'Оплата отменена';  
                 break;
 
-            case 'account_id':
-                exit('Фигня какая та');
+            case 'account_id': 
+                $message = 'Оплата пошла успешна'; 
                 break;
             
             default:
+                $message = 'Оплата пошла успешна'; 
                 break;
         }
+ 
+        $lang = lang();
+        return view('public.payment.message', compact(['message', 'lang']));
     }
  
     private function makeOrder($request)

@@ -14,21 +14,21 @@ class PaymentWebhookController extends Controller
 	{ 
 		$this->log($request->all());
 
-		$requestData = json_decode($request->all(), true);
+		$requestData = $request->all();
 
 		if ($requestData['Order_id']) 
 		{
-			$tip = Tips::where('rand', $requestData['Order_id'])->first();
+			$tip = Tips::where('rand', $requestData->Order_id)->first();
 			if ($tip) 
 			{
-				$tip->status = $requestData['Status'];
+				$tip->status = $requestData->Status;
 
-				if (!empty($requestData['NewAmount'])) 
+				if (!empty($requestData->NewAmount)) 
 				{
-					$tip->amount = toFloat($requestData['NewAmount']); 
+					$tip->amount = toFloat($requestData->NewAmount); 
 				} 
 
-				if ($requestData['Status'] == 'CHARGED') 
+				if ($requestData->Status == 'CHARGED') 
 				{
 					$tip->user->notify(new NewTips($tip->amount));
 				}
