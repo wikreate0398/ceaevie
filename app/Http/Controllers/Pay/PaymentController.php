@@ -11,7 +11,6 @@ use App\Models\Tips;
 
 class PaymentController extends Controller
 {
-
 	private $paymentServices = [
 		'1' => VisaPayment::class
 	];
@@ -78,19 +77,19 @@ class PaymentController extends Controller
     {
         switch (request()->type) {
             case 'success':
-                die('success');
+                die('Оплата пошла успешна.');
                 break;
 
             case 'decline':
-                die('success');
+                die('Оплата отклонена');
                 break;
 
             case 'cancel':
-                die('success');
+                die('Оплата отменена');
                 break;
 
             case 'account_id':
-                die('success');
+                die('Фигня какая та');
                 break;
             
             default:
