@@ -23,10 +23,13 @@ class PaymentWebhookController extends Controller
 
 				if ($request->Event == 'Payment' && $request->Status == 'BLOCKED') 
 				{
+
 					$paymentClass = new VisaPayment; 
-		    		$paymentClass->orderId($tip->rand)
+		    		$data = $paymentClass->tranId($request->Transaction_Id)
 		    		             ->amount(toFloat($tip->amount))
 		    		             ->makeCharge();
+
+		    		$this->log(json_encode($data)); 
 				}
 
 				$tip->status         = $request->Status;

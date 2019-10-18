@@ -17,6 +17,8 @@ class VisaPayment implements PaymentInterface
 
 	private $orderId;
 
+	private $tranId;
+
 	private $description;
 
 	function __construct() {}
@@ -32,6 +34,12 @@ class VisaPayment implements PaymentInterface
 		$this->orderId = $orderId;
 		return $this;
 	}
+
+	public function tranId($tranId)
+	{
+		$this->tranId = $tranId;
+		return $this;
+	} 
 
 	public function description($description)
 	{
@@ -90,11 +98,13 @@ class VisaPayment implements PaymentInterface
 	public function makeCharge()
 	{   
 		$xmlData = $this->makeRequest([
-			'serviceId'   => $this->serviceId,
-			'orderId'     => $this->orderId,
-			'amount'      => $this->amount,
-			'currency'    => $this->currency,   
+			'serviceId' => $this->serviceId,
+			'tranId'    => $this->tranId,
+			'amount'    => $this->amount,
+			'currency'  => $this->currency,   
 		], 'charge');
+
+		return $xmlData;
  
 		// if(@$xmlData->success != 'true' or !@$xmlData->token)
 		// {
