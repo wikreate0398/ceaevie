@@ -12,8 +12,6 @@ class PaymentWebhookController extends Controller
 {
 	public function visa(Request $request)
 	{ 
-		$this->log('test');
-
 		$this->log($request->all());
 
 		$requestData = json_decode($request->all(), true);
