@@ -43,4 +43,9 @@ class Tips extends Model
                      ->where('withdraw', 0)
                      ->confirmed();
     }
+
+    public function user()
+    {
+        return $this->hasOne('App\Models\User', 'id', 'id_user');
+    } 
 }
