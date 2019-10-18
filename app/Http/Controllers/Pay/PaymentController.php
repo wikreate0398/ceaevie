@@ -103,7 +103,8 @@ class PaymentController extends Controller
     		'id_user'    => QrCode::where('code', $request->code)->first()->id_user,
     		'id_payment' => $request->payment,
     		'rand'       => generate_id(7),
-    		'amount'     => toFloat($request->price) 
+    		'amount'     => toFloat($request->price),
+            'status'     => 'CHARGED'
     	])->id;
     }
 
