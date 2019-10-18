@@ -54,7 +54,7 @@ class VisaPayment implements PaymentInterface
 				'account_id'  =>  route('visa_callback', ['type' => 'account_id'])
 			])
 		], 'token');
-
+ 
 		if(@$xmlData->success != 'true' or !@$xmlData->token)
 		{
 			throw new \Exception("Ошибка оплаты, попробуйте позже"); 
@@ -87,18 +87,20 @@ class VisaPayment implements PaymentInterface
  		return base64_encode($hash);	
 	}
 
-	// public function checkStatus()
-	// {
-	// 	$xmlData = $this->makeRequest([
-	// 		'serviceId' => $this->serviceId,
-	// 		'orderId'   => $this->orderId,
-	// 		// 'amount'    => $this->amount,
-	// 		// 'currency'  => $this->currency, 
-	// 	], 'status');
-	// 	return $xmlData;
-	// 	if (@$xmlData->tranStatus) 
-	// 	{
-	// 		return $xmlData->tranStatus;
-	// 	} 
-	// }
+	public function makeCharge()
+	{   
+		$xmlData = $this->makeRequest([
+			'serviceId'   => $this->serviceId,
+			'orderId'     => $this->orderId,
+			'amount'      => $this->amount,
+			'currency'    => $this->currency,   
+		], 'charge');
+ 
+		// if(@$xmlData->success != 'true' or !@$xmlData->token)
+		// {
+		// 	throw new \Exception("Ошибка оплаты, попробуйте позже"); 
+		// } 
+
+		// return $this->serviceHostname . 'webblock/?token=' . $xmlData->token; 
+	}
 }
