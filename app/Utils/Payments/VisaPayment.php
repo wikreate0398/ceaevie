@@ -41,24 +41,35 @@ class VisaPayment implements PaymentInterface
 
 	public function getToken()
 	{   
-		$token = $this->makeTokenRequest([
+		$xmlData = $this->makeRequest([
 			'serviceId'   => $this->serviceId,
 			'orderId'     => $this->orderId,
 			'amount'      => $this->amount,
 			'currency'    => $this->currency, 
-			'description' => $this->description
-		]);
-		
-		return $this->serviceHostname . 'webblock/?token=' . $token; 
+			'description' => $this->description,
+			'extra'       => [
+				'success_url' => route('visa_callback', ['type' => 'success']),
+				'decline_url' =>  route('visa_callback', ['type' => 'decline']),
+				'cancel_url'  =>  route('visa_callback', ['type' => 'cancel']),
+				'account_id'  =>  route('visa_callback', ['type' => 'account_id'])
+			]
+		], 'token');
+
+		if(@$xmlData->success != 'true' or !@$xmlData->token)
+		{
+			throw new \Exception("Ошибка оплаты, попробуйте позже"); 
+		} 
+
+		return $this->serviceHostname . 'webblock/?token=' . $xmlData->token; 
 	}
 
-	private function makeTokenRequest($arrayRequest)
+	private function makeRequest($arrayRequest, $requestType)
 	{
 		$body      = http_build_query($arrayRequest);
 		$signature = $this->getSignature($body, $this->secretKey);
 
 		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, $this->serviceHostname . 'token');
+		curl_setopt($ch, CURLOPT_URL, $this->serviceHostname . $requestType);
 		curl_setopt($ch, CURLOPT_POST, 1);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $body);  
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); 
@@ -67,13 +78,7 @@ class VisaPayment implements PaymentInterface
 		$server_output = curl_exec ($ch);
 		curl_close ($ch);
 
-		$xml = simplexml_load_string($server_output); 
-		if(@$xml->success != 'true' or !@$xml->token)
-		{
-			throw new \Exception("Ошибка оплаты, попробуйте позже"); 
-		}
-
-		return $xml->token;
+		return simplexml_load_string($server_output); 
 	}
 
 	private function getSignature($body)
@@ -81,4 +86,19 @@ class VisaPayment implements PaymentInterface
 		$hash = hash_hmac('sha256', $body, $this->secretKey, false);
  		return base64_encode($hash);	
 	}
+
+	// public function checkStatus()
+	// {
+	// 	$xmlData = $this->makeRequest([
+	// 		'serviceId' => $this->serviceId,
+	// 		'orderId'   => $this->orderId,
+	// 		// 'amount'    => $this->amount,
+	// 		// 'currency'  => $this->currency, 
+	// 	], 'status');
+	// 	return $xmlData;
+	// 	if (@$xmlData->tranStatus) 
+	// 	{
+	// 		return $xmlData->tranStatus;
+	// 	} 
+	// }
 }

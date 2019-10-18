@@ -81,7 +81,7 @@
 						<i class="mdi mdi-home menu-icon"></i>
 					</a>
 				</li> 
-				<!-- <li class="nav-item">
+				<li class="nav-item">
 					<a class="nav-link" href="{{ route('enrollment', ['lang' => $lang]) }}">
 						<span class="menu-title">История зачислений</span>
 						<i class="mdi mdi-chart-line menu-icon"></i>
@@ -92,7 +92,7 @@
 						<span class="menu-title">Мой баланс</span>
 						<i class="mdi mdi-currency-usd menu-icon"></i>
 					</a>
-				</li> -->
+				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="{{ route('account', ['lang' => $lang]) }}">
 						<span class="menu-title">Мой профиль</span>

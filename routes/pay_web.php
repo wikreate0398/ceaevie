@@ -4,12 +4,8 @@ Route::get('page-404', function(){
 	return response()->view('errors.404', [], 404);
 })->name('404');  
 
-Route::group(['prefix' => 'visa-payment', 'namespace' => 'Pay'], function() {
-    Route::post('success', 'VisaHandleController@success');
-    Route::post('fail', 'VisaHandleController@fail');
-    Route::post('notify', 'VisaHandleController@notify'); 
-    Route::post('back', 'VisaHandleController@back');  
-});
+Route::post('webhook/visa', 'Pay\PaymentWebhookController@visa'); 
+Route::get('visa-callback', 'PaymentController@visaCallback')->name('visa_callback');
 
 Route::get('/', 'Pay\PaymentController@indicateСode')->middleware(['lang', 'web']); 
 Route::group(['prefix' => '{lang}', 'namespace' => 'Pay', 'middleware' => ['lang', 'web']], function() {
@@ -18,5 +14,3 @@ Route::group(['prefix' => '{lang}', 'namespace' => 'Pay', 'middleware' => ['lang
 	Route::get('make-payment/{code}', 'PaymentController@payment')->name('payment');
 	Route::post('handle-payment', 'PaymentController@handlePayment')->name('make_payment');
 });
-
- 

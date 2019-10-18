@@ -12,8 +12,7 @@ class Kernel extends ConsoleKernel
      *
      * @var array
      */
-    protected $commands = [
-         
+    protected $commands = [ 
     ];
 
     /**
@@ -24,7 +23,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('cart')
+        // $schedule->command('visa-payment-status')
         //          ->everyMinute()
         //          ->appendOutputTo(storage_path('logs/cron_commands.log'));
     }

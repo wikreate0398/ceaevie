@@ -17,7 +17,7 @@ class PaymentController extends Controller
 	];
 
 	public function indicateСode()
-	{ 
+	{   
 		return view('public.payment.indicate_сode');
 	}
 
@@ -74,12 +74,56 @@ class PaymentController extends Controller
     	}
     }
 
+    public function visaCallback()
+    {
+        switch (request()->type) {
+            case 'success':
+                die('success');
+                break;
+
+            case 'decline':
+                die('success');
+                break;
+
+            case 'cancel':
+                die('success');
+                break;
+
+            case 'account_id':
+                die('success');
+                break;
+            
+            default:
+                break;
+        }
+    }
+
+    public function success()
+    {
+        exit('Успешная оплаты');
+    }
+
+    public function fail()
+    {
+        exit('Ошибка оплаты');
+    }
+
+    public function notify()
+    {
+        exit('notify');
+    }
+
+    public function back()
+    {
+        exit('Добро пожаловать');
+    }
+
     private function makeOrder($request)
     {  
     	return Tips::create([
     		'id_user'    => QrCode::where('code', $request->code)->first()->id_user,
     		'id_payment' => $request->payment,
-    		'rand'       => generate_id(),
+    		'rand'       => generate_id(7),
     		'amount'     => toFloat($request->price) 
     	])->id;
     }

@@ -18,10 +18,6 @@ class Tips extends Model
         'id_payment',
         'rand',
         'amount',
-        'confirm'
-    ]; 
- 
-    protected $casts = [
-        'confirm' => 'integer'  
-    ]; 
+        'stauts'
+    ];  
 }
