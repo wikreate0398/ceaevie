@@ -40,36 +40,40 @@ class VisaPayment implements PaymentInterface
 	}
 
 	public function getToken()
-	{ 
-		$data = [
+	{   
+		$token = $this->makeTokenRequest([
 			'serviceId'   => $this->serviceId,
 			'orderId'     => $this->orderId,
 			'amount'      => $this->amount,
 			'currency'    => $this->currency, 
 			'description' => $this->description
-		];
+		]);
+		
+		return $this->serviceHostname . 'webblock/?token=' . $token; 
+	}
 
-		$body = http_build_query($data);
-		$signature = $this->getSignature($body, "YOUR_SECRET_KEY");
+	private function makeTokenRequest($arrayRequest)
+	{
+		$body      = http_build_query($arrayRequest);
+		$signature = $this->getSignature($body, $this->secretKey);
+
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $this->serviceHostname . 'token');
 		curl_setopt($ch, CURLOPT_POST, 1);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $body); //Post Fields
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		$headers = array(
-		'signature:'.$signature
-		);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $body);  
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); 
+		curl_setopt($ch, CURLOPT_HTTPHEADER, ['signature:'.$signature]);
+
 		$server_output = curl_exec ($ch);
 		curl_close ($ch);
-		$xml=simplexml_load_string($server_output);
- 
-		if(@$xml->success != 'true')
+
+		$xml = simplexml_load_string($server_output); 
+		if(@$xml->success != 'true' or !@$xml->token)
 		{
 			throw new \Exception("Ошибка оплаты, попробуйте позже"); 
-		} 
+		}
 
-		return $this->serviceHostname . 'webblock/?token=' . $xml->token; 
+		return $xml->token;
 	}
 
 	private function getSignature($body)

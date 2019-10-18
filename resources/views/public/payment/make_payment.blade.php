@@ -16,6 +16,7 @@
                 <div class="col-md-6 offset-md-3">
                     <form class="ajax__submit" id="make-payment-form" action="{{ route('make_payment', ['lang' => $lang]) }}">
                     	{{ csrf_field() }}
+                        <input type="hidden" name="code" value="{{ $data->code }}">
                         <div class="row">
                             <div class="col-12 col-sm-12 col-md-12 mb-30">
                                 <input type="text" id="priceInput" required name="price" class="form-control change_keyup rounded-input price-mask" onfocus="this.placeholder = ''" autocomplete="off" onblur="this.placeholder = 'Сумма'" placeholder="Сумма Pуб.">

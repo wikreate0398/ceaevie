@@ -7,9 +7,15 @@ use App\Http\Controllers\Controller;
 use App\Utils\Payments\VisaPayment;
 use App\Models\QrCode;
 use App\Models\PaymentType; 
+use App\Models\Tips; 
 
 class PaymentController extends Controller
 {
+
+	private $paymentServices = [
+		'1' => VisaPayment::class
+	];
+
 	public function indicateСode()
 	{ 
 		return view('public.payment.indicate_сode');
@@ -46,32 +52,65 @@ class PaymentController extends Controller
 		return view('public.payment.make_payment', compact(['data', 'payments']));
 	}
 
-	public function makePayment(Request $request)
+	public function handlePayment(Request $request)
     {
-    	if (!$request->payment or !$request->price) 
-    	{
-    		return \JsonResponse::error(['messages' => 'Укажите сумму и метод оплаты']);
+    	\DB::beginTransaction();
+    	try {
+    		$this->checkFormData($request); 
+    	} catch (\Exception $e) {
+    		return \JsonResponse::error(['messages' => $e->getMessage()]);
     	}
+ 
+    	$idOrder = $this->makeOrder($request);
+    	$order   = Tips::whereId($idOrder)->first();
 
-    	$payment = PaymentType::visible()->whereId($request->id)->first();
+    	\DB::commit();
+    	try {
+    		$tokenUrl = $this->makePayment($request->payment, $order);
+    		return \JsonResponse::success(['redirect' => $tokenUrl]);  
+    	} catch (\Exception $e) {
+    		\DB::rollback();
+    		return \JsonResponse::error(['messages' => $e->getMessage()]);
+    	}
+    }
 
-    	if ($request->payment == 1) {
-    		$paymentClass = new VisaPayment;
+    private function makeOrder($request)
+    {  
+    	return Tips::create([
+    		'id_user'    => QrCode::where('code', $request->code)->first()->id_user,
+    		'id_payment' => $request->payment,
+    		'rand'       => generate_id(),
+    		'amount'     => toFloat($request->price) 
+    	])->id;
+    }
 
-    		try {
-    			$token = $paymentClass->orderId(generate_id())
-    		                      ->amount($request->price)
-    		                      ->description('Чаевые официанту')
-    		                      ->getToken();
+    private function checkFormData($request)
+    { 
+    	if (!$request->payment or !$request->price or !$request->code) 
+    	{ 
+    		throw new \Exception("Укажите сумму и метод оплаты"); 
+    	}
+ 
+		if (!QrCode::where('code', $request->code)->count() or !PaymentType::visible()->whereId($request->payment)->count()) 
+    	{
+    		throw new \Exception("Во время обработки данных возникла ошибка");   
+    	} 
+    } 
 
-    		    return \JsonResponse::success(['redirect' => $token]); 
-    		} catch (\Exception $e) {
-    			return \JsonResponse::error(['messages' => $e->getMessage()]);
-    		}               
+    private function makePayment($idPayment, $order)
+    {
+    	if (!empty($this->paymentServices[$idPayment])) {
+    		$paymentClass = new $this->paymentServices[$idPayment]; 
+
+    		$paymentClass->orderId($order->rand)
+    		             ->amount(toFloat($order->amount))
+    		             ->description('Чаевые официанту');
+
+  			return $paymentClass->getToken();           
     	}
     	else
     	{
-    		return \JsonResponse::error(['messages' => 'Данные метод оплаты не работает. Попробуйте оплатить с помощью VISA']);
+    		throw new \Exception("Данные метод оплаты не работает. Попробуйте оплатить с помощью VISA"); 
     	}
-    }
+    } 
 }
