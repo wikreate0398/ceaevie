@@ -52,9 +52,7 @@ var Ajax = function() {
                         window.location = $(form).attr('data-redirect');
                     } else{
                         if (jsonResponse.redirect !== undefined) {
-                            setTimeout(function () {
-                                window.location = jsonResponse.redirect;
-                            }, 1500); 
+                            window.location = jsonResponse.redirect;
                         }
 
                         if (jsonResponse.reload == true) {
