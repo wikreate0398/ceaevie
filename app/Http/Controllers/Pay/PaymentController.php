@@ -69,5 +69,9 @@ class PaymentController extends Controller
     			return \JsonResponse::error(['messages' => $e->getMessage()]);
     		}               
     	}
+    	else
+    	{
+    		return \JsonResponse::error(['messages' => 'Данные метод оплаты не работает. Попробуйте оплатить с помощью VISA']);
+    	}
     }
 }
