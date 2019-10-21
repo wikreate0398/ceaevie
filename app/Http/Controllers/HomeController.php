@@ -10,6 +10,7 @@ use App\Models\PaymentType;
 use App\Models\HowItWork;
 use App\Models\Whom;
 use App\Models\Advantage;
+use App\Models\QrCode;
 
 class HomeController extends Controller
 { 
@@ -23,8 +24,12 @@ class HomeController extends Controller
     } 
 
     public function page()
-    {
+    { 
         $data = \Pages::pageData();
+        if (!$data) 
+        {
+            abort('404');
+        }
         return view('public/page', [
             'data'   => $data,
         ]);
@@ -43,4 +48,27 @@ class HomeController extends Controller
             'messages' => 'Ваше сообщение успешно отпарвлено. Наш менеджер свяжется с вами в близжайшее время'
         ]);
     } 
+
+    public function giveThanks($lang, Request $request)
+    {
+        try {
+            if (!$request->code or !$request->price) 
+            {
+                throw new \Exception(\Constant::get('REQ_FIELDS')); 
+            }
+
+            $code  = prepareCode($request->code);  
+            if (!QrCode::where('code', $code)->count()) 
+            {
+                throw new \Exception('Официант не найден'); 
+            } 
+
+            return \JsonResponse::success([
+                'redirect' => route('payment', ['lang' => lang(), 'code' => $code]) . '?price=' . $request->price
+            ]);
+
+        } catch (\Exception $e) {
+            return \JsonResponse::error(['messages' => $e->getMessage()]);
+        }  
+    }
 }

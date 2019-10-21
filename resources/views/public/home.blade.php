@@ -147,13 +147,15 @@
                 <div class="order-2 order-sm-1 col-10 offset-1 col-md-4 offset-md-1">
                     <div class="bg-phone bg-phone-middle">
                         <img src="/img/header-home/bg-fon-logo.png" alt="" class="logo-phone">
-                        <form>
+                        <form class="ajax__submit loader-v2-inner" action="{{ route('give_thanks', ['lang' => $lang]) }}"> 
+                            {{ csrf_field() }}
+                            <div class="flip-square-loader mx-auto"></div>
                             <div class="row">
                                 <div class="form-group col-12">
-                                    <input type="text" class="form-control code-mask" placeholder="Код официанта">
+                                    <input type="text" class="form-control code-mask" name="code" placeholder="Код официанта">
                                 </div>
                                 <div class="form-group col-12">
-                                    <input type="text" class="form-control home-price-mask" placeholder="Сумма">
+                                    <input type="text" class="form-control home-price-mask" name="price" placeholder="Сумма">
                                 </div>
                                 <div class="form-group col-12 text-center">
                                     <button type="submit" class="btn btn-blue">Поблагодорить</button>

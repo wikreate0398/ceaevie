@@ -1,8 +1,5 @@
 <?php
-
-Route::get('page-404', function(){ 
-	return response()->view('errors.404', [], 404);
-})->name('404');  
+ 
 
 Route::post('webhook/visa', 'Pay\PaymentWebhookController@visa'); 
 

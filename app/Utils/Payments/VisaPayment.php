@@ -2,14 +2,19 @@
 
 namespace App\Utils\Payments;
 
-class VisaPayment implements PaymentInterface
+class VisaPayment extends PaymentService implements PaymentInterface
 {
-
 	private $serviceHostname = 'https://secured.payment.center/v2/';
 
-	private $serviceId = '796';
+	private $serviceId = [
+		'dev'        => 796,
+		'production' => 805
+	];
 
-	private $secretKey = 'ZsuvzNBPrEzzNaxr';
+	private $secretKey = [
+		'dev'        => 'ZsuvzNBPrEzzNaxr',
+		'production' => 'Ef9tqLRSZ3PsNAsb'
+	]; 
 	
 	private $currency = 'RUB';
 
@@ -50,7 +55,7 @@ class VisaPayment implements PaymentInterface
 	public function getToken()
 	{   
 		$xmlData = $this->makeRequest([
-			'serviceId'   => $this->serviceId,
+			'serviceId'   => $this->serviceId[$this->mode],
 			'orderId'     => $this->orderId,
 			'amount'      => $this->amount,
 			'currency'    => $this->currency, 
@@ -74,7 +79,7 @@ class VisaPayment implements PaymentInterface
 	private function makeRequest($arrayRequest, $requestType)
 	{
 		$body      = http_build_query($arrayRequest);
-		$signature = $this->getSignature($body, $this->secretKey);
+		$signature = $this->getSignature($body, $this->secretKey[$this->mode]);
 
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $this->serviceHostname . $requestType);
@@ -91,26 +96,19 @@ class VisaPayment implements PaymentInterface
 
 	private function getSignature($body)
 	{
-		$hash = hash_hmac('sha256', $body, $this->secretKey, false);
+		$hash = hash_hmac('sha256', $body, $this->secretKey[$this->mode], false);
  		return base64_encode($hash);	
 	}
 
 	public function makeCharge()
 	{   
 		$xmlData = $this->makeRequest([
-			'serviceId' => $this->serviceId,
+			'serviceId' => $this->serviceId[$this->mode],
 			'tranId'    => $this->tranId,
 			'amount'    => $this->amount,
 			'currency'  => $this->currency,   
 		], 'charge');
 
-		return $xmlData;
- 
-		// if(@$xmlData->success != 'true' or !@$xmlData->token)
-		// {
-		// 	throw new \Exception("Ошибка оплаты, попробуйте позже"); 
-		// } 
-
-		// return $this->serviceHostname . 'webblock/?token=' . $xmlData->token; 
+		return $xmlData; 
 	}
 }

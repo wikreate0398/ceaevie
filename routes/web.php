@@ -111,11 +111,7 @@ Route::group(['prefix' => $adminPath, 'namespace' => 'Admin', 'middleware' => ['
         Route::post('edit', 'ProfileController@edit');
         Route::post('addNewUser', 'ProfileController@addNewUser');
         Route::get('/logs-report/{id_user}', 'ProfileController@showLogsReport');
-    }); 
-  
-	Route::group(['prefix' => 'user', 'namespace' => 'Users',], function() { 
-		Route::post('fastRegister', 'SiteUser@fastRegister');  
-	});
+    });  
 
 	Route::group(['prefix' => 'ajax'], function() {  
 		Route::post('depth-sort', 'AjaxController@depthSort')->name('depth_sort');
@@ -131,9 +127,11 @@ Route::group(['prefix' => $adminPath, 'namespace' => 'Admin', 'middleware' => ['
 Route::get('/', 'HomeController@index')->middleware(['lang', 'web']);
   
 Route::group(['prefix' => '{lang}', 'middleware' => ['lang', 'web']], function() {
+    
     Route::get('/', 'HomeController@index');
     Route::post('questions', 'HomeController@questions')->name('questions'); 
     Route::post('set-code', 'Pay\PaymentController@setСode')->name('set_code_home');
+    Route::post('give-thanks', 'HomeController@giveThanks')->name('give_thanks');
     
     Route::group(['middlewars' => 'guest'], function(){
         Route::get('registration', 'Auth\RegisterController@showForm')->name('registration');
@@ -168,9 +166,7 @@ Route::group(['prefix' => '{lang}', 'middleware' => ['lang', 'web']], function()
              
             Route::get('enrollment', 'EnrollmentController@index')->name('enrollment');
             Route::get('ballance', 'BallanceController@index')->name('ballance'); 
-            
-            Route::get('change-password', 'ProfileController@changePass')->name('change_pass');
-            Route::post('change-password', 'ProfileController@savePassword')->name('save_new_password'); 
+             
         });
     });
       

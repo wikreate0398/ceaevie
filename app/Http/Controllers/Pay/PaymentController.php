@@ -23,7 +23,7 @@ class PaymentController extends Controller
 	public function setСode(Request $request)
 	{   sleep(2);
 		
-		$code = $this->prepareCode($request->code); 
+		$code = prepareCode($request->code); 
 
 		$getQr = QrCode::where('code', $code)->first();
 
@@ -33,16 +33,7 @@ class PaymentController extends Controller
 		}
 
 		return \JsonResponse::success(['redirect' => route('payment', ['lang' => lang(), 'code' => $code])], false);
-	}
-
-	private function prepareCode($code)
-	{	
-		if (!strpos($code, '-') && strlen($code) >= 4) 
-		{
-			$code = substr($code, 0, 3) . '-' . substr($code, 3, 4);
-		}
-		return $code;
-	}
+	} 
 
 	public function payment($lang, $code)
 	{ 

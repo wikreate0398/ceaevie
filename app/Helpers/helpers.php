@@ -27,6 +27,14 @@ function savePercent($retail, $price)
     return percentFormat(100 - (($price/100)*$retail));
 }
 
+function prepareCode($code) {   
+    if (!strpos($code, '-') && strlen($code) >= 4) 
+    {
+        $code = substr($code, 0, 3) . '-' . substr($code, 3, 4);
+    }
+    return $code;
+}
+
 function getAppUrl($subdomain = false, $path = ''){
     $pre = 'http://';
     if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') { 
