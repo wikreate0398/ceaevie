@@ -26,7 +26,10 @@ class VisaPayment extends PaymentService implements PaymentInterface
 
 	private $description;
 
-	function __construct() {}
+	function __construct() 
+	{
+		parent::__construct();
+	}
 
 	public function amount($amount)
 	{
