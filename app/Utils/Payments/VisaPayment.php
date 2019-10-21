@@ -16,47 +16,21 @@ class VisaPayment extends PaymentService implements PaymentInterface
 		'production' => 'Ef9tqLRSZ3PsNAsb'
 	]; 
 	
-	private $currency = 'RUB';
-
-	private $amount;
-
-	private $orderId;
-
-	private $tranId;
-
-	private $description;
-
+	private $currency = 'RUB'; 
+  
 	function __construct() 
 	{
 		parent::__construct();
 	}
-
-	public function amount($amount)
-	{
-		$this->amount = $amount;
-		return $this;
-	}
-
-	public function orderId($orderId)
-	{
-		$this->orderId = $orderId;
-		return $this;
-	}
-
-	public function tranId($tranId)
+ 
+	public function setTranId($tranId)
 	{
 		$this->tranId = $tranId;
 		return $this;
-	} 
-
-	public function description($description)
-	{
-		$this->description = $description;
-		return $this;
-	}
+	}  
 
 	public function getToken()
-	{   
+	{    
 		$xmlData = $this->makeRequest([
 			'serviceId'   => $this->serviceId[$this->mode],
 			'orderId'     => $this->orderId,
@@ -69,7 +43,7 @@ class VisaPayment extends PaymentService implements PaymentInterface
 				'cancel_url'  =>  route('visa_callback', ['type' => 'cancel']),
 				'account_id'  =>  route('visa_callback', ['type' => 'account_id'])
 			])
-		], 'token');
+		], 'token');   
  
 		if(@$xmlData->success != 'true' or !@$xmlData->token)
 		{
@@ -79,11 +53,50 @@ class VisaPayment extends PaymentService implements PaymentInterface
 		return $this->serviceHostname . 'webblock/?token=' . $xmlData->token; 
 	}
 
-	private function makeRequest($arrayRequest, $requestType)
+	public function pay()
+	{   
+		$exp     = explode('/', prepareExpiryDate($this->cardCredentials['expiry_date'])); 
+		$xmlData = $this->makeRequest([
+			'serviceId'   => $this->serviceId[$this->mode],
+			'cardNumber'  => $this->cardCredentials['number'],
+			'expMonth'    => @$exp[0],
+			'expYear'     => @$exp[1],
+			'cardHolder'  => $this->cardCredentials['name'],
+			'cvc'         => $this->cardCredentials['cvc'],
+			'orderId'     => $this->orderId,
+			'amount'      => 1,
+			'currency'    => $this->currency, 
+			'description' => $this->description,
+			'customFields' => 'IP='. base64_encode(\Request::getClientIp(true)) .';'
+		], 'pay');  
+ 
+		$this->log($xmlData);
+
+		if (in_array($xmlData->success, ['false', 'fail'])) 
+	 	{
+	 		throw new \Exception("Ошибка оплаты, попробуйте позже"); 
+	 	}
+
+	 	return $xmlData;
+	}
+
+	private function log($xmlData)
 	{
+		$this->logModel->create([
+			'order_rand'   => $this->orderId,
+			'payment_mode' => $this->mode,
+			'flag'         => @$xmlData->success,
+			'err_code'     => @$xmlData->errCode,
+			'err_message'  => @$xmlData->errMessage,
+			'log'          => json_encode($xmlData)
+		]);
+	}
+
+	private function makeRequest($arrayRequest, $requestType)
+	{ 
 		$body      = http_build_query($arrayRequest);
 		$signature = $this->getSignature($body, $this->secretKey[$this->mode]);
-
+ 
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $this->serviceHostname . $requestType);
 		curl_setopt($ch, CURLOPT_POST, 1);
@@ -91,8 +104,8 @@ class VisaPayment extends PaymentService implements PaymentInterface
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); 
 		curl_setopt($ch, CURLOPT_HTTPHEADER, ['signature:'.$signature]);
 
-		$server_output = curl_exec ($ch);
-		curl_close ($ch);
+		$server_output = curl_exec($ch); 
+		curl_close ($ch); 
  
 		return simplexml_load_string($server_output); 
 	}

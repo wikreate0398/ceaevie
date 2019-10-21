@@ -35,6 +35,14 @@ function prepareCode($code) {
     return $code;
 }
 
+function prepareExpiryDate($str){
+    if (!strpos($str, '/') && strlen($str) >= 4) 
+    {
+        $str = substr($str, 0, 2) . '/' . substr($str, 2, 4);
+    }
+    return $str;
+}
+
 function getAppUrl($subdomain = false, $path = ''){
     $pre = 'http://';
     if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') { 

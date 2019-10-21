@@ -56,12 +56,39 @@ class PaymentController extends Controller
 
     	\DB::commit();
     	try {
-    		$tokenUrl = $this->makePayment($request->payment, $order);
-    		return \JsonResponse::success(['redirect' => $tokenUrl]);  
+            if (!empty($this->paymentServices[$order->id_payment])) { 
+
+                $paymentClass = new $this->paymentServices[$order->id_payment]; 
+
+                $paymentClass->setCardCredentials($request->card)
+                             ->setOrderId($order->rand)
+                             ->setAmount(toFloat($order->amount))
+                             ->setDescription('Чаевые официанту ' . $order->user->name);
+
+                $data = $paymentClass->pay();  
+  
+                // save payment data 
+                $order->status         = $data->success;
+                $order->id_transaction = $data->tranId;
+                $order->save(); 
+ 
+                return \JsonResponse::success(['redirect' => route('visa-callback', ['lang' => lang()])->with('payment_msg', $data->success)]);
+            } 
+            else
+            {
+                throw new \Exception("Данные метод оплаты не работает. Попробуйте оплатить с помощью VISA"); 
+            } 
     	} catch (\Exception $e) {
     		\DB::rollback();
     		return \JsonResponse::error(['messages' => $e->getMessage()]);
     	}
+    }
+
+    public function visa_payment()
+    {
+        $data     = QrCode::where('code', $code)->with('user')->firstOrFail();
+        $payments = PaymentType::orderByPageUp()->visible()->get();
+        return view('public.payment.make_payment', compact(['data', 'payments']));
     }
 
     public function visaCallback(Request $request)
@@ -84,9 +111,9 @@ class PaymentController extends Controller
                 break;
             
             default:
-                $message = 'Оплата пошла успешна'; 
+                $message = @request()->session()->get('flash_message'); 
                 break;
-        }
+        } 
  
         $lang = lang();
         return view('public.payment.message', compact(['message', 'lang']));
@@ -104,9 +131,9 @@ class PaymentController extends Controller
 
     private function checkFormData($request)
     { 
-    	if (!$request->payment or !$request->price or !$request->code) 
+    	if (!$request->payment or !$request->price or !$request->code or !$request->card['name'] or !$request->card['number'] or !$request->card['expiry_date'] or !$request->card['cvc']) 
     	{ 
-    		throw new \Exception("Укажите сумму и метод оплаты"); 
+    		throw new \Exception("Укажите все обязательные поля"); 
     	}
  
 		if (!QrCode::where('code', $request->code)->count() or !PaymentType::visible()->whereId($request->payment)->count()) 
@@ -115,20 +142,5 @@ class PaymentController extends Controller
     	} 
     } 
 
-    private function makePayment($idPayment, $order)
-    {
-    	if (!empty($this->paymentServices[$idPayment])) {
-    		$paymentClass = new $this->paymentServices[$idPayment]; 
 
-    		$paymentClass->orderId($order->rand)
-    		             ->amount(toFloat($order->amount))
-    		             ->description('Чаевые официанту');
-
-  			return $paymentClass->getToken();           
-    	}
-    	else
-    	{
-    		throw new \Exception("Данные метод оплаты не работает. Попробуйте оплатить с помощью VISA"); 
-    	}
-    } 
 }

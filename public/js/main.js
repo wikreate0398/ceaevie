@@ -34,7 +34,7 @@ function scrollToBlock(id){
     }, 1000);
 }
 
-function changeForms(from, to){
+function toggleBlocks(from, to){
     $(from).hide();
     $(to).show();
 }
@@ -49,6 +49,10 @@ function inputMask(){
         autoGroup: true,
         allowMinus: false  
     });
+
+    $('#ExpiryDate').inputmask('99/99');
+    $('#CreditCardNumber').inputmask('9999 9999 9999 9999');
+    $('#SecurityCode').inputmask('999'); 
 }
 
 function changeByKeyup(){

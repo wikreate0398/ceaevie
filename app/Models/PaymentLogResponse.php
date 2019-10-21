@@ -11,18 +11,11 @@ class PaymentLogResponse extends Model
 	protected $table = 'payment_log_response';
 
 	protected $fillable = [
-        'payment_type', 
-        'type',
-        'log'
-    ];
-
-	public function background()
-    {
-        return $this->hasOne('App\Models\BackgroundColor', 'id', 'id_background');
-    }
-
-    public function user()
-    {
-        return $this->hasOne('App\Models\User', 'id', 'id_user');
-    } 
+        'order_rand',
+        'flag',
+        'err_code',
+        'err_message', 
+        'log',
+        'payment_mode'
+    ]; 
 }

@@ -45,7 +45,7 @@ var Ajax = function() {
                 } else {
  
                     if($(form).closest('#forgot-inner').length > 0){
-                        changeForms('#forgot-inner', '#auth-inner');
+                        toggleBlocks('#forgot-inner', '#auth-inner');
                     }
 
                     if ($(form).attr('data-redirect')) {
@@ -91,7 +91,7 @@ var Ajax = function() {
                 $(form).removeClass('preloader__form');
                 $(form).remove('.preloader__form_content');
 
-                if (typeof myfunc !== 'undefined' && $.isFunction(myfinputMaskunc)) {
+                if (typeof inputMask !== 'undefined' && $.isFunction(inputMask)) {
                     inputMask();
                 } 
             }

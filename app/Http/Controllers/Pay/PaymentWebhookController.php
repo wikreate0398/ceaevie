@@ -22,12 +22,11 @@ class PaymentWebhookController extends Controller
 			{
 
 				if ($request->Event == 'Payment' && $request->Status == 'BLOCKED') 
-				{
-
+				{ 
 					$paymentClass = new VisaPayment; 
-		    		$data = $paymentClass->tranId($request->Transaction_Id)
-		    		             ->amount(toFloat($tip->amount))
-		    		             ->makeCharge();
+		    		$data = $paymentClass->setTranId($request->Transaction_Id)
+		    		                     ->setAmount(toFloat($tip->amount))
+		    		                     ->makeCharge();
 
 		    		$this->log(json_encode($data)); 
 				}
@@ -52,9 +51,9 @@ class PaymentWebhookController extends Controller
 
 	private function log($data)
 	{
-		PaymentLogResponse::create([
-			'payment_type' => 'visa',
-			'log'          => json_encode($data)
-		]);
+		// PaymentLogResponse::create([
+		// 	'payment_type' => 'visa',
+		// 	'log'          => json_encode($data)
+		// ]);
 	}
 }

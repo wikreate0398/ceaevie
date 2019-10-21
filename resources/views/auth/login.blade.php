@@ -45,7 +45,7 @@
                       </div>
                       <div class="d-flex justify-content-between align-items-center">
                         <a href="{{ route('registration', ['lang' => $lang]) }}" class="auth-link text-black">Регистрация</a>
-                        <a href="#" onclick="changeForms('#auth-inner', '#forgot-inner');" class="auth-link text-black">Забыли пароль?</a>
+                        <a href="#" onclick="toggleBlocks('#auth-inner', '#forgot-inner');" class="auth-link text-black">Забыли пароль?</a>
                       </div>
                       <div class="mt-4">
                         <button type="submit" class="btn btn-gradient-info btn-rounded btn-block" style="min-height: 55px">
@@ -64,7 +64,7 @@
                       </div>
                      
                       <div class="d-flex justify-content-between align-items-center">
-                        <a href="#" onclick="changeForms('#forgot-inner', '#auth-inner')" class="auth-link text-black"><i class="fa fa-angle-left" aria-hidden="true"></i> Назад</a>
+                        <a href="#" onclick="toggleBlocks('#forgot-inner', '#auth-inner')" class="auth-link text-black"><i class="fa fa-angle-left" aria-hidden="true"></i> Назад</a>
                       </div>
                       <div class="mt-4">
                         <button type="submit" class="btn btn-gradient-info btn-rounded btn-block" style="min-height: 55px">
