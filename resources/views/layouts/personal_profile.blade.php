@@ -18,9 +18,9 @@
 	<!-- inject:css -->
 	<!-- endinject -->
 	<!-- Layout styles -->
-	<link rel="stylesheet" href="{{ asset('profile_theme') }}/assets/css/style.css">
-	<link rel="stylesheet" href="{{ asset('profile_theme') }}/assets/css/main.css">
-	<link rel="stylesheet" href="/css/loader.css?v={{ time() }}">
+	<link rel="stylesheet" href="{{ asset('profile_theme') }}/assets/css/style.css?v={{ time() }}">
+	<link rel="stylesheet" href="{{ asset('profile_theme') }}/assets/css/main.css?v={{ time() }}">
+	<link rel="stylesheet" href="/css/loader.css">
 	<!-- End layout styles -->
 	<link rel="shortcut icon" href="/fav.ico"> 
 </head>
