@@ -83,10 +83,8 @@ class PaymentController extends Controller
 
     public function visaWebPay($lang, $orderRand)
     {
-        $order = Tips::where('rand', $orderRand)->firstOrFail();
-        
-        $paymentClass = new VisaPayment; 
-
+        $order        = Tips::where('rand', $orderRand)->firstOrFail(); 
+        $paymentClass = new VisaPayment;  
         $paymentClass->setOrderId($order->rand)
                      ->setAmount(toFloat($order->amount))
                      ->setDescription('Чаевые официанту ' . $order->user->name);
