@@ -20,7 +20,8 @@ class Tips extends Model
         'amount',
         'withdraw',
         'status',
-        'id_transaction'
+        'id_transaction',
+        'rrn'
     ];  
 
     protected $casts = [

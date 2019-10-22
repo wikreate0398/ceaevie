@@ -28,10 +28,11 @@ class PaymentWebhookController extends Controller
 		    		                     ->setAmount(toFloat($tip->amount))
 		    		                     ->makeCharge();
 
-		    		$this->log(json_encode($data)); 
+		    		$this->log($data); 
 				}
 
 				$tip->status         = $request->Status;
+				$tip->rrn            = @$request->RRN;
 				$tip->id_transaction = $request->Transaction_Id;
 
 				if (!empty($request->NewAmount)) 
@@ -52,11 +53,9 @@ class PaymentWebhookController extends Controller
 	private function log($data)
 	{
 		PaymentLogResponse::create([
-			'order_rand'   => $data->Order_Id,
+			'order_rand'   => @$data->Order_Id,
 			'payment_mode' => !empty($data->IsTest) ? 'production' : 'dev',
-			'flag'         => @$data->success,
-			'err_code'     => @$data->errCode,
-			'err_message'  => @$data->errMessage,
+			'flag'         => @$data->Status, 
 			'log'          => json_encode($data)
 		]);
 	}
