@@ -382,7 +382,7 @@ form label{
 	margin-bottom: 0;
 	white-space: nowrap;
 }
-form button.sort-transaction
+form a.sort-transaction
 {
 	background-color: transparent;
 	border: none;
@@ -393,8 +393,12 @@ form button.sort-transaction
 	margin: 0 30px;
 	white-space: nowrap;
 }
-form button.sort-transaction:hover{
+form a.sort-transaction:hover{
 	opacity: 0.8;
+}
+
+.active-sort{
+	color: #cf1c24 !important;
 }
 
 table.history{
@@ -913,5 +917,5 @@ footer {}
 }
 
 .open-tr{
-	background:#ededed !important;
+	background: #ededed !important;
 }

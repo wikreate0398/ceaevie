@@ -1,6 +1,9 @@
 @extends('layouts.personal_profile')
 
 @section('content')
+    <script>
+        var pageUrl = '{{ route('enrollment', ['lang' => $lang]) }}';
+    </script>
     <div class="page-header">
         <h3 class="page-title">
     <span
@@ -12,7 +15,7 @@
     @include('profile.utils.cards')
     
     @if($tips->count())
-        <form action="">
+        <form action="{{ route('enrollment', ['lang' => $lang]) }}">
             <div class="row">
                 <div class="col-md-12">
                     <h4 class="title">Отобразить платежи за период</h4>
@@ -21,7 +24,10 @@
                 <div class="col-md-4 grid-margin">
                     <div class="input-date">
                         <input type="text" class="datepicker"
-                               placeholder="mm/dd/yy">
+                               placeholder="dd.mm.yy"
+                               name="from"
+                               value="{{ request()->from }}"
+                               autocomplete="off">
                         <img src="{{ asset('profile_theme') }}/assets/images/calendar.png"
                              alt="calendar">
                     </div>
@@ -29,7 +35,10 @@
                 <div class="col-md-4 grid-margin">
                     <div class="input-date">
                         <input type="text" class="datepicker"
-                               placeholder="mm/dd/yy">
+                               placeholder="dd.mm.yy"
+                               name="to"
+                               value="{{ request()->to }}"
+                               autocomplete="off">
                         <img src="{{ asset('profile_theme') }}/assets/images/calendar.png"
                              alt="calendar">
                     </div>
@@ -50,32 +59,48 @@
                         <label for="itemsPerPageSelect">Показывать
                             по</label>
                         <select class="form-control form-control-lg per-page"
-                                id="itemsPerPageSelect">
-                            <option value="10" selected>10</option>
-                            <option value="20">20</option>
-                            <option value="50">50</option>
+                                id="itemsPerPageSelect" onchange="window.location= pageUrl + '?per_page=' + this.value">
+                            <option value="10" {{ (session()->get('per_page') == 10) ? 'selected' : '' }}>10</option>
+                            <option value="20" {{ (session()->get('per_page') == 20) ? 'selected' : '' }}>20</option>
+                            <option value="50" {{ (session()->get('per_page') == 50) ? 'selected' : '' }}>50</option>
                         </select>
                         
-                        <button type="button" class="sort-transaction">За весь
+                        <a href="{{ route('enrollment', ['lang' => $lang, 'period' => 'whole']) }}" class="sort-transaction {{ (request()->period == 'whole') ? 'active-sort' : '' }}">За весь
                             период
-                        </button>
-                        <button type="button" class="sort-transaction">За
+                        </a>
+                        <a href="{{ route('enrollment', ['lang' => $lang, 'period' => 'week']) }}" class="sort-transaction {{ (request()->period == 'week') ? 'active-sort' : '' }}">За
                             неделю
-                        </button>
-                        <button type="button" class="sort-transaction">За
+                        </a>
+                        <a href="{{ route('enrollment', ['lang' => $lang, 'period' => 'month']) }}" class="sort-transaction {{ (request()->period == 'month') ? 'active-sort' : '' }}">За
                             месяц
-                        </button>
+                        </a>
                     </div>
-                
                 </div>
                 <div class="col-md-4">
-                    <div class="form-group">
+                    <div class="form-group" style="justify-content: space-between; display: flex;">
                         <input type="text" class="form-control"
-                               placeholder="Поиск по номеру транзакции"/>
+                               id="rand" 
+                               placeholder="Поиск по номеру транзакции"
+                               value="{{ request()->rand }}" 
+                               autocomplete="off" />
+                        <button type="button" 
+                                class="btn btn-gradient-info" style="margin-left: 10px;"
+                                onclick="window.location= pageUrl + '?rand=' + getElementById('rand').value">
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                        </button>
                     </div>
                 </div>
             </div>
         </form>
+
+        @if(request()->from or request()->to or request()->rand)
+            <div class="row">
+                <div class="col-md-12">
+                    <a href="{{ route('enrollment', ['lang' => $lang]) }}" class="btn btn-gradient-danger">Сбросить</a>
+                </div>
+            </div>
+        @endif
+         
     @endif
     
     <div class="row">
@@ -108,24 +133,11 @@
                 </table>
             </div> 
         
-            <div class="col-md-6 align-center">
-
+            <div class="col-md-6 align-center"> 
                 <span>Показано  {{ $tips->count() }} из {{ $tips->total() }}</span>
             </div>
-            <div class="col-md-6">
-                <!-- <ul class="pages">
-                    <li>
-                        <a href="#"><i class="mdi mdi-chevron-left"></i></a>
-                    </li>
-                    <li class="active"><a href="#1">1</a></li>
-                    <li><a href="#2">2</a></li>
-                    <li>
-                        <a href="#"><i class="mdi mdi-chevron-right"></i></a>
-                    </li>
-                </ul> -->
-
-                {{ $tips->links() }}  
-
+            <div class="col-md-6">  
+                {{ $tips->appends(request()->input())->links() }} 
             </div>
         @else
             <div class="col-12">
