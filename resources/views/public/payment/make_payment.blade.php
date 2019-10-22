@@ -82,11 +82,11 @@
                             </div>
 
                             <div class="row make-payment-btn text-center" style="margin-top: 50px; display: none;">
-                                <div class="col-md-5">
+                                <!-- <div class="col-md-5">
                                     <button type="button" class="btn btn-blue btn-v2 btn-back" onclick="toggleBlocks('.card-info, .btn-pay, .btn-back', '.btn-next, .payment-info');">Назад</button> 
 
                                     <button type="button" class="btn btn-blue btn-v2 btn-next" onclick="toggleBlocks('.btn-next, .payment-info', '.btn-back, .card-info, .btn-pay');">Далее</button> 
-                                </div>
+                                </div> -->
                                 <div class="col-md-7 btn-pay">
                                     <button type="submit" class="btn btn-blue">Оплатить</button>
                                 </div>
@@ -108,9 +108,9 @@
 
                         function checkPaymentForm(){
                             var idPayment = $('#payment_type').val();
-                            if($('#payment_type').val() && $('#priceInput').val()){ 
+                            if($('#payment_type').val() && $('#priceInput').val()){  
                                 $('.make-payment-btn').show();
-                                toggleBlocks('.btn-back, .btn-pay', '.btn-next');
+                                //toggleBlocks('.btn-back, .btn-pay', '.btn-next');
                             }else{
                                 $('.make-payment-btn').hide();
                             }

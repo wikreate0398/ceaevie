@@ -29,6 +29,11 @@ class VisaPayment extends PaymentService implements PaymentInterface
 		return $this;
 	}  
 
+	public function getServiceHostname()
+	{
+		return $this->serviceHostname;
+	}
+
 	public function getToken()
 	{    
 		$xmlData = $this->makeRequest([
@@ -64,11 +69,11 @@ class VisaPayment extends PaymentService implements PaymentInterface
 			'cardHolder'  => $this->cardCredentials['name'],
 			'cvc'         => $this->cardCredentials['cvc'],
 			'orderId'     => $this->orderId,
-			'amount'      => 1,
+			'amount'      => $this->amount,
 			'currency'    => $this->currency, 
 			'description' => $this->description,
 			'customFields' => 'IP='. base64_encode(\Request::getClientIp(true)) .';'
-		], 'pay');  
+		], 'pay');   
  
 		$this->log($xmlData);
 
@@ -78,6 +83,24 @@ class VisaPayment extends PaymentService implements PaymentInterface
 	 	}
 
 	 	return $xmlData;
+	}
+
+	public function webPay()
+	{     
+	 	return [
+			'serviceId'   => $this->serviceId[$this->mode], 
+			'orderId'     => $this->orderId,
+			'amount'      => $this->amount,
+			'currency'    => $this->currency, 
+			'description' => $this->description,
+			'customFields' => 'IP='. base64_encode(\Request::getClientIp(true)) .';',
+			'extra'       => json_encode([
+				'success_url' => route('visa_callback', ['type' => 'success']),
+				'decline_url' =>  route('visa_callback', ['type' => 'decline']),
+				'cancel_url'  =>  route('visa_callback', ['type' => 'cancel']),
+				'account_id'  =>  route('visa_callback', ['type' => 'account_id'])
+			])
+		];
 	}
 
 	private function log($xmlData)
@@ -105,7 +128,7 @@ class VisaPayment extends PaymentService implements PaymentInterface
 		curl_setopt($ch, CURLOPT_HTTPHEADER, ['signature:'.$signature]);
 
 		$server_output = curl_exec($ch); 
-		curl_close ($ch); 
+		curl_close ($ch);  
  
 		return simplexml_load_string($server_output); 
 	}

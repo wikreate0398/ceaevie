@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Pay;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use GuzzleHttp\Client;
 use App\Utils\Payments\VisaPayment;
 use App\Models\QrCode;
 use App\Models\PaymentType; 
@@ -56,23 +57,19 @@ class PaymentController extends Controller
 
     	\DB::commit();
     	try {
-            if (!empty($this->paymentServices[$order->id_payment])) { 
+            if ($order->id_payment == 1) { 
 
-                $paymentClass = new $this->paymentServices[$order->id_payment]; 
+                // $paymentClass = new $this->paymentServices[$order->id_payment]; 
 
-                $paymentClass->setCardCredentials($request->card)
-                             ->setOrderId($order->rand)
-                             ->setAmount(toFloat($order->amount))
-                             ->setDescription('Чаевые официанту ' . $order->user->name);
+                // $paymentClass->setOrderId($order->rand)
+                //              ->setAmount(toFloat($order->amount))
+                //              ->setDescription('Чаевые официанту ' . $order->user->name);
 
-                $data = $paymentClass->pay();  
-  
-                // save payment data 
-                $order->status         = $data->success;
-                $order->id_transaction = $data->tranId;
-                $order->save(); 
- 
-                return \JsonResponse::success(['redirect' => route('visa-callback', ['lang' => lang()])->with('payment_msg', $data->success)]);
+                // $data = $paymentClass->webpay();  
+    
+                return \JsonResponse::success([
+                    'redirect' => route('visa_webpay', ['lang' => lang(), 'orderRand' => $order->rand])
+                ]);
             } 
             else
             {
@@ -84,11 +81,20 @@ class PaymentController extends Controller
     	}
     }
 
-    public function visa_payment()
+    public function visaWebPay($lang, $orderRand)
     {
-        $data     = QrCode::where('code', $code)->with('user')->firstOrFail();
-        $payments = PaymentType::orderByPageUp()->visible()->get();
-        return view('public.payment.make_payment', compact(['data', 'payments']));
+        $order = Tips::where('rand', $orderRand)->firstOrFail();
+        
+        $paymentClass = new VisaPayment; 
+
+        $paymentClass->setOrderId($order->rand)
+                     ->setAmount(toFloat($order->amount))
+                     ->setDescription('Чаевые официанту ' . $order->user->name);
+
+        $paymentData = $paymentClass->webpay();  
+        $link = $paymentClass->getServiceHostname() . 'webpay';
+ 
+        return view('public.payment.visa_webpay', compact(['paymentData', 'link']));
     }
 
     public function visaCallback(Request $request)
@@ -131,7 +137,7 @@ class PaymentController extends Controller
 
     private function checkFormData($request)
     { 
-    	if (!$request->payment or !$request->price or !$request->code or !$request->card['name'] or !$request->card['number'] or !$request->card['expiry_date'] or !$request->card['cvc']) 
+    	if (!$request->payment or !$request->price or !$request->code) 
     	{ 
     		throw new \Exception("Укажите все обязательные поля"); 
     	}

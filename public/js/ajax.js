@@ -55,6 +55,10 @@ var Ajax = function() {
                             window.location = jsonResponse.redirect;
                         }
 
+                        if (jsonResponse.open_window !== undefined) {
+                            window.open(jsonResponse.open_window);
+                        }
+
                         if (jsonResponse.reload == true) {
                             if(jsonResponse.messages !== undefined){
                                 Notify.setStatus('success').setMessage(jsonResponse.messages).show();
