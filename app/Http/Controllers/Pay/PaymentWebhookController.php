@@ -53,9 +53,9 @@ class PaymentWebhookController extends Controller
 	private function log($data)
 	{
 		PaymentLogResponse::create([
-			'order_rand'   => @$data->Order_Id,
+			'order_rand'   => !empty($data->Order_Id) ? $data->Order_Id : '',
 			'payment_mode' => !empty($data->IsTest) ? 'production' : 'dev',
-			'flag'         => @$data->Status, 
+			'flag'         => !empty($data->Status) ? $data->Status : '', 
 			'log'          => json_encode($data)
 		]);
 	}

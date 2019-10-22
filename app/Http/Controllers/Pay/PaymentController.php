@@ -57,16 +57,8 @@ class PaymentController extends Controller
 
     	\DB::commit();
     	try {
-            if ($order->id_payment == 1) { 
-
-                // $paymentClass = new $this->paymentServices[$order->id_payment]; 
-
-                // $paymentClass->setOrderId($order->rand)
-                //              ->setAmount(toFloat($order->amount))
-                //              ->setDescription('Чаевые официанту ' . $order->user->name);
-
-                // $data = $paymentClass->webpay();  
-    
+            if ($order->id_payment == 1)
+            {
                 return \JsonResponse::success([
                     'redirect' => route('visa_webpay', ['lang' => lang(), 'orderRand' => $order->rand])
                 ]);

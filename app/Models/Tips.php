@@ -21,11 +21,13 @@ class Tips extends Model
         'withdraw',
         'status',
         'id_transaction',
-        'rrn'
+        'rrn',
+        'open'
     ];  
 
     protected $casts = [
-        'withdraw' => 'integer'
+        'withdraw' => 'integer',
+        'open'     => 'integer'
     ];
 
     public function scopeConfirmed($query, $lasDays = false)

@@ -451,9 +451,10 @@ ul.pages li{
 ul.pages li:last-of-type{
 	border: none;
 }
-ul.pages li:hover a, .history-page ul.pages li.active a{
-	color: #fff;
-	background-color: #219fe0;
+ul.pages li:hover a, .history-page ul.pages li.active a, ul.pagination li.active span{
+	color: #fff !important;
+	background-color: #219fe0 !important;
+	border: 1px solid #219fe0 !important;
 }
 ul.pages li a{
 	display: block;
@@ -462,6 +463,17 @@ ul.pages li a{
 	color: #151515;
 	text-decoration: none;
 	padding: 10px 15px;
+}
+
+ul.pagination{  
+	justify-content: flex-end;
+}
+ul.pagination li a, ul.pagination li span{
+	font-size: 16px !important;
+	background-color: #ffffff !important;
+	color: #151515 !important;
+	text-decoration: none !important; 
+	padding: 10px 15px !important; 
 }
 
 /*******************   profile-page  ********************/
@@ -882,4 +894,24 @@ footer {}
     text-transform: uppercase;
     font-size: 9px;
     cursor: pointer;
+}
+
+.sidebar .nav .nav-item{
+	padding: 0 1.25rem;
+}
+
+.num-span{
+	background-color: #cf1c24;
+	width: 20px;
+	height: 20px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 100%; 
+	margin-left: 10px;
+	color: #fff;
+}
+
+.open-tr{
+	background:#ededed !important;
 }

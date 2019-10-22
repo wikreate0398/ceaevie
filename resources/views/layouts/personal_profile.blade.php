@@ -83,10 +83,16 @@
 				</li> 
 				<li class="nav-item">
 					<a class="nav-link" href="{{ route('enrollment', ['lang' => $lang]) }}">
-						<span class="menu-title">История зачислений</span>
+						<span class="menu-title">
+							История зачислений  
+						</span>
+						@php $count = \App\Models\Tips::confirmed()->where('open', '1')->count(); @endphp
+						@if($count)
+							<span class="num-span">{{ $count }}</span>
+						@endif
 						<i class="mdi mdi-chart-line menu-icon"></i>
 					</a>
-				</li>
+				</li> 
 			<!-- 	<li class="nav-item">
 					<a class="nav-link" href="{{ route('ballance', ['lang' => $lang]) }}">
 						<span class="menu-title">Мой баланс</span>

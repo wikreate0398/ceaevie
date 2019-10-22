@@ -95,7 +95,7 @@
                     </thead>
                     <tbody>
                         @foreach($tips as $tip)
-                            <tr>
+                            <tr class="{{ $tip->open ? 'open-tr' : '' }}">
                                 <td>{{ $tip->rand }}</td>
                                 <td>{{ $tip->created_at->format('d.m.Y H:i') }}</td>
                                 <td>{{ $tip->amount }} Р</td>
