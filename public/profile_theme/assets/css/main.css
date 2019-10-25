@@ -92,6 +92,10 @@ p.page-description{
 	color: #cf1c24;
 }
 
+.sidebar .nav .nav-item .nav-link i.menu-icon{
+	color: #a9a9a9;
+}
+
 /*******************   page config  ********************/
 .page-body-wrapper{
 	min-height: calc(100vh - 100px);

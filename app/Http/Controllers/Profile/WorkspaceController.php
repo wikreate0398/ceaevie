@@ -49,12 +49,13 @@ class WorkspaceController extends Controller
 
     private function genereateQrCode($code)
     { 
-        $qrImage = "qrcode_{$code}.png";
+        $qrImage = "qrcode_{$code}.svg";
 
         $url = getAppUrl('pay') . '/ru/make-payment/' . $code;
-    	\QrCode::format('png')
-               ->size(500)
-               ->margin(0)
+    	\QrCode::format('svg')
+               ->size(500)  
+               ->margin(0) 
+               
                ->generate($url, public_path("uploads/qr_codes/{$qrImage}"));
 
         return $qrImage;

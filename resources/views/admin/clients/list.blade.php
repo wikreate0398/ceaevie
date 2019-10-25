@@ -20,37 +20,13 @@
 							<div class="form-body" style="padding-top: 20px;"> 
 								<div class="tab-content">
 									@include('admin.utils.input', ['label' => 'Имя', 'req' => true, 'name' => 'name'])
+									@include('admin.utils.input', ['label' => 'Фамилия', 'req' => true, 'name' => 'lastname'])
 									@include('admin.utils.input', ['label' => 'Телефон', 'name' => 'phone'])
 									@include('admin.utils.input', ['label' => 'E-mail', 'req' => true, 'name' => 'email'])
-									@include('admin.utils.input', ['label' => 'Название компании', 'req' => true, 'name' => 'company']) 
-									<div class="form-group">
-										<label class="col-md-12 control-label">Язык: <span class="req">*</span>
-										</label>
-										<div class="col-md-12">
-											<select class="form-control" name="lang">
-												<option value="0">Выбрать...</option>
-												@foreach(Language::get() as $key => $language)
-													<option value="{{ $language['short'] }}">{{ $language["short"] }}</option>
-												@endforeach
-											</select>
-										</div>
-									</div>
+									@include('admin.utils.input', ['label' => 'Процент', 'name' => 'fee'])  
 									@include('admin.utils.image', ['inputName' => 'image'])
 									@include('admin.utils.input', ['label' => 'Пароль', 'req' => true, 'name' => 'password', 'type' => 'password']) 
 									@include('admin.utils.input', ['label' => 'Повторите Пароль', 'req' => true, 'name' => 'repeat_password', 'type' => 'password']) 
-
-									<div class="form-group"> 
-                                        <div class="col-md-12">
-                                            <div class="input-group">
-                                                <div class="icheck-list">
-                                                    <label>
-                                                        <input type="checkbox" name="send_invite" class="icheck"> Отправить приглашение
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
 								</div>
 							<div class="form-actions">
 								<div class="btn-set pull-left"> 
@@ -86,9 +62,11 @@
 					<tbody>
 					<tr>
 						<th style="width:5%; text-align: center"><i class="fa fa-check-square" aria-hidden="true"></i></th>
-						<th class="nw">Имя</th>
-						<th style="width:85%;">E-mail</th>
-
+						<th class="nw">ФИО</th>
+						<th>E-mail</th>
+						<th>Телефон</th>
+						<th>Процент</th>
+						<th>Последний визит</th>
 						<th style="width:5%; text-align: center"><i class="fa fa-cogs" aria-hidden="true"></i></th>
 					</tr>
 					</tbody>
@@ -102,14 +80,15 @@
 									   data-off-text="<i class='fa fa-times'></i>"
 									   onchange="Ajax.buttonView(this, '{{ $table }}', '{{ $item["id"] }}', 'active')">
 							</td>
-							<td class="nw">{{ $item->name }}</td>
+							<td class="nw">{{ $item->name }} {{ $item->lastname }}</td>
 							<td>{{ $item->email }}</td>
+							<td>{{ $item->phone }}</td>
+							<td>{!! $item->fee ? '<label class="badge badge-danger">'.$item->fee.'</label>' : '--' !!}</td>
+							<td class="nw">{{ $item->last_entry ? $item->last_entry->format('d.m.Y H:i') : '' }}</td>
 							<td style="width: 5px; white-space: nowrap">
-								@if($item->finish_registration)
-									<a href="/{{ $method }}/{{ $item['id'] }}/autologin/" target="_blank" class="btn btn-primary btn-xs">
-										<i class="fa fa-sign-in" aria-hidden="true"></i>
-									</a>
-								@endif
+								<a href="/{{ $method }}/{{ $item['id'] }}/autologin/" target="_blank" class="btn btn-primary btn-xs">
+									<i class="fa fa-sign-in" aria-hidden="true"></i>
+								</a>
 								<a style="margin-left: 5px;" href="/{{ $method }}/{{ $item['id'] }}/edit/" class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
 								<a class="btn btn-danger btn-xs" data-toggle="modal" href="#deleteModal_{{ $table }}_{{ $item['id'] }}"><i class="fa fa-trash-o "></i></a>
 								<!-- Modal -->

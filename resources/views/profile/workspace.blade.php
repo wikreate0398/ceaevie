@@ -81,7 +81,8 @@
                         <div class="card-body">
                             <div class="created-qr" style="background-color:{{ $item->background->color }};">
                                 <img src="{{ asset('profile_theme') }}/assets/images/logo.png" alt="logo">
-                                <img src="/public/uploads/qr_codes/{{ $item->qr_code }}" alt="qr-code">
+                                <img src="/public/uploads/qr_codes/{{ $item->qr_code }}" class="qr-code-img" alt="qr-code">
+                                 
                                 <h5>{{ Auth::user()->name }} {{ Auth::user()->lastname }}</h5>
                                 <h2>{{ $item->code }}</h2>
                             </div>

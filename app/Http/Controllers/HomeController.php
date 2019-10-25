@@ -11,6 +11,7 @@ use App\Models\HowItWork;
 use App\Models\Whom;
 use App\Models\Advantage;
 use App\Models\QrCode;
+use App\Models\ContactUs;
 
 class HomeController extends Controller
 { 
@@ -41,6 +42,13 @@ class HomeController extends Controller
         {
             return \JsonResponse::error(['messages' => \Constant::get('REQ_FIELDS')]);
         }
+
+        ContactUs::create([
+            'name'    => $request->name,
+            'phone'   => $request->phone,
+            'message' => $request->message,
+            'id_user' => \Auth::check() ? \Auth::user()->id : ''
+        ]);
 
         Mail::to(\Constant::get('EMAIL'))->send(new MakeQuestion($request->name, $request->phone, $request->message));
 

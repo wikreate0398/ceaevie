@@ -30,7 +30,7 @@ class ClientsController extends Controller
     public function __construct() 
     {
         $this->model  = new User;
-        $this->method = config('admin.path') . '/' . $this->method;
+        $this->method = config('admin.path') . '/' . $this->method; 
     }
 
     /**
@@ -65,11 +65,15 @@ class ClientsController extends Controller
             return \JsonResponse::error(['messages' => $this->input]);
         }
 
+        if (User::whereEmail($request->email)->count()) 
+        {
+            return \JsonResponse::error(['messages' => 'Пользователь с таким имейлом уже существует']);
+        }
+
         $this->input['active'] = 1;
-        $this->input['confirm'] = 1;
-        $this->input['account_number'] = generateAccountNumber();
+        $this->input['confirm'] = 1; 
  
-        $id = $this->model->create($this->input)->id; 
+        $this->model->create($this->input)->id; 
 
         return \App\Utils\JsonResponse::success(['redirect' => route($this->redirectRoute)], trans('admin.save')); 
     }
@@ -87,7 +91,7 @@ class ClientsController extends Controller
     {
         $client = User::findOrFail($id);
         \Auth::guard('web')->login($client);
-        return redirect('/');
+        return redirect()->route('workspace', ['lang' => 'ru']);
     }
 
     public function update($id, Request $request)
@@ -125,7 +129,7 @@ class ClientsController extends Controller
         if($this->validation($input) != true)
         {
             return trans('admin.req_fields');
-        }
+        } 
 
         if(!empty($input['password']) or !empty($input['repeat_password']))
         {
@@ -137,6 +141,13 @@ class ClientsController extends Controller
             $input['password'] = bcrypt($input['password']);
         }else{
             unset($input['password']);
+        } 
+
+        $uploadImage = new UploadImage;
+        $image = $uploadImage->upload('image', $this->uploadFolder);
+
+        if (!empty($image)) {
+            $input['image'] = $image;
         } 
 
         return $input;

@@ -3,11 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Traits\OrderingTrait;
 use App\Models\Traits\PermisionTrait;
 
 class QrCode extends Model
 {
+    use SoftDeletes;
+    
 	public $timestamps = true;
 
 	protected $table = 'qr_codes';

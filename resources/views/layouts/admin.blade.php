@@ -175,21 +175,17 @@
                <?php if (!empty($value['view'])): ?> 
                   <?php 
                      $open='';
-                     if($key == 'messages')
+                     if($key == 'oficiant-profile')
                      {
-                        $open = \App\Models\Messages::where('open', '1')->count();
-                        if ($open) {
-                           $open = "<span class='badge badge-roundless badge-danger'>+{$open}</span>";
-                        } else{
-                           $open = '';
-                        }
-                     }elseif ($key == 'projects') {
-                        $open = \App\Models\Project\Projects::where('open', '1')->where('add_from_user', '1')->count();
-                        if ($open) {
-                           $open = "<span class='badge badge-roundless badge-danger'>+{$open}</span>";
-                        } else{
-                           $open = '';
-                        }
+                        $open = \App\Models\ContactUs::where('open', '1')->count(); 
+                     } elseif ($key == 'statistics') {
+                        $open = \App\Models\Tips::where('open_admin', '1')->count(); 
+                     }
+
+                     if ($open) {
+                        $open = "<span class='badge badge-roundless badge-danger'>+{$open}</span>";
+                     } else{
+                        $open = '';
                      }
                   ?>
                   <?php if (uri(2) == $key) { $active = 'active'; }else{ $active = ''; } ?>   
@@ -215,7 +211,7 @@
                               <li class="<?=$active?>">
                                  <a href="<?=$value2['link']?>">
                                     <?=$value2['name']?>
-                                    <?php if ($key2 == 'projects-list'): ?>
+                                    <?php if (in_array($key2, ['contact-us', 'enrollment'])): ?>
                                        <?=$open?> 
                                     <?php endif ?> 
                                  </a>

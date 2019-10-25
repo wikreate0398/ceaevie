@@ -1,7 +1,6 @@
 $(document).ready(function () {
 	$('.datepicker').datepicker({
-		format: 'dd.mm.yyyy',
-		defaultDate: +7
+    dateFormat: 'dd.mm.yy', 
 	});
 
 	$('a.confirm_link').click(function(e){  

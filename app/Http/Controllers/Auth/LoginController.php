@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\Models\User;
 
 class LoginController extends Controller
 {
@@ -58,6 +59,10 @@ class LoginController extends Controller
                     'active'   => 1,
                     'confirm'  => 1], false) == true)
             {
+                User::whereId(\Auth::id())->update([
+                    'last_entry' => date('Y-m-d H:i:s'), 
+                    'user_agent' => request()->server('HTTP_USER_AGENT')
+                ]);
                 return \JsonResponse::success(['redirect' => route('workspace', ['lang' => lang()])], false);
             }
             else

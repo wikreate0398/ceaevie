@@ -117,11 +117,20 @@ class PaymentController extends Controller
  
     private function makeOrder($request)
     {  
+        $qrCode      = QrCode::where('code', $request->code)->with('user')->first();
+
+        $fee         = $qrCode->user->fee ?: setting('fee');
+        $totalAmount = toFloat($request->price);
+        $amount      = withdrawFee($totalAmount, $fee);
+
     	return Tips::create([
-    		'id_user'    => QrCode::where('code', $request->code)->first()->id_user,
-    		'id_payment' => $request->payment,
-    		'rand'       => generate_id(7),
-    		'amount'     => toFloat($request->price)
+    		'id_user'      => QrCode::where('code', $request->code)->first()->id_user,
+    		'id_payment'   => $request->payment,
+            'id_qrcode'    => $qrCode->id,
+    		'rand'         => generate_id(7),
+    		'total_amount' => $totalAmount,
+            'amount'       => $amount,
+            'fee'          => $fee
     	])->id;
     }
 

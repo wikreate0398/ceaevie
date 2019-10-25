@@ -10,14 +10,19 @@ class EnrollmentController extends Controller
 { 
     public function index()
     {    
-    	$tips = Tips::confirmed()->filter()->orderBy('id', 'desc')->paginate(self::getPerPage()); 
+    	$tips = Tips::confirmed()
+                    ->where('id_user', \Auth::user()->id)
+                    ->filter()
+                    ->orderBy('id', 'desc')
+                    ->paginate(self::getPerPage());
+
     	self::closeOpenTips();
         return view('profile.enrollment', compact('tips'));
     }  
 
     private static function closeOpenTips()
     {
-    	Tips::confirmed()->where('open', '1')->update(['open' => 0]); 
+    	Tips::confirmed()->where('id_user', \Auth::user()->id)->where('open', '1')->update(['open' => 0]); 
     }
 
     private static function getPerPage()

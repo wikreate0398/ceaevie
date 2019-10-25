@@ -27,6 +27,12 @@ function savePercent($retail, $price)
     return percentFormat(100 - (($price/100)*$retail));
 }
 
+function withdrawFee($price, $percent)
+{
+    if(empty($percent)) return $price;
+    return $price - (($percent/100)*$price);
+}
+
 function prepareCode($code) {   
     if (!strpos($code, '-') && strlen($code) >= 4) 
     {
@@ -175,56 +181,7 @@ function adminMenu()
             'link' => '/'.config('admin.path').'/payment-types/',
             'view' => true,
             'edit' => 'Редактировать'
-        ],   
-
-        // 'orders' => [
-        //     'name'   => 'Orders',
-        //     'icon'   => '<i class="fa fa-cart-arrow-down" aria-hidden="true"></i>',
-        //     'link'   => '/'.config('admin.path').'/orders/',
-        //     'view'   => true,
-        //     'edit'   => 'Редактировать',
-        //     'childs' => [
-        //         'orders-list' => [
-        //             'name' => 'Sales',
-        //             'icon' => '<i class="fa fa-book" aria-hidden="true"></i>',
-        //             'link' => '/'.config('admin.path').'/orders/orders-list/',
-        //             'view' => true,
-        //             'edit' => 'Редактировать'
-        //         ],
-
-        //         'status' => [
-        //             'name' => 'Orders status',
-        //             'icon' => '<i class="fa fa-book" aria-hidden="true"></i>',
-        //             'link' => '/'.config('admin.path').'/orders/status/',
-        //             'view' => true,
-        //             'edit' => 'Редактировать'
-        //         ], 
-        //     ]
-        // ],
- 
-        'how-it-works' => [
-            'name' => 'Как это работает',
-            'icon' => '<i class="fa fa-question-circle-o" aria-hidden="true"></i>',
-            'link' => '/'.config('admin.path').'/how-it-works/',
-            'view' => true,
-            'edit' => 'Редактировать'
-        ],
-
-        'advantages' => [
-            'name' => 'Преимущества',
-            'icon' => '<i class="fa fa-star" aria-hidden="true"></i>',
-            'link' => '/'.config('admin.path').'/advantages/',
-            'view' => true,
-            'edit' => 'Редактировать'
-        ],  
-
-        'whom' => [
-            'name' => 'Для кого',
-            'icon' => '<i class="fa fa-globe" aria-hidden="true"></i>',
-            'link' => '/'.config('admin.path').'/whom/',
-            'view' => true,
-            'edit' => 'Редактировать'
-        ],  
+        ], 
 
         'clients' => [
             'name' => 'Официанты',
@@ -249,14 +206,63 @@ function adminMenu()
                     'edit' => 'Редактировать'
                 ],
 
-                // 'client-history' => [
-                //     'name' => 'Сообщения',
+                'contact-us' => [
+                    'name' => 'Сообщения',
+                    'icon' => '<i class="fa fa-book" aria-hidden="true"></i>',
+                    'link' => '/'.config('admin.path').'/oficiant-profile/contact-us/',
+                    'view' => true,
+                    'edit' => 'Редактировать'
+                ], 
+            ]
+        ],    
+
+        'statistics' => [
+            'name'   => 'Статистика',
+            'icon'   => '<i class="fa fa-line-chart" aria-hidden="true"></i>',
+            'link'   => '/'.config('admin.path').'/statistics/',
+            'view'   => true,
+            'edit'   => 'Редактировать',
+            'childs' => [
+                'enrollment' => [
+                    'name' => 'История зачисление',
+                    'icon' => '<i class="fa fa-book" aria-hidden="true"></i>',
+                    'link' => '/'.config('admin.path').'/statistics/enrollment/',
+                    'view' => true,
+                    'edit' => 'Редактировать'
+                ],
+
+                // 'status' => [
+                //     'name' => 'История вывода',
                 //     'icon' => '<i class="fa fa-book" aria-hidden="true"></i>',
-                //     'link' => '/'.config('admin.path').'/oficiant-profile/messages/',
+                //     'link' => '/'.config('admin.path').'/statistics/status/',
                 //     'view' => true,
                 //     'edit' => 'Редактировать'
                 // ], 
             ]
+        ],
+ 
+        'how-it-works' => [
+            'name' => 'Как это работает',
+            'icon' => '<i class="fa fa-question-circle-o" aria-hidden="true"></i>',
+            'link' => '/'.config('admin.path').'/how-it-works/',
+            'view' => true,
+            'edit' => 'Редактировать'
+        ],
+
+        'advantages' => [
+            'name' => 'Преимущества',
+            'icon' => '<i class="fa fa-star" aria-hidden="true"></i>',
+            'link' => '/'.config('admin.path').'/advantages/',
+            'view' => true,
+            'edit' => 'Редактировать'
+        ],  
+
+        'whom' => [
+            'name' => 'Для кого',
+            'icon' => '<i class="fa fa-globe" aria-hidden="true"></i>',
+            'link' => '/'.config('admin.path').'/whom/',
+            'view' => true,
+            'edit' => 'Редактировать'
         ],  
       
         'email-templates' => [

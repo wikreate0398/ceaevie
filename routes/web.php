@@ -102,7 +102,23 @@ Route::group(['prefix' => $adminPath, 'namespace' => 'Admin', 'middleware' => ['
             Route::post('create', 'BackgroundsController@create'); 
             Route::post('{id}/update', 'BackgroundsController@update'); 
         });  
+
+        Route::group(['prefix' => 'contact-us'], function() { 
+            Route::get('/', 'ContactUsController@show')->name('admin_contact_us');  
+            Route::get('{id}/edit', 'ContactUsController@showeditForm');  
+            Route::post('create', 'ContactUsController@create'); 
+            Route::post('{id}/update', 'ContactUsController@update'); 
+        });    
     }); 
+
+    Route::group(['prefix' => 'statistics', 'namespace' => 'Statistics'], function() { 
+        Route::group(['prefix' => 'enrollment'], function() { 
+            Route::get('/', 'EnrollmentController@show')->name('admin_enrollment');  
+            Route::get('{id}/edit', 'EnrollmentController@showeditForm');  
+            Route::post('create', 'EnrollmentController@create'); 
+            Route::post('{id}/update', 'EnrollmentController@update'); 
+        });    
+    });
 
 	Route::group(['prefix' => 'profile'], function() { 
         Route::get('/', 'ProfileController@showForm')->name('profile');

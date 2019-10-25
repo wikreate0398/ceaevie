@@ -1,8 +1,6 @@
 (function($) {
   'use strict';
-  $(function() {
-      
-    
+  $(function() { 
 
     // Remove pro banner on close
     document.querySelector('#bannerClose').addEventListener('click',function() {

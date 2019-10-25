@@ -17,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'lastname', 'payment_signature', 'phone', 'email', 'password', 'confirm', 'confirm_hash', 'active',  'image', 'lang'
+        'name', 'lastname', 'payment_signature', 'phone', 'email', 'password', 'confirm', 'confirm_hash', 'active',  'image', 'user_agent', 'last_entry', 'fee'
     ];
 
     /**
@@ -30,11 +30,11 @@ class User extends Authenticatable
     ];
 
     protected $casts = [
-        'confirm' => 'integer',
-        'active'  => 'integer',
-        'ballance' => 'float'
+        'confirm'    => 'integer',
+        'active'     => 'integer',
+        'fee'        => 'float',      
+        'last_entry' => 'datetime'
     ];
- 
   
     public function scopeFilter($query)
     {
@@ -46,5 +46,10 @@ class User extends Authenticatable
         } 
 
         return $query;
+    } 
+
+    public function tips()
+    {
+        return $this->hasMany('App\Models\Tips', 'id_user', 'id');
     } 
 }

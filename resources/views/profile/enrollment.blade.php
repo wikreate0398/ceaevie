@@ -24,7 +24,7 @@
                 <div class="col-md-4 grid-margin">
                     <div class="input-date">
                         <input type="text" class="datepicker"
-                               placeholder="dd.mm.yy"
+                               placeholder="дд.мм.гг"
                                name="from"
                                value="{{ request()->from }}"
                                autocomplete="off">
@@ -35,7 +35,7 @@
                 <div class="col-md-4 grid-margin">
                     <div class="input-date">
                         <input type="text" class="datepicker"
-                               placeholder="dd.mm.yy"
+                               placeholder="дд.мм.гг"
                                name="to"
                                value="{{ request()->to }}"
                                autocomplete="off">
@@ -123,8 +123,8 @@
                             <tr class="{{ $tip->open ? 'open-tr' : '' }}">
                                 <td>{{ $tip->rand }}</td>
                                 <td>{{ $tip->created_at->format('d.m.Y H:i') }}</td>
-                                <td>{{ $tip->amount }} Р</td>
-                                <td>0 P</td>
+                                <td>{{ $tip->total_amount }} Р</td>
+                                <td>{{ $tip->total_amount - $tip->amount }} P</td>
                                 <td>{{ $tip->amount }} P</td>
                                 <td><img src="{{ asset('profile_theme') }}/assets/images/dashboard/visa.png" alt="visa"></td>
                             </tr>

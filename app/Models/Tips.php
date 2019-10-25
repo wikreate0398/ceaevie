@@ -16,18 +16,26 @@ class Tips extends Model
     protected $fillable = [
         'id_user',
         'id_payment',
+        'id_qrcode',
         'rand',
+        'total_amount',
         'amount',
+        'fee',
         'withdraw',
         'status',
         'id_transaction',
         'rrn',
-        'open'
+        'open',
+        'open_admin'
     ];  
 
     protected $casts = [
-        'withdraw' => 'integer',
-        'open'     => 'integer'
+        'withdraw'     => 'integer',
+        'open'         => 'integer',
+        'open_admin'   => 'integer',
+        'total_amount' => 'float',
+        'amount'       => 'float',
+        'fee'          => 'float'
     ];
 
     public function scopeConfirmed($query, $lasDays = false)
@@ -52,6 +60,16 @@ class Tips extends Model
         return $this->hasOne('App\Models\User', 'id', 'id_user');
     } 
 
+    public function qr_code()
+    {
+        return $this->hasOne('App\Models\QrCode', 'id', 'id_qrcode');
+    } 
+
+    public function payment()
+    {
+        return $this->hasOne('App\Models\PaymentType', 'id', 'id_payment');
+    }
+ 
     public function scopeFilter($query)
     { 
         if (request()->from) { 
@@ -77,7 +95,10 @@ class Tips extends Model
 
         if (request()->rand) {
             $query->where('rand', request()->rand);
-        }
+        } 
 
+        if (request()->client) {
+            $query->where('id_user', request()->client);
+        } 
     }
 }

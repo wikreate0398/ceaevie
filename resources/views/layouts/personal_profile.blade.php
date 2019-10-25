@@ -20,6 +20,8 @@
 	<!-- Layout styles -->
 	<link rel="stylesheet" href="{{ asset('profile_theme') }}/assets/css/style.css?v={{ time() }}">
 	<link rel="stylesheet" href="{{ asset('profile_theme') }}/assets/css/main.css?v={{ time() }}">
+	<link rel="stylesheet" href="{{ asset('profile_theme') }}/assets/css/datepicker-ui.css">
+	
 	<link rel="stylesheet" href="/css/loader.css">
 	<!-- End layout styles -->
 	<link rel="shortcut icon" href="/fav.ico"> 
@@ -93,12 +95,12 @@
 						<i class="mdi mdi-chart-line menu-icon"></i>
 					</a>
 				</li> 
-			<!-- 	<li class="nav-item">
+				<li class="nav-item">
 					<a class="nav-link" href="{{ route('ballance', ['lang' => $lang]) }}">
 						<span class="menu-title">Мой баланс</span>
 						<i class="mdi mdi-currency-usd menu-icon"></i>
 					</a>
-				</li> -->
+				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="{{ route('account', ['lang' => $lang]) }}">
 						<span class="menu-title">Мой профиль</span>
@@ -193,12 +195,13 @@
 <script src="{{ asset('js/cropperjs/dist/cropper.js') }}"></script>
 <script src="https://use.fontawesome.com/7d23dee490.js"></script> 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.1.25/jquery.fancybox.min.js"></script>
-<script src="{{ asset('profile_theme') }}/assets/js/bootstrap-datepicker.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
-
+ 
+<script src="{{ asset('profile_theme') }}/assets/js/jquery-ui.js"></script> 
+ 
 @if($lang == 'ru')
-<script src="{{ asset('profile_theme') }}/assets/js/bootstrap-datepicker.ru.js"></script>
+<script src="{{ asset('profile_theme') }}/assets/js/datepicker-ru.js"></script>
 @endif
+ 
 
 <div id="ajax-notify">
     <div class="notify-inner"></div>
