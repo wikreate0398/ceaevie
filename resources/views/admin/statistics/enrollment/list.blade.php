@@ -8,17 +8,19 @@
 			<div class="col-md-2">
 				<input type="text" class="form-control" value="{{ request()->rand }}" placeholder="Номер Транзакции" name="rand">
 			</div> 
-
-			<div class="col-md-2">
-				<select name="client" class="form-control">
-					<option value="0">Официант</option>
-					@foreach($clients as $client)
-						<option value="{{ $client->id }}" {{ (request()->client == $client->id) ? 'selected' : '' }}>
-							{{ $client->name }} {{ $client->lastname }}
-						</option>
-					@endforeach
-				</select>
-			</div> 
+			
+			@if($clients->count())
+				<div class="col-md-2">
+					<select name="client" class="form-control">
+						<option value="0">Официанты</option>
+						@foreach($clients as $client)
+							<option value="{{ $client->id }}" {{ (request()->client == $client->id) ? 'selected' : '' }}>
+								{{ $client->name }} {{ $client->lastname }}
+							</option>
+						@endforeach
+					</select>
+				</div> 
+			@endif
 
 			<div class="col-md-3">
 				<div class="input-group input-large date-picker input-daterange" data-date-format="dd.mm.yyyy">
