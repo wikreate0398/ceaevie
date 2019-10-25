@@ -49,6 +49,6 @@ class EnrollmentController extends Controller
 
     private static function closeOpenTips()
     {
-        ContactUs::where('open_admin', '1')->update(['open_admin' => 0]); 
+        Tips::where('open_admin', '1')->update(['open_admin' => 0]); 
     }
 }
