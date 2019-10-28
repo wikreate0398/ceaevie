@@ -175,7 +175,7 @@
                                 <label for="wth_price">Укажите сумму *</label>
                                 <input type="text" class="form-control price-mask"
                                        id="wth_price"
-                                       placeholder="Имя фамилия на латинице"
+                                       placeholder="Сумма"
                                        name="price">
                             </div>
 
@@ -315,7 +315,7 @@
                                 <td>{{ $withdraw->created_at->format('d.m.Y H:i') }}</td>
                                 <td>{{ $withdraw->amount }} Р</td>
                                 <td class="code">{{ $withdraw->card->hide_number }}</td>
-                                <td>Зачислено</td>
+                                <td>{{ $withdraw->statusData->name_ru }}</td>
                             </tr>
                         @endforeach
                     </tbody>

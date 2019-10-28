@@ -30,7 +30,6 @@ class WithdrawTips extends Model
         'open_admin'   => 'integer', 
         'amount'       => 'float'
     ];
-  
 
     public function user()
     {
@@ -41,6 +40,11 @@ class WithdrawTips extends Model
     {
         return $this->hasOne('App\Models\BankCards', 'id', 'id_card');
     }  
+
+    public function statusData()
+    {
+        return $this->hasOne('App\Models\WithdrawStatus', 'define', 'status');
+    }
     
     public function scopeFilter($query)
     { 
