@@ -82,7 +82,7 @@ function generate_id($length=6)
 
 function random_str(
     $length=6,
-    $keyspace = '0123456789abcdefghijklmnopqrstuvwxyz!@#$%^&*()_+'
+    $keyspace = '0123456789abcdefghijklmnopqrstuvwxyz!#$%^&*()_+'
 ) {
     $str = '';
     $max = mb_strlen($keyspace, '8bit') - 1;
