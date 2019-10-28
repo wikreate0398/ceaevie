@@ -96,7 +96,7 @@ class BallanceController extends Controller
         $crypt         = new Encryption;
         $payoutService = new VisaPayment;
 
-        if (setting('payment_mode') != 'on') 
+        if (setting('test_payment_mode') != 'on') 
         {
             $this->offUserBallance($withdraw);
         }
@@ -116,7 +116,7 @@ class BallanceController extends Controller
 
         if (in_array($payoutResponse->success, ['false'])) 
         {
-            throw new \Exception("Ошибка выплаты"); 
+            throw new \Exception("В процессе вывода средств возникла ошибка"); 
         }
 
         $withdraw->id_transaction = $payoutResponse->tranId;

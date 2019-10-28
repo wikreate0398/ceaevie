@@ -72,7 +72,7 @@
 						<td class="nw">{{ $item->name_ru }}</td> 
 						<td style="width: 5px; white-space: nowrap">
 							<a style="margin-left: 5px;" href="/{{ $method }}/{{ $item['id'] }}/edit/" class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
-							<a class="btn btn-danger btn-xs" data-toggle="modal" href="#deleteModal_{{ $table }}_{{ $item['id'] }}"><i class="fa fa-trash-o "></i></a>
+							<!-- <a class="btn btn-danger btn-xs" data-toggle="modal" href="#deleteModal_{{ $table }}_{{ $item['id'] }}"><i class="fa fa-trash-o "></i></a> -->
 							<!-- Modal -->
 						@include('admin.utils.delete', ['id' => $item['id'], 'table' => $table])
 						<!-- Modal -->

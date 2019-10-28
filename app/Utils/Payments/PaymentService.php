@@ -25,7 +25,7 @@ class PaymentService
 	function __construct()
 	{ 
 		$this->logModel = new PaymentLogResponse;
-		if (setting('payment_mode') == 'on') 
+		if (setting('test_payment_mode') == 'on') 
 		{
 			$this->testMode = true;
 			$this->mode     = 'dev';

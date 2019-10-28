@@ -231,13 +231,13 @@ function adminMenu()
                     'edit' => 'Редактировать'
                 ],
 
-                // 'status' => [
-                //     'name' => 'История вывода',
-                //     'icon' => '<i class="fa fa-book" aria-hidden="true"></i>',
-                //     'link' => '/'.config('admin.path').'/statistics/status/',
-                //     'view' => true,
-                //     'edit' => 'Редактировать'
-                // ], 
+                'withdrawal-history' => [
+                    'name' => 'История вывода',
+                    'icon' => '<i class="fa fa-book" aria-hidden="true"></i>',
+                    'link' => '/'.config('admin.path').'/statistics/withdrawal-history/',
+                    'view' => true,
+                    'edit' => 'Редактировать'
+                ], 
             ]
         ],
  

@@ -49,12 +49,12 @@ class Tips extends Model
 
     public function user()
     {
-        return $this->hasOne('App\Models\User', 'id', 'id_user');
+        return $this->hasOne('App\Models\User', 'id', 'id_user')->withTrashed();
     } 
 
     public function qr_code()
     {
-        return $this->hasOne('App\Models\QrCode', 'id', 'id_qrcode');
+        return $this->hasOne('App\Models\QrCode', 'id', 'id_qrcode')->withTrashed();
     } 
 
     public function payment()

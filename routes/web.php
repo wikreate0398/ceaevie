@@ -118,6 +118,13 @@ Route::group(['prefix' => $adminPath, 'namespace' => 'Admin', 'middleware' => ['
             Route::post('create', 'EnrollmentController@create'); 
             Route::post('{id}/update', 'EnrollmentController@update'); 
         });    
+
+        Route::group(['prefix' => 'withdrawal-history'], function() { 
+            Route::get('/', 'WithdrawalHistoryController@show')->name('admin_withdrawal');  
+            Route::get('{id}/edit', 'WithdrawalHistoryController@showeditForm');  
+            Route::post('create', 'WithdrawalHistoryController@create'); 
+            Route::post('{id}/update', 'WithdrawalHistoryController@update'); 
+        });  
     });
 
 	Route::group(['prefix' => 'profile'], function() { 

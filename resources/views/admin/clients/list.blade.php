@@ -64,8 +64,9 @@
 						<th style="width:5%; text-align: center"><i class="fa fa-check-square" aria-hidden="true"></i></th>
 						<th class="nw">ФИО</th>
 						<th>E-mail</th>
-						<th>Телефон</th>
+						<th>Телефон</th> 
 						<th>Процент</th>
+						<th>Баланс руб.</th>
 						<th>Последний визит</th>
 						<th style="width:5%; text-align: center"><i class="fa fa-cogs" aria-hidden="true"></i></th>
 					</tr>
@@ -84,6 +85,7 @@
 							<td>{{ $item->email }}</td>
 							<td>{{ $item->phone }}</td>
 							<td>{!! $item->fee ? '<label class="badge badge-danger">'.$item->fee.'</label>' : '--' !!}</td>
+							<td>{{ $item->ballance }}</td>
 							<td class="nw">{{ $item->last_entry ? $item->last_entry->format('d.m.Y H:i') : '' }}</td>
 							<td style="width: 5px; white-space: nowrap">
 								<a href="/{{ $method }}/{{ $item['id'] }}/autologin/" target="_blank" class="btn btn-primary btn-xs">

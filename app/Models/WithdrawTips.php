@@ -33,12 +33,12 @@ class WithdrawTips extends Model
 
     public function user()
     {
-        return $this->hasOne('App\Models\User', 'id', 'id_user');
+        return $this->hasOne('App\Models\User', 'id', 'id_user')->withTrashed();
     } 
 
     public function card()
     {
-        return $this->hasOne('App\Models\BankCards', 'id', 'id_card');
+        return $this->hasOne('App\Models\BankCards', 'id', 'id_card')->withTrashed();
     }  
 
     public function statusData()
