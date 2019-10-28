@@ -100,7 +100,7 @@ class BallanceController extends Controller
         {
             $this->offUserBallance($withdraw);
         }
-
+        
         $payoutService->setOrderId($withdraw->rand)
                       ->setAmount(toFloat($withdraw->amount))
                       ->setDescription('Вывод средств официанту ' . $withdraw->user->name)
