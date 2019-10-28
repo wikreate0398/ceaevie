@@ -103,7 +103,7 @@ class BallanceController extends Controller
         }
 
         $withdraw->id_transaction = $payoutResponse->tranId;
-        $withdraw->pan_ref_token  = $payoutResponse->panRefToken;
+        $withdraw->pan_ref_token  = $payoutResponse->panRefToken ?: '';
         $withdraw->save(); 
     }
 

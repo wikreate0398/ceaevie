@@ -188,7 +188,7 @@
                             
                             <div style="text-align: center" class="col-md-12">
                                 <button type="submit"
-                                        class="btn btn-gradient-info mr-2">Привязать
+                                        class="btn btn-gradient-info mr-2">Вывести
                                 </button>
                             </div>
                         </form>
