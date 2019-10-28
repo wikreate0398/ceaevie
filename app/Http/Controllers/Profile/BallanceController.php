@@ -118,7 +118,7 @@ class BallanceController extends Controller
 
         $withdraw->id_transaction = $payoutResponse->tranId;
         $withdraw->pan_ref_token  = $payoutResponse->panRefToken ?: '';
-        $withdraw->status         = strtoupper($payoutResponse->success); 
+        $withdraw->status         = ($payoutResponse->success == 'true') ? 'SUCCESS' : strtoupper($payoutResponse->success); 
         $withdraw->save(); 
     }
 

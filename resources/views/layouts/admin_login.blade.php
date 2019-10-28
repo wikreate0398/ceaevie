@@ -67,7 +67,7 @@ License: You must have a valid license purchased only from themeforest(the above
         {{ csrf_field() }}
          
         <div class="logo-content" style="margin-bottom: 30px; text-align: center;">
-            <img src="/img/logo_ilab.png" width="150px" alt="">
+            <img src="/img/logo.png" width="150px" alt="">
         </div>
         @if ($errors->has('login'))
             <div class="alert alert-danger">{{ $errors->first('login') }}</div>
