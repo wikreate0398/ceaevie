@@ -7,48 +7,49 @@
  */
 
 namespace App\Utils;
-use App\Models\Transactions\Transactions;
+use App\Models\Transactions;
 
 class Ballance
 {
     protected $user;
 
-    private $ballance;
-
-    private $transactionType;
+    private $ballance; 
 
     private $type;
 
     private $price;
 
-    private $orderId;
+    private $orderId; 
 
-    private $productCode;
+    private $withdrawId;  
 
     private $currentBallance;
 
-    function __construct($user)
+    function __construct() {}
+
+    public function setUser($user)
     {
         $this->user = $user;
+        return $this;
     }
 
     public function setPrice($price)
     {
         $this->price = $price;
         return $this;
-    }
-
-    public function setProductCode($product_code)
-    {
-        $this->productCode = $product_code;
-        return $this;
-    }
+    } 
 
     public function setOrderId($orderId)
     {
         $this->orderId = $orderId;
         return $this;
     }
+
+    public function setWithdrawId($withdrawId)
+    {
+        $this->withdrawId = $withdrawId;
+        return $this;
+    } 
 
     public function replenish()
     {
@@ -76,24 +77,17 @@ class Ballance
         $this->user->ballance = $this->ballance;
         $this->user->save();
         $this->saveTransaction();
-    }
-
-    public function transactionType($type)
-    {
-        $this->transactionType = $type;
-        return $this;
-    }
+    } 
 
     private function saveTransaction()
     {
         Transactions::create([
-            'id_user'          => $this->user->id,
-            'transaction_type' => $this->transactionType,
+            'id_user'          => $this->user->id, 
             'type'             => $this->type,
-            'price'            => $this->price,
-            'product_code'     => $this->productCode,
+            'price'            => $this->price, 
             'ballance'         => $this->user->ballance,
-            'order_id'         => $this->orderId
+            'id_order'         => $this->orderId ?: '',
+            'id_withdraw'      => $this->withdrawId ?: '',
         ]);
     }
 }

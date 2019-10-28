@@ -17,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'lastname', 'payment_signature', 'phone', 'email', 'password', 'confirm', 'confirm_hash', 'active',  'image', 'user_agent', 'last_entry', 'fee'
+        'name', 'lastname', 'payment_signature', 'phone', 'email', 'password', 'confirm', 'confirm_hash', 'active',  'image', 'user_agent', 'last_entry', 'fee', 'ballance'
     ];
 
     /**
@@ -32,7 +32,8 @@ class User extends Authenticatable
     protected $casts = [
         'confirm'    => 'integer',
         'active'     => 'integer',
-        'fee'        => 'float',      
+        'fee'        => 'float',    
+        'ballance'   => 'float',      
         'last_entry' => 'datetime'
     ];
   

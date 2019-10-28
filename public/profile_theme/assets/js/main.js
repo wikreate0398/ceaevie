@@ -8,6 +8,8 @@ $(document).ready(function () {
             e.preventDefault();
         }
     });
+
+  inputMask();
 });
 
 function profilePhoto(fileName){
@@ -71,4 +73,19 @@ function profilePhoto(fileName){
           $('form.profile__image_form').submit();
         };
     }; 
+}
+
+function inputMask(){  
+  $("input.price-mask, input.home-price-mask").inputmask("decimal",{
+      alias: 'numeric',
+      radixPoint:".", 
+      groupSeparator: " ", 
+      digits: 2,
+      autoGroup: true,
+      allowMinus: false  
+  });
+
+  $('#ExpiryDate').inputmask('99/99');
+  $('#CreditCardNumber').inputmask('9999 9999 9999 9999');
+  $('#SecurityCode').inputmask('999'); 
 }

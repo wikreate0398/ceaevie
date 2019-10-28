@@ -4,7 +4,7 @@ namespace App\Utils\Payments;
 
 use App\Models\PaymentLogResponse; 
 
-class PaymentService
+class PaymentService 
 { 
 	protected $testMode  = false;
 
@@ -54,5 +54,29 @@ class PaymentService
 	{
 		$this->cardCredentials = $cardCredentials;
 		return $this;
+	}
+
+	protected function makeRequest($arrayRequest, $requestType)
+	{ 
+		$body      = http_build_query($arrayRequest);
+		$signature = $this->getSignature($body, $this->secretKey[$this->mode]);
+		
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $this->serviceHostname . $requestType);
+		curl_setopt($ch, CURLOPT_POST, 1);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $body);  
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); 
+		curl_setopt($ch, CURLOPT_HTTPHEADER, ['signature:'.$signature]);
+
+		$server_output = curl_exec($ch); 
+		curl_close ($ch);  
+ 
+		return simplexml_load_string($server_output); 
+	}
+
+	protected function getSignature($body)
+	{
+		$hash = hash_hmac('sha256', $body, $this->secretKey[$this->mode], false);
+ 		return base64_encode($hash);	
 	}
 }

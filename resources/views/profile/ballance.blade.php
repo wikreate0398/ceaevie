@@ -16,44 +16,71 @@
                     <h4 class="font-weight-normal mb-3">
                         Текущий баланс для вывода
                     </h4>
-                    <h2>0 P <span> / 3000 P</span></h2>
+                    <h2>{{ $total_amount }} P <span> / {{ setting('minimum_withdrawal') }} P</span></h2>
                 </div>
             </div>
         </div>
     </div>
+
     <div class="row">
+        @if($total_amount >= setting('minimum_withdrawal') && $bank_cards->count() > 0)
         <div class="col-md-4 grid-margin">
             <button type="submit"
                     class="btn btn-gradient-info btn-rounded btn-block"
-                    style="min-height: 55px">
+                    style="min-height: 55px"
+                    data-toggle="modal"
+                    data-target="#withdrawalFfunds">
                 Заказать вывод средств
             </button>
         </div>
+        @else
+            <div class="col-12">
+                <span class="d-flex align-items-center purchase-popup alert-warning" style="justify-content: space-between;">
+                    <p style="color: #fff;">
+                        @if($total_amount < setting('minimum_withdrawal'))
+                            Длы вывода средств необходимо иметь на счету не менее {{ setting('minimum_withdrawal') }} P 
+                        @else
+                            Длы вывода средств необходимо привязать банковскую карту
+                        @endif
+                    </p>  
+                </span>
+            </div>
+        @endif
     </div>
     
     <hr>
     
     <div class="row">
-        <div class="col-md-4 grid-margin stretch-card">
-            <div class="card card-added">
-                <div class="card-body">
-                    <span class="name">IVAN SMIRNOV</span>
-                    <span class="expiration-date">08/19</span>
-                    <span
-                        class="card-nr">4276   ....   ....   ..96</span>
-                    <div class="card-type">
-                        <img
-                            src="{{ asset('profile_theme') }}/assets/images/dashboard/visa.png"
-                            alt="card-type">
-                        <img
-                            src="{{ asset('profile_theme') }}/assets/images/socials/sberbank.png"
-                            alt="bank">
-                    </div>
-                    <img src="{{ asset('profile_theme') }}/assets/images/trash.png"
-                         alt="delete">
+        @if($bank_cards->count())
+            @foreach($bank_cards as $card)
+                <div class="col-md-4 grid-margin stretch-card">
+                     
+                    <div class="card card-added">
+                        <div class="card-body">
+                            <span class="name">{{ ucfirst($card->name) }}</span>
+                            <div style="display: flex; justify-content: space-between; align-items: center;"> 
+                                <span class="card-nr">
+                                    {{ $card->hide_number }}
+                                </span>
+                                <span class="expiration-date">{{ $card->month }}/{{ $card->year }}</span>
+                            </div>
+                            <div class="card-type">
+                                <img
+                                    src="{{ asset('uploads') }}/card_types/{{ $card->card_type->image }}"
+                                    alt="card-type"
+                                    style="max-width: 50px;">
+                                <!-- <img
+                                    src="{{ asset('profile_theme') }}/assets/images/socials/sberbank.png"
+                                    alt="bank"> -->
+                            </div>
+                           <a href="{{ route('delete_card', ['lang' => $lang, 'id' => $card->id]) }}" class="confirm_link" data-confirm="Вы действительно желаете удалить?">
+                                <img src="{{ asset('profile_theme') }}/assets/images/trash.png" alt="delete">
+                           </a> 
+                        </div>
+                    </div> 
                 </div>
-            </div>
-        </div>
+            @endforeach
+        @endif
         <div class="col-md-4 grid-margin stretch-card">
             <div class="card add-card">
                 <div class="card-body align-center">
@@ -65,6 +92,111 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        &times;
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h2>Привязать карту</h2>
+                    <form class="forms-sample row ajax__submit" action="{{ route('add_card', ['lang' => $lang]) }}">
+                        {{ csrf_field() }}
+
+                        <div class="form-group col-md-12">
+                            <label for="ownerCardInput1">Укажите держателя
+                                карты*</label>
+                            <input type="text" class="form-control"
+                                   id="ownerCardInput1"
+                                   placeholder="Имя фамилия на латинице"
+                                   name="name">
+                        </div>
+
+                        <div class="form-group col-md-12">
+                            <label for="CreditCardNumber">Укажите номер
+                                карты*</label>
+                            <input type="text" class="form-control"
+                                   id="CreditCardNumber"
+                                   placeholder="4276   ....   ....   ..96"
+                                   name="number">
+                        </div>
+                        
+                        <div class="form-group col-md-6">
+                            <label for="ExpiryDate">Срок действия
+                                карты*</label>
+                            <input type="text" class="form-control"
+                                   id="ExpiryDate"
+                                   placeholder="11/19"
+                                   name="expiry_date">
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="SecurityCode">CSV*</label>
+                            <input type="text" class="form-control"
+                                   id="SecurityCode"
+                                   placeholder="123"
+                                   name="cvc">
+                        </div>
+                        
+                        <div style="text-align: center" class="col-md-12">
+                            <button type="submit"
+                                    class="btn btn-gradient-info mr-2">Привязать
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if($bank_cards->count() > 0)
+        <div class="modal fade" id="withdrawalFfunds" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            &times;
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h2>Вывод средств</h2>
+                        <form class="forms-sample row ajax__submit" action="{{ route('withdraw_funds', ['lang' => $lang]) }}">
+                            {{ csrf_field() }}
+
+                            <div class="form-group col-md-12">
+                                <label for="wth_price">Укажите сумму *</label>
+                                <input type="text" class="form-control price-mask"
+                                       id="wth_price"
+                                       placeholder="Имя фамилия на латинице"
+                                       name="price">
+                            </div>
+
+                            <div class="form-group col-md-12"> 
+                                <label for="CreditCardNumber">Укажите карту *</label>
+                                <select name="card" class="form-control">
+                                    <option value="0">Выбрать</option>
+                                    @foreach($bank_cards as $card)
+                                        <option value="{{ $card->id }}">{{ $card->hide_number }}</option>
+                                    @endforeach
+                                </select> 
+                            </div> 
+                            
+                            <div style="text-align: center" class="col-md-12">
+                                <button type="submit"
+                                        class="btn btn-gradient-info mr-2">Привязать
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
     
     <hr>
     
@@ -73,7 +205,7 @@
             <div class="col-md-12">
                 <h3 class="title-section">История вывода
                     средств</h3>
-                <h4 class="title">Отобразить платежи за период</h4>
+                <h4 class="title">Отобразить вывод средств за период</h4>
             </div>
             
             <div class="col-md-4 grid-margin">
@@ -115,18 +247,18 @@
                         <option value="50">50</option>
                     </select>
                     
-                    <button type="button" class="sort-transaction">
+                    <a href="button" class="sort-transaction">
                         За весь
                         период
-                    </button>
-                    <button type="button" class="sort-transaction">
+                    </a>
+                    <a href="button" class="sort-transaction">
                         За
                         неделю
-                    </button>
-                    <button type="button" class="sort-transaction">
+                    </a>
+                    <a href="button" class="sort-transaction">
                         За
                         месяц
-                    </button>
+                    </a>
                 </div>
             
             </div>
@@ -182,58 +314,6 @@
                 </li>
             </ul>
         </div>
-    </div>
-
-    <div class="modal fade" id="myModal" role="dialog">
-        <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">
-                        &times;
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <h2>Привязать карту</h2>
-                    <form class="forms-sample row">
-                        <div class="form-group col-md-12">
-                            <label for="ownerCardInput1">Укажите держателя
-                                карты*</label>
-                            <input type="text" class="form-control"
-                                   id="ownerCardInput1"
-                                   placeholder="Имя фамилия на латинице">
-                        </div>
-                        <div class="form-group col-md-12">
-                            <label for="cardNrInput1">Укажите номер
-                                карты*</label>
-                            <input type="text" class="form-control"
-                                   id="cardNrInput1"
-                                   placeholder="4276   ....   ....   ..96">
-                        </div>
-                        
-                        <div class="form-group col-md-6">
-                            <label for="expirationDateOfCard">Срок действия
-                                карты*</label>
-                            <input type="text" class="form-control"
-                                   id="expirationDateOfCard"
-                                   placeholder="11/19">
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="cvvInput">CSV*</label>
-                            <input type="text" class="form-control"
-                                   id="cvvInput"
-                                   placeholder="123">
-                        </div>
-                        
-                        <div style="text-align: center" class="col-md-12">
-                            <button type="submit"
-                                    class="btn btn-gradient-info mr-2">Привязать
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+    </div> 
 @stop
 

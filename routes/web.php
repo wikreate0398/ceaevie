@@ -179,9 +179,15 @@ Route::group(['prefix' => '{lang}', 'middleware' => ['lang', 'web']], function()
                 Route::get('delete-qr/{id}', 'WorkspaceController@deleteQrCode')->name('delete_qr'); 
             }); 
 
+            Route::group(['prefix' => 'ballance'], function() {
+                Route::get('/', 'BallanceController@index')->name('ballance'); 
+                Route::post('add-credit-card', 'BallanceController@addCreditCard')->name('add_card');  
+                Route::post('withdraw-funds', 'BallanceController@withdrawFunds')->name('withdraw_funds');  
+                Route::get('delete-credit-card/{id}', 'BallanceController@deleteCreditCard')->name('delete_card');  
+            });  
              
             Route::get('enrollment', 'EnrollmentController@index')->name('enrollment');
-            Route::get('ballance', 'BallanceController@index')->name('ballance'); 
+             
              
         });
     });

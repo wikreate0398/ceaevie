@@ -14,7 +14,7 @@ class Language
      */
 	public static function get()
 	{
-		return Languages::orderByRaw('page_up asc, id desc')->get();
+		return Languages::orderByRaw('page_up asc, id desc')->where('view', '1')->get();
 	}
 
     /*

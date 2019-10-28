@@ -42,9 +42,10 @@ class ConstantsController extends Controller
     public function show()
     { 
         $data = [
-            'data'   => Constants::with('constants_value')->filter()->get()->groupBy('category.name')->sortBy('category.page_up'),
-            'method' => $this->method,
-            'categories' => ConstantsCategory::orderBy('page_up', 'asc')->get()
+            'data'       => Constants::with('constants_value')->filter()->get()->groupBy('category.name')->sortBy('category.page_up'),
+            'method'     => $this->method,
+            'categories' => ConstantsCategory::orderBy('page_up', 'asc')->get(),
+            'langs'      => \Language::get()
         ];
 
         //exit(print_arr($data['data']));

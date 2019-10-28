@@ -923,3 +923,15 @@ footer {}
 .open-tr{
 	background: #ededed !important;
 }
+
+.alert-warning{
+  background: #f2b895;
+}
+
+.alert-warning p{
+  color: #fff;
+}
+
+.price-mask{
+	text-align:left !important;
+}

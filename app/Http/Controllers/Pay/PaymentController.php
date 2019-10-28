@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Pay;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use GuzzleHttp\Client;
+use App\Http\Controllers\Controller; 
+use App\Utils\Ballance; 
 use App\Utils\Payments\VisaPayment;
 use App\Models\QrCode;
 use App\Models\PaymentType; 
@@ -43,7 +43,7 @@ class PaymentController extends Controller
 		return view('public.payment.make_payment', compact(['data', 'payments']));
 	}
 
-	public function handlePayment(Request $request)
+	public function handlePayment(Request $request, Ballance $userBallance)
     {
     	\DB::beginTransaction();
     	try {
@@ -54,6 +54,11 @@ class PaymentController extends Controller
  
     	$idOrder = $this->makeOrder($request);
     	$order   = Tips::whereId($idOrder)->first();
+
+        $userBallance->setUser($order->user)
+                     ->setOrderId($order->id)
+                     ->setPrice($order->amount)
+                     ->replenish();
 
     	\DB::commit();
     	try {
@@ -131,7 +136,7 @@ class PaymentController extends Controller
     		'total_amount' => $totalAmount,
             'amount'       => $amount,
             'fee'          => $fee
-    	])->id;
+    	])->id; 
     }
 
     private function checkFormData($request)

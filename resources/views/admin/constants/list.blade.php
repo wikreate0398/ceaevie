@@ -50,7 +50,7 @@
 									</div>
 								</div>
 
-								@foreach(Language::get() as $key => $language)
+								@foreach($langs as $key => $language)
 									<div class="form-group">
 										<label class="col-md-12 control-label">Value {{ $language->short }}</label>
 										<div class="col-md-12">
@@ -92,9 +92,13 @@
 								@foreach($constants as $constant)
 									<h4>{{ $constant->description }}</h4>
 									<div class="row">
-										@foreach(Language::get() as $key => $language)
-											<div class="col-md-6">
-												<span style="display: block;" class="label label-info">{{ $language->name }}</span>
+										@foreach($langs as $key => $language)
+											<div class="col-md-{{ 12/$langs->count() }}"> 
+												@if($langs->count() > 1)
+													<span style="display: block;" class="label label-info">
+														{{ $language->name }}
+													</span>
+												@endif 
 												<textarea name="data[{{ $constant->id }}][{{ $language->short }}]"
 														  class="form-control {{ $constant->editor ? 'ckeditor' : '' }}"
 														  style="max-width: 100%; min-width: 100%; min-height: 55px;">{{ @$constant->constants_value->keyBy('lang')[$language->short]['value'] }}</textarea>

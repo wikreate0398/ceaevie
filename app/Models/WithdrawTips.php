@@ -5,63 +5,43 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Tips extends Model
+class WithdrawTips extends Model
 { 
     use SoftDeletes;
 
     public $timestamps = true;
 
-    protected $table = 'tips';
+    protected $table = 'withdraw_tips';
 
     protected $fillable = [
         'id_user',
-        'id_payment',
-        'id_qrcode',
-        'rand',
-        'total_amount',
-        'amount',
-        'fee', 
-        'status',
+        'id_card', 
+        'rand', 
+        'amount',  
+        'status', 
         'id_transaction',
-        'rrn',
+        'pan_ref_token',
         'open',
         'open_admin'
     ];  
 
-    protected $casts = [
-        'withdraw'     => 'integer',
+    protected $casts = [ 
         'open'         => 'integer',
-        'open_admin'   => 'integer',
-        'total_amount' => 'float',
-        'amount'       => 'float',
-        'fee'          => 'float'
+        'open_admin'   => 'integer', 
+        'amount'       => 'float'
     ];
-
-    public function scopeConfirmed($query, $lasDays = false)
-    {
-        if (!empty($lasDays)) 
-        {
-            $week = \Carbon\Carbon::today()->subDays(7);
-            $query->where('created_at', '>=', $week);
-        }
-        return $query->where('status', 'CHARGED');
-    } 
+  
 
     public function user()
     {
         return $this->hasOne('App\Models\User', 'id', 'id_user');
     } 
 
-    public function qr_code()
+    public function card()
     {
-        return $this->hasOne('App\Models\QrCode', 'id', 'id_qrcode');
-    } 
-
-    public function payment()
-    {
-        return $this->hasOne('App\Models\PaymentType', 'id', 'id_payment');
-    }
- 
+        return $this->hasOne('App\Models\BankCards', 'id', 'id_card');
+    }  
+    
     public function scopeFilter($query)
     { 
         if (request()->from) { 

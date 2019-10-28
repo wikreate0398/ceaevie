@@ -88,7 +88,7 @@
 						<span class="menu-title">
 							История зачислений  
 						</span>
-						@php $count = \App\Models\Tips::confirmed()->where('open', '1')->count(); @endphp
+						@php $count = \App\Models\Tips::confirmed()->where('id_user', \Auth::user()->id)->where('open', '1')->count(); @endphp
 						@if($count)
 							<span class="num-span">{{ $count }}</span>
 						@endif
@@ -119,11 +119,11 @@
 		<div class="main-panel {{ in_array(uri(3), ['account', 'contact-us']) ? 'profile-page' : '' }}">
 			<div class="content-wrapper">
 
-				@if(\Session::has('lk_success'))
+				@if(request()->session()->has('lk_success'))
 					<div class="row" id="proBanner">
 						<div class="col-12">
 	                        <span class="d-flex align-items-center purchase-popup" style="justify-content: space-between;">
-			                  <p>{{ \Session::get('lk_success') }}</p>
+			                  <p>{{ request()->session()->get('lk_success') }}</p>
 			              
 			                  <i class="mdi mdi-close" id="bannerClose"></i>
 			                </span>
@@ -188,6 +188,7 @@
 <script src="{{ asset('profile_theme') }}/assets/js/todolist.js"></script>
 <!-- End custom js for this page -->
 
+<script src="{{ asset('js/inputmask.min.js') }}"></script>
 <script src="/js/ajax.js?v={{ time() }}"></script>
 <script src="/js/notify.js?v={{ time() }}"></script>
 <script src="{{ asset('profile_theme') }}/assets/js/main.js?v={{ time() }}"></script>

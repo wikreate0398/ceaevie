@@ -49,7 +49,7 @@ function inputMask(){
         autoGroup: true,
         allowMinus: false  
     });
-
+ 
     $('#ExpiryDate').inputmask('99/99');
     $('#CreditCardNumber').inputmask('9999 9999 9999 9999');
     $('#SecurityCode').inputmask('999'); 

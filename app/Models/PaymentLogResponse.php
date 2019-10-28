@@ -11,6 +11,7 @@ class PaymentLogResponse extends Model
 	protected $table = 'payment_log_response';
 
 	protected $fillable = [
+        'action',
         'order_rand',
         'flag',
         'err_code',

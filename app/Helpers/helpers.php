@@ -41,12 +41,12 @@ function prepareCode($code) {
     return $code;
 }
 
-function prepareExpiryDate($str){
+function prepareExpiryDate($str, $exp = false){
     if (!strpos($str, '/') && strlen($str) >= 4) 
     {
         $str = substr($str, 0, 2) . '/' . substr($str, 2, 4);
     }
-    return $str;
+    return $exp ? explode('/', $str) : $str;
 }
 
 function getAppUrl($subdomain = false, $path = ''){

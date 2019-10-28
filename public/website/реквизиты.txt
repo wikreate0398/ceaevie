@@ -1,0 +1,13 @@
+UX
+https://w7uehk.axshare.com/#id=n1l50e&p=lk_main_oficiant&g=1
+
+Данные для интеграции Вы можете найти в личном кабинете, а также в 
+руководстве по интеграции по ссылке 
+https://payment.center/PaymentCenterAPI(ru).pdf.
+
+Доступ в личный кабинет (ЛК):
+https://cabinet.payment.center/ui/main/
+chaevieonline
+l4DWciay
+
+https://secured.payment.center вместо hostname
