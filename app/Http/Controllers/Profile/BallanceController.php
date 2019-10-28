@@ -96,7 +96,10 @@ class BallanceController extends Controller
         $crypt         = new Encryption;
         $payoutService = new VisaPayment;
 
-        $this->offUserBallance($withdraw);
+        if (setting('payment_mode') != 'on') 
+        {
+            $this->offUserBallance($withdraw);
+        }
 
         $payoutService->setOrderId($withdraw->rand)
                       ->setAmount(toFloat($withdraw->amount))
