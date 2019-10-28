@@ -179,7 +179,7 @@
                      {
                         $open = \App\Models\ContactUs::where('open', '1')->count(); 
                      } elseif ($key == 'statistics') {
-                        $open = \App\Models\Tips::where('open_admin', '1')->count(); 
+                        $open = \App\Models\Tips::where('open_admin', '1')->confirmed()->count(); 
                      }
 
                      if ($open) {

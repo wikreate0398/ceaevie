@@ -21,6 +21,7 @@ class BallanceController extends Controller
             'withdraws'    => WithdrawTips::where('id_user', \Auth::user()->id)
                                           ->with('card')
                                           ->filter()
+                                          ->orderByRaw('id desc')
                                           ->paginate(self::getPerPage())
         ];
 
