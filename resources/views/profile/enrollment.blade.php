@@ -14,7 +14,7 @@
 
     @include('profile.utils.cards')
     
-    @if($tips->count())
+    @if($tips->count() or (request()->from or request()->to or request()->rand))
         <form action="{{ route('enrollment', ['lang' => $lang]) }}">
             <div class="row">
                 <div class="col-md-12">
@@ -101,52 +101,64 @@
             </div>
         @endif
          
-    @endif
+     
     
     <div class="row">
 
         @if($tips->count())
-            <div class="col-md-12 grid-margin table-history">
-                <table class="history">
-                    <thead>
-                        <tr>
-                            <td>Номер транзакции</td>
-                            <td>Дата зачисления <!-- <i class="mdi mdi-chevron-down"></i> --></td>
-                            <td>Сумма <!-- <i class="mdi mdi-chevron-down"> --></i></td>
-                            <td>Комиссия <!-- <i class="mdi mdi-chevron-down"></i> --></td>
-                            <td>Заработано <!-- <i class="mdi mdi-chevron-down"></i> --></td>
-                            <td>Способ оплаты <!-- <i class="mdi mdi-chevron-down"></i> --></td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($tips as $tip)
-                            <tr class="{{ $tip->open ? 'open-tr' : '' }}">
-                                <td>{{ $tip->rand }}</td>
-                                <td>{{ $tip->created_at->format('d.m.Y H:i') }}</td>
-                                <td>{{ $tip->total_amount }} Р</td>
-                                <td>{{ $tip->total_amount - $tip->amount }} P</td>
-                                <td>{{ $tip->amount }} P</td>
-                                <td><img src="{{ asset('profile_theme') }}/assets/images/dashboard/visa.png" alt="visa"></td>
+                <div class="col-md-12 grid-margin table-history">
+                    <table class="history">
+                        <thead>
+                            <tr>
+                                <td>Номер транзакции</td>
+                                <td>Дата зачисления <!-- <i class="mdi mdi-chevron-down"></i> --></td>
+                                <td>Сумма <!-- <i class="mdi mdi-chevron-down"> --></i></td>
+                                <td>Комиссия <!-- <i class="mdi mdi-chevron-down"></i> --></td>
+                                <td>Заработано <!-- <i class="mdi mdi-chevron-down"></i> --></td>
+                                <td>Способ оплаты <!-- <i class="mdi mdi-chevron-down"></i> --></td>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div> 
-        
-            <div class="col-md-6 align-center"> 
-                <span>Показано  {{ $tips->count() }} из {{ $tips->total() }}</span>
-            </div>
-            <div class="col-md-6">  
-                {{ $tips->appends(request()->input())->links() }} 
-            </div>
-        @else
+                        </thead>
+                        <tbody>
+                            @foreach($tips as $tip)
+                                <tr class="{{ $tip->open ? 'open-tr' : '' }}">
+                                    <td>{{ $tip->rand }}</td>
+                                    <td>{{ $tip->created_at->format('d.m.Y H:i') }}</td>
+                                    <td>{{ $tip->total_amount }} Р</td>
+                                    <td>{{ $tip->total_amount - $tip->amount }} P</td>
+                                    <td>{{ $tip->amount }} P</td>
+                                    <td><img src="{{ asset('profile_theme') }}/assets/images/dashboard/visa.png" alt="visa"></td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div> 
+            
+                <div class="col-md-6 align-center"> 
+                    <span>Показано  {{ $tips->count() }} из {{ $tips->total() }}</span>
+                </div>
+                <div class="col-md-6">  
+                    {{ $tips->appends(request()->input())->links() }} 
+                </div>
+            @else 
+                <div class="col-12" style="margin-top: 20px;">
+                    <span class="d-flex align-items-center purchase-popup" style="justify-content: space-between;">
+                      <p>Нет зачислений</p>  
+                    </span>
+                </div>
+            @endif
+         
+    </div>
+
+    @else 
+        <div class="row">
             <div class="col-12">
                 <span class="d-flex align-items-center purchase-popup" style="justify-content: space-between;">
                   <p>Нет зачислений</p>  
                 </span>
             </div>
-        @endif
-    </div>
+        </div>
+    @endif
+ 
             
 @stop
 

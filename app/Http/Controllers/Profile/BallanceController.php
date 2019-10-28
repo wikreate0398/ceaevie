@@ -17,11 +17,25 @@ class BallanceController extends Controller
     {  
         $data = [
             'total_amount' => \Auth::user()->ballance,
-            'bank_cards'   => BankCards::where('id_user', \Auth::user()->id)->with('card_type')->get()
+            'bank_cards'   => BankCards::where('id_user', \Auth::user()->id)->with('card_type')->get(),
+            'withdraws'    => WithdrawTips::where('id_user', \Auth::user()->id)
+                                          ->with('card')
+                                          ->filter()
+                                          ->paginate(self::getPerPage())
         ];
 
         return view('profile.ballance', $data);
     }  
+
+    private static function getPerPage()
+    {
+        $perPage = request()->per_page ? request()->per_page : \Session::get('ballance_per_page'); 
+        if (\Session::get('ballance_per_page') != $perPage or !\Session::get('ballance_per_page')) 
+        { 
+            \Session::put('ballance_per_page', $perPage);
+        } 
+        return $perPage;
+    }
 
     public function addCreditCard($lang, Request $request, Encryption $crypt)
     { 

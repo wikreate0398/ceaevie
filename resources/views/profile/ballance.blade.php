@@ -1,6 +1,9 @@
 @extends('layouts.personal_profile')
 
 @section('content')
+    <script>
+        var pageUrl = '{{ route('ballance', ['lang' => $lang]) }}';
+    </script>
     <div class="page-header">
         <h3 class="page-title">
     <span
@@ -200,19 +203,21 @@
     
     <hr>
     
-    @if(false)
-    <form action="">
+    @if($withdraws->count() or (request()->from or request()->to or request()->rand))
+    <form action="{{ route('ballance', ['lang' => $lang]) }}">
         <div class="row">
             <div class="col-md-12">
-                <h3 class="title-section">История вывода
-                    средств</h3>
+                <h3 class="title-section">История вывода средств</h3>
                 <h4 class="title">Отобразить вывод средств за период</h4>
             </div>
             
             <div class="col-md-4 grid-margin">
                 <div class="input-date">
                     <input type="text" class="datepicker"
-                           placeholder="mm/dd/yy">
+                           placeholder="дд.мм.гг"
+                           name="from"
+                           value="{{ request()->from }}"
+                           autocomplete="off">
                     <img src="{{ asset('profile_theme') }}/assets/images/calendar.png"
                          alt="calendar">
                 </div>
@@ -220,7 +225,10 @@
             <div class="col-md-4 grid-margin">
                 <div class="input-date">
                     <input type="text" class="datepicker"
-                           placeholder="mm/dd/yy">
+                           placeholder="дд.мм.гг"
+                           name="to"
+                           value="{{ request()->to }}"
+                           autocomplete="off">
                     <img src="{{ asset('profile_theme') }}/assets/images/calendar.png"
                          alt="calendar">
                 </div>
@@ -240,82 +248,101 @@
                 <div class="inline">
                     <label for="itemsPerPageSelect">Показывать
                         по</label>
-                    <select
-                        class="form-control form-control-lg per-page"
-                        id="itemsPerPageSelect">
-                        <option value="10" selected>10</option>
-                        <option value="20">20</option>
-                        <option value="50">50</option>
+                    <select class="form-control form-control-lg per-page"
+                            id="itemsPerPageSelect" onchange="window.location= pageUrl + '?per_page=' + this.value">
+                        <option value="10" {{ (session()->get('ballance_per_page') == 10) ? 'selected' : '' }}>10</option>
+                        <option value="20" {{ (session()->get('ballance_per_page') == 20) ? 'selected' : '' }}>20</option>
+                        <option value="50" {{ (session()->get('ballance_per_page') == 50) ? 'selected' : '' }}>50</option>
                     </select>
                     
-                    <a href="button" class="sort-transaction">
-                        За весь
+                    <a href="{{ route('ballance', ['lang' => $lang, 'period' => 'whole']) }}" class="sort-transaction {{ (request()->period == 'whole') ? 'active-sort' : '' }}">За весь
                         период
                     </a>
-                    <a href="button" class="sort-transaction">
-                        За
+                    <a href="{{ route('ballance', ['lang' => $lang, 'period' => 'week']) }}" class="sort-transaction {{ (request()->period == 'week') ? 'active-sort' : '' }}">За
                         неделю
                     </a>
-                    <a href="button" class="sort-transaction">
-                        За
+                    <a href="{{ route('ballance', ['lang' => $lang, 'period' => 'month']) }}" class="sort-transaction {{ (request()->period == 'month') ? 'active-sort' : '' }}">За
                         месяц
                     </a>
                 </div>
-            
             </div>
             <div class="col-md-4">
-                <div class="form-group">
+                <div class="form-group" style="justify-content: space-between; display: flex;">
                     <input type="text" class="form-control"
-                           placeholder="Поиск по номеру транзакции"/>
+                           id="rand" 
+                           placeholder="Поиск по номеру транзакции"
+                           value="{{ request()->rand }}" 
+                           autocomplete="off" />
+                    <button type="button" 
+                            class="btn btn-gradient-info" style="margin-left: 10px;"
+                            onclick="window.location= pageUrl + '?rand=' + getElementById('rand').value">
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                    </button>
                 </div>
             </div>
         </div>
     </form>
+
+    @if(request()->from or request()->to or request()->rand)
+        <div class="row">
+            <div class="col-md-12">
+                <a href="{{ route('ballance', ['lang' => $lang]) }}" class="btn btn-gradient-danger">Сбросить</a>
+            </div>
+        </div>
+    @endif
     
     <div class="row">
-        <div class="col-md-12 grid-margin table-history">
-            <table class="history">
-                <thead>
-                <tr>
-                    <td>Номер транзакции</td>
-                    <td>Дата зачисления <i
-                        class="mdi mdi-chevron-down"></i></td>
-                    <td>Сумма <i class="mdi mdi-chevron-down"></i>
-                    </td>
-                    <td>Номер карты <i
-                        class="mdi mdi-chevron-down"></i></td>
-                    <td>Статус <i class="mdi mdi-chevron-down"></i>
-                    </td>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>8451233</td>
-                    <td>22.12.2019</td>
-                    <td>100 Р</td>
-                    <td class="code">4276 .... .... ..96</td>
-                    <td>Не введен код авторизации</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="col-md-6 align-center">
-            <span>Показано 10 из 16</span>
-        </div>
-        <div class="col-md-6">
-            <ul class="pages">
-                <li>
-                    <a href="#"><i class="mdi mdi-chevron-left"></i></a>
-                </li>
-                <li class="active"><a href="#1">1</a></li>
-                <li><a href="#2">2</a></li>
-                <li>
-                    <a href="#"><i
-                        class="mdi mdi-chevron-right"></i></a>
-                </li>
-            </ul>
-        </div>
+        @if($withdraws->count())
+            <div class="col-md-12 grid-margin table-history">
+                <table class="history">
+                    <thead>
+                    <tr>
+                        <td>Номер транзакции</td>
+                        <td>Дата зачисления <!-- <i
+                            class="mdi mdi-chevron-down"></i> --></td>
+                        <td>Сумма <!-- <i class="mdi mdi-chevron-down"></i> -->
+                        </td>
+                        <td>Номер карты<!--  <i
+                            class="mdi mdi-chevron-down"></i> --></td>
+                        <td>Статус<!--  <i class="mdi mdi-chevron-down"></i> -->
+                        </td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($withdraws as $withdraw)
+                            <tr>
+                                <td>{{ $withdraw->rand }}</td>
+                                <td>{{ $withdraw->created_at->format('d.m.Y H:i') }}</td>
+                                <td>{{ $withdraw->amount }} Р</td>
+                                <td class="code">{{ $withdraw->card->hide_number }}</td>
+                                <td>Зачислено</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-6 align-center"> 
+                <span>Показано  {{ $withdraws->count() }} из {{ $withdraws->total() }}</span>
+            </div>
+            <div class="col-md-6">  
+                {{ $withdraws->appends(request()->input())->links() }} 
+            </div>
+        @else 
+            <div class="col-12" style="margin-top: 20px;">
+                <span class="d-flex align-items-center purchase-popup" style="justify-content: space-between;">
+                  <p>Нет истории вывода</p>  
+                </span>
+            </div>
+        @endif
     </div> 
+    @else 
+        <div class="row">
+            <div class="col-12">
+                <span class="d-flex align-items-center purchase-popup" style="justify-content: space-between;">
+                  <p>Нет истории вывода</p>  
+                </span>
+            </div>
+        </div>
     @endif
 @stop
 
