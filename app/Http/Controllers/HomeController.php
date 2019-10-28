@@ -17,6 +17,11 @@ class HomeController extends Controller
 { 
     public function index()
     {  
+
+        if (request()->test) {
+            Mail::to('fleancu.daniel@gmail.com')->send(new MakeQuestion('Name', 'Phone', 'Message'));
+        }
+
         $payments   = PaymentType::orderByPageUp()->visible()->get();
         $howWork    = HowItWork::orderByPageUp()->visible()->get();
         $whom       = Whom::orderByPageUp()->visible()->get(); 
