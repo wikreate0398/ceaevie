@@ -67,7 +67,8 @@ class ProfileController extends Controller
             'name'      => $data['name'],
             'password'  => bcrypt($data['password']),
             'email'     => $data['email'], 
-            'parent_id' => Auth::user()->id
+            'parent_id' => Auth::user()->id,
+            'type'      => $data['type']
         ]);
 
         return \App\Utils\JsonResponse::success(['redirect' => route('profile')], trans('admin.added_user')); 
@@ -112,6 +113,7 @@ class ProfileController extends Controller
          
         $update['name']  = $request->name;
         $update['email'] = $request->email;
+        $update['type'] = $request->type;
         $data = AdminUser::findOrFail($id);
         $data->fill($update)->save(); 
         return \App\Utils\JsonResponse::success(['redirect' => route('profile')], trans('admin.update_pass')); 

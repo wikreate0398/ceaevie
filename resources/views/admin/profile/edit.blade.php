@@ -16,8 +16,8 @@
                     @include('admin.utils.input', ['label' => 'E-mail', 'req' => true, 'name' => 'email', 'data' => $data])
 
                     <div class="form-group">
-                        <label for="" class="col-lg-2 col-sm-2 control-label">Тип</label>
-                        <div class="col-lg-10">
+                        <label for="" class="col-lg-12 control-label">Тип</label>
+                        <div class="col-lg-12">
                             <select name="type" class="form-control">
                                 <option value="admin" {{ $data->type == 'admin' ? 'selected' : '' }}>Администратор</option>
                                 <option value="manager" {{ $data->type == 'manager' ? 'selected' : '' }}>Менеджер</option>
