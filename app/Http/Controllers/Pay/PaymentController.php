@@ -57,7 +57,7 @@ class PaymentController extends Controller
 
         $userBallance->setUser($order->user)
                      ->setOrderId($order->id)
-                     ->setPrice($order->amount)
+                     ->setPrice($order->total_amount)
                      ->replenish();
 
     	\DB::commit();
@@ -83,7 +83,7 @@ class PaymentController extends Controller
         $order        = Tips::where('rand', $orderRand)->firstOrFail(); 
         $paymentClass = new VisaPayment;  
         $paymentClass->setOrderId($order->rand)
-                     ->setAmount(toFloat($order->amount))
+                     ->setAmount(toFloat($order->total_amount))
                      ->setDescription('Чаевые официанту ' . $order->user->name);
 
         $paymentData = $paymentClass->webpay();  
