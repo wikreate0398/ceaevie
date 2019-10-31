@@ -21,6 +21,7 @@ class WithdrawTips extends Model
         'status', 
         'request_status',
         'moderation',
+        'id_manager',
         'id_transaction',
         'pan_ref_token',
         'open',

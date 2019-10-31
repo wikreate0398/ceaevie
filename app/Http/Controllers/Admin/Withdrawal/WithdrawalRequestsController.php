@@ -79,7 +79,8 @@ class WithdrawalRequestsController extends Controller
                 return redirect()->back()->with('admin_err_flash_message', $e->getMessage()); 
             } 
         }
-    
+        
+        $withdraw->id_manager     = \Auth::user()->id;
         $withdraw->response_at    = date('Y-m-d H:i:s');
         $withdraw->request_status = $status;
         $withdraw->save();
