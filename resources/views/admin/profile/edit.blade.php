@@ -10,13 +10,24 @@
             <form action="/{{ $method }}/{{ $data['id'] }}/update-admin-user" class="ajax__submit form-horizontal">  
 
                 {{ csrf_field() }}
-                
+
                 <div class="form-body" style="padding-top: 20px;">
                     @include('admin.utils.input', ['label' => 'Имя', 'req' => true, 'name' => 'name', 'data' => $data])
                     @include('admin.utils.input', ['label' => 'E-mail', 'req' => true, 'name' => 'email', 'data' => $data])
+
+                    <div class="form-group">
+                        <label for="" class="col-lg-2 col-sm-2 control-label">Тип</label>
+                        <div class="col-lg-10">
+                            <select name="type" class="form-control">
+                                <option value="admin" {{ $data->type == 'admin' ? 'selected' : '' }}>Администратор</option>
+                                <option value="manager" {{ $data->type == 'manager' ? 'selected' : '' }}>Менеджер</option>
+                            </select>
+                        </div>
+                    </div> 
+
                     @include('admin.utils.input', ['label' => 'Новый Пароль', 'name' => 'password', 'type' => 'password', 'data' => []])
                     @include('admin.utils.input', ['label' => 'Повторите Пароль', 'name' => 'repeat_password', 'type' => 'password'])
-    
+
                 </div>
                 <div class="form-actions">
                     <div class="btn-set pull-left"> 

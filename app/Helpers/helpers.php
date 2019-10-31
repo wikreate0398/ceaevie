@@ -240,7 +240,32 @@ function adminMenu()
                 ], 
             ]
         ],
- 
+
+        'withdrawal' => [
+            'name'   => 'Вывод средств',
+            'icon'   => '<i class="fa fa-credit-card" aria-hidden="true"></i>',
+            'link'   => '/'.config('admin.path').'/withdrawal/',
+            'view'   => true,
+            'edit'   => 'Редактировать',
+            'childs' => [
+                'requests' => [
+                    'name' => 'Запросы',
+                    'icon' => '<i class="fa fa-book" aria-hidden="true"></i>',
+                    'link' => '/'.config('admin.path').'/withdrawal/requests/',
+                    'view' => true,
+                    'edit' => 'Редактировать'
+                ],
+
+                'statuses' => [
+                    'name' => 'Статусы',
+                    'icon' => '<i class="fa fa-book" aria-hidden="true"></i>',
+                    'link' => '/'.config('admin.path').'/withdrawal/statuses/',
+                    'view' => true,
+                    'edit' => 'Редактировать'
+                ], 
+            ]
+        ],       
+
         'how-it-works' => [
             'name' => 'Как это работает',
             'icon' => '<i class="fa fa-question-circle-o" aria-hidden="true"></i>',

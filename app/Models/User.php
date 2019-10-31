@@ -56,6 +56,11 @@ class User extends Authenticatable
 
     public function withdraw()
     {
-        return $this->hasMany('App\Models\WithdrawTips', 'id_user', 'id');
+      return $this->hasMany('App\Models\WithdrawTips', 'id_user', 'id')->where('moderation', 0);
     }  
+
+    public function withdraw_requests()
+    {
+      return $this->hasMany('App\Models\WithdrawTips', 'id_user', 'id')->where('moderation', 1);
+    }   
 }

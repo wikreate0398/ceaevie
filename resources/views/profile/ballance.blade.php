@@ -315,7 +315,13 @@
                                 <td>{{ $withdraw->created_at->format('d.m.Y H:i') }}</td>
                                 <td>{{ $withdraw->amount }} Р</td>
                                 <td class="code">{{ $withdraw->card->hide_number }}</td>
-                                <td>{{ $withdraw->statusData->name_ru }}</td>
+                                <td>
+                                    @if($withdraw->status)
+                                        {{ $withdraw->statusData->name_ru }}
+                                    @else
+                                        {{ $withdraw->requestStatusData->name_ru }}
+                                    @endif 
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>

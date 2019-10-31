@@ -113,18 +113,26 @@ Route::group(['prefix' => $adminPath, 'namespace' => 'Admin', 'middleware' => ['
 
     Route::group(['prefix' => 'statistics', 'namespace' => 'Statistics'], function() { 
         Route::group(['prefix' => 'enrollment'], function() { 
-            Route::get('/', 'EnrollmentController@show')->name('admin_enrollment');  
-            Route::get('{id}/edit', 'EnrollmentController@showeditForm');  
-            Route::post('create', 'EnrollmentController@create'); 
-            Route::post('{id}/update', 'EnrollmentController@update'); 
+            Route::get('/', 'EnrollmentController@show')->name('admin_enrollment');   
         });    
 
         Route::group(['prefix' => 'withdrawal-history'], function() { 
-            Route::get('/', 'WithdrawalHistoryController@show')->name('admin_withdrawal');  
-            Route::get('{id}/edit', 'WithdrawalHistoryController@showeditForm');  
-            Route::post('create', 'WithdrawalHistoryController@create'); 
-            Route::post('{id}/update', 'WithdrawalHistoryController@update'); 
+            Route::get('/', 'WithdrawalHistoryController@show')->name('admin_withdrawal');   
         });  
+    });
+
+    Route::group(['prefix' => 'withdrawal', 'namespace' => 'Withdrawal'], function() { 
+        Route::group(['prefix' => 'statuses'], function() { 
+            Route::get('/', 'WithdrawalStatusesController@show')->name('admin_withdrawal_statuses');  
+            Route::get('{id}/edit', 'WithdrawalStatusesController@showeditForm');  
+            Route::post('create', 'WithdrawalStatusesController@create'); 
+            Route::post('{id}/update', 'WithdrawalStatusesController@update'); 
+        });    
+
+        Route::group(['prefix' => 'requests'], function() { 
+            Route::get('/', 'WithdrawalRequestsController@show')->name('admin_withdrawal_requests');
+            Route::get('change-request-status/{id}/{status}', 'WithdrawalRequestsController@changeRequestStatus')->name('admin_status_requests');   
+        });    
     });
 
 	Route::group(['prefix' => 'profile'], function() { 
@@ -194,8 +202,7 @@ Route::group(['prefix' => '{lang}', 'middleware' => ['lang', 'web']], function()
             });  
              
             Route::get('enrollment', 'EnrollmentController@index')->name('enrollment');
-             
-             
+              
         });
     });
       

@@ -178,9 +178,15 @@
                      if($key == 'oficiant-profile')
                      {
                         $open = \App\Models\ContactUs::where('open', '1')->count(); 
-                     } elseif ($key == 'statistics') {
+                     }
+
+                     if ($key == 'statistics') {
                         $open = \App\Models\Tips::where('open_admin', '1')->confirmed()->count(); 
                      }
+
+                     if ($key == 'withdrawal') {
+                        $open = \App\Models\WithdrawTips::where('open', '1')->where('moderation', '1')->count(); 
+                     } 
 
                      if ($open) {
                         $open = "<span class='badge badge-roundless badge-danger'>+{$open}</span>";
@@ -211,9 +217,16 @@
                               <li class="<?=$active?>">
                                  <a href="<?=$value2['link']?>">
                                     <?=$value2['name']?>
-                                    <?php if (in_array($key2, ['contact-us', 'enrollment'])): ?>
+                                    <?php if (in_array($key2, ['contact-us', 'enrollment', 'requests'])): ?>
                                        <?=$open?> 
                                     <?php endif ?> 
+
+                                    <?php if ($key2 == 'withdrawal-history'): ?>
+                                       <?php $open = \App\Models\WithdrawTips::where('open_admin', '1')->whidrawHistory()->count();  ?>
+                                       <?php if ($open): ?>
+                                          <span class='badge badge-roundless badge-danger'>+<?=$open?></span>
+                                       <?php endif ?> 
+                                    <?php endif ?>
                                  </a>
                               </li>
                            <?php endforeach ?>
@@ -287,6 +300,17 @@
                   </div>
                </div>
                @php session()->forget('admin_flash_message') @endphp
+            @endif 
+
+            @if(Session::has('admin_err_flash_message'))
+               <div class="row">
+                  <div class="col-md-12">
+                     <div class="alert alert-danger" style="margin-top: 20px;">
+                        <p>{{ Session::get('admin_err_flash_message') }}</p>
+                     </div> 
+                  </div>
+               </div>
+               @php session()->forget('admin_err_flash_message') @endphp
             @endif  
 
             @yield('content')

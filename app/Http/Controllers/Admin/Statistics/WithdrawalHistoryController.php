@@ -36,7 +36,11 @@ class WithdrawalHistoryController extends Controller
     public function show()
     {  
         $data = [
-            'data'    => $this->model->orderByRaw('id desc')->with(['user', 'card', 'statusData'])->filter()->get(),
+            'data'    => $this->model->orderByRaw('id desc') 
+                                     ->whidrawHistory()
+                                     ->with(['user', 'card', 'statusData'])
+                                     ->filter()
+                                     ->get(),
             'table'   => $this->model->getTable(),
             'method'  => $this->method, 
             'clients' => User::has('withdraw')->orderBy('id', 'desc')->get()

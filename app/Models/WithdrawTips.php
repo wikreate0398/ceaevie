@@ -19,6 +19,8 @@ class WithdrawTips extends Model
         'rand', 
         'amount',  
         'status', 
+        'request_status',
+        'moderation',
         'id_transaction',
         'pan_ref_token',
         'open',
@@ -26,9 +28,10 @@ class WithdrawTips extends Model
     ];  
 
     protected $casts = [ 
-        'open'         => 'integer',
-        'open_admin'   => 'integer', 
-        'amount'       => 'float'
+        'open'       => 'integer',
+        'open_admin' => 'integer', 
+        'moderation' => 'integer',
+        'amount'     => 'float'
     ];
 
     public function user()
@@ -44,6 +47,20 @@ class WithdrawTips extends Model
     public function statusData()
     {
         return $this->hasOne('App\Models\WithdrawStatus', 'define', 'status');
+    }
+
+    public function requestStatusData()
+    {
+        return $this->hasOne('App\Models\WithdrawalRequestStatus', 'define', 'request_status');
+    }
+
+    public function scopeWhidrawHistory($query)
+    {
+        return $query->where('moderation', 0)->orWhere(function($query){
+            return $query->where('moderation', 1)
+                         ->where('request_status', 'confirmed')
+                         ->whereIn('status', ['SUCCESS', 'PENDING']);
+        });
     }
     
     public function scopeFilter($query)

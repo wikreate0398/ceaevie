@@ -5,11 +5,14 @@ namespace App\Http\Controllers\Profile;
 use Illuminate\Http\Request; 
 use App\Http\Controllers\Controller;
 use App\Utils\Payments\VisaPayment;
+use App\Utils\Payments\WithdrawalService; 
 use App\Utils\Encryption; 
-use App\Utils\Ballance; 
+use App\Utils\Ballance;  
+use App\Notifications\NewWithdrawalRequest;
 use App\Models\Tips; 
 use App\Models\BankCards;
-use App\Models\WithdrawTips;
+use App\Models\WithdrawTips; 
+use App\Models\AdminUser;
 
 class BallanceController extends Controller
 { 
@@ -19,6 +22,7 @@ class BallanceController extends Controller
             'total_amount' => \Auth::user()->ballance,
             'bank_cards'   => BankCards::where('id_user', \Auth::user()->id)->with('card_type')->get(),
             'withdraws'    => WithdrawTips::where('id_user', \Auth::user()->id)
+                                          // ->whidrawHistory()
                                           ->with('card')
                                           ->filter()
                                           ->orderByRaw('id desc')
@@ -68,102 +72,59 @@ class BallanceController extends Controller
         return redirect()->back()->with('lk_success', 'Запись успешно удалена');
     }
 
-    public function withdrawFunds($lang, Request $request)
+    public function withdrawFunds($lang, Request $request, WithdrawalService $withdrawalService)
     { 
         try {
-            $this->validateWithdrawFunds($request, \Auth::user()->ballance);
+            $withdrawalService->validate($request, \Auth::user()->ballance);
         } catch (\Exception $e) {
             return \JsonResponse::error(['messages' => $e->getMessage()]);
         }
 
-        \DB::beginTransaction();
+        $amount = toFloat($request->price);
 
-        $card     = BankCards::whereId($request->card)->first(); 
-        $withdraw = $this->registerWithdraw($request);
-
-        try {
-            $this->handleWithdraw($withdraw, $card);
-            \DB::commit();
-        } catch (\Exception $e) {
-            \DB::rollback();
-            return \JsonResponse::error(['messages' => $e->getMessage()]);
-        } 
-        
-        return \JsonResponse::success(['messages' => 'Операция прошла успешно! Денежные средства зачислятся на карту в течении двух банковских дней']);
-    }
-
-    private function handleWithdraw($withdraw, $card)
-    {  
-        $crypt         = new Encryption;
-        $payoutService = new VisaPayment;
-
-        if (setting('test_payment_mode') != 'on') 
+        if (setting('moderation_withdrawal') == 'on') 
         {
-            $this->offUserBallance($withdraw);
+            $withdraw = WithdrawTips::create([
+                'id_user'        => \Auth::user()->id,
+                'id_card'        => $request->card,
+                'rand'           => generate_id(7),
+                'amount'         => $amount,
+                'moderation'     => '1',
+                'request_status' => 'pending'
+            ]); 
+
+            (new Ballance)->setUser(\Auth::user()) 
+                          ->setWithdrawId($withdraw->id)
+                          ->setPrice($amount)
+                          ->off();
+
+            AdminUser::where('type', 'manager')->each(function($manager){
+                $manager->notify(new NewWithdrawalRequest);
+            });
+
+            return \JsonResponse::success([
+                'messages' => 'Запрос был отправлен модератору а средства для вывода заморожены'
+            ]);
         }
-        
-        $payoutService->setOrderId($withdraw->rand)
-                      ->setAmount(toFloat($withdraw->amount))
-                      ->setDescription('Вывод средств официанту ' . $withdraw->user->name)
-                      ->setCardCredentials([
-                        'name'   => $card->name,
-                        'number' => $crypt->decrypt($card->number),
-                        'month'  => $card->month,
-                        'year'   => $card->year,
-                        'cvc'    => $crypt->decrypt($card->cvc),
-                    ]);
-
-        $payoutResponse = $payoutService->payout();  
-
-        if (in_array($payoutResponse->success, ['false'])) 
+        else
         {
-            throw new \Exception("В процессе вывода средств возникла ошибка"); 
-        }
+            \DB::beginTransaction(); 
+            try {
+                $withdrawalService->setIdCard($request->card)
+                                  ->setAmount($amount)
+                                  ->setUserId(\Auth::user()->id)
+                                  ->handle();
 
-        $withdraw->id_transaction = $payoutResponse->tranId;
-        $withdraw->pan_ref_token  = $payoutResponse->panRefToken ?: '';
-        $withdraw->status         = ($payoutResponse->success == 'true') ? 'SUCCESS' : strtoupper($payoutResponse->success); 
-        $withdraw->save(); 
+                \DB::commit();
+                return \JsonResponse::success([
+                    'messages' => 'Операция прошла успешно! Денежные средства зачислятся на карту в течении двух банковских дней'
+                ]);
+            } catch (\Exception $e) {
+                \DB::rollback();
+                return \JsonResponse::error(['messages' => $e->getMessage()]);
+            }  
+        }  
     }
-
-    private function offUserBallance($withdraw)
-    {
-        $userBallance = new Ballance; 
-        $userBallance->setUser($withdraw->user)
-                     ->setWithdrawId($withdraw->id)
-                     ->setPrice($withdraw->amount)
-                     ->off();
-    }
-
-    private function registerWithdraw($request)
-    {
-        $id = WithdrawTips::create([
-            'id_user' => \Auth::id(),
-            'id_card' => $request->card,
-            'rand'    => generate_id(7),
-            'amount'  => toFloat($request->price)
-        ])->id;
-
-        return WithdrawTips::whereId($id)->with('user')->first();
-    }
-
-    private function validateWithdrawFunds($request, $totalAmount)
-    {
-        if (!$request->price or !$request->card) 
-        {
-            throw new \Exception(\Constant::get('REQ_FIELDS')); 
-        } 
-
-        if ($request->price > $totalAmount) 
-        {
-            throw new \Exception("На вашем счету нет столько средств. Вы можете вывести не более {$totalAmount} Р");
-        } 
-
-        if (!BankCards::whereId($request->card)->count()) 
-        {
-            throw new \Exception("Ошибка");
-        } 
-    } 
 
     private function validateCreditCardForm($request)
     {
