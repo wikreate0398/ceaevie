@@ -15,7 +15,7 @@ class PaymentWebhookController extends Controller
 {
 	public function visa(Request $request)
 	{ 
-		$this->log($request->all()); 
+		$this->log($request->all(), @$request->Event, @$request->Order_Id); 
   
 		if ($request->Order_Id) 
 		{
@@ -66,13 +66,15 @@ class PaymentWebhookController extends Controller
 		} 
 	}
 
-	private function log($data)
+	private function log($data, $action = null, $rand = null)
 	{
 		PaymentLogResponse::create([
 			'order_rand'   => !empty($data->Order_Id) ? $data->Order_Id : '',
 			'payment_mode' => !empty($data->IsTest) ? 'dev' : 'production',
 			'flag'         => !empty($data->Status) ? $data->Status : '', 
-			'log'          => json_encode($data)
+			'log'          => json_encode($data),
+			'action'       => $action ?: '',
+			'order_rand'   => $rand ?: ''
 		]);
 	}
 }
