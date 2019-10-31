@@ -172,7 +172,7 @@
             <?php $menu = adminMenu(); ?>
             <li class="sidebar-search-wrapper"><br></li>
             <?php foreach ($menu as $key => $value): ?>
-               <?php if (!empty($value['view'])): ?> 
+               <?php if (!empty($value['view']) && (\Auth::user()->type == 'admin' or (\Auth::user()->type == 'manager' && $key == 'withdrawal'))): ?> 
                   <?php 
                      $open='';
                      if($key == 'oficiant-profile')

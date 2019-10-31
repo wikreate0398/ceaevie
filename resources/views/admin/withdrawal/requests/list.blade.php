@@ -24,10 +24,10 @@
 
 			@if($statuses->count())
 				<div class="col-md-2">
-					<select name="status" class="form-control">
+					<select name="request_status" class="form-control">
 						<option value="0">Статусы</option>
 						@foreach($statuses as $status)
-							<option value="{{ $status->define }}" {{ (request()->status == $status->define) ? 'selected' : '' }}>
+							<option value="{{ $status->define }}" {{ (request()->request_status == $status->define) ? 'selected' : '' }}>
 								{{ $status->name_ru }}
 							</option>
 						@endforeach

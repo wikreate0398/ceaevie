@@ -24,14 +24,16 @@ class WithdrawTips extends Model
         'id_transaction',
         'pan_ref_token',
         'open',
-        'open_admin'
+        'open_admin',
+        'response_at'
     ];  
 
     protected $casts = [ 
         'open'       => 'integer',
         'open_admin' => 'integer', 
         'moderation' => 'integer',
-        'amount'     => 'float'
+        'amount'     => 'float',
+        'response_at' => 'datetime'
     ];
 
     public function user()
@@ -93,5 +95,11 @@ class WithdrawTips extends Model
         if (request()->client) {
             $query->where('id_user', request()->client);
         } 
+
+        if (request()->request_status) {
+            $query->where('request_status', request()->request_status);
+        } 
+
+         
     }
 }
