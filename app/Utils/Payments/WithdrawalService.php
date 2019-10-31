@@ -98,7 +98,7 @@ class WithdrawalService
 
         $payoutResponse = $this->payoutService->payout();   
         
-        if (!in_array($payoutResponse->success, ['true'])) 
+        if (in_array($payoutResponse->success, ['false', 'fail'])) 
         {
             throw new \Exception("В процессе вывода средств возникла ошибка."); 
         }
