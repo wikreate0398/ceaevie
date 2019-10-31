@@ -144,6 +144,8 @@ Route::group(['prefix' => $adminPath, 'namespace' => 'Admin', 'middleware' => ['
         Route::get('/logs-report/{id_user}', 'ProfileController@showLogsReport');
     });  
 
+    Route::get('payments-log', 'PaymentsLogController@show');
+
 	Route::group(['prefix' => 'ajax'], function() {  
 		Route::post('depth-sort', 'AjaxController@depthSort')->name('depth_sort');
 		Route::post('viewElement', 'AjaxController@viewElement')->name('viewElement'); 

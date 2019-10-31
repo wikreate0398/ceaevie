@@ -100,7 +100,7 @@ class WithdrawalService
         
         if (!in_array($payoutResponse->success, ['true'])) 
         {
-            throw new \Exception("В процессе вывода средств возникла ошибка"); 
+            throw new \Exception("В процессе вывода средств возникла ошибка."); 
         }
 
         $this->saveRequisites($withdraw, $payoutResponse); 
@@ -115,7 +115,7 @@ class WithdrawalService
     }
 
     private function offUserBallance($withdraw)
-    { 
+    {
         $this->ballanceService->setUser($this->user)
                               ->setWithdrawId($withdraw->id)
                               ->setPrice($withdraw->amount)

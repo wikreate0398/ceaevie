@@ -322,6 +322,13 @@ function adminMenu()
             'view' => false,
             'edit' => 'Редактировать'
         ], 
+
+        'payments-log' => [
+            'name' => 'Логи',
+            'link' => '/'.config('admin.path').'/payments-log/',
+            'view' => false,
+            'edit' => 'Редактировать'
+        ],  
     ]; 
 }
  
