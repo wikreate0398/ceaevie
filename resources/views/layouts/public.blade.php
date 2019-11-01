@@ -39,7 +39,7 @@
                     <i class="fa fa-user-circle-o" aria-hidden="true" style="font-size: 18px;"></i> 
                 </a> -->
              
-                <ul class="navbar-nav mx-auto text-center sign-menu d-block d-sm-none">
+                <ul class="navbar-nav text-center sign-menu d-block d-sm-none">
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('show_login', ['lang' => $lang]) }}" target="_blank">
                             Войти
