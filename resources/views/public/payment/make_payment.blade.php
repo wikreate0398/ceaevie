@@ -106,36 +106,36 @@
                     </form>
 
                     <script>
-                        function setPaymentType(button, idPayment) {
-                            $('#payment_type').val(idPayment);
+                        function setPaymentType(button, idPayment) { 
+                          if (!$('#priceInput').val()) {
+                            alert('Укажите сумму');
+                            return;
+                          } 
 
-                            if (!$('#priceInput').val()) {
-                              alert('Укажите сумму');
-                              return;
-                            } 
+                          $('#payment_type').val(idPayment);
 
-                            $('.active-payment-type').removeClass('active-payment-type');
-                            $(button).addClass('active-payment-type'); 
-                            checkPaymentForm();
+                          $('.active-payment-type').removeClass('active-payment-type');
+                          $(button).addClass('active-payment-type'); 
+                          checkPaymentForm();
                         }
 
                         function setPrice(price) {
-                            document.getElementById("priceInput").value = price;
-                            checkPaymentForm();
+                          document.getElementById("priceInput").value = price;
+                          checkPaymentForm();
                         }
 
                         function checkPaymentForm(){
-                            var idPayment = $('#payment_type').val();
-                            if($('#payment_type').val() && $('#priceInput').val()){  
-                                $('#make-payment-form').submit();
-                                //$('.make-payment-btn').show();
-                                //toggleBlocks('.btn-back, .btn-pay', '.btn-next');
-                            }else{
-                              if(!$('#priceInput').val()){
+                          var idPayment = $('#payment_type').val();
+                          if($('#payment_type').val() && $('#priceInput').val()){  
+                              $('#make-payment-form').submit();
+                              //$('.make-payment-btn').show();
+                              //toggleBlocks('.btn-back, .btn-pay', '.btn-next');
+                          }else{
+                            if(!$('#priceInput').val()){
 
-                                //$('.make-payment-btn').hide();
-                              }
-                            } 
+                              //$('.make-payment-btn').hide();
+                            }
+                          } 
                         }
 
                         $(document).ready(function(){
