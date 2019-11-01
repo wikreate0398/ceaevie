@@ -667,6 +667,10 @@ footer a {
     display: none;
 }
 
+.mobile-menu-items{
+    display: none;
+}
+
 @media screen and (max-width: 500px){
     .home-header{
         text-align: center;
@@ -690,6 +694,10 @@ footer a {
 
     .bg-phone-header h4{
         margin-top: 40px;
+    }
+
+    .mobile-menu-items {
+        display: block;
     }
 }
 

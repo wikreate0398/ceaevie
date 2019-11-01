@@ -2,7 +2,7 @@ $(document).ready(function(){
     $(window).scroll(function(e){
         var body = e.target.body, scrollT = $(this).scrollTop(); 
         if (scrollT > 200) {
-            $('.navbar').addClass('fixed-header');
+            $('.navbar').addClass('fixed-header');  
             $('.fixed-header').css({
                 'top': "0",
                 'opacity': '1'

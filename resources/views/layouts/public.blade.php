@@ -39,14 +39,9 @@
                     <i class="fa fa-user-circle-o" aria-hidden="true" style="font-size: 18px;"></i> 
                 </a> -->
              
-                <ul class="navbar-nav mx-auto text-center sign-menu d-block d-sm-none">
+                <ul class="navbar-nav mx-auto text-center sign-menu d-block d-sm-none"> 
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('show_login', ['lang' => $lang]) }}" target="_blank">
-                            Войти
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Оплатить чаевые</a>
+                        <a class="nav-link" href="{{ route('show_payment_code', ['lang' => $lang]) }}">Оплатить чаевые</a>
                     </li>
                 </ul>
             @endif
@@ -83,12 +78,30 @@
                             <a class="nav-link {{ @$class }}" href="{{ $link }}">{{ $menu["name_$lang"] }}</a>
                         </li> 
                     @endforeach
+                    
+                    @if(Auth::check())
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('workspace', ['lang' => $lang]) }}">
-                            Мой профиль
-                        </a>
-                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('show_payment_code', ['lang' => $lang]) }}">Оплатить чаевые</a>
+                        </li>
+                    
+                        <li class="nav-item mobile-menu-items">
+                            <a class="nav-link" href="{{ route('workspace', ['lang' => $lang]) }}">
+                                Мой профиль
+                            </a>
+                        </li>
+                        <li class="nav-item mobile-menu-items">
+                            <a href="{{ route('logout', ['lang' => $lang]) }}" class="nav-link">
+                                Выйти
+                            </a>
+                        </li>
+                    @else 
+                        <li class="nav-item mobile-menu-items">
+                            <a class="nav-link" href="{{ route('show_login', ['lang' => $lang]) }}" target="_blank">
+                                Войти
+                            </a>
+                        </li>
+                    @endif
                 </ul>
                 <ul class="nav navbar-nav flex-row justify-content-center flex-nowrap d-none d-sm-block">
                     <li class="nav-item text-white"> 
