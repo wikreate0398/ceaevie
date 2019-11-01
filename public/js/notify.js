@@ -39,7 +39,7 @@ var Notify = function () {
             $.fancybox.close({
                 src  : '#ajax-notify'
             });
-        }, 7000000);
+        }, 7000);
     };
 }
 var Notify = new Notify();

@@ -799,6 +799,13 @@ footer {}
     display: none;
 }
 
+@media screen and (max-width: 500px){
+  #ajax-notify{
+    min-width: 90%;
+    max-width: 100%;
+  }
+}
+
 .notify-inner{
     font-size: 14px; 
     font-weight: 500;
