@@ -134,7 +134,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-4 order-3 order-sm-1">
-                    <p>{{ request()->server('SERVER_NAME') }}</p>
+                    <!-- <p>{{ request()->server('SERVER_NAME') }}</p> -->
                     <p><small>Сервис для оплаты чаевых <br> безналичным расчетом</small></p>
                     <p class="copyright mb-0">© {{ request()->server('SERVER_NAME') }}</p>
                 </div>

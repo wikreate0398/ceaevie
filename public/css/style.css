@@ -620,6 +620,10 @@ footer a {
         margin-bottom: 5px;
     }
 
+    footer .nav-item{
+        border: none;
+    }
+
     .nav-item:hover a {
         color: #cf1c24;
     }
