@@ -166,7 +166,7 @@
 						<a href="https://www.facebook.com/chaevieonline" target="_blank">
 							<img src="{{ asset('profile_theme') }}/assets/images/socials/facebook.png" alt="facebook">
 						</a>
-						<!-- <a href="#"><img src="{{ asset('profile_theme') }}/assets/images/socials/vk.png" alt="vk"></a> -->
+						<a href="https://vk.com/chaevieonline" target="_blank"><img src="{{ asset('profile_theme') }}/assets/images/socials/vk.png" alt="vk"></a>
 						<a href="tg://resolve?domain=chaevieonline_bot" target="_blank"> 
                             <i class="fa fa-telegram" aria-hidden="true" style="font-size: 45px; color: #fff; vertical-align: middle;"></i> 
                         </a>

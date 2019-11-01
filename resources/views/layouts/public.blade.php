@@ -168,6 +168,11 @@
                             </a>
                         </li>
                         <li class="list-inline-item">
+                            <a href="https://vk.com/chaevieonline" target="_blank">
+                                <img src="/img/socials/vk.svg" alt="">
+                            </a>
+                        </li> 
+                        <li class="list-inline-item">
                             <a href="tg://resolve?domain=chaevieonline_bot" target="_blank"> 
                                 <i class="fa fa-telegram" aria-hidden="true" style="font-size: 45px; vertical-align: middle;"></i> 
                             </a>
