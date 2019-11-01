@@ -448,6 +448,10 @@ footer a {
     margin-bottom: 0;
 }
 
+.nav-menu{
+    margin-left: 45px;
+}
+
 /* For someone */
 .for-someone {
     position: relative;
@@ -634,6 +638,11 @@ footer a {
         padding: 5px;
         border-radius: 50px;
     }
+
+    .nav-menu{
+        margin-left: 0px;
+    }
+
 }
 
 @media (max-width: 767.98px) {

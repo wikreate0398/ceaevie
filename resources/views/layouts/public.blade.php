@@ -39,7 +39,7 @@
                     <i class="fa fa-user-circle-o" aria-hidden="true" style="font-size: 18px;"></i> 
                 </a> -->
              
-                <ul class="navbar-nav text-center sign-menu d-block d-sm-none">
+                <ul class="navbar-nav mx-auto text-center sign-menu d-block d-sm-none">
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('show_login', ['lang' => $lang]) }}" target="_blank">
                             Войти
@@ -55,7 +55,7 @@
                 <span class="navbar-toggler-icon"><i class="fa fa-bars"></i></span>
             </button>
             <div class="navbar-collapse collapse justify-content-between align-items-center w-100" id="collapsingNavbar2">
-                <ul class="navbar-nav mx-auto text-center"> 
+                <ul class="navbar-nav text-center nav-menu"> 
                     @foreach(\Pages::top() as $menu)
                         @php
                             if($menu->toggle or @$page_data->page_type == 'home' && $menu->page_type == 'home')
