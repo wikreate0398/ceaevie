@@ -4,10 +4,27 @@ $(document).ready(function () {
 	});
 
 	$('a.confirm_link').click(function(e){  
-        if (!confirm($(this).attr('data-confirm'))) {
-            e.preventDefault();
-        }
-    });
+      if (!confirm($(this).attr('data-confirm'))) {
+        e.preventDefault();
+      }
+  });
+
+  $('.rating-stars').each(function(){
+      var currentRating = $(this).data('current-rating');
+
+      $(this).barrating({
+          theme: 'fontawesome-stars-o',
+          showSelectedRating: false,
+          initialRating: parseFloat(currentRating),
+          allowEmpty:true, 
+          deselectable:true,
+          emptyValue: 0,
+          onSelect:function(value, text, event){ 
+          } 
+      }); 
+      var state = ($(this).attr('data-readonly') == 'true') ? true : false; 
+      $(this).barrating('readonly', state);  
+  }); 
 
   inputMask();
 });

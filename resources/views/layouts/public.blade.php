@@ -15,6 +15,7 @@
     <link href="/css/style.css?v={{ time() }}" rel="stylesheet" type="text/css">
     <link href="/css/main.css?v={{ time() }}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="/css/loader.css?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('js/bar-rating/dist/themes/fontawesome-stars-o.css') }}">
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 </head> 
 
@@ -29,14 +30,15 @@
     <nav class="navbar navbar-expand-md bg-grey-red no-mob-bg-grey-red pt-45 justify-content-center">
         <div class="container">
             <a href="/" class="navbar-brand">
-                <img src="/img/header-home/logo.png" alt="">
+                <img src="/img/header-home/logo.png" class="logo-lg" alt=""> 
+                <img src="/img/logo-mob.png" alt="" class="logo-sm"> 
             </a>
             
-            @if(Auth::check())
-                <a href="{{ route('workspace', ['lang' => $lang]) }}" class="mobile-auth-icon">
+            @if(!Auth::check())
+                <!-- <a href="{{ route('workspace', ['lang' => $lang]) }}" class="mobile-auth-icon">
                     <i class="fa fa-user-circle-o" aria-hidden="true" style="font-size: 18px;"></i> 
-                </a>
-            @else
+                </a> -->
+             
                 <ul class="navbar-nav mx-auto text-center sign-menu d-block d-sm-none">
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('show_login', ['lang' => $lang]) }}" target="_blank">
@@ -81,6 +83,12 @@
                             <a class="nav-link {{ @$class }}" href="{{ $link }}">{{ $menu["name_$lang"] }}</a>
                         </li> 
                     @endforeach
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('workspace', ['lang' => $lang]) }}">
+                            Мой профиль
+                        </a>
+                    </li>
                 </ul>
                 <ul class="nav navbar-nav flex-row justify-content-center flex-nowrap d-none d-sm-block">
                     <li class="nav-item text-white"> 
@@ -113,9 +121,9 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-4 order-3 order-sm-1">
-                    <p>ЧАЕВЫЕ-ОНЛАЙН.РФ</p>
+                    <p>{{ request()->server('SERVER_NAME') }}</p>
                     <p><small>Сервис для оплаты чаевых <br> безналичным расчетом</small></p>
-                    <p class="copyright mb-0">© чаевые-онлайн.рф</p>
+                    <p class="copyright mb-0">© {{ request()->server('SERVER_NAME') }}</p>
                 </div>
                 <div class="col-lg-4 order-2 order-sm-2">
                     <ul class="list-inline payment_list">
@@ -142,17 +150,17 @@
                     <p>Мы в соц. сетях:</p>
                     <ul class="list-inline">
                         <li class="list-inline-item">
-                            <a href="#" target="_blank">
+                            <a href="https://www.facebook.com/chaevieonline" target="_blank">
                                 <img src="/img/socials/facebook.svg" alt="">
                             </a>
                         </li>
                         <li class="list-inline-item">
-                            <a href="#" target="_blank">
-                                <img src="/img/socials/vk.svg" alt="">
+                            <a href="tg://resolve?domain=chaevieonline_bot" target="_blank"> 
+                                <i class="fa fa-telegram" aria-hidden="true" style="font-size: 45px; vertical-align: middle;"></i> 
                             </a>
                         </li>
                         <li class="list-inline-item">
-                            <a href="#" target="_blank">
+                            <a href="https://www.instagram.com/chaevieonline/" target="_blank">
                                 <img src="/img/socials/instagram.svg" alt="">
                             </a>
                         </li>
@@ -171,6 +179,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.1.25/jquery.fancybox.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="{{ asset('js/bootstrap.min.js') }}"></script> 
+    <script src="{{ asset('js/bar-rating/jquery.barrating.js') }}"></script>
     <script src="{{ asset('js/main.js') }}?v={{ time() }}"></script>
     <script src="{{ asset('js/ajax.js') }}?v={{ time() }}"></script>
     <script src="{{ asset('js/notify.js') }}?v={{ time() }}"></script>

@@ -1,3 +1,30 @@
+@media screen and (max-width: 500px) {
+	h3{
+		font-size: 20px;
+	}
+
+	.card .card-body{
+		padding: 25px;
+	}
+
+	.content-wrapper{
+		padding: 25px;
+	}
+
+	.profile-photo{
+		order: 1;
+		margin-bottom: 40px;
+	}
+
+	.profile-data{
+		order: 2;
+	}
+}
+
+.fancybox-close-small{
+	outline: none !important;
+}
+
 .content-wrapper{
 	background-color: #f6f6f6;
 }
@@ -66,6 +93,7 @@ p.page-description{
 .navbar .navbar-brand-wrapper .navbar-brand.brand-logo-mini img{
 	width: 60px;
 	height: auto;
+	padding-left: 15px;
 }
 @media (min-width: 992px){
 	.sidebar-icon-only .sidebar .nav .nav-item.active{
@@ -115,6 +143,7 @@ p.page-description{
 .modal-content h2{
 	margin-bottom: 30px;
 }
+
 .modal-content .modal-body{
 	padding: 10px 40px 40px;
 }
@@ -155,6 +184,21 @@ p.page-description{
 	pointer-events: none;
 	border: 2px solid transparent;
 	transition: border-color 0.2s ease-in-out;
+}
+
+@media screen and (max-width: 500px) {
+	.modal-content h2{
+		font-size: 24px;
+	}
+
+	.modal-content label.radio{
+		width: 35px;
+		height: 35px;
+	}
+
+	.modal-content .modal-body{
+		padding: 20px;
+	}
 }
 
 
@@ -401,6 +445,26 @@ form a.sort-transaction:hover{
 	opacity: 0.8;
 }
 
+@media screen and (max-width: 500px) {
+	form a.sort-transaction{
+		display: block;
+		margin: 10px 0;
+		width: 100%;
+		text-align: center;
+		background-color: #fff;
+		padding: 10px 0;
+		border: 1px solid #ededed;
+		text-decoration: none;
+		color: #333;
+		border-radius: 5px;
+	}
+ 
+	.inline{
+		justify-content: center;
+	}
+}
+
+
 .active-sort{
 	color: #cf1c24 !important;
 }
@@ -620,6 +684,36 @@ footer{
 	background-color: #151515;
 	padding: 55px 100px 52px;
 }
+
+.ft-socials{
+	align-items: flex-end;
+}
+
+@media screen and (max-width: 500px){
+	footer{
+		padding: 55px 0;
+		text-align: center;
+	}
+
+	footer p.medium{
+		display: none;
+	}
+
+	.ft-socials{
+		align-items: center;
+		margin-top: 40px;
+	}
+
+	.ft-payments{
+		order: 3;
+		margin-top: 40px;
+	}
+
+	footer p.small{
+		display: none;
+	}
+}
+
 footer img[alt="logo"]{
 	margin-bottom: 20px;
 	width: 119px;

@@ -54,6 +54,9 @@
 
 <link rel="stylesheet" href="{{ asset('admin_theme') }}/assets/css/admin.css?v=<?=time()?>">
 <link rel="stylesheet" href="{{ asset('admin_theme') }}/assets/css/nestable.css">
+
+<link rel="stylesheet" href="{{ asset('js/bar-rating/dist/themes/fontawesome-stars-o.css') }}">
+
 <!-- END THEME STYLES -->
 <link rel="shortcut icon" href="/fav.ico">
 
@@ -388,6 +391,8 @@
 <script type="text/javascript" src="{{ asset('admin_theme') }}/theme/assets/global/plugins/ckeditor/ckeditor.js"></script>
 
 <script type="text/javascript" src="{{ asset('admin_theme') }}/theme/assets/global/plugins/bootstrap-notify/bootstrap-notify.min.js"></script>
+
+<script src="{{ asset('js/bar-rating/jquery.barrating.js') }}"></script>
 
 <!-- Main scripts -->
 <script src="{{ asset('admin_theme') }}/assets/js/jquery.nestable.js?v=<?=time()?>" type="text/javascript"></script>

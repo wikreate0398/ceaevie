@@ -26,7 +26,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+      'password', 'remember_token',
     ];
 
     protected $casts = [
@@ -63,4 +63,18 @@ class User extends Authenticatable
     {
       return $this->hasMany('App\Models\WithdrawTips', 'id_user', 'id')->where('moderation', 1);
     }   
+
+    public function scopeRegistered($query, $time = false)
+    {
+      if ($time == 'week') 
+      { 
+        $query->where('created_at', '>=', \Carbon\Carbon::today()->subDays(7));
+      }
+      elseif ($time == 'today') 
+      {
+        $query->where('created_at', '>=', \Carbon\Carbon::today());
+      }
+
+      return $query->where('confirm', '1');
+    }
 }

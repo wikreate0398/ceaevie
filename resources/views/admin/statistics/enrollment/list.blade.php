@@ -80,6 +80,15 @@
 							</td>
 							<td class="nw" align="center">
 								{{ $item->amount }}
+								@if($item->rating)
+                                    <select class="rating-stars" data-readonly="true" data-current-rating="{{ $item->rating }}" autocomplete="off">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                    </select>
+                                @endif
 							</td> 
 							<td class="nw" align="center">
 								<img src="/uploads/payment_types/{{ $item->payment->image_black_white }}" style="height: 15px;" alt=""> 

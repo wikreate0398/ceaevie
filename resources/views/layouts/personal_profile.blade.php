@@ -21,6 +21,7 @@
 	<link rel="stylesheet" href="{{ asset('profile_theme') }}/assets/css/style.css?v={{ time() }}">
 	<link rel="stylesheet" href="{{ asset('profile_theme') }}/assets/css/main.css?v={{ time() }}">
 	<link rel="stylesheet" href="{{ asset('profile_theme') }}/assets/css/datepicker-ui.css">
+	<link rel="stylesheet" href="{{ asset('js/bar-rating/dist/themes/fontawesome-stars-o.css') }}">
 	
 	<link rel="stylesheet" href="/css/loader.css">
 	<!-- End layout styles -->
@@ -35,8 +36,9 @@
 			class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
 			<a class="navbar-brand brand-logo" href="/"><img
 				src="/img/logo.png" alt="logo"/></a>
+
 			<a class="navbar-brand brand-logo-mini" href="/"><img
-				src="/img/logo.png" alt="logo"/></a>
+				src="/img/logo-mob.png" alt="logo"/></a>
 		</div>
 		<div class="navbar-menu-wrapper d-flex align-items-stretch">
 			<button class="navbar-toggler navbar-toggler align-self-center"
@@ -145,12 +147,12 @@
 	<footer>
 		<div class="container-fluid">
 			<div class="row">
-				<div class="col-md-4">
+				<div class="col-lg-4">
 					<img src="{{ asset('profile_theme') }}/assets/images/logo-white.png" alt="logo">
 					<p>Сервис для оплаты чаевых <br> безналичным расчетом</p>
-					<p class="small">© чаевые-онлайн.рф</p>
+					<p class="small">© {{ request()->server('SERVER_NAME') }}</p>
 				</div>
-				<div class="col-md-4 text-center align-center">
+				<div class="col-md-4 text-center align-center ft-payments">
 					<div class="partners">
 						<img src="{{ asset('profile_theme') }}/assets/images/socials/visa-big.png" alt="visa">
 						<img src="{{ asset('profile_theme') }}/assets/images/socials/mastercard.png" alt="mastercard">
@@ -158,12 +160,19 @@
 					</div>
 					<a href="#" class="policy">Политики конфиденциальности</a>
 				</div>
-				<div class="col-md-4 align-center" style="align-items: flex-end;">
+				<div class="col-md-4 align-center ft-socials">
 					<p class="medium">Мы в соц. сетях:</p>
 					<div class="social_link">
-						<a href="#"><img src="{{ asset('profile_theme') }}/assets/images/socials/facebook.png" alt="facebook"></a>
-						<a href="#"><img src="{{ asset('profile_theme') }}/assets/images/socials/vk.png" alt="vk"></a>
-						<a href="#"><img src="{{ asset('profile_theme') }}/assets/images/socials/instagram.png" alt="instagram"></a>
+						<a href="https://www.facebook.com/chaevieonline" target="_blank">
+							<img src="{{ asset('profile_theme') }}/assets/images/socials/facebook.png" alt="facebook">
+						</a>
+						<!-- <a href="#"><img src="{{ asset('profile_theme') }}/assets/images/socials/vk.png" alt="vk"></a> -->
+						<a href="tg://resolve?domain=chaevieonline_bot" target="_blank"> 
+                            <i class="fa fa-telegram" aria-hidden="true" style="font-size: 45px; color: #fff; vertical-align: middle;"></i> 
+                        </a>
+						<a href="https://www.instagram.com/chaevieonline/" target="_blank">
+							<img src="{{ asset('profile_theme') }}/assets/images/socials/instagram.png" alt="instagram">
+						</a>
 					</div>
 				</div>
 			</div>
@@ -194,15 +203,15 @@
 <script src="{{ asset('profile_theme') }}/assets/js/main.js?v={{ time() }}"></script>
 
 <script src="{{ asset('js/cropperjs/dist/cropper.js') }}"></script>
+<script src="{{ asset('js/bar-rating/jquery.barrating.js') }}"></script>
 <script src="https://use.fontawesome.com/7d23dee490.js"></script> 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.1.25/jquery.fancybox.min.js"></script>
  
 <script src="{{ asset('profile_theme') }}/assets/js/jquery-ui.js"></script> 
- 
+
 @if($lang == 'ru')
 <script src="{{ asset('profile_theme') }}/assets/js/datepicker-ru.js"></script>
 @endif
- 
 
 <div id="ajax-notify">
     <div class="notify-inner"></div>

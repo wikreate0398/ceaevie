@@ -110,12 +110,12 @@
                     <table class="history">
                         <thead>
                             <tr>
-                                <td>Номер транзакции</td>
-                                <td>Дата зачисления <!-- <i class="mdi mdi-chevron-down"></i> --></td>
-                                <td>Сумма <!-- <i class="mdi mdi-chevron-down"> --></i></td>
-                                <td>Комиссия <!-- <i class="mdi mdi-chevron-down"></i> --></td>
-                                <td>Заработано <!-- <i class="mdi mdi-chevron-down"></i> --></td>
-                                <td>Способ оплаты <!-- <i class="mdi mdi-chevron-down"></i> --></td>
+                                <td style="width: 16.6%;">№ транзакции</td>
+                                <td style="width: 16.6%;">Дата зачисления <!-- <i class="mdi mdi-chevron-down"></i> --></td>
+                                <td style="width: 16.6%;">Сумма <!-- <i class="mdi mdi-chevron-down"> --></i></td>
+                                <td style="width: 16.6%;">Комиссия <!-- <i class="mdi mdi-chevron-down"></i> --></td>
+                                <td style="width: 16.6%;">Заработано <!-- <i class="mdi mdi-chevron-down"></i> --></td> 
+                                <td style="width: 16.6%;" align="center">Способ оплаты <!-- <i class="mdi mdi-chevron-down"></i> --></td>
                             </tr>
                         </thead>
                         <tbody>
@@ -125,8 +125,21 @@
                                     <td>{{ $tip->created_at->format('d.m.Y H:i') }}</td>
                                     <td>{{ $tip->total_amount }} Р</td>
                                     <td>{{ $tip->total_amount - $tip->amount }} P</td>
-                                    <td>{{ $tip->amount }} P</td>
-                                    <td><img src="{{ asset('profile_theme') }}/assets/images/dashboard/visa.png" alt="visa"></td>
+                                    <td>
+                                        <span style="margin-bottom: 10px; display: inline-block;">{{ $tip->amount }} P</span>
+                                        @if($tip->rating)
+                                            <select class="rating-stars" data-readonly="true" data-current-rating="{{ $tip->rating }}" autocomplete="off">
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                            </select>
+                                        @endif
+                                    </td> 
+                                    <td align="center">
+                                        <img src="{{ asset('profile_theme') }}/assets/images/dashboard/visa.png" alt="visa">
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>

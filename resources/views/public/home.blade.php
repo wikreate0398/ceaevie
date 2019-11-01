@@ -4,7 +4,7 @@
     <section class="bg-grey-red mob-bg-grey-red pt-90 mb-pt-0 mb-m-30" id="home">
         <div class="container">
             <div class="row">
-                <div class="col-md-7">
+                <div class="col-md-7 home-header">
                     <h1 class="mt-80 mb-30">
                         ЧАЕВЫЕ БЕЗ НАЛИЧНЫХ <br> - ЭТО ПРОСТО!
                     </h1>
@@ -25,7 +25,8 @@
                 <div class="col-md-4">
                     <div class="bg-phone bg-phone-header loader-v2-inner">
                         <div class="flip-square-loader mx-auto"></div>
-                        <img src="/img/header-home/bg-fon-logo.png" alt="" class="logo-phone">
+                        <img src="/img/header-home/bg-fon-logo.png" alt="" class="logo-phone logo-lg">
+                        <img src="/img/logo-mob.png" class="logo-sm" alt="">
                         <h4>Здравствуйте!</h4>
                         <p>Вам понравилось обслуживание в любимом заведении?</p>
                         <p>Оставьте чаевые официанту онлайн платежом при помощи его личного кода с визитки</p>
@@ -146,7 +147,8 @@
             <div class="row">
                 <div class="order-2 order-sm-1 col-10 offset-1 col-md-4 offset-md-1">
                     <div class="bg-phone bg-phone-middle">
-                        <img src="/img/header-home/bg-fon-logo.png" alt="" class="logo-phone">
+                        <img src="/img/header-home/bg-fon-logo.png" alt="" class="logo-phone logo-lg">
+                        <img src="/img/logo-mob.png" alt="" class="logo-sm">
                         <form class="ajax__submit loader-v2-inner" action="{{ route('give_thanks', ['lang' => $lang]) }}"> 
                             {{ csrf_field() }}
                             <div class="flip-square-loader mx-auto"></div>

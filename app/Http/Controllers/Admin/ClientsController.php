@@ -41,9 +41,12 @@ class ClientsController extends Controller
     public function show()
     { 
         $data = [
-            'data'   => $this->model->orderByRaw('id desc')->filter()->get(),
-            'table'  => $this->model->getTable(),
-            'method' => $this->method
+            'data'      => $this->model->orderByRaw('id desc')->filter()->get(),
+            'table'     => $this->model->getTable(),
+            'method'    => $this->method,
+            'today_reg' => $this->model->registered('today')->count(),
+            'week_reg'  => $this->model->registered('week')->count(),
+            'total_reg' => $this->model->registered()->count(),
         ]; 
 
         return view('admin.'.$this->folder.'.list', $data);

@@ -25,7 +25,8 @@ class Tips extends Model
         'id_transaction',
         'rrn',
         'open',
-        'open_admin'
+        'open_admin',
+        'rating'
     ];  
 
     protected $casts = [
@@ -34,12 +35,13 @@ class Tips extends Model
         'open_admin'   => 'integer',
         'total_amount' => 'float',
         'amount'       => 'float',
-        'fee'          => 'float'
+        'fee'          => 'float',
+        'rating'       => 'integer'
     ];
 
-    public function scopeConfirmed($query, $lasDays = false)
+    public function scopeConfirmed($query, $lastDays = false)
     {
-        if (!empty($lasDays)) 
+        if (!empty($lastDays)) 
         {
             $week = \Carbon\Carbon::today()->subDays(7);
             $query->where('created_at', '>=', $week);

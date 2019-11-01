@@ -135,7 +135,8 @@ class PaymentController extends Controller
     		'rand'         => generate_id(7),
     		'total_amount' => $totalAmount,
             'amount'       => $amount,
-            'fee'          => $fee
+            'fee'          => $fee,
+            'rating'       => $request->rating ?: ''
     	])->id; 
     }
 

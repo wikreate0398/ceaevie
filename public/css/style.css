@@ -432,7 +432,7 @@ footer a {
 
 .btn-sign:hover {
     color: #ffffff;
-}
+}  
 
 /* How works */
 .how-works {
@@ -544,6 +544,9 @@ footer a {
 
     .for-someone {
         margin-bottom: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     .bg-phone {
@@ -618,7 +621,11 @@ footer a {
     }
 
     .navbar-collapse {
-        padding: 30px;
+        padding: 30px; 
+    }
+
+    .fixed-header .navbar-collapse{
+        background-color: #fff;
     }
 
     .sign-menu li {
@@ -646,3 +653,37 @@ footer a {
 @media (max-width: 991.98px) {}
 
 @media (max-width: 1199.98px) {}
+
+.logo-sm{
+    display: none;
+}
+
+@media screen and (max-width: 500px){
+    .home-header{
+        text-align: center;
+    }
+
+    .bg-phone-header form{
+        padding: 0 25px;
+    }
+
+    .logo-lg{
+        display: none;
+    }
+
+    .logo-sm{
+        display: block;
+    }
+
+    .bg-phone .logo-sm{
+        margin: auto;
+    }
+
+    .bg-phone-header h4{
+        margin-top: 40px;
+    }
+}
+
+.social_block .list-inline-item a:hover{
+    color: #fff;
+}

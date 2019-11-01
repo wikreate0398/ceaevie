@@ -39,6 +39,56 @@
 				</div>
 			</div>
 			 
+		</div> 
+
+		<div class="col-md-12">
+			<div class="row">
+				<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+					<div class="dashboard-stat blue-madison">
+						<div class="visual">
+							<i class="fa fa-comments"></i>
+						</div>
+						<div class="details">
+							<div class="number">
+								{{ $today_reg }}
+							</div>
+							<div class="desc">
+								Зарегистрировано сегодня 
+							</div>
+						</div> 
+					</div>
+				</div>
+				<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+					<div class="dashboard-stat red-intense">
+						<div class="visual">
+							<i class="fa fa-bar-chart-o"></i>
+						</div>
+						<div class="details">
+							<div class="number">
+								{{ $week_reg }} 
+							</div>
+							<div class="desc">
+								Зарегистрировано за неделю 
+							</div>
+						</div> 
+					</div>
+				</div>
+				<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+					<div class="dashboard-stat green-haze">
+						<div class="visual">
+							<i class="fa fa-shopping-cart"></i>
+						</div>
+						<div class="details">
+							<div class="number">
+								{{ $total_reg }}
+							</div>
+							<div class="desc"> 			
+								Всего зарегистрированных
+							</div>
+						</div> 
+					</div>
+				</div> 
+			</div>
 		</div>
 
 		<div class="col-md-12">

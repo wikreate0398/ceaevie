@@ -9,7 +9,7 @@
     </span> Мой профиль </h3>
 	</div>
 	<div class="row">
-		<div class="col-md-8   grid-margin">
+		<div class="col-md-8 grid-margin profile-data">
 			<div class="card">
 				<div class="card-body">
 					<h3 style="margin-bottom: 40px;">Редактирование профиля</h3>
@@ -111,7 +111,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-md-4">
+		<div class="col-md-4 profile-photo">
 			<div class="card profile">
 				<div class="card-body">
 					<div class="profile-photo">
