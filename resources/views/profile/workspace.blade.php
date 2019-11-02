@@ -80,11 +80,20 @@
                     <div class="card new-qr created">
                         <div class="card-body">
                             <div class="created-qr" style="background-color:{{ $item->background->color }};">
-                                <img src="{{ asset('profile_theme') }}/assets/images/logo.png" alt="logo">
+                                @php
+                                    $logo = $item->background->logo ? '/uploads/backgrounds/' . $item->background->logo : asset('profile_theme') . '/assets/images/logo.png';
+                                @endphp
+
+                                <img src="{{ $logo }}" alt="logo">
                                 <img src="/public/uploads/qr_codes/{{ $item->qr_code }}" class="qr-code-img" alt="qr-code">
-                                 
-                                <h5>{{ Auth::user()->name }} {{ Auth::user()->lastname }}</h5>
-                                <h2>{{ $item->code }}</h2>
+
+                                <h5 style="color: {{ $item->background->font_color }};">
+                                    {{ Auth::user()->name }} {{ Auth::user()->lastname }}
+                                </h5>
+                                
+                                <h2  style="color: {{ $item->background->code_color }};">
+                                    {{ $item->code }}
+                                </h2>
                             </div>
                             <p class="medium">{{ $item->card_signature }}</p>
                             <span class="title_1">{{ $item->institution_name }}</span>

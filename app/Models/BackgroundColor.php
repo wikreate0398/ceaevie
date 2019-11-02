@@ -16,5 +16,8 @@ class BackgroundColor extends Model
 
 	protected $fillable = [ 
         'color', 
+        'logo',
+        'font_color',
+        'code_color'
     ]; 
 }

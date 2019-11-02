@@ -10,7 +10,7 @@ use App\Models\Traits\PermisionTrait;
 class QrCode extends Model
 {
     use SoftDeletes;
-    
+
 	public $timestamps = true;
 
 	protected $table = 'qr_codes';
@@ -20,7 +20,7 @@ class QrCode extends Model
         'card_signature',
         'institution_name', 
         'id_background', 
-        'code',
+        'code', 
         'qr_code',
         'page_up'
     ];

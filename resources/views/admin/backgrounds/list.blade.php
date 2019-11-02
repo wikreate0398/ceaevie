@@ -26,6 +26,22 @@
 	                                    <input type="text" name="color" id="hue-demo" class="form-control demo" data-control="hue" value="#000">
 	                                </div>
 	                           </div>
+
+	                           <div class="form-group">
+	                                <label class="col-md-12 control-label">Цвет шрифта</label>
+	                                <div class="col-md-12">
+	                                    <input type="text" name="font_color" id="hue-demo" class="form-control demo" data-control="hue" value="#151515">
+	                                </div>
+	                           </div>
+
+	                           <div class="form-group">
+	                                <label class="col-md-12 control-label">Цвет кода</label>
+	                                <div class="col-md-12">
+	                                    <input type="text" name="code_color" id="hue-demo" class="form-control demo" data-control="hue" value="#cf1c24">
+	                                </div>
+	                           </div>
+
+	                           @include('admin.utils.image', ['inputName' => 'logo'])
 							</div> 
 						</div>
 						<div class="form-actions">
