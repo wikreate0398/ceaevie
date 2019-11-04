@@ -15,7 +15,7 @@
 						<option value="0">Официанты</option>
 						@foreach($clients as $client)
 							<option value="{{ $client->id }}" {{ (request()->client == $client->id) ? 'selected' : '' }}>
-								{{ $client->name }} {{ $client->lastname }}
+								{{ $client->name }} {{ $client->lastname }} ({{ $client->rand }})
 							</option>
 						@endforeach
 					</select>
@@ -67,7 +67,7 @@
 								{{ $item->id_qrcode ? $item->qr_code->code : '' }}
 							</td> 
 							<td>
-								{{ $item->user->name }} {{ $item->user->lastname }}
+								{{ $item->user->name }} {{ $item->user->lastname }} ({{ $item->rand }})
 							</td>
 							<td class="nw">
 								{{ $item->created_at->format('d.m.Y H:i') }}
