@@ -8,29 +8,23 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\Models\EmailTemplates;
 
-class ManageWithdrawalRequest extends Notification
+class ChangeVerificationStatus extends Notification
 {
     use Queueable;
  
     private $lang; 
 
-    private $templateType;
-
-    private $amount;
-
-    private $rand;
+    private $templateType; 
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($templateType, $amount, $rand, $lang = 'ru')
-    { 
-        $this->lang = $lang;  
-        $this->templateType = $templateType;
-        $this->amount = $amount;  
-        $this->rand = $rand;
+    public function __construct($templateType, $lang = 'ru')
+    {  
+        $this->templateType = $templateType; 
+        $this->lang = $lang;
     }
 
     /**
@@ -54,10 +48,10 @@ class ManageWithdrawalRequest extends Notification
     { 
         $emailTemplate = EmailTemplates::where('var', $this->templateType)->first();
         $message = str_replace( 
-            ['{USERNAME}', '{AMOUNT}', '{WITHDRAW_ID}'], 
-            [$notifiable->name, $this->amount, $this->rand], 
+            ['{USERNAME}'], 
+            [$notifiable->name], 
             $emailTemplate["message_{$this->lang}"]
-        );
+        ); 
         
         return (new MailMessage) 
                     ->subject($emailTemplate["theme_{$this->lang}"])

@@ -1033,6 +1033,14 @@ footer {}
   color: #fff;
 }
 
+.alert-danger{
+	background-color: #ec5359;
+}
+
+.alert-danger p{
+  color: #fff;
+}
+
 .price-mask{
 	text-align:left !important;
 }

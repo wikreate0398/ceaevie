@@ -93,6 +93,8 @@ Route::group(['prefix' => $adminPath, 'namespace' => 'Admin', 'middleware' => ['
         Route::post('{id}/update', 'ClientsController@update');
         Route::post('{id}/send-letter', 'ClientsController@sendLetter');
         Route::get('{id}/autologin', 'ClientsController@autologin'); 
+
+        Route::get('change-verification-status/{id}/{status}', 'ClientsController@changeVerificationStatus')->name('admin_change_verification_status');   
     });
 
     Route::group(['prefix' => 'oficiant-profile'], function() { 
@@ -182,7 +184,8 @@ Route::group(['prefix' => '{lang}', 'middleware' => ['lang', 'web']], function()
                 Route::get('/', 'AccountController@index')->name('account');
                 Route::post('edit-userdata', 'AccountController@edit')->name('edit_userdata');
                 Route::post('change-password', 'AccountController@changePassword')->name('change_password'); 
-                Route::post('save-avatar', 'AccountController@saveAvatar')->name('save_avatar');  
+                Route::post('save-avatar', 'AccountController@saveAvatar')->name('save_avatar');   
+                Route::post('upload-verification-file', 'AccountController@uploadVerificationFile')->name('upload_verification_file');  
             }); 
 
             Route::group(['prefix' => 'contact-us'], function() {
@@ -201,7 +204,7 @@ Route::group(['prefix' => '{lang}', 'middleware' => ['lang', 'web']], function()
                 Route::post('add-credit-card', 'BallanceController@addCreditCard')->name('add_card');  
                 Route::post('withdraw-funds', 'BallanceController@withdrawFunds')->name('withdraw_funds');  
                 Route::get('delete-credit-card/{id}', 'BallanceController@deleteCreditCard')->name('delete_card');  
-            });  
+            }); 
              
             Route::get('enrollment', 'EnrollmentController@index')->name('enrollment');
               

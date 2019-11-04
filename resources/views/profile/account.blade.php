@@ -10,6 +10,74 @@
 	</div>
 	<div class="row">
 		<div class="col-md-8 grid-margin profile-data">
+			
+			@if(Auth::user()->verification_status != 'confirm')
+				<div class="card" style="margin-bottom: 40px;">
+					<div class="card-body">
+						<h3 style="margin-bottom: 40px;">Подтвердить личность</h3>
+						  
+						<form class="forms-sample row ajax__submit" action="{{ route('upload_verification_file', ['lang' => $lang]) }}">
+							{{ csrf_field() }}
+							<div class="form-group col-md-12">
+								<p>Для подтверждения личности нужно загрузить один из следующих документов: <br> </p>
+								<ul class="list-arrow">
+									<li>Заграничный паспорт</li>
+									<li>Водительское удостоверение (обе стороны)</li>
+									<li>Гражданский паспорт или ID карта (обе стороны)</li>
+								</ul>
+								<p>Документ должен быть действительным и содержать следующую информацию: <br></p>
+								<ul class="list-ticked">
+									<li>имя и фамилию</li>
+									<li>дату рождения</li>
+									<li>фотографию</li>
+									<li>номер документа</li>
+									<li>дату выдачи</li>
+									<li>дату истечения срока действия документа</li>
+									<li>страну, выдавшую документ</li>
+									<li>личную подпись (в гражданском паспорте, заграничном паспорте)</li>
+								</ul>    
+								<p>А так же Ваше фото с номером (тут генерится случайный код из 6 цифр которые привязанны к одному акк-ту) на листке написанный руками.</p>
+							</div>
+
+							@if(Auth::user()->verification_status == 'pending')
+								<div class="col-12">
+					                <span class="d-flex align-items-center purchase-popup alert-warning" style="justify-content: space-between; margin-bottom: 0;">
+					                    <p style="color: #fff;">
+					                        Ваш документ в процессе обработки. Мы отправим вам уведомление когда процесс идентификации завершится.
+					                    </p>  
+					                </span>
+					            </div>
+							@else
+								@if(Auth::user()->verification_status == 'decline')
+									<div class="col-12" style="margin-bottom: 20px;">
+						                <span class="d-flex align-items-center purchase-popup alert-danger" style="justify-content: space-between; margin-bottom: 0;">
+						                    <p style="color: #fff;">
+						                        Нам не удалось вас идентифицировать. Загрузите повторно другой документ содержащий необходимую информацию указанную выше.
+						                    </p>  
+						                </span>
+						            </div>
+								@endif
+								<div class="form-group col-md-12"> 
+			                        <input type="file" name="file" class="file-upload-default">
+			                        <div class="input-group">
+			                          <input type="text" class="form-control file-upload-info" placeholder="Загрузите документ">
+			                          <span class="input-group-append">
+			                            <button class="file-upload-browse btn btn-gradient-primary" type="button">Выбрать</button>
+			                          </span>
+			                        </div>
+			                        <mark style="margin-top: 5px; display: inline-block;">jpg|jpeg|png &nbsp;&nbsp; размер <= 5МБ</mark>
+			                  	</div>
+			                  	<div class="col-md-6 col-sm-12">
+									<button type="submit" class="btn btn-gradient-info btn-rounded btn-block">
+										Сохранить
+									</button>
+								</div>
+							@endif
+						</form>
+					</div>
+				</div>
+			@endif
+
 			<div class="card">
 				<div class="card-body">
 					<h3 style="margin-bottom: 40px;">Редактирование профиля</h3>

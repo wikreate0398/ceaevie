@@ -209,6 +209,8 @@
  
 <script src="{{ asset('profile_theme') }}/assets/js/jquery-ui.js"></script> 
 
+<script src="{{ asset('profile_theme') }}/assets/js/file-upload.js"></script>
+
 @if($lang == 'ru')
 <script src="{{ asset('profile_theme') }}/assets/js/datepicker-ru.js"></script>
 @endif

@@ -8,29 +8,20 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\Models\EmailTemplates;
 
-class ManageWithdrawalRequest extends Notification
+class UploadVerificationFile extends Notification
 {
-    use Queueable;
- 
-    private $lang; 
+    use Queueable; 
 
-    private $templateType;
-
-    private $amount;
-
-    private $rand;
+    protected $user;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($templateType, $amount, $rand, $lang = 'ru')
+    public function __construct($user)
     { 
-        $this->lang = $lang;  
-        $this->templateType = $templateType;
-        $this->amount = $amount;  
-        $this->rand = $rand;
+        $this->user = $user;
     }
 
     /**
@@ -51,18 +42,11 @@ class ManageWithdrawalRequest extends Notification
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
-    { 
-        $emailTemplate = EmailTemplates::where('var', $this->templateType)->first();
-        $message = str_replace( 
-            ['{USERNAME}', '{AMOUNT}', '{WITHDRAW_ID}'], 
-            [$notifiable->name, $this->amount, $this->rand], 
-            $emailTemplate["message_{$this->lang}"]
-        );
-        
+    {  
         return (new MailMessage) 
-                    ->subject($emailTemplate["theme_{$this->lang}"])
+                    ->subject('☆Чаевые онлайн: Новое сообщение')
                     ->from(setting('mailbox')) 
-                    ->line(new \Illuminate\Support\HtmlString($message)) ;
+                    ->line("Пользователь под номером {$this->user->rand} загрузил документы для прохождения верификации") ;
     }
 
     /**

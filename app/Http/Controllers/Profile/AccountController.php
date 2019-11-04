@@ -4,8 +4,11 @@ namespace App\Http\Controllers\Profile;
  
 use Illuminate\Http\Request; 
 use App\Http\Controllers\Controller;
+use App\Notifications\UploadVerificationFile;
+use App\Utils\UploadImage;
 use App\Models\User;
-  
+use App\Models\AdminUser;
+
 class AccountController extends Controller
 { 
     public function index()
@@ -81,5 +84,34 @@ class AccountController extends Controller
         ]); 
 
         return \App\Utils\JsonResponse::success();
+    }
+
+    public function uploadVerificationFile($lang, Request $request)
+    {  
+        try {
+            $uploadImage = new UploadImage;
+            $file        = $uploadImage->setExtensions('jpeg,jpg,png')
+                                       ->setSize(5000)
+                                       ->upload('file', 'clients');
+
+            if (in_array(\Auth::user()->verification_status, ['confirm', 'pending'])) 
+            {
+                throw new \Exception("Ошибка"); 
+            }
+        } catch (\Exception $e) { 
+            return \App\Utils\JsonResponse::error(['messages' => $e->getMessage()]); 
+        } 
+          
+        User::where('id', \Auth::user()->id)->
+          update([ 
+            'verification_file'   => $file,
+            'verification_status' => 'pending'
+        ]); 
+ 
+        AdminUser::where('active', 1)->each(function($user){
+            $user->notify(new UploadVerificationFile(User::whereId(\Auth::user()->id)->first()));
+        });
+
+        return \App\Utils\JsonResponse::success(['reload' => true, 'messages' => 'Выши документ успешно сохранился. В скором времени наш менеджер приступит к его обработки']);
     }
 }

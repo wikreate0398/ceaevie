@@ -26,7 +26,7 @@
     </div>
 
     <div class="row">
-        @if($total_amount >= setting('minimum_withdrawal') && $bank_cards->count() > 0)
+        @if($total_amount >= setting('minimum_withdrawal') && $bank_cards->count() > 0 && Auth::user()->verification_status == 'confirm')
         <div class="col-md-4 grid-margin">
             <button type="submit"
                     class="btn btn-gradient-info btn-rounded btn-block"
@@ -40,7 +40,9 @@
             <div class="col-12">
                 <span class="d-flex align-items-center purchase-popup alert-warning" style="justify-content: space-between;">
                     <p style="color: #fff;">
-                        @if($total_amount < setting('minimum_withdrawal'))
+                        @if(Auth::user()->verification_status != 'confirm')
+                            Длы вывода средств необходимо пройти верификацию
+                        @elseif($total_amount < setting('minimum_withdrawal'))
                             Длы вывода средств необходимо иметь на счету не менее {{ setting('minimum_withdrawal') }} P 
                         @else
                             Длы вывода средств необходимо привязать банковскую карту

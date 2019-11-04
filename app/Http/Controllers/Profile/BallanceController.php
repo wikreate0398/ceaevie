@@ -98,7 +98,7 @@ class BallanceController extends Controller
                           ->setPrice($amount)
                           ->off();
 
-            AdminUser::where('type', 'manager')->each(function($manager){
+            AdminUser::where('type', 'manager')->where('active', 1)->each(function($manager){
                 $manager->notify(new NewWithdrawalRequest);
             });
 

@@ -98,26 +98,67 @@
 					<div class="col-md-3">
 						<input type="text" name="search" value="{{ @request()->search }}" class="form-control">
 					</div>
+
+					<div class="col-md-3">
+						<select name="sort" class="form-control">
+							<option value="0">Сортировать</option>
+							<option value="all" {{ (request()->sort == 'all') ? 'selected' : '' }}>
+								Все
+							</option>
+							<option value="active" {{ (request()->sort == 'active') ? 'selected' : '' }}>
+								Активные
+							</option>
+							<option value="no-active" {{ (request()->sort == 'no-active') ? 'selected' : '' }}>
+								Неактивные
+							</option>
+							
+							<option value="verification-pending" {{ (request()->sort == 'verification-pending') ? 'selected' : '' }}>
+								В процессе идентификации
+							</option> 
+							
+							<option value="identified" {{ (request()->sort == 'identified') ? 'selected' : '' }}>
+								Идентифицированные
+							</option>
+
+							<option value="no-identified" {{ (request()->sort == 'no-identified') ? 'selected' : '' }}>
+								Неидентифицированные
+							</option>
+
+							<option value="decline-identification" {{ (request()->sort == 'decline-identification') ? 'selected' : '' }}>
+								Отклонены в Идентификации
+							</option> 
+						</select>
+					</div>
+
 					<div class="col-md-4">
 						<button type="submit" class="btn btn-primary">Поиск</button>
-						@if(request()->search)
+						@if(request()->search or request()->sort)
 							<a href="/{{ $method }}/" class="btn btn-danger">Сбросить</a>
 						@endif
-					</div>
+					</div> 
+
 				</div>
 			</form>
+
+			@if($total_pending_verification)
+				<div class="alert alert-warning">
+					Количество пользователей ожидавших верификацию: <b>{{ $total_pending_verification }}</b>
+				</div>
+			@endif
 			
 			@if($data->count()) 
 				<table class="table table-bordered">
 					<tbody>
 					<tr>
 						<th style="width:5%; text-align: center"><i class="fa fa-check-square" aria-hidden="true"></i></th>
+						<th class="nw">№</th>
 						<th class="nw">ФИО</th>
 						<th>E-mail</th>
 						<th>Телефон</th> 
 						<th>Процент</th>
 						<th>Баланс руб.</th>
 						<th>Последний визит</th>
+						<th>Идентификация</th>
 						<th style="width:5%; text-align: center"><i class="fa fa-cogs" aria-hidden="true"></i></th>
 					</tr>
 					</tbody>
@@ -131,12 +172,16 @@
 									   data-off-text="<i class='fa fa-times'></i>"
 									   onchange="Ajax.buttonView(this, '{{ $table }}', '{{ $item["id"] }}', 'active')">
 							</td>
+							<td>{{ $item->rand }}</td>
 							<td class="nw">{{ $item->name }} {{ $item->lastname }}</td>
 							<td>{{ $item->email }}</td>
 							<td>{{ $item->phone }}</td>
 							<td>{!! $item->fee ? '<label class="badge badge-danger">'.$item->fee.'</label>' : '--' !!}</td>
 							<td>{{ $item->ballance }}</td>
 							<td class="nw">{{ $item->last_entry ? $item->last_entry->format('d.m.Y H:i') : '' }}</td>
+							<td class="nw">
+								{{ $item->verificationStatusData->name_ru }}
+							</td>
 							<td style="width: 5px; white-space: nowrap">
 								<a href="/{{ $method }}/{{ $item['id'] }}/autologin/" target="_blank" class="btn btn-primary btn-xs">
 									<i class="fa fa-sign-in" aria-hidden="true"></i>

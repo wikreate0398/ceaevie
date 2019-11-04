@@ -82,7 +82,8 @@ class RegisterController extends Controller
             'email'        => $request->email,
             'confirm_hash' => $confirm_hash,
             'password'     => bcrypt($request->password),
-            'lang'         => lang()
+            'lang'         => lang(),
+            'rand'         => generate_id(7)
         ]);
 
         $user->notify(new ConfirmRegistration($confirm_hash, lang()));

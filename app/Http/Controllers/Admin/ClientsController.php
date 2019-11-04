@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Utils\UploadImage;  
 use App\Notifications\SendLetter;
+use App\Notifications\ChangeVerificationStatus;
 
 class ClientsController extends Controller
 {
@@ -47,6 +48,7 @@ class ClientsController extends Controller
             'today_reg' => $this->model->registered('today')->count(),
             'week_reg'  => $this->model->registered('week')->count(),
             'total_reg' => $this->model->registered()->count(),
+            'total_pending_verification' => $this->model->registered()->where('verification_status', 'pending')->count(),
         ]; 
 
         return view('admin.'.$this->folder.'.list', $data);
@@ -75,6 +77,7 @@ class ClientsController extends Controller
 
         $this->input['active'] = 1;
         $this->input['confirm'] = 1; 
+        $this->input['rand'] = generate_id(7);  
  
         $this->model->create($this->input)->id; 
 
@@ -115,7 +118,7 @@ class ClientsController extends Controller
     { 
         $user = $this->model->findOrFail($id);
         $user->notify(new SendLetter($request->theme, $request->message));
-        return \App\Utils\JsonResponse::success(['reload' => true], 'Message sent successfully'); 
+        return \App\Utils\JsonResponse::success(['reload' => true], 'Сообщение успешно отправлено'); 
     }
 
     private function validation($input)
@@ -156,4 +159,12 @@ class ClientsController extends Controller
         return $input;
     }
 
+    public function changeVerificationStatus($id, $status)
+    {
+        $user = User::whereId($id)->whereNotIn('verification_status', ['decline', 'confirm'])->firstOrFail();    
+        $user->verification_status = $status;
+        $user->save();
+        $user->notify(new ChangeVerificationStatus('verification_' . $status)); 
+        return redirect()->back()->with('admin_flash_message', 'Статус успешно изменен');
+    }
 }

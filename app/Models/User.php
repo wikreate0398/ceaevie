@@ -17,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'lastname', 'payment_signature', 'phone', 'email', 'password', 'confirm', 'confirm_hash', 'active',  'image', 'user_agent', 'last_entry', 'fee', 'ballance'
+        'name', 'lastname', 'payment_signature', 'phone', 'email', 'password', 'confirm', 'confirm_hash', 'active',  'image', 'user_agent', 'last_entry', 'fee', 'ballance', 'verification_status', 'verification_file', 'rand'
     ];
 
     /**
@@ -34,17 +34,47 @@ class User extends Authenticatable
         'active'     => 'integer',
         'fee'        => 'float',    
         'ballance'   => 'float',      
-        'last_entry' => 'datetime'
+        'last_entry' => 'datetime' 
     ];
   
     public function scopeFilter($query)
     {
-        if(request()->q)
+        if(request()->search)
         {
-            $searchQuery = request()->q;
+            $searchQuery = request()->search;
             $query->where('name', 'like', '%'.$searchQuery.'%')
-                  ->orWhere('email', 'like', '%'.$searchQuery.'%');
+                  ->orWhere('email', 'like', '%'.$searchQuery.'%')
+                  ->orWhere('rand', 'like', '%'.$searchQuery.'%');
         } 
+
+        if (request()->sort) 
+        {
+          $sort = request()->sort;
+          if ($sort == 'no-active') 
+          {
+            $query->where('active', '!=', '1');
+          } 
+          elseif ($sort == 'active') 
+          {
+            $query->where('active', '1');
+          }
+          elseif ($sort == 'verification-pending') 
+          {
+            $query->where('verification_status', 'pending');
+          }
+          elseif ($sort == 'identified') 
+          {
+            $query->where('verification_status', 'confirm');
+          }
+          elseif ($sort == 'no-identified') 
+          {
+            $query->where('verification_status', 'not_passed');
+          } 
+          elseif ($sort == 'decline-identification') 
+          {
+            $query->where('verification_status', 'decline');
+          }  
+        }
 
         return $query;
     } 
@@ -62,7 +92,12 @@ class User extends Authenticatable
     public function withdraw_requests()
     {
       return $this->hasMany('App\Models\WithdrawTips', 'id_user', 'id')->where('moderation', 1);
-    }   
+    }  
+
+    public function verificationStatusData()
+    {
+      return $this->hasOne('App\Models\IdentificationSatuses', 'define', 'verification_status');
+    } 
 
     public function scopeRegistered($query, $time = false)
     {
