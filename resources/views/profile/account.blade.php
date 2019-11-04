@@ -58,14 +58,18 @@
 						            </div>
 								@endif
 								<div class="form-group col-md-12"> 
-			                        <input type="file" name="file" class="file-upload-default">
+			                        <!-- <input type="file" name="file" class="file-upload-default">
 			                        <div class="input-group">
 			                          <input type="text" class="form-control file-upload-info" placeholder="Загрузите документ">
 			                          <span class="input-group-append">
 			                            <button class="file-upload-browse btn btn-gradient-primary" type="button">Выбрать</button>
 			                          </span>
 			                        </div>
-			                        <mark style="margin-top: 5px; display: inline-block;">jpg,jpeg,png &nbsp;&nbsp; размер <= 5МБ</mark>
+			                        <mark style="margin-top: 5px; display: inline-block;">jpg,jpeg,png &nbsp;&nbsp; размер <= 5МБ</mark> -->
+
+			                        <input type="file" name="files" id="verification_files">
+
+			                         
 			                  	</div>
 			                  	<div class="col-md-6 col-sm-12">
 									<button type="submit" class="btn btn-gradient-info btn-rounded btn-block">

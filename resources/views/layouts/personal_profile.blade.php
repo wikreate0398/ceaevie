@@ -22,6 +22,10 @@
 	<link rel="stylesheet" href="{{ asset('profile_theme') }}/assets/css/main.css?v={{ time() }}">
 	<link rel="stylesheet" href="{{ asset('profile_theme') }}/assets/css/datepicker-ui.css">
 	<link rel="stylesheet" href="{{ asset('js/bar-rating/dist/themes/fontawesome-stars-o.css') }}">
+
+	<!-- file uploader -->
+	<link href="{{ asset('js') }}/fileuploader/dist/font/font-fileuploader.css" media="all" rel="stylesheet"> 
+	<link href="{{ asset('js') }}/fileuploader/dist/jquery.fileuploader.min.css" media="all" rel="stylesheet">
 	
 	<link rel="stylesheet" href="/css/loader.css">
 	<!-- End layout styles -->
@@ -207,14 +211,15 @@
 <script src="https://use.fontawesome.com/7d23dee490.js"></script> 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.1.25/jquery.fancybox.min.js"></script>
  
-<script src="{{ asset('profile_theme') }}/assets/js/jquery-ui.js"></script> 
+<script src="{{ asset('profile_theme') }}/assets/js/jquery-ui.js"></script>  
 
-<script src="{{ asset('profile_theme') }}/assets/js/file-upload.js"></script>
+<!-- file uploader -->
+<script src="{{ asset('js') }}/fileuploader/dist/jquery.fileuploader.min.js" type="text/javascript"></script>
 
 @if($lang == 'ru')
 <script src="{{ asset('profile_theme') }}/assets/js/datepicker-ru.js"></script>
 @endif
-
+ 
 <div id="ajax-notify">
     <div class="notify-inner"></div>
 </div>

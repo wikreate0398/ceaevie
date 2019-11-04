@@ -9,6 +9,23 @@ $(document).ready(function () {
       }
   });
 
+  $('input#verification_files').fileuploader({
+    extensions: ['image/*'],
+    addMore: true, 
+    limit: 5,
+    maxSize:2,
+    captions: {
+        button: function(options) { return 'Выбрать ' + (options.limit == 1 ? 'file' : 'файлы');},
+        removeConfirmation: 'Подтвердить удаление',
+        feedback: 'Выберите файлы',
+        errors: {
+            filesLimit: 'Вы можете загрузить не более ${limit} файлов.',
+            filesType: 'Вы можете загрузить файлы формата jpg,jpeg,png',
+            fileSize: '${name} is too large! Please choose a file up to ${fileMaxSize}MB.', 
+        }
+    }
+  }); 
+
   $('.rating-stars').each(function(){
       var currentRating = $(this).data('current-rating');
 

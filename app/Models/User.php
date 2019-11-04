@@ -17,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'lastname', 'payment_signature', 'phone', 'email', 'password', 'confirm', 'confirm_hash', 'active',  'image', 'user_agent', 'last_entry', 'fee', 'ballance', 'verification_status', 'verification_file', 'rand'
+        'name', 'lastname', 'payment_signature', 'phone', 'email', 'password', 'confirm', 'confirm_hash', 'active',  'image', 'user_agent', 'last_entry', 'fee', 'ballance', 'verification_status', 'rand'
     ];
 
     /**
@@ -98,6 +98,11 @@ class User extends Authenticatable
     {
       return $this->hasOne('App\Models\IdentificationSatuses', 'define', 'verification_status');
     } 
+
+    public function identificationFiles()
+    {
+      return $this->hasMany('App\Models\IdentificationFiles', 'id_user', 'id')->orderBy('id', 'desc');
+    }  
 
     public function scopeRegistered($query, $time = false)
     {

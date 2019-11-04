@@ -165,9 +165,13 @@
 
 				<div class="tab-pane" id="tab_3">
 					<br>
-					<a href="/uploads/clients/{{ $data->verification_file }}" class="fancybox">
-						<img src="/uploads/clients/{{ $data->verification_file }}" style="max-width: 150px;">
-					</a>
+					@if($data->identificationFiles->count()) 
+						@foreach($data->identificationFiles as $file)
+							<a href="/uploads/clients/{{ $file->file }}" data-fancybox-group="gall" class="fancybox">
+								<img src="/uploads/clients/{{ $file->file }}" style="max-width: 150px;">
+							</a>
+						@endforeach
+					@endif
 					<hr>
 					@if($data->verification_status == 'pending')
 						<a href="{{ route('admin_change_verification_status', ['id' => $data->id, 'status' => 'decline']) }}" class="btn btn-sm btn-danger confirm_link" data-confirm="Подтвердить операцию">

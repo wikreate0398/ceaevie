@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Notifications\UploadVerificationFile;
 use App\Utils\UploadImage;
 use App\Models\User;
+use App\Models\IdentificationFiles;
 use App\Models\AdminUser;
 
 class AccountController extends Controller
@@ -87,31 +88,38 @@ class AccountController extends Controller
     }
 
     public function uploadVerificationFile($lang, Request $request)
-    {  
+    {   
         try {
             $uploadImage = new UploadImage;
-            $file        = $uploadImage->setExtensions('jpeg,jpg,png')
+            $files       = $uploadImage->setExtensions('jpeg,jpg,png')
                                        ->setSize(5000)
-                                       ->upload('file', 'clients');
+                                       ->multipleUpload('files', 'clients');
 
             if (in_array(\Auth::user()->verification_status, ['confirm', 'pending'])) 
             {
                 throw new \Exception("Ошибка"); 
             }
+
+            foreach ($files as $key => $file) 
+            {
+                IdentificationFiles::create([
+                    'id_user' => \Auth::id(),
+                    'file'    => $file
+                ]);
+            }
+
+            User::where('id', \Auth::id())->
+              update([  
+                'verification_status' => 'pending'
+            ]); 
+     
+            AdminUser::where('active', 1)->each(function($user){
+                $user->notify(new UploadVerificationFile(User::whereId(\Auth::user()->id)->first()));
+            });
+
+            return \App\Utils\JsonResponse::success(['reload' => true, 'messages' => 'Выши документ успешно сохранился. В скором времени наш менеджер приступит к его обработки']);
         } catch (\Exception $e) { 
             return \App\Utils\JsonResponse::error(['messages' => $e->getMessage()]); 
-        } 
-          
-        User::where('id', \Auth::user()->id)->
-          update([ 
-            'verification_file'   => $file,
-            'verification_status' => 'pending'
-        ]); 
- 
-        AdminUser::where('active', 1)->each(function($user){
-            $user->notify(new UploadVerificationFile(User::whereId(\Auth::user()->id)->first()));
-        });
-
-        return \App\Utils\JsonResponse::success(['reload' => true, 'messages' => 'Выши документ успешно сохранился. В скором времени наш менеджер приступит к его обработки']);
+        }  
     }
 }

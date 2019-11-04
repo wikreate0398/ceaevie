@@ -15,7 +15,7 @@ $(document).ready(function(){
     $('.toggle-link').click(function(e){
         e.preventDefault(); 
         scrollToBlock($(this).attr('href')); 
-    });  
+    });   
 
     inputMask();
 

@@ -1044,3 +1044,11 @@ footer {}
 .price-mask{
 	text-align:left !important;
 }
+
+.fileuploader{
+  margin: 0;
+}
+
+.fileuploader-items .fileuploader-item .fileuploader-action{
+  min-height: 20px;
+}
