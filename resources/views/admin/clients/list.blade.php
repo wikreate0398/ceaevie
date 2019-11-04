@@ -113,7 +113,7 @@
 							</option>
 							
 							<option value="verification-pending" {{ (request()->sort == 'verification-pending') ? 'selected' : '' }}>
-								В процессе идентификации
+								В ожидании идентификации
 							</option> 
 							
 							<option value="identified" {{ (request()->sort == 'identified') ? 'selected' : '' }}>
@@ -133,7 +133,7 @@
 					<div class="col-md-4">
 						<button type="submit" class="btn btn-primary">Поиск</button>
 						@if(request()->search or request()->sort)
-							<a href="/{{ $method }}/" class="btn btn-danger">Сбросить</a>
+							<a href="/{{ $method }}/?sort=verification-pending" class="btn btn-danger">Сбросить</a>
 						@endif
 					</div> 
 
@@ -142,7 +142,8 @@
 
 			@if($total_pending_verification)
 				<div class="alert alert-warning">
-					Количество пользователей ожидавших верификацию: <b>{{ $total_pending_verification }}</b>
+					Количество пользователей ожидавших верификацию: <b>{{ $total_pending_verification }}</b> &nbsp; &nbsp; 
+					<a href="/{{ $method }}/" class="btn btn-sm btn-info">Показать</a>
 				</div>
 			@endif
 			
