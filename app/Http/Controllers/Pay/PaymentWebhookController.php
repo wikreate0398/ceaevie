@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Notifications\NewTips;
 use App\Utils\Payments\VisaPayment;
+use App\Utils\Ballance; 
 use App\Models\PaymentLogResponse; 
 use App\Models\Tips; 
 use App\Models\WithdrawTips; 
@@ -13,7 +14,7 @@ use App\Utils\Payments\WithdrawalService;
 
 class PaymentWebhookController extends Controller
 {
-	public function visa(Request $request)
+	public function visa(Request $request, Ballance $userBallance)
 	{ 
 		$this->log($request->all(), @$request->Event, @$request->Order_Id); 
   
@@ -48,6 +49,11 @@ class PaymentWebhookController extends Controller
 
 					if ($request->Status == 'CHARGED') 
 					{
+						$userBallance->setUser($tip->user)
+				                     ->setOrderId($tip->id)
+				                     ->setPrice($tip->amount)
+				                     ->replenish();
+
 						$tip->user->notify(new NewTips($tip->amount));
 					}
 				} 

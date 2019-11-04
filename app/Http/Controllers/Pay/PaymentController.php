@@ -43,7 +43,7 @@ class PaymentController extends Controller
 		return view('public.payment.make_payment', compact(['data', 'payments']));
 	}
 
-	public function handlePayment(Request $request, Ballance $userBallance)
+	public function handlePayment(Request $request)
     {
     	\DB::beginTransaction();
     	try {
@@ -54,11 +54,6 @@ class PaymentController extends Controller
  
     	$idOrder = $this->makeOrder($request);
     	$order   = Tips::whereId($idOrder)->first();
-
-        $userBallance->setUser($order->user)
-                     ->setOrderId($order->id)
-                     ->setPrice($order->total_amount)
-                     ->replenish();
 
     	\DB::commit();
     	try {

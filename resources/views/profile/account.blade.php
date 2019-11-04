@@ -15,7 +15,7 @@
 				<div class="card" style="margin-bottom: 40px;">
 					<div class="card-body">
 						<h3 style="margin-bottom: 40px;">Подтвердить личность</h3>
-						  
+						
 						<form class="forms-sample row ajax__submit" action="{{ route('upload_verification_file', ['lang' => $lang]) }}">
 							{{ csrf_field() }}
 							<div class="form-group col-md-12">
@@ -36,7 +36,7 @@
 									<li>страну, выдавшую документ</li>
 									<li>личную подпись (в гражданском паспорте, заграничном паспорте)</li>
 								</ul>    
-								<p>А так же Ваше фото с номером (тут генерится случайный код из 6 цифр которые привязанны к одному акк-ту) на листке написанный руками.</p>
+								<p>А так же Ваше фото с документом в руках.</p>
 							</div>
 
 							@if(Auth::user()->verification_status == 'pending')
@@ -65,7 +65,7 @@
 			                            <button class="file-upload-browse btn btn-gradient-primary" type="button">Выбрать</button>
 			                          </span>
 			                        </div>
-			                        <mark style="margin-top: 5px; display: inline-block;">jpg|jpeg|png &nbsp;&nbsp; размер <= 5МБ</mark>
+			                        <mark style="margin-top: 5px; display: inline-block;">jpg,jpeg,png &nbsp;&nbsp; размер <= 5МБ</mark>
 			                  	</div>
 			                  	<div class="col-md-6 col-sm-12">
 									<button type="submit" class="btn btn-gradient-info btn-rounded btn-block">
