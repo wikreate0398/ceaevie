@@ -58,8 +58,7 @@ class BallanceController extends Controller
             'number'      => $crypt->encrypt($request->number),
             'hide_number' => self::getHideCardNumber($request->number),
             'month'       => $expiryDate[0],
-            'year'        => $expiryDate[1],
-            'cvc'         => $crypt->encrypt($request->cvc)
+            'year'        => $expiryDate[1] 
         ]);
 
         return \JsonResponse::success(['messages' => \Constant::get('DATA_SAVED'), 'reload' => true]);
@@ -128,7 +127,7 @@ class BallanceController extends Controller
 
     private function validateCreditCardForm($request)
     {
-        if (!$request->name or !$request->number or !$request->expiry_date or !$request->cvc) 
+        if (!$request->name or !$request->number or !$request->expiry_date) 
         {
             throw new \Exception(\Constant::get('REQ_FIELDS')); 
         }

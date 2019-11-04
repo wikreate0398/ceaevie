@@ -130,7 +130,7 @@
                                    name="number">
                         </div>
                         
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-12">
                             <label for="ExpiryDate">Срок действия
                                 карты*</label>
                             <input type="text" class="form-control"
@@ -138,15 +138,7 @@
                                    placeholder="11/19"
                                    name="expiry_date">
                         </div>
-
-                        <div class="form-group col-md-6">
-                            <label for="SecurityCode">CSV*</label>
-                            <input type="text" class="form-control"
-                                   id="SecurityCode"
-                                   placeholder="123"
-                                   name="cvc">
-                        </div>
-                        
+  
                         <div style="text-align: center" class="col-md-12">
                             <button type="submit"
                                     class="btn btn-gradient-info mr-2">Привязать

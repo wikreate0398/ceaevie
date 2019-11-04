@@ -20,8 +20,7 @@ class BankCards extends Model
         'number',
         'hide_number',
         'month',
-        'year',
-        'cvc'
+        'year'
     ];  
 
     protected $casts = []; 

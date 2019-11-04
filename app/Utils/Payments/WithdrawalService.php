@@ -92,8 +92,7 @@ class WithdrawalService
                         'name'   => $this->card->name,
                         'number' => $this->crypt->decrypt($this->card->number),
                         'month'  => $this->card->month,
-                        'year'   => $this->card->year,
-                        'cvc'    => $this->crypt->decrypt($this->card->cvc),
+                        'year'   => $this->card->year 
                     ]);
 
         $payoutResponse = $this->payoutService->payout();   
