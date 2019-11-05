@@ -678,6 +678,7 @@ footer a {
 @media screen and (max-width: 500px){
     .home-header{
         text-align: center;
+        height: auto !important;
     }
 
     .bg-phone-header form{
