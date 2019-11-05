@@ -22,7 +22,7 @@
                     	@endforeach 
                     </ul>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4 qr-home-mobile">
                     <div class="bg-phone bg-phone-header loader-v2-inner">
                         <div class="flip-square-loader mx-auto"></div>
                         <img src="/img/header-home/bg-fon-logo.png" alt="" class="logo-phone logo-lg">

@@ -592,7 +592,11 @@ footer a {
     }
 
     .mob-bg-grey-red {
-        background: linear-gradient(to bottom, #f6f6f6 30%, #cf1c24 30%);
+        background: #f6f6f6;
+    }
+
+    .qr-home-mobile{
+        background: #cf1c24;
     }
 
     .btn {
@@ -678,7 +682,7 @@ footer a {
 @media screen and (max-width: 500px){
     .home-header{
         text-align: center;
-        height: 600px;
+        height: auto;
     }
 
     .bg-phone-header form{
