@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\Models\AdminUser;  
 
 class LoginController extends Controller
 {
@@ -39,7 +40,7 @@ class LoginController extends Controller
      */
     public function __construct() 
     { 
-        $this->middleware('guest:admin')->except('logout');
+        $this->middleware('guest:admin')->except('logout'); 
     }
 
     public function showLoginForm()
@@ -66,8 +67,10 @@ class LoginController extends Controller
                 'email'    => $request->input('email'), 
                 'password' => $request->input('password'), 
                 'active'   => '1'], $remember) == true) 
-            { 
-                return \App\Utils\JsonResponse::success(['redirect' => route('admin_menu')], trans('admin.welcome'));
+            {
+                $user = AdminUser::whereEmail($request->email)->first();
+                $redirect = ($user->type == 'manager') ? 'admin_clients' : 'admin_menu';
+                return \App\Utils\JsonResponse::success(['redirect' => route($redirect)], trans('admin.welcome'));
             }
             else 
             { 

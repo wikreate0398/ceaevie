@@ -174,7 +174,7 @@
                         </li> 
                         <li class="list-inline-item">
                             <a href="tg://resolve?domain=chaevieonline_bot" target="_blank"> 
-                                <i class="fa fa-telegram" aria-hidden="true" style="font-size: 45px; vertical-align: middle;"></i> 
+                                <img src="{{ asset('img') }}/telegram.png" alt="telegram"> 
                             </a>
                         </li>
                         <li class="list-inline-item">
