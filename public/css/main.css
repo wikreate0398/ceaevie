@@ -47,6 +47,12 @@
 .payments-header{
   max-height: 28px;
 }
+
+@media screen and (max-width: 500px){
+  .payments-header{
+    height: auto;
+  }
+}
   
 .advantages li{
   display: flex;

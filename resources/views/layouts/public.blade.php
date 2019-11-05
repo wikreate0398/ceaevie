@@ -97,7 +97,7 @@
                         </li>
                     @else 
                         <li class="nav-item mobile-menu-items">
-                            <a class="nav-link" href="{{ route('show_login', ['lang' => $lang]) }}" target="_blank">
+                            <a class="nav-link" href="{{ route('show_login', ['lang' => $lang]) }}">
                                 Войти
                             </a>
                         </li>
