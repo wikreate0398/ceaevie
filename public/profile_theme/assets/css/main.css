@@ -1052,3 +1052,8 @@ footer {}
 .fileuploader-items .fileuploader-item .fileuploader-action{
   min-height: 20px;
 }
+
+.d-none{
+	display: block !important;
+	margin-left: 12px !important;
+}

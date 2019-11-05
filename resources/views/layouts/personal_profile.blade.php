@@ -53,7 +53,7 @@
 			<ul class="navbar-nav navbar-nav-right">
 				<li class="nav-item nav-profile dropdown">
 					<a class="nav-link"
-					   href="{{ route('workspace', ['lang' => $lang]) }}">
+					   href="{{ route('account', ['lang' => $lang]) }}">
 						<div class="nav-profile-img">
 							<img src="{{ imageThumb(Auth::user()->image, 'uploads/clients', 181, 181, 0) }}"
 							     alt="image">
