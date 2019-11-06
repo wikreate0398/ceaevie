@@ -67,7 +67,7 @@
 								{{ $item->id_qrcode ? $item->qr_code->code : '' }}
 							</td> 
 							<td>
-								{{ $item->user->name }} {{ $item->user->lastname }} ({{ $item->rand }})
+								{{ $item->user->name }} {{ $item->user->lastname }} ({{ $item->user->rand }})
 							</td>
 							<td class="nw">
 								{{ $item->created_at->format('d.m.Y H:i') }}

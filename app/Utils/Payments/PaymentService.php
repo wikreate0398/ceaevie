@@ -21,6 +21,8 @@ class PaymentService
 	protected $cardCredentials;
 
 	protected $logModel;
+
+	protected $errResponse;
 	
 	function __construct()
 	{ 

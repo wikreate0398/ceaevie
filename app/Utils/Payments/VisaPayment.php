@@ -122,7 +122,17 @@ class VisaPayment extends PaymentService implements PaymentInterface
 
 	private function log($action, $xmlData)
 	{
-		$this->logModel->create([
+		// $this->logModel->create([
+		// 	'action'       => $action,
+		// 	'order_rand'   => $this->orderId,
+		// 	'payment_mode' => $this->mode,
+		// 	'flag'         => @$xmlData->success,
+		// 	'err_code'     => @$xmlData->errCode,
+		// 	'err_message'  => @$xmlData->errMessage,
+		// 	'log'          => json_encode($xmlData)
+		// ]); 
+ 
+		\Log::channel('payment')->info([
 			'action'       => $action,
 			'order_rand'   => $this->orderId,
 			'payment_mode' => $this->mode,

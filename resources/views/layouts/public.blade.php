@@ -46,10 +46,18 @@
                 </ul>
             @endif
 
-            <button class="navbar-toggler ml-1" type="button" data-toggle="collapse" data-target="#collapsingNavbar2">
+            <button class="navbar-toggler ml-1" type="button" onclick="showMobMenu();">
                 <span class="navbar-toggler-icon"><i class="fa fa-bars"></i></span>
             </button>
-            <div class="navbar-collapse collapse justify-content-between align-items-center w-100" id="collapsingNavbar2">
+            <script>
+                function showMobMenu(){
+                    $('nav.navbar').addClass('opened-menu');
+                }
+            </script>
+            <div class="navbar-collapse collapse justify-content-center top-menu-collapse align-items-center w-100" id="collapsingNavbar2">
+                <!-- <a href="#" onclick="$('nav.navbar').removeClass('opened-menu'); return false;">
+                    <img src="/img/close.png" class="close-mob-menu" alt="">
+                </a> -->
                 <ul class="navbar-nav text-center nav-menu"> 
                     @foreach(\Pages::top() as $menu)
                         @php
