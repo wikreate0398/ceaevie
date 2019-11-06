@@ -46,7 +46,7 @@
                 </ul>
             @endif
 
-            <button class="navbar-toggler ml-1" type="button" onclick="showMobMenu();">
+            <button class="navbar-toggler ml-1" type="button" data-toggle="collapse" data-target="#collapsingNavbar2">
                 <span class="navbar-toggler-icon"><i class="fa fa-bars"></i></span>
             </button>
             <script>
