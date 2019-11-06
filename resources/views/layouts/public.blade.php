@@ -54,7 +54,7 @@
                     $('nav.navbar').addClass('opened-menu');
                 }
             </script>
-            <div class="navbar-collapse collapse justify-content-center top-menu-collapse align-items-center w-100" id="collapsingNavbar2">
+            <div class="navbar-collapse collapse justify-content-between top-menu-collapse align-items-center w-100" id="collapsingNavbar2">
                 <!-- <a href="#" onclick="$('nav.navbar').removeClass('opened-menu'); return false;">
                     <img src="/img/close.png" class="close-mob-menu" alt="">
                 </a> -->
