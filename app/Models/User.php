@@ -94,6 +94,18 @@ class User extends Authenticatable
       return $this->hasMany('App\Models\WithdrawTips', 'id_user', 'id')->where('moderation', 1);
     }  
 
+    public function cards()
+    {
+      return $this->hasMany('App\Models\BankCards', 'id_user', 'id');
+    }  
+
+    public function scopeWithTrashedCard($query)
+    {
+      return $query->with(['cards' => function($query){
+        return $query->withTrashed();
+      }]);
+    }
+
     public function verificationStatusData()
     {
       return $this->hasOne('App\Models\IdentificationSatuses', 'define', 'verification_status');

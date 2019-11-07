@@ -9,9 +9,15 @@
 					<a href="#tab_1" data-toggle="tab">
 					Детали </a>
 				</li>
+
 				<li class="">
 					<a href="#tab_2" data-toggle="tab">
 					Профиль </a>
+				</li>
+
+				<li class="">
+					<a href="#tab_4" data-toggle="tab">
+					Банковские карты </a>
 				</li>
 
 				@if($data->verification_status != 'not_passed')
@@ -184,6 +190,34 @@
 					@else
 						{{ $data->verificationStatusData->name_ru }}
 					@endif
+				</div>
+
+				<div class="tab-pane" id="tab_4">
+					<table class="table table-bordered">
+						<thead>
+							<tr>
+								<th>ФИО</th>
+								<th>Тип карты</th>
+								<th>Номер карты</th>
+								<th>Срок</th>
+								<th>Дата добавления</th>
+								<th>Статус</th>
+							</tr>
+						</thead>
+
+						<tbody>
+							@foreach($data->cards as $card)
+								<tr>
+									<td>{{ $card->name }}</td>
+									<td>{{ ucfirst($card->type) }}</td>
+									<td>{{ $encriptionService->decrypt($card->number) }}</td>
+									<td>{{ $card->month }}/{{ $card->year }}</td>
+									<td>{{ $card->created_at->format('d.m.Y H:i:s') }}</td>
+									<td>{{ $card->deleted_at ? 'Удалена' : 'Активна' }}</td>
+								</tr>
+							@endforeach
+						</tbody>
+					</table>
 				</div>
 			</div>
 		</div>

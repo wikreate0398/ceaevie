@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Utils\UploadImage;  
+use App\Utils\Encryption; 
 use App\Notifications\SendLetter;
 use App\Notifications\ChangeVerificationStatus;
 
@@ -89,7 +90,8 @@ class ClientsController extends Controller
         return view('admin.'.$this->folder.'.edit', [
             'method'        => $this->method,
             'table'         => $this->model->getTable(),
-            'data'          => $this->model->findOrFail($id)
+            'data'          => $this->model->withTrashedCard()->findOrFail($id),
+            'encriptionService' => new Encryption
         ]);
     }
 
