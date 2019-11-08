@@ -49,6 +49,7 @@
 						<th class="nw">№ Транзакции</th>  
 						<th class="nw">Официант</th>
 						<th class="nw">Дата зачисления</th> 
+						<th class="nw" style="text-align: center;">Коммисия руб.</th>
 						<th class="nw" style="text-align: center;">Сумма руб.</th> 
 						<th class="nw" style="text-align: center;">Номер карты</th> 
 						<th class="nw" style="text-align: center;">Статус</th> 
@@ -66,6 +67,9 @@
 							</td>
 							<td class="nw">
 								{{ $item->created_at->format('d.m.Y H:i') }}
+							</td> 
+							<td class="nw" align="center">
+								{{ $item->commision }}
 							</td> 
 							<td class="nw" align="center">
 								{{ $item->amount }}

@@ -41,7 +41,10 @@
                 <span class="d-flex align-items-center purchase-popup alert-warning" style="justify-content: space-between;">
                     <p style="color: #fff;">
                         @if(Auth::user()->verification_status != 'confirm')
-                            Длы вывода средств необходимо пройти верификацию
+                            Длы вывода средств необходимо пройти верификацию в разделе &nbsp;
+                            <a href="{{ route('account', ['lang' => $lang]) }}">
+                                Мой профиль
+                            </a> 
                         @elseif($total_amount < setting('minimum_withdrawal'))
                             Длы вывода средств необходимо иметь на счету не менее {{ setting('minimum_withdrawal') }} P 
                         @else
@@ -169,9 +172,13 @@
                                 <label for="wth_price">Укажите сумму *</label>
                                 <input type="text" class="form-control price-mask"
                                        id="wth_price"
+                                       autocomplete="off" 
                                        placeholder="Сумма"
-                                       name="price">
-                            </div>
+                                       name="price"
+                                       onkeyup="setMoney(this);">
+                                       <small class="text-danger">Комиссия -{{ setting('commision_withdrawal') }} руб.</small>
+                                       <small class="total-withdraw" style="display: none;">Итог: <span>150</span> руб.</small>
+                            </div> 
 
                             <div class="form-group col-md-12"> 
                                 <label for="CreditCardNumber">Укажите карту *</label>
@@ -181,7 +188,7 @@
                                         <option value="{{ $card->id }}">{{ $card->hide_number }}</option>
                                     @endforeach
                                 </select> 
-                            </div> 
+                            </div>  
                             
                             <div style="text-align: center" class="col-md-12">
                                 <button type="submit"

@@ -62,10 +62,11 @@ class WithdrawalService
         if (!$this->withdrawId) 
         {
             $id = $this->withdrawTips->create([
-                'id_user' => $this->user->id,
-                'id_card' => $this->card->id,
-                'rand'    => generate_id(7),
-                'amount'  => $this->amount
+                'id_user'   => $this->user->id,
+                'id_card'   => $this->card->id,
+                'rand'      => generate_id(7),
+                'amount'    => $this->amount-setting('commision_withdrawal'),
+                'commision' => setting('commision_withdrawal') ?: 0
             ])->id;
         }
         else
@@ -130,8 +131,13 @@ class WithdrawalService
 
         if ($request->price > $totalAmount) 
         {
-            throw new \Exception("На вашем счету нет столько средств. Вы можете вывести не более {$totalAmount} Р");
+            throw new \Exception("На вашем счету нет столько средств.");
         } 
+
+        if (setting('commision_withdrawal') && $request->price <= setting('commision_withdrawal')) 
+        {
+            throw new \Exception('Для вывода неоходимо указать сумму больше '.setting('commision_withdrawal').' рубл.'); 
+        }
 
         if (!BankCards::whereId($request->card)->count()) 
         {

@@ -26,7 +26,8 @@ class WithdrawTips extends Model
         'pan_ref_token',
         'open',
         'open_admin',
-        'response_at'
+        'response_at',
+        'commision'
     ];  
 
     protected $casts = [ 

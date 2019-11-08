@@ -30,6 +30,9 @@
 	<link rel="stylesheet" href="/css/loader.css">
 	<!-- End layout styles -->
 	<link rel="shortcut icon" href="/fav.ico"> 
+	<script>
+		var commision_withdrawal = {{ toFloat(setting('commision_withdrawal')) }};
+	</script>
 </head>
 <body>
 <div class="container-scroller">

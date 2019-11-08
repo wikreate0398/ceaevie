@@ -123,3 +123,15 @@ function inputMask(){
   $('#CreditCardNumber').inputmask('9999 9999 9999 9999');
   $('#SecurityCode').inputmask('999'); 
 }
+
+function setMoney(input) {
+  var val = $(input).val();
+  if (!val || val <= 30) {
+    $(input).addClass('input-danger');
+    $('.total-withdraw').hide();
+  }else{
+    $(input).addClass('input-success');
+    $('.total-withdraw').show();
+    $('.total-withdraw span').text(val-commision_withdrawal);
+  }
+}

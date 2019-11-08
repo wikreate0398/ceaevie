@@ -1056,4 +1056,12 @@ footer {}
 .d-none{
 	display: block !important;
 	margin-left: 12px !important;
+} 
+
+.input-danger, .input-danger:focus{
+	border: 1px solid #ec5359;
+}
+
+.input-success, .input-success:focus{
+	border: 1px solid rgb(133, 181, 82);
 }

@@ -87,7 +87,8 @@ class BallanceController extends Controller
                 'id_user'        => \Auth::user()->id,
                 'id_card'        => $request->card,
                 'rand'           => generate_id(7),
-                'amount'         => $amount,
+                'amount'         => $amount-setting('commision_withdrawal'),
+                'commision'      => setting('commision_withdrawal') ?: 0,
                 'moderation'     => '1',
                 'request_status' => 'pending'
             ]); 
