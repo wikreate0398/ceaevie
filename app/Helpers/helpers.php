@@ -33,6 +33,12 @@ function withdrawFee($price, $percent)
     return $price - (($percent/100)*$price);
 }
 
+function priceToPercent($price, $priceCommision)
+{
+    if(empty($percent) or empty($priceCommision)) return $price;
+    return (($price+$priceCommision)/100)*$priceCommision;
+}
+
 function prepareCode($code) {   
     if (!strpos($code, '-') && strlen($code) >= 4) 
     {
