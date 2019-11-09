@@ -376,3 +376,7 @@ select option:disabled {
 .open-msg-tr{
   background: #efefef;
 }
+
+.ac{
+  text-align: center;
+}
