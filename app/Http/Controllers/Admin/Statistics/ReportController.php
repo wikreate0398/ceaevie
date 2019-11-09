@@ -25,21 +25,7 @@ class ReportController extends Controller
      * @return void
      */
     public function __construct() 
-    {
-
-        if (!empty(request()->test)) {
-            TipPercents::truncate();
-            Tips::all()->each(function($tip){
-                $tipId = $tip->id;
-                EnrollmentPercents::all()->each(function($percent) use($tipId){
-                    TipPercents::insert([
-                        'id_tip'     => $tipId,
-                        'id_percent' => $percent->id,
-                        'percent'    => $percent->percent
-                    ]);
-                });
-            });
-        }
+    { 
 
         $this->model  = new Tips;
         $this->method = config('admin.path') . '/' . $this->method;
