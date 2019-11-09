@@ -74,6 +74,13 @@ Route::group(['prefix' => $adminPath, 'namespace' => 'Admin', 'middleware' => ['
         Route::post('{id}/update', 'AdvantagesController@update'); 
     });  
 
+    Route::group(['prefix' => 'enrollment-percents'], function() { 
+        Route::get('/', 'EnrollmentPercentsController@show')->name('admin_enrollment_percents');  
+        Route::get('{id}/edit', 'EnrollmentPercentsController@showeditForm');  
+        Route::post('create', 'EnrollmentPercentsController@create'); 
+        Route::post('{id}/update', 'EnrollmentPercentsController@update'); 
+    });   
+
     Route::group(['prefix' => 'email-templates'], function() {
         Route::get('/', 'EmailTemplatesController@show')->name('admin_email_templates');
         Route::get('{id}/edit', 'EmailTemplatesController@showeditForm'); 
@@ -120,7 +127,11 @@ Route::group(['prefix' => $adminPath, 'namespace' => 'Admin', 'middleware' => ['
 
         Route::group(['prefix' => 'withdrawal-history'], function() { 
             Route::get('/', 'WithdrawalHistoryController@show')->name('admin_withdrawal');   
-        });  
+        }); 
+
+        Route::group(['prefix' => 'report'], function() { 
+            Route::get('/', 'ReportController@show')->name('admin_report');   
+        });   
     });
 
     Route::group(['prefix' => 'withdrawal', 'namespace' => 'Withdrawal'], function() { 

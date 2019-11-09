@@ -63,6 +63,11 @@ class Tips extends Model
     {
         return $this->hasOne('App\Models\PaymentType', 'id', 'id_payment');
     }
+
+    public function percents()
+    {
+        return $this->hasMany('App\Models\TipPercents', 'id_tip', 'id');
+    }
  
     public function scopeFilter($query)
     { 

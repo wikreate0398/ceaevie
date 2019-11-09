@@ -35,8 +35,14 @@ function withdrawFee($price, $percent)
 
 function priceToPercent($price, $priceCommision)
 {
-    if(empty($percent) or empty($priceCommision)) return $price;
+    if(empty($priceCommision)) return 0;
     return (($price+$priceCommision)/100)*$priceCommision;
+}
+
+function percent($price, $percent = null)
+{
+    if(empty($percent)) return 0;
+    return ($percent/100)*$price;
 }
 
 function prepareCode($code) {   
@@ -222,6 +228,14 @@ function adminMenu()
             ]
         ],    
 
+        'enrollment-percents' => [
+            'name' => 'Проценты',
+            'icon' => '<i class="fa fa-percent" aria-hidden="true"></i>',
+            'link' => '/'.config('admin.path').'/enrollment-percents/',
+            'view' => true,
+            'edit' => 'Редактировать'
+        ], 
+
         'statistics' => [
             'name'   => 'Статистика',
             'icon'   => '<i class="fa fa-line-chart" aria-hidden="true"></i>',
@@ -229,6 +243,14 @@ function adminMenu()
             'view'   => true,
             'edit'   => 'Редактировать',
             'childs' => [
+                'report' => [
+                    'name' => 'Отчет',
+                    'icon' => '<i class="fa fa-book" aria-hidden="true"></i>',
+                    'link' => '/'.config('admin.path').'/statistics/report/',
+                    'view' => true,
+                    'edit' => 'Редактировать'
+                ],
+
                 'enrollment' => [
                     'name' => 'История зачисление',
                     'icon' => '<i class="fa fa-book" aria-hidden="true"></i>',

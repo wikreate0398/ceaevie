@@ -62,7 +62,7 @@
 						<th class="nw">№ Запроса</th>  
 						<th class="nw">Официант</th>
 						<th class="nw">Дата отправки запроса</th> 
-						<th class="nw" style="text-align: center;">Коммисия руб.</th> 
+						<th class="nw" style="text-align: center;">Коммисия %</th> 
 						<th class="nw" style="text-align: center;">Сумма <br>для вывода руб.</th> 
 						<th class="nw" style="text-align: center;">Номер карты</th> 
 						<th class="nw" style="text-align: center;">Статус</th> 
@@ -82,7 +82,7 @@
 								{{ $item->created_at->format('d.m.Y H:i') }}
 							</td> 
 							<td class="nw" align="center">
-								{{ $item->commision }}
+								{{ priceToPercent($item->amount, $item->commision) }}
 							</td> 
 							<td class="nw" align="center">
 								{{ $item->amount }}

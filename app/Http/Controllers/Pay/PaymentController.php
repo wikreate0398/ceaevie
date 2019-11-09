@@ -9,6 +9,8 @@ use App\Utils\Payments\VisaPayment;
 use App\Models\QrCode;
 use App\Models\PaymentType; 
 use App\Models\Tips; 
+use App\Models\EnrollmentPercents;
+use App\Models\TipPercents;
 
 class PaymentController extends Controller
 {
@@ -119,20 +121,31 @@ class PaymentController extends Controller
     {  
         $qrCode      = QrCode::where('code', $request->code)->with('user')->first();
 
-        $fee         = $qrCode->user->fee ?: setting('fee');
+        $percents    = EnrollmentPercents::select('percent')->get(); 
+        $fee         = $qrCode->user->fee ?: $percents->sum('percent');
         $totalAmount = toFloat($request->price);
         $amount      = withdrawFee($totalAmount, $fee);
 
-    	return Tips::create([
-    		'id_user'      => QrCode::where('code', $request->code)->first()->id_user,
-    		'id_payment'   => $request->payment,
-            'id_qrcode'    => $qrCode->id,
-    		'rand'         => generate_id(7),
-    		'total_amount' => $totalAmount,
-            'amount'       => $amount,
-            'fee'          => $fee,
-            'rating'       => $request->rating ?: ''
+    	$tipId = Tips::create([
+    		'id_user'             => QrCode::where('code', $request->code)->first()->id_user,
+    		'id_payment'          => $request->payment,
+            'id_qrcode'           => $qrCode->id,
+    		'rand'                => generate_id(7),
+    		'total_amount'        => $totalAmount,
+            'amount'              => $amount,
+            'fee'                 => $fee, 
+            'rating'              => $request->rating ?: ''
     	])->id; 
+
+        $percents->each(function($percent) use($tipId){
+            TipPercents::insert([
+                'id_tip'     => $tipId,
+                'id_percent' => $percent->id,
+                'percent'    => $percent->percent
+            ]);
+        });
+
+        return $tipId;
     }
 
     private function checkFormData($request)
