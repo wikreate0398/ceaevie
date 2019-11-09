@@ -33,8 +33,8 @@
 						<th>Дата</th>
 						<th class="nw">№ Перевода</th>  
 						<th class="nw">Официант</th> 
-						<th>Общая сумма руб.</th>
-						<th class="nw" align="center">Остаток для официанта</th> 
+						<th>Всего руб.</th>
+						<th class="nw" align="center">Остаток руб.</th> 
 						@foreach($percents as $percent)
 							<th class="nw" align="center">{{ $percent->name }}</th>  
 						@endforeach
