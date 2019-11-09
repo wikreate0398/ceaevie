@@ -121,7 +121,7 @@ class PaymentController extends Controller
     {  
         $qrCode      = QrCode::where('code', $request->code)->with('user')->first();
 
-        $percents    = EnrollmentPercents::select('percent')->get(); 
+        $percents    = EnrollmentPercents::select('percent', 'id')->get(); 
         $fee         = $qrCode->user->fee ?: $percents->sum('percent');
         $totalAmount = toFloat($request->price);
         $amount      = withdrawFee($totalAmount, $fee);
