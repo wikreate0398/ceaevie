@@ -160,7 +160,7 @@
                                     <input type="text" class="form-control home-price-mask" name="price" placeholder="Сумма">
                                 </div>
                                 <div class="form-group col-12 text-center">
-                                    <button type="submit" class="btn btn-blue">Поблагодорить</button>
+                                    <button type="submit" class="btn btn-blue">Поблагодарить</button>
                                 </div>
                             </div>
                         </form>
