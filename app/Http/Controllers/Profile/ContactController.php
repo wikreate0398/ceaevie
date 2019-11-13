@@ -7,12 +7,17 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\MakeQuestion;
 use App\Models\ContactUs;
-  
+use App\Models\ProfileMenu;
+
 class ContactController extends Controller
 { 
     public function index()
     { 
-        return view('profile.contact');
+        $data = [
+            'menu' => ProfileMenu::where('route', 'contact')->first()
+        ];
+
+        return view('profile.contact', $data);
     }  
 
     public function send($lang, Request $request)

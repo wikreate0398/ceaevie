@@ -529,3 +529,28 @@ p.page-description{
   width: 14px;
   display: inline-block;
 } 
+
+.btn-tabs{
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 40px;
+    list-style: none;  
+}
+
+.btn-tabs .btn-tab{
+    border: 1px solid #ededed;
+    border-radius: 20px;
+    padding: 10px 15px;
+    background: transparent;
+}
+
+.btn-tabs .btn-tab.active{
+    background: #cf1c24;
+    color: #fff;
+}
+
+.btn-tabs .btn-tab:last-child{
+    margin-left: 10px;
+}

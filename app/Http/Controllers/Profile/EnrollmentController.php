@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Profile;
 use Illuminate\Http\Request; 
 use App\Http\Controllers\Controller; 
 use App\Models\Tips; 
+use App\Models\ProfileMenu;
   
 class EnrollmentController extends Controller
 { 
     public function index()
     {    
+        $menu = ProfileMenu::where('route', 'enrollment')->first();
     	$tips = Tips::confirmed()
                     ->where('id_user', \Auth::user()->id)
                     ->filter()
@@ -17,7 +19,7 @@ class EnrollmentController extends Controller
                     ->paginate(self::getPerPage());
 
     	self::closeOpenTips();
-        return view('profile.enrollment', compact('tips'));
+        return view('profile.enrollment', compact(['tips', 'menu']));
     }  
 
     private static function closeOpenTips()

@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Auth;
 
 use App\Models\User;
+use App\Models\UserType;
 use App\Notifications\ConfirmRegistration;
 
 class RegisterController extends Controller
@@ -45,17 +46,23 @@ class RegisterController extends Controller
     }
 
     public function showForm()
-    {
-        return view('auth/registration');
+    {  
+        $userTypes = UserType::all();
+        return view('auth/registration', compact('userTypes'));
     }
 
     public function register(Request $request)
     {
         $input = $request->all();
 
-        if(!$request->name or !$request->email or !$request->lastname or !$request->phone or !$request->password or !$request->password_confirmation)
+        if(!$request->type or !$request->name or !$request->email or !$request->lastname or !$request->phone or !$request->password or !$request->password_confirmation or ($request->type == 'admin' && !$request->institution_name))
         {
             return \JsonResponse::error(['messages' => \Constant::get('REQ_FIELDS')]);
+        } 
+
+        if (!in_array($request->type, UserType::select('type')->get()->pluck('type')->toArray())) 
+        {
+            return \JsonResponse::error(['messages' => 'Ошибка']);
         }
 
         if($request->password != $request->password_confirmation)
@@ -77,7 +84,9 @@ class RegisterController extends Controller
 
         $user = User::create([
             'name'         => $request->name,
+            'type'         => $request->type,
             'lastname'     => $request->lastname,
+            'institution_name' => $request->institution_name ?: '',
             'phone'        => $request->phone,
             'email'        => $request->email,
             'confirm_hash' => $confirm_hash,

@@ -6,7 +6,9 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6 offset-md-3 text-center message-page"> 
-                    <img src="/img/logo.png" alt="logo"> 
+                    <a href="{{ route('home') }}">
+                        <img src="/img/logo.png" alt="logo"> 
+                    </a>
                     <p class="grey">{{ $message }}</p>
                     <a href="{{ getAppUrl() }}" class="">На главную</a>
                 </div> 

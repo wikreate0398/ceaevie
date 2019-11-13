@@ -22,8 +22,7 @@
 									@include('admin.utils.input', ['label' => 'Имя', 'req' => true, 'name' => 'name'])
 									@include('admin.utils.input', ['label' => 'Фамилия', 'req' => true, 'name' => 'lastname'])
 									@include('admin.utils.input', ['label' => 'Телефон', 'name' => 'phone'])
-									@include('admin.utils.input', ['label' => 'E-mail', 'req' => true, 'name' => 'email'])
-									@include('admin.utils.input', ['label' => 'Процент', 'name' => 'fee'])  
+									@include('admin.utils.input', ['label' => 'E-mail', 'req' => true, 'name' => 'email']) 
 									@include('admin.utils.image', ['inputName' => 'image'])
 									@include('admin.utils.input', ['label' => 'Пароль', 'req' => true, 'name' => 'password', 'type' => 'password']) 
 									@include('admin.utils.input', ['label' => 'Повторите Пароль', 'req' => true, 'name' => 'repeat_password', 'type' => 'password']) 
@@ -148,55 +147,58 @@
 			@endif
 			
 			@if($data->count()) 
-				<table class="table table-bordered">
-					<tbody>
-					<tr>
-						<th style="width:5%; text-align: center"><i class="fa fa-check-square" aria-hidden="true"></i></th>
-						<th class="nw">№</th>
-						<th class="nw">ФИО</th>
-						<th>E-mail</th>
-						<th>Телефон</th> 
-						<th>Процент</th>
-						<th>Баланс руб.</th>
-						<th>Последний визит</th>
-						<th>Идентификация</th>
-						<th style="width:5%; text-align: center"><i class="fa fa-cogs" aria-hidden="true"></i></th>
-					</tr>
-					</tbody>
-					<tbody id="sort-items" data-table="{{ $table }}" data-action="{{ route('sortElement') }}">
-					@foreach($data as $item)
-						<tr id="<?=$item['id']?>">
-							<td style="width:5px; white-space: nowrap;">
-								<input type="checkbox"
-									   class="make-switch" data-size="mini" {{ !empty($item['active']) ? 'checked' : '' }}
-									   data-on-text="<i class='fa fa-check'></i>"
-									   data-off-text="<i class='fa fa-times'></i>"
-									   onchange="Ajax.buttonView(this, '{{ $table }}', '{{ $item["id"] }}', 'active')">
-							</td>
-							<td>{{ $item->rand }}</td>
-							<td class="nw">{{ $item->name }} {{ $item->lastname }}</td>
-							<td>{{ $item->email }}</td>
-							<td>{{ $item->phone }}</td>
-							<td>{!! $item->fee ? '<label class="badge badge-danger">'.$item->fee.'</label>' : '--' !!}</td>
-							<td>{{ $item->ballance }}</td>
-							<td class="nw">{{ $item->last_entry ? $item->last_entry->format('d.m.Y H:i') : '' }}</td>
-							<td class="nw">
-								{{ $item->verificationStatusData->name_ru }}
-							</td>
-							<td style="width: 5px; white-space: nowrap">
-								<a href="/{{ $method }}/{{ $item['id'] }}/autologin/" target="_blank" class="btn btn-primary btn-xs">
-									<i class="fa fa-sign-in" aria-hidden="true"></i>
-								</a>
-								<a style="margin-left: 5px;" href="/{{ $method }}/{{ $item['id'] }}/edit/" class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
-								<a class="btn btn-danger btn-xs" data-toggle="modal" href="#deleteModal_{{ $table }}_{{ $item['id'] }}"><i class="fa fa-trash-o "></i></a>
-								<!-- Modal -->
-							@include('admin.utils.delete', ['id' => $item['id'], 'table' => $table])
-							<!-- Modal -->
-							</td>
+				@foreach($data->groupBy('typeData.name_ru') as $type_name => $clients)
+					<h2>{{ $type_name }}</h2>
+					<table class="table table-bordered">
+						<tbody>
+						<tr>
+							<th style="width:5%; text-align: center"><i class="fa fa-check-square" aria-hidden="true"></i></th>
+							<th class="nw">№</th>
+							<th class="nw">ФИО</th>
+							<th class="nw">Тип</th>
+							<th>E-mail</th>
+							<th>Телефон</th>  
+							<th>Баланс руб.</th>
+							<th>Последний визит</th>
+							<th>Идентификация</th>
+							<th style="width:5%; text-align: center"><i class="fa fa-cogs" aria-hidden="true"></i></th>
 						</tr>
-					@endforeach
-					</tbody>
-				</table>
+						</tbody>
+						<tbody id="sort-items" data-table="{{ $table }}" data-action="{{ route('sortElement') }}">
+						@foreach($clients as $item)
+							<tr id="<?=$item['id']?>">
+								<td style="width:5px; white-space: nowrap;">
+									<input type="checkbox"
+										   class="make-switch" data-size="mini" {{ !empty($item['active']) ? 'checked' : '' }}
+										   data-on-text="<i class='fa fa-check'></i>"
+										   data-off-text="<i class='fa fa-times'></i>"
+										   onchange="Ajax.buttonView(this, '{{ $table }}', '{{ $item["id"] }}', 'active')">
+								</td>
+								<td>{{ $item->rand }}</td>
+								<td class="nw">{{ $item->name }} {{ $item->lastname }}</td>
+								<td>{{ $item->typeData->name_ru }}</td>
+								<td>{{ $item->email }}</td>
+								<td>{{ $item->phone }}</td> 
+								<td>{{ $item->ballance }}</td>
+								<td class="nw">{{ $item->last_entry ? $item->last_entry->format('d.m.Y H:i') : '' }}</td>
+								<td class="nw">
+									{{ $item->verificationStatusData->name_ru }}
+								</td>
+								<td style="width: 5px; white-space: nowrap">
+									<a href="/{{ $method }}/{{ $item['id'] }}/autologin/" target="_blank" class="btn btn-primary btn-xs">
+										<i class="fa fa-sign-in" aria-hidden="true"></i>
+									</a>
+									<a style="margin-left: 5px;" href="/{{ $method }}/{{ $item['id'] }}/edit/" class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
+									<a class="btn btn-danger btn-xs" data-toggle="modal" href="#deleteModal_{{ $table }}_{{ $item['id'] }}"><i class="fa fa-trash-o "></i></a>
+									<!-- Modal -->
+								@include('admin.utils.delete', ['id' => $item['id'], 'table' => $table])
+								<!-- Modal -->
+								</td>
+							</tr>
+						@endforeach
+						</tbody>
+					</table>
+				@endforeach
 			@else
 				<div class="alert alert-warning">Нет клиентов</div>
 			@endif

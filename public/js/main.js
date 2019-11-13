@@ -12,6 +12,8 @@ $(document).ready(function(){
         } 
     }); 
 
+    $('.reg-btn-tabs button.active').click();
+
     $('.toggle-link').click(function(e){
         e.preventDefault(); 
         scrollToBlock($(this).attr('href')); 
@@ -30,6 +32,7 @@ $(document).ready(function(){
     $('.rating-stars').each(function(){
         var currentRating = $(this).data('current-rating');
 
+        var itemRating = $(this);
         $(this).barrating({
             theme: 'fontawesome-stars-o',
             showSelectedRating: false,
@@ -37,7 +40,10 @@ $(document).ready(function(){
             allowEmpty:true, 
             deselectable:true,
             emptyValue: 0,
-            onSelect:function(value, text, event){ 
+            onSelect:function(value, text, event){  
+                if($('.rating-comment').length){ 
+                    $('.rating-comment').show();
+                }
             } 
         }); 
         var state = ($(this).attr('data-readonly') == 'true') ? true : false; 
@@ -90,4 +96,20 @@ function changeByKeyup(){
         });
     }); 
 } 
- 
+
+function changeRegType(btn, type){
+    $('input#user_type').val(type);
+    $('.reg-btn-tabs button').removeClass('active');
+    $(btn).addClass('active');
+
+    $('.reg-fields .form-group').each(function(){
+        var access = $(this).attr('data-access');
+        if (access != '*') {
+            if(access != type){
+                $(this).hide();
+            } else {
+                $(this).show();
+            }
+        }
+    });
+}

@@ -196,7 +196,7 @@ function adminMenu()
         ], 
 
         'clients' => [
-            'name' => 'Официанты',
+            'name' => 'Пользователи',
             'icon' => '<i class="fa fa-users" aria-hidden="true"></i>',
             'link' => '/'.config('admin.path').'/clients/',
             'view' => true,
@@ -235,6 +235,14 @@ function adminMenu()
             'view' => true,
             'edit' => 'Редактировать'
         ], 
+
+        'profile-menu' => [
+            'name' => 'Меню ЛК',
+            'icon' => '<i class="fa fa-bars" aria-hidden="true"></i>',
+            'link' => '/'.config('admin.path').'/profile-menu/',
+            'view' => true,
+            'edit' => 'Редактировать'
+        ],   
 
         'statistics' => [
             'name'   => 'Статистика',

@@ -8,8 +8,8 @@
         <h3 class="page-title">
     <span
         class="page-title-icon bg-gradient-danger text-white mr-2">
-      <i class="mdi mdi-currency-usd"></i>
-    </span> Ваш баланс</h3>
+      {!! $menu["icon"] !!}
+    </span> {{ $menu["name_$lang"] }} </h3>
     </div>
     <div class="row">
         <div class="col-md-4 grid-margin">

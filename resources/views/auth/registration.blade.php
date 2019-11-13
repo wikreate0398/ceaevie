@@ -14,32 +14,51 @@
                 <div class="col-md-6 offset-md-3">
                     <form class="ajax__submit" action="{{ route('register', ['lang' => $lang]) }}">
                     	{{ csrf_field() }}
+
+                        <input type="hidden" name="type" value="user" id="user_type">
+                        
                         <div class="row">
-                            <div class="form-group col-12 col-sm-12 col-md-12">
+                            <ul class="btn-tabs reg-btn-tabs">
+                                @foreach($userTypes as $key => $type) 
+                                    <li>
+                                        <button type="button" class="btn-tab {{ ($key==0) ? 'active' : '' }}" onclick="changeRegType(this, '{{ $type->type }}')">
+                                            {{ $type["name_$lang"] }}
+                                        </button>
+                                    </li> 
+                                @endforeach
+                            </ul>
+                        </div> 
+
+                        <div class="row reg-fields">
+                            <div class="form-group col-12 col-sm-12 col-md-12" data-access="*">
                                 <label>Email <span class="req">*</span></label>
                                 <input type="email" required name="email" class="form-control" placeholder="Email">
                             </div>
-                            <div class="form-group col-12 col-sm-12 col-md-12">
+                            <div class="form-group col-12 col-sm-12 col-md-12" data-access="admin">
+                                <label>Название заведения <span class="req">*</span></label>
+                                <input type="text" name="institution_name" class="form-control" placeholder="Название заведения">
+                            </div>
+                            <div class="form-group col-12 col-sm-12 col-md-12" data-access="*">
                                 <label>Имя <span class="req">*</span></label>
                                 <input type="text" required name="name" class="form-control" placeholder="Имя">
                             </div>
-                            <div class="form-group col-12 col-sm-12 col-md-12">
+                            <div class="form-group col-12 col-sm-12 col-md-12" data-access="*">
                                 <label>Фамилия <span class="req">*</span></label>
                                 <input type="text" required name="lastname" class="form-control" placeholder="Фамилия">
-                            </div>
-                            <div class="form-group col-12 col-sm-12 col-md-12">
+                            </div> 
+                            <div class="form-group col-12 col-sm-12 col-md-12" data-access="*">
                                 <label>Телефон <span class="req">*</span></label>
                                 <input type="text" required name="phone" class="form-control" placeholder="Телефон">
                             </div>
-                            <div class="form-group col-12 col-sm-12 col-md-12">
+                            <div class="form-group col-12 col-sm-12 col-md-12" data-access="*">
                                 <label>Пароль <span class="req">*</span></label>
                                 <input type="password" required name="password" class="form-control" placeholder="Пароль">
                             </div>
-                            <div class="form-group col-12">
+                            <div class="form-group col-12" data-access="*">
                                 <label>Повторите пароль <span class="req">*</span></label>
                                 <input type="password" required name="password_confirmation" class="form-control" placeholder="Повторите пароль">
                             </div>
-                            <div class="form-group col-12 text-center">
+                            <div class="form-group col-12 text-center" data-access="*">
                                <!--  <button type="submit" class="btn btn-white">Войти</button> -->
                                 <button type="submit" class="btn btn-blue">Зарегистрироваться</button>
                             </div>

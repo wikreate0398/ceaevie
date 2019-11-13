@@ -13,6 +13,7 @@ use App\Models\Tips;
 use App\Models\BankCards;
 use App\Models\WithdrawTips; 
 use App\Models\AdminUser;
+use App\Models\ProfileMenu;
 
 class BallanceController extends Controller
 { 
@@ -26,8 +27,9 @@ class BallanceController extends Controller
                                           ->with('card')
                                           ->filter()
                                           ->orderByRaw('id desc')
-                                          ->paginate(self::getPerPage())
-        ];
+                                          ->paginate(self::getPerPage()),
+            'menu' => ProfileMenu::where('route', 'ballance')->first()
+        ]; 
 
         return view('profile.ballance', $data);
     }  
@@ -133,6 +135,11 @@ class BallanceController extends Controller
             throw new \Exception(\Constant::get('REQ_FIELDS')); 
         }
 
+        if (!$this->validateLatin($request->name)) 
+        {
+            throw new \Exception('Фио должно быть на латинице');
+        }
+
         $cardType = $this->validatecard($request->number);
         if ($cardType === false) 
         {
@@ -144,6 +151,11 @@ class BallanceController extends Controller
         {
             throw new \Exception('Срок действия карты не действителен');  
         }
+    }
+
+    public function validateLatin($string) 
+    {
+        return preg_match("/^[\w\d\s.,-]*$/", $string) ? true : false;
     }
 
     private static function getHideCardNumber($cardNumber)

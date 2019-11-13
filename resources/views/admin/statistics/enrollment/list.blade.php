@@ -88,6 +88,10 @@
                                         <option value="4">4</option>
                                         <option value="5">5</option>
                                     </select>
+
+                                    @if($item->review)
+                                        <p style="margin-top: 5px;">{{ $item->review }}</p>
+                                    @endif
                                 @endif
 							</td> 
 							<td class="nw" align="center">

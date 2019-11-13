@@ -26,7 +26,8 @@ class Tips extends Model
         'rrn',
         'open',
         'open_admin',
-        'rating'
+        'rating',
+        'review'
     ];  
 
     protected $casts = [

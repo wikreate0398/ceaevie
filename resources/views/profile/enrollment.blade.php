@@ -8,8 +8,8 @@
         <h3 class="page-title">
     <span
         class="page-title-icon bg-gradient-danger text-white mr-2">
-      <i class="mdi mdi-chart-line"></i>
-    </span> История зачислений </h3>
+      {!! $menu["icon"] !!}
+    </span> {{ $menu["name_$lang"] }} </h3>
     </div>
 
     @include('profile.utils.cards')
@@ -112,7 +112,7 @@
                             <tr>
                                 <td style="width: 16.6%;">№ транзакции</td>
                                 <td style="width: 16.6%;">Дата зачисления <!-- <i class="mdi mdi-chevron-down"></i> --></td>
-                                <td style="width: 16.6%;">Сумма <!-- <i class="mdi mdi-chevron-down"> --></i></td>
+                                <td style="width: 16.6%;">Сумма <!-- <i class="mdi mdi-chevron-down"> </i>--> </td>
                                 <td style="width: 16.6%;">Комиссия <!-- <i class="mdi mdi-chevron-down"></i> --></td>
                                 <td style="width: 16.6%;">Заработано <!-- <i class="mdi mdi-chevron-down"></i> --></td> 
                                 <td style="width: 16.6%;" align="center">Способ оплаты <!-- <i class="mdi mdi-chevron-down"></i> --></td>
@@ -135,6 +135,10 @@
                                                 <option value="4">4</option>
                                                 <option value="5">5</option>
                                             </select>
+
+                                            @if($tip->review)
+                                                <p style="margin-top: 5px;">{{ $tip->review }}</p>
+                                            @endif
                                         @endif
                                     </td> 
                                     <td align="center">

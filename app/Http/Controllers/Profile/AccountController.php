@@ -9,12 +9,17 @@ use App\Utils\UploadImage;
 use App\Models\User;
 use App\Models\IdentificationFiles;
 use App\Models\AdminUser;
+use App\Models\ProfileMenu;
 
 class AccountController extends Controller
 { 
     public function index()
     { 
-        return view('profile.account');
+        $data = [
+            'menu' => ProfileMenu::where('route', 'account')->first()
+        ];
+
+        return view('profile.account', $data);
     }  
 
     public function edit(Request $request){

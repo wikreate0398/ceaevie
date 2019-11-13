@@ -123,12 +123,11 @@ function serializeForm(form, button, action, button_txt){
 
                     if (jsonResponse.message !== undefined) {
                         Ajax.notify('success', jsonResponse.message);
-                        $(form)[0].reset(); 
-                    } 
 
-                    if($(form).hasClass('stages-form')){
-                       // selectStartStageDate($('.start_stages-picker input')); 
-                    } 
+                        if (!$(form).hasClass('no-reset')) {
+                            $(form)[0].reset(); 
+                        } 
+                    }  
                 } 
             } 
         },

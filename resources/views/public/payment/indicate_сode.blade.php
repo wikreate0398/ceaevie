@@ -6,7 +6,9 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6 offset-md-3 text-center">
-                    <img src="/img/logo.png" alt="logo"> 
+                    <a href="{{ route('home') }}">
+                        <img src="/img/logo.png" alt="logo"> 
+                    </a>
                     <h3 class="section-header mt-50 mb-30">
                         Здравствуйте!
                     </h3>

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\BackgroundColor; 
 use App\Models\QrCode;
 use App\Models\PaymentType;
+use App\Models\ProfileMenu;
 
 class WorkspaceController extends Controller
 { 
@@ -15,7 +16,8 @@ class WorkspaceController extends Controller
         $payments    = PaymentType::orderByPageUp()->visible()->get();
     	$backgrounds = BackgroundColor::orderByPageUp()->visible()->get();
         $qr          = QrCode::where('id_user', \Auth::user()->id)->with('background')->get();
-        return view('profile.workspace', compact(['backgrounds', 'qr', 'payments']));
+        $menu        = ProfileMenu::where('route', 'workspace')->first();
+        return view('profile.workspace', compact(['backgrounds', 'qr', 'payments', 'menu']));
     }  
 
     public function addQrCode(Request $request)

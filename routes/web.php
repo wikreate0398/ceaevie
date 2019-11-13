@@ -81,6 +81,14 @@ Route::group(['prefix' => $adminPath, 'namespace' => 'Admin', 'middleware' => ['
         Route::post('{id}/update', 'EnrollmentPercentsController@update'); 
     });   
 
+    Route::group(['prefix' => 'profile-menu'], function() { 
+        Route::get('/', 'ProfileMenuController@show')->name('admin_profile_menu');  
+        Route::get('{id}/edit', 'ProfileMenuController@showeditForm');  
+        Route::post('create', 'ProfileMenuController@create'); 
+        Route::post('{id}/update', 'ProfileMenuController@update');
+        Route::post('save-access', 'ProfileMenuController@saveAccess'); 
+    });  
+
     Route::group(['prefix' => 'email-templates'], function() {
         Route::get('/', 'EmailTemplatesController@show')->name('admin_email_templates');
         Route::get('{id}/edit', 'EmailTemplatesController@showeditForm'); 
@@ -170,7 +178,7 @@ Route::group(['prefix' => $adminPath, 'namespace' => 'Admin', 'middleware' => ['
 	Route::get('logout', 'LoginController@logout')->name('admin_logout'); 
 }); 
 
-Route::get('/', 'HomeController@index')->middleware(['lang', 'web']);
+Route::get('/', 'HomeController@index')->middleware(['lang', 'web'])->name('home');
   
 Route::group(['prefix' => '{lang}', 'middleware' => ['lang', 'web']], function() {
     
@@ -216,6 +224,13 @@ Route::group(['prefix' => '{lang}', 'middleware' => ['lang', 'web']], function()
                 Route::post('withdraw-funds', 'BallanceController@withdrawFunds')->name('withdraw_funds');  
                 Route::get('delete-credit-card/{id}', 'BallanceController@deleteCreditCard')->name('delete_card');  
             }); 
+
+            Route::group(['prefix' => 'my-oficiants'], function() {
+                Route::get('/', 'OficiantsController@index')->name('my_oficiants'); 
+                Route::post('add-oficiant', 'OficiantsController@addNewOficiant')->name('add_oficiant'); 
+                Route::post('inviteOficiant', 'OficiantsController@inviteOficiant')->name('invite_oficiant'); 
+
+            });  
              
             Route::get('enrollment', 'EnrollmentController@index')->name('enrollment');
               

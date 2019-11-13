@@ -17,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'lastname', 'payment_signature', 'phone', 'email', 'password', 'confirm', 'confirm_hash', 'active',  'image', 'user_agent', 'last_entry', 'fee', 'ballance', 'verification_status', 'rand'
+        'name', 'lastname', 'payment_signature', 'phone', 'email', 'password', 'confirm', 'confirm_hash', 'active',  'image', 'user_agent', 'last_entry', 'fee', 'ballance', 'verification_status', 'rand', 'institution_name'
     ];
 
     /**
@@ -111,6 +111,11 @@ class User extends Authenticatable
       return $this->hasOne('App\Models\IdentificationSatuses', 'define', 'verification_status');
     } 
 
+    public function typeData()
+    {
+      return $this->hasOne('App\Models\UserType', 'type', 'type');
+    }  
+
     public function identificationFiles()
     {
       return $this->hasMany('App\Models\IdentificationFiles', 'id_user', 'id')->orderBy('id', 'desc');
@@ -128,5 +133,10 @@ class User extends Authenticatable
       }
 
       return $query->where('confirm', '1');
+    }
+
+    public function locationUsers()
+    {
+      return $this->belongsToMany('App\Models\User', 'location_users', 'id_location', 'id');
     }
 }

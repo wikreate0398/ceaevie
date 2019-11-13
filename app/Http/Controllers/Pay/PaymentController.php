@@ -53,7 +53,7 @@ class PaymentController extends Controller
     	} catch (\Exception $e) {
     		return \JsonResponse::error(['messages' => $e->getMessage()]);
     	}
- 
+
     	$idOrder = $this->makeOrder($request);
     	$order   = Tips::whereId($idOrder)->first();
 
@@ -134,7 +134,8 @@ class PaymentController extends Controller
     		'total_amount'        => $totalAmount,
             'amount'              => $amount,
             'fee'                 => $fee, 
-            'rating'              => $request->rating ?: ''
+            'rating'              => $request->rating ?: '',
+            'review'              => $request->review ?: '',
     	])->id; 
 
         $percents->each(function($percent) use($tipId){

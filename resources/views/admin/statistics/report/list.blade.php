@@ -82,7 +82,7 @@
 									{{ $item->amount }}
 								</td> 
 								@foreach($percents as $percent)
-									@php($value = percent($item->amount, @$tipPercents[$percent->id]->percent))
+									@php($value = percent($item->total_amount, @$tipPercents[$percent->id]->percent))
 									<td class="ac percent-item" 
 									    data-percent-id="{{ $percent->id }}" 
 									    data-percent-value="{{ $value }}"
@@ -106,17 +106,7 @@
 					 
 					$.each(totalPercent, function(id, value){
 						$('.percent-total-' + id).text(priceString(value, 4));
-					});
-
-					function number_format(e,n,t,i){e=(e+"").replace(/[^0-9+\-Ee.]/g,"");var r=isFinite(+e)?+e:0,a=isFinite(+n)?Math.abs(n):0,o="undefined"==typeof i?",":i,d="undefined"==typeof t?".":t,u="",f=function(e,n){var t=Math.pow(10,n);return""+(Math.round(e*t)/t).toFixed(n)};return u=(a?f(r,a):""+Math.round(r)).split("."),u[0].length>3&&(u[0]=u[0].replace(/\B(?=(?:\d{3})+(?!\d))/g,o)),(u[1]||"").length<a&&(u[1]=u[1]||"",u[1]+=new Array(a-u[1].length+1).join("0")),u.join(d)}
-
-					function priceString(price, a){
-					    var a = a ? a : 2;
-					    if (!price) {
-					        return '0';
-					    } 
-					    return number_format(price, a, '.', ' ');
-					} 
+					}); 
 				</script>
 			@else
 				<div class="alert alert-warning">Нет зачислений</div>

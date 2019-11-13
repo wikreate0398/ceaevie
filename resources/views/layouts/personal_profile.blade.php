@@ -86,42 +86,27 @@
 		<!-- partial:partials/_sidebar.html -->
 		<nav class="sidebar sidebar-offcanvas" id="sidebar">
 			<ul class="nav">
-				<li class="nav-item">
-					<a class="nav-link" href="{{ route('workspace', ['lang' => $lang]) }}">
-						<span class="menu-title">Рабочая область</span>
-						<i class="mdi mdi-home menu-icon"></i>
-					</a>
-				</li> 
-				<li class="nav-item">
-					<a class="nav-link" href="{{ route('enrollment', ['lang' => $lang]) }}">
-						<span class="menu-title">
-							История зачислений  
-						</span>
-						@php $count = \App\Models\Tips::confirmed()->where('id_user', \Auth::user()->id)->where('open', '1')->count(); @endphp
-						@if($count)
-							<span class="num-span">{{ $count }}</span>
-						@endif
-						<i class="mdi mdi-chart-line menu-icon"></i>
-					</a>
-				</li> 
-				<li class="nav-item">
-					<a class="nav-link" href="{{ route('ballance', ['lang' => $lang]) }}">
-						<span class="menu-title">Мой баланс</span>
-						<i class="mdi mdi-currency-usd menu-icon"></i>
-					</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="{{ route('account', ['lang' => $lang]) }}">
-						<span class="menu-title">Мой профиль</span>
-						<i class="mdi mdi-account menu-icon"></i>
-					</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="{{ route('contact', ['lang' => $lang]) }}">
-						<span class="menu-title">Связаться с нами</span>
-						<i class="mdi mdi-phone-in-talk menu-icon"></i>
-					</a>
-				</li>
+				@php
+					$menu = \App\Models\ProfileMenu::accessType(Auth()->user()->type)->orderByPageUp()->visible()->get();
+				@endphp
+				@foreach($menu as $item)
+					<li class="nav-item">
+						<a class="nav-link" href="{{ route($item->route, ['lang' => $lang]) }}">
+							<span class="menu-title">{{ $item["name_$lang"] }}</span> 
+							@if($item->route == 'enrollment')
+								@php $count = \App\Models\Tips::confirmed()
+								                               ->where('id_user', \Auth::user()->id)
+								                               ->where('open', '1')
+								                               ->count(); 
+								@endphp
+								@if($count)
+									<span class="num-span">{{ $count }}</span>
+								@endif
+							@endif 
+							{!! $item["icon"] !!}
+						</a>
+					</li> 
+				@endforeach 
 			</ul>
 		</nav>
 		<!-- partial -->

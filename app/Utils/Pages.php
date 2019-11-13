@@ -8,9 +8,7 @@ use \App\Models\Menu;
  *
  */
 class Pages
-{
-    private static $_page_data;
-
+{ 
     function __construct() {}
 
     public static function top()

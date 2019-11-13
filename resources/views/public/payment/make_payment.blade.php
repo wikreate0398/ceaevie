@@ -6,7 +6,9 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6 offset-md-3 text-center">
-                    <img src="/img/logo.png" alt="logo"> 
+                    <a href="{{ route('home') }}">
+                      <img src="/img/logo.png" alt="logo"> 
+                    </a>
                     <div class="profile-photo mt-50">
                     	<img src="{{ imageThumb($data->user->image, 'uploads/clients', 181, 181, 0) }}" alt="profile">
                     </div>
@@ -39,6 +41,11 @@
                                         <option value="4">4</option>
                                         <option value="5">5</option>
                                       </select>
+
+                                      <textarea name="review" 
+                                                placeholder="Оставьте свой отзыв" 
+                                                class="form-control rating-comment" 
+                                                style="margin-top: 10px; display: none"></textarea>
                                     </div>
 
                                     <div class="col-12 text-center">

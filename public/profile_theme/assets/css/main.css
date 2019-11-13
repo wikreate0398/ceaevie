@@ -142,6 +142,8 @@ p.page-description{
 }
 .modal-content h2{
 	margin-bottom: 30px;
+	font-size: 23px;
+	font-weight: 600;
 }
 
 .modal-content .modal-body{
