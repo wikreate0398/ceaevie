@@ -89,6 +89,6 @@ class OficiantsController extends Controller
     		'hash'        => $hash
     	]);
 
-    	return \JsonResponse::success(['messages' => 'Приглашение успешно отправлено']);
+    	return \JsonResponse::success(['messages' => 'Приглашение успешно отправлено', 'reload' => true]);
     } 
 }
