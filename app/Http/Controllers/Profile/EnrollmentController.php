@@ -15,7 +15,14 @@ class EnrollmentController extends Controller
     
     	$tips = Tips::confirmed()
                     ->select('tips.*')
-                    ->where(((\Auth::user()->type == 'admin') ? 'id_location' : 'id_user'), \Auth::id())
+                    ->where(function($query){ 
+                        if (\Auth::user()->type == 'admin') {
+                            return $query->where('id_location', \Auth::id());
+                        }else{
+                            return $query->where('id_user', \Auth::id())
+                                         ->where('location_work_type', '!=', 'common_sum');
+                        }
+                    })
                     ->filter() 
                     ->orderBy('tips.id', 'desc')
                     ->groupBy('tips.id')
