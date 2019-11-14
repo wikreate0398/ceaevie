@@ -43,7 +43,7 @@
 	<div class="row">  
 	   	<div class="col-md-12">  
 	   		@if($data->count())
-		      	<table class="table table-bordered">
+		      	<table class="table table-bordered eq-table-cell">
 					<tbody>
 					<tr> 
 						<th class="nw">№ Транзакции</th> 
@@ -67,7 +67,11 @@
 								{{ $item->id_qrcode ? $item->qr_code->code : '' }}
 							</td> 
 							<td>
-								{{ $item->user->name }} {{ $item->user->lastname }} ({{ $item->user->rand }})
+								@if(!$item->id_location)
+									{{ $item->user->name }} {{ $item->user->lastname }} ({{ $item->user->rand }})
+								@else
+									{{ $item->location->institution_name }} ({{ $item->location->rand }})
+								@endif 
 							</td>
 							<td class="nw">
 								{{ $item->created_at->format('d.m.Y H:i') }}
@@ -76,10 +80,10 @@
 								{{ $item->total_amount }}
 							</td> 
 							<td align="center">
-								{{ $item->total_amount - $item->amount }}
+								{{ $item->total_amount - withdrawFee($item->total_amount, $item->fee) }}
 							</td>
 							<td class="nw" align="center">
-								{{ $item->amount }}
+								{{ $item->location_amount+$item->amount }} P
 								@if($item->rating)
                                     <select class="rating-stars" data-readonly="true" data-current-rating="{{ $item->rating }}" autocomplete="off">
                                         <option value="1">1</option>

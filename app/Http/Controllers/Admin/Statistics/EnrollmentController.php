@@ -36,7 +36,11 @@ class EnrollmentController extends Controller
     public function show()
     {  
         $data = [
-            'data'    => $this->model->orderByRaw('id desc')->confirmed()->with(['user', 'qr_code', 'payment'])->filter()->get(),
+            'data'    => $this->model->orderByRaw('id desc')
+                                     ->confirmed()
+                                     ->with(['user', 'location', 'qr_code', 'payment'])
+                                     ->filter()
+                                     ->get(),
             'table'   => $this->model->getTable(),
             'method'  => $this->method, 
             'clients' => User::has('tips')->orderBy('id', 'desc')->get()

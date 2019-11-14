@@ -27,11 +27,11 @@
 	<div class="row">  
 	   	<div class="col-md-12">  
 	   		@if($data->count())
-	   			<table class="table table-bordered" style="margin-bottom: 30px;">
+	   			<table class="table table-bordered eq-table-cell" style="margin-bottom: 30px;">
 	   				<thead>
 	   					<tr>
 	   						<th class="ac">Всего руб.</th>
-							<th class="ac" align="center">Чаевые <br> официанту руб.</th> 
+							<th class="ac" align="center">Чаевые руб.</th> 
 							@foreach($percents as $percent)
 								<th class="nw ac">{{ $percent->name }}</th>  
 							@endforeach
@@ -48,18 +48,18 @@
 	   				</tbody>
 	   			</table>
 		      	<table class="table table-bordered">
-					<tbody>
+					<thead>
 						<tr> 
 							<th>Дата</th>
 							<th class="nw">№ Перевода</th>  
 							<th class="nw">Официант</th> 
-							<th>Всего руб.</th>
-							<th class="ac">Чаевые <br>официанту руб.</th> 
+							<th class="ac">Всего руб.</th>
+							<th class="ac">Чаевые руб.</th> 
 							@foreach($percents as $percent)
 								<th class="nw ac">{{ $percent->name }}</th>  
 							@endforeach
 						</tr>
-					</tbody>
+					</thead>
 					<tbody>
 						@foreach($data as $item)
 							@php
@@ -73,13 +73,17 @@
 									{{ $item->id_transaction }}
 								</td>  
 								<td>
-									{{ $item->user->name }} {{ $item->user->lastname }} ({{ $item->user->rand }})
+									@if(!$item->id_location)
+										{{ $item->user->name }} {{ $item->user->lastname }} ({{ $item->user->rand }})
+									@else
+										{{ $item->location->institution_name }} ({{ $item->location->rand }})
+									@endif 
 								</td> 
 								<td class="nw ac">
 									{{ $item->total_amount }}
 								</td> 
 								<td class="nw ac">
-									{{ $item->amount }}
+									{{ $item->location_amount+$item->amount }}
 								</td> 
 								@foreach($percents as $percent)
 									@php($value = percent($item->total_amount, @$tipPercents[$percent->id]->percent))
@@ -96,16 +100,17 @@
 				</table>
 
 				<script>
-					var totalPercent = [];
-					$('.percent-item').each(function(){
-						var id = $(this).data('percent-id');
-						var value = parseFloat($(this).data('percent-value'));
+					$(document).ready(function(){
+						var totalPercent = [];
+						$('.percent-item').each(function(){
+							var id = $(this).data('percent-id');
+							var value = parseFloat($(this).data('percent-value')); 
+							totalPercent[id] = totalPercent[id] ? totalPercent[id] + value : value; 
+						});
 						 
-						totalPercent[id] = totalPercent[id] ? totalPercent[id] + value : value; 
-					});
-					 
-					$.each(totalPercent, function(id, value){
-						$('.percent-total-' + id).text(priceString(value, 4));
+						$.each(totalPercent, function(id, value){
+							$('.percent-total-' + id).text(priceString(value, 4));
+						});
 					}); 
 				</script>
 			@else
