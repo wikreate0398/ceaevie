@@ -80,7 +80,7 @@ class RegisterController extends Controller
         $user = User::create([
             'name'         => $request->name,
             'type'         => $request->type,
-            'work_type'    => ($request->type == 'admin') ? 'common_sum' : ''
+            'work_type'    => ($request->type == 'admin') ? 'common_sum' : '',
             'lastname'     => $request->lastname,
             'institution_name' => $request->institution_name ?: '',
             'phone'        => $request->phone,
