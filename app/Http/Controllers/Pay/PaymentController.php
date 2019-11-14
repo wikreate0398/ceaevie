@@ -121,18 +121,37 @@ class PaymentController extends Controller
     {  
         $qrCode      = QrCode::where('code', $request->code)->with('user')->first();
 
+        // процент приложния
         $percents    = EnrollmentPercents::select('percent', 'id')->get(); 
         $fee         = $qrCode->user->fee ?: $percents->sum('percent');
+
         $totalAmount = toFloat($request->price);
         $amount      = withdrawFee($totalAmount, $fee);
 
+        $qrCode      = QrCode::where('code', $request->code)->with('location')->first();
+
+        $location_fee = 0;
+        $location_amount = 0;
+        if (!empty($qrCode->location)) 
+        {
+            if ($qrCode->location->work_type == 'percent') 
+            {
+                $location_fee = $qrCode->location->self_percent; 
+                $location_amount = withdrawFee($amount, $location_fee);
+            } 
+        }
+
     	$tipId = Tips::create([
-    		'id_user'             => QrCode::where('code', $request->code)->first()->id_user,
+    		'id_user'             => $qrCode->id_user,
+            'id_location'         => $qrCode->id_location,
     		'id_payment'          => $request->payment,
             'id_qrcode'           => $qrCode->id,
     		'rand'                => generate_id(7),
     		'total_amount'        => $totalAmount,
-            'amount'              => $amount,
+            'amount'              => $location_amount ? $amount - $location_amount : $amount,
+            'location_fee'        => $location_fee,
+            'location_amount'     => $location_amount,
+            'location_work_type'  => @$qrCode->location->work_type ?: '',
             'fee'                 => $fee, 
             'rating'              => $request->rating ?: '',
             'review'              => $request->review ?: '',
@@ -161,6 +180,4 @@ class PaymentController extends Controller
     		throw new \Exception("Во время обработки данных возникла ошибка");   
     	} 
     } 
-
-
 }

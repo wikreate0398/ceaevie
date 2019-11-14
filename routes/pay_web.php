@@ -1,8 +1,8 @@
 <?php
  
 
-Route::post('webhook/visa', 'Pay\PaymentWebhookController@visa'); 
-
+Route::post('webhook/visa', 'Pay\PaymentWebhookController@visa');  
+ 
 Route::any('visa-callback', 'Pay\PaymentController@visaCallback')->name('visa_callback'); 
 
 Route::get('/', 'Pay\PaymentController@indicateСode')->middleware(['lang', 'web']); 

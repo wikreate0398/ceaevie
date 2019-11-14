@@ -11,13 +11,16 @@ class EnrollmentController extends Controller
 { 
     public function index()
     {    
-        $menu = ProfileMenu::where('route', 'enrollment')->first();
+        $menu     = ProfileMenu::where('route', 'enrollment')->first();
+    
     	$tips = Tips::confirmed()
-                    ->where('id_user', \Auth::user()->id)
-                    ->filter()
-                    ->orderBy('id', 'desc')
+                    ->select('tips.*')
+                    ->where(((\Auth::user()->type == 'admin') ? 'id_location' : 'id_user'), \Auth::id())
+                    ->filter() 
+                    ->orderBy('tips.id', 'desc')
+                    ->groupBy('tips.id')
                     ->paginate(self::getPerPage());
-
+ 
     	self::closeOpenTips();
         return view('profile.enrollment', compact(['tips', 'menu']));
     }  

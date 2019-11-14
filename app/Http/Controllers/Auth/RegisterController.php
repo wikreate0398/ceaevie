@@ -8,10 +8,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Auth;
+use App\Notifications\ConfirmRegistration; 
 
 use App\Models\User;
-use App\Models\UserType;
-use App\Notifications\ConfirmRegistration;
+use App\Models\UserType; 
+use App\Models\LocationUser;
 
 class RegisterController extends Controller
 {
@@ -42,7 +43,7 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest', ['except' => 'confirmation']);
+        $this->middleware('guest', ['except' => ['confirmation', 'finishRegistrationForm', 'finishRegistration']]);
     }
 
     public function showForm()
@@ -52,9 +53,7 @@ class RegisterController extends Controller
     }
 
     public function register(Request $request)
-    {
-        $input = $request->all();
-
+    { 
         if(!$request->type or !$request->name or !$request->email or !$request->lastname or !$request->phone or !$request->password or !$request->password_confirmation or ($request->type == 'admin' && !$request->institution_name))
         {
             return \JsonResponse::error(['messages' => \Constant::get('REQ_FIELDS')]);
@@ -65,15 +64,11 @@ class RegisterController extends Controller
             return \JsonResponse::error(['messages' => 'Ошибка']);
         }
 
-        if($request->password != $request->password_confirmation)
-        {
-            return \JsonResponse::error(['messages' => \Constant::get('PASS_NOT_MATCH')]);
-        }
-
-        if(strlen($request->password) < 8)
-        {
-            return \JsonResponse::error(['messages' => \Constant::get('PASS_RESTRICTION')]);
-        }
+        try {
+            $this->checkPass($request->password, $request->password_confirmation);
+        } catch (\Exception $e) {
+            return \JsonResponse::error(['messages' => $e->getMessage()]);   
+        } 
 
         if(User::where('email', $request->email)->count())
         {
@@ -85,6 +80,7 @@ class RegisterController extends Controller
         $user = User::create([
             'name'         => $request->name,
             'type'         => $request->type,
+            'work_type'    => ($request->type == 'admin') ? 'common_sum' : ''
             'lastname'     => $request->lastname,
             'institution_name' => $request->institution_name ?: '',
             'phone'        => $request->phone,
@@ -99,18 +95,66 @@ class RegisterController extends Controller
         return \JsonResponse::success([
             'messages' => htmlspecialchars_decode(\Constant::get('REG_SUCCESS'))
         ]);
-    }   
+    }    
 
-    public function finish_registration(Request $request)
+    private function checkPass($password, $password_confirmation)
     {
-        if (\Session::has('reg'))
+        if($password != $password_confirmation)
         {
-            $messgae = \Session::get('reg') ;
-            \Session::forget('reg');
-            return view('auth.finish_registration', compact('messgae'));
+            throw new \Exception(\Constant::get('PASS_NOT_MATCH')); 
         }
-        return redirect('/');
+
+        if(strlen($password) < 8)
+        {
+            throw new \Exception(\Constant::get('PASS_RESTRICTION'));  
+        }
     }
+
+    public function finishRegistrationForm($lang, $hash)
+    {
+        $user = LocationUser::where('hash', $hash)->with('user')->firstOrFail();
+        return view('auth.finish_registration', compact('user'));
+    } 
+
+    public function finishRegistration(Request $request)
+    {
+
+        if(!$request->name or !$request->lastname or !$request->phone or !$request->password or !$request->password_confirmation)
+        {
+            return \JsonResponse::error(['messages' => \Constant::get('REQ_FIELDS')]);
+        }  
+
+        $userLocation = LocationUser::where('hash', $request->hash)->with('user')->first();
+
+        if (!$userLocation) 
+        {
+            return \JsonResponse::error(['messages' => 'Ошибка']);
+        }
+
+        try {
+            $this->checkPass($request->password, $request->password_confirmation);
+        } catch (\Exception $e) {
+            return \JsonResponse::error(['messages' => $e->getMessage()]);   
+        }  
+
+        User::whereId($userLocation->id_user)->update([
+            'name'         => $request->name, 
+            'lastname'     => $request->lastname, 
+            'phone'        => $request->phone,  
+            'password'     => bcrypt($request->password),
+            'lang'         => lang(),
+            'active'       => 1,
+            'confirm'      => 1
+        ]);
+
+        $userLocation->hash = '';
+        $userLocation->status = 'confirmed';
+        $userLocation->save(); 
+
+        return \JsonResponse::success([
+            'messages' => 'Вы успешно завершили регистрацию. Теперь вы можете перейти на страницу <a href="'. route('show_login', ['lang' => lang()]) .'">авторизации</a>'
+        ]);
+    } 
 
     public function confirmation($lang, $confirmation_hash)
     { 

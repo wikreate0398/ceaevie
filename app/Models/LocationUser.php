@@ -14,11 +14,17 @@ class LocationUser extends Model
         'id_location', 
         'id_user',
         'hash',
-        'status'
+        'status',
+        'card_signature'
     ]; 
 
     public function user()
     {
       return $this->hasOne('App\Models\User', 'id', 'id_user');
+    }  
+
+    public function location()
+    {
+      return $this->hasOne('App\Models\User', 'id', 'id_location');
     }  
 }

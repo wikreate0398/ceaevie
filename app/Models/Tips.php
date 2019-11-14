@@ -14,13 +14,17 @@ class Tips extends Model
     protected $table = 'tips';
 
     protected $fillable = [
-        'id_user',
+        'id_user', 
+        'id_location',
         'id_payment',
         'id_qrcode',
         'rand',
         'total_amount',
         'amount',
         'fee', 
+        'location_fee',
+        'location_amount',
+        'location_work_type',
         'status',
         'id_transaction',
         'rrn',
@@ -37,8 +41,11 @@ class Tips extends Model
         'total_amount' => 'float',
         'amount'       => 'float',
         'fee'          => 'float',
+        'location_fee' => 'float',
+        'location_amount' => 'float',
         'rating'       => 'integer'
     ];
+ 
 
     public function scopeConfirmed($query, $lastDays = false)
     {
@@ -48,11 +55,16 @@ class Tips extends Model
             $query->where('created_at', '>=', $week);
         }
         return $query->where('status', 'CHARGED');
-    } 
+    }  
 
     public function user()
     {
         return $this->hasOne('App\Models\User', 'id', 'id_user')->withTrashed();
+    } 
+
+    public function location()
+    {
+        return $this->hasOne('App\Models\User', 'id', 'id_location');
     } 
 
     public function qr_code()
@@ -73,20 +85,20 @@ class Tips extends Model
     public function scopeFilter($query)
     { 
         if (request()->from) { 
-            $query->where('created_at', '>=', \Carbon\Carbon::parse(new \DateTime(request()->from . ' 00:00:00'))->format('Y-m-d H:i:s'));
+            $query->where('tips.created_at', '>=', \Carbon\Carbon::parse(new \DateTime(request()->from . ' 00:00:00'))->format('Y-m-d H:i:s'));
         }
 
         if (request()->to) {
-            $query->where('created_at', '<=', \Carbon\Carbon::parse(request()->to . ' 23:59:59')->format('Y-m-d H:i:s'));
+            $query->where('tips.created_at', '<=', \Carbon\Carbon::parse(request()->to . ' 23:59:59')->format('Y-m-d H:i:s'));
         }
 
         switch (request()->period) {
             case 'week': 
-                $query->where('created_at', '>=', \Carbon\Carbon::today()->subDays(7));
+                $query->where('tips.created_at', '>=', \Carbon\Carbon::today()->subDays(7));
                 break;
  
             case 'month': 
-                $query->where('created_at', '>=', \Carbon\Carbon::now()->subDays(30)->toDateTimeString());
+                $query->where('tips.created_at', '>=', \Carbon\Carbon::now()->subDays(30)->toDateTimeString());
                 break;
             
             default: 
@@ -94,11 +106,11 @@ class Tips extends Model
         }
 
         if (request()->rand) {
-            $query->where('rand', request()->rand);
+            $query->where('tips.rand', request()->rand);
         } 
 
         if (request()->client) {
-            $query->where('id_user', request()->client);
+            $query->where('tips.id_user', request()->client);
         } 
     }
 }

@@ -116,7 +116,7 @@ button:hover,
 button:visited {
     outline: 0;
     outline-offset: 0;
-}
+} 
 
 .bootstrap-select .dropdown-toggle:focus {
     outline: 0;
@@ -433,6 +433,12 @@ footer a {
 .btn-sign:hover {
     color: #ffffff;
 }  
+
+.btn-default {
+    color: #333;
+    background-color: #fafafa;
+    border: 1px solid #ededed;
+}
 
 /* How works */
 .how-works {

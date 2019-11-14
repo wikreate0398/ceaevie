@@ -35,6 +35,64 @@
 	</script>
 </head>
 <body>
+<div class="page-preloader">
+	<div class="flip-square-loader mx-auto"></div>
+</div>
+
+<style> 
+	.page-preloader{
+		display: none;
+		position: fixed;
+		left: 0;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		z-index: 999999;
+		margin:auto;
+		opacity: 1 !important;
+		background: rgba(255,255,255,.5);
+		justify-content: center;
+		align-items: center;
+		width: 100%;
+		height: 100%;
+	}
+
+	.flip-square-loader { 
+	  -webkit-perspective: 120px;
+	  -moz-perspective: 120px;
+	  -ms-perspective: 120px;
+	  perspective: 120px;
+	  width: 100px;
+	  height: 100px;
+	  border-radius: 100%;
+	  position: relative;
+	  margin: 0 auto;
+	}
+
+	.flip-square-loader:before {
+	  content: "";
+	  position: absolute;
+	  left: 25px;
+	  top: 25px;
+	  width: 50px;
+	  height: 50px;
+	  background-color: #219fe0;
+	  animation: flip 1s infinite;
+	}
+
+	@keyframes flip {
+	  0% {
+	    transform: rotate(0);
+	  }
+	  50% {
+	    transform: rotateY(180deg);
+	  }
+	  100% {
+	    transform: rotateY(180deg) rotateX(180deg);
+	  }
+	}
+</style>
+
 <div class="container-scroller">
 	<!-- partial:partials/_navbar.html -->
 	<nav
@@ -92,17 +150,25 @@
 				@foreach($menu as $item)
 					<li class="nav-item">
 						<a class="nav-link" href="{{ route($item->route, ['lang' => $lang]) }}">
-							<span class="menu-title">{{ $item["name_$lang"] }}</span> 
-							@if($item->route == 'enrollment')
-								@php $count = \App\Models\Tips::confirmed()
-								                               ->where('id_user', \Auth::user()->id)
-								                               ->where('open', '1')
-								                               ->count(); 
-								@endphp
-								@if($count)
-									<span class="num-span">{{ $count }}</span>
-								@endif
-							@endif 
+							<span class="menu-title">{{ $item["name_$lang"] }}</span>  
+							@php 
+								$count = false;
+								if($item->route == 'enrollment') {
+									$count = \App\Models\Tips::confirmed()
+							                               ->where('id_user', \Auth::user()->id)
+							                               ->where('open', '1')
+							                               ->count();
+								} if($item->route == 'account') {
+									$count = \App\Models\LocationUser::where('status', 'pending')
+								                                     ->where('id_user', \Auth::user()->id) 
+								                                     ->count();
+								}
+							@endphp
+						 
+							@if(@$count)
+								<span class="num-span">{{ $count }}</span>
+							@endif
+							  
 							{!! $item["icon"] !!}
 						</a>
 					</li> 

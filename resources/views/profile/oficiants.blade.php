@@ -9,6 +9,8 @@
     </span> {{ $menu["name_$lang"] }} </h3>
 	</div>
 
+    @include('profile.utils.cards')
+
 	<div class="modal fade" id="addOficiant" role="dialog">
         <div class="modal-dialog">
             <!-- Modal content-->
@@ -21,22 +23,29 @@
                     <form class="forms-sample ajax__submit" action="{{ route('add_oficiant', ['lang' => $lang]) }}">
                         {{ csrf_field() }}
                         <div class="form-group">
-                            <labe >Имя <span class="req">*</span></label>
+                            <label >Имя <span class="req">*</span></label>
                             <input type="text" class="form-control" name="name" value="">
                         </div>
 
                         <div class="form-group">
-                            <labe >Фамилия <span class="req">*</span></label>
+                            <label >Фамилия <span class="req">*</span></label>
                             <input type="text" class="form-control" name="lastname" value="">
                         </div>
 
                         <div class="form-group">
-                            <labe >E-mail <span class="req">*</span></label>
+                            <label>Подпись на визитке <span class="req">*</span></label>
+                            <input type="text" class="form-control" 
+                                   name="card_signature" 
+                                   placeholder="Спасибо, что нас посетили" value="">
+                        </div>
+
+                        <div class="form-group">
+                            <label >E-mail <span class="req">*</span></label>
                             <input type="text" class="form-control" required name="email" value="">
                         </div>
 
                         <div class="form-group">
-                            <labe >Телефон </label>
+                            <label >Телефон </label>
                             <input type="text" class="form-control" name="phone" value="">
                         </div>
                         
@@ -63,9 +72,16 @@
                         {{ csrf_field() }}
                          
                         <div class="form-group">
-                            <labe >E-mail <span class="req">*</span></label>
+                            <label>E-mail <span class="req">*</span></label>
                             <input type="text" class="form-control" required name="email" value="">
                         </div> 
+
+                        <div class="form-group">
+                            <label>Подпись на визитке <span class="req">*</span></label>
+                            <input type="text" class="form-control" 
+                                   name="card_signature" 
+                                   placeholder="Спасибо, что нас посетили" value="">
+                        </div>
                         
                         <div style="text-align: center">
                             <button type="submit" class="btn btn-gradient-info mr-2">Пригласить</button>
@@ -93,14 +109,17 @@
 	@if($users->count())
 	    <div class="row" style="margin-top: 30px;">  
 	        <div class="col-md-12 grid-margin table-history">
-	            <table class="history">
+	            <table class="history eq-table-cell">
 	                <thead>
 	                    <tr>
-	                        <td style="width: 20%;">Фио</td>
-	                        <td style="width: 20%;">E-mail</td>
-	                        <td style="width: 20%;">Телфон</td>
-	                        <td style="width: 20%;">Статус</td>
-	                        <td style="width: 20%;">Дата привязки</td>  
+	                        <td>Фио</td>
+	                        <td>E-mail</td>
+	                        <td>Телфон</td>
+	                        <td>Статус</td>
+	                        <td>Дата привязки</td>  
+                            @if(Auth::user()->work_type == 'common_sum')
+                                <td>Отправить средства</td>  
+                            @endif
 	                    </tr>
 	                </thead>
 	                <tbody>
@@ -119,6 +138,16 @@
 	                            	@endif
 	                            </td>
 	                            <td>{{ $user->created_at->format('d.m.Y H:i') }}</td>
+                                @if(Auth::user()->work_type == 'common_sum')
+                                    <td align="center">
+                                        <button class="btn btn-info btn-xs" 
+                                                data-toggle="modal" 
+                                                data-target="#myModal"
+                                                onclick="$('#id_user').val({{ $user->id_user }})">
+                                            <i class="fa fa-paper-plane-o" aria-hidden="true"></i>
+                                        </button>
+                                    </td>  
+                                @endif
 	                        </tr>
 	                    @endforeach
 	                </tbody>
@@ -133,6 +162,39 @@
 		        </span>
 		    </div>
 	    </div>
+    @endif
+
+    @if(Auth::user()->work_type == 'common_sum')
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            &times;
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h2>Отправить средства</h2>
+                        <form class="forms-sample row ajax__submit" action="{{ route('request_money', ['lang' => $lang]) }}">
+                            {{ csrf_field() }}
+
+                            <input type="hidden" name="id_user" id="id_user">
+
+                            <div class="form-group col-md-12">
+                                <label>Укажите сумму <span class="req">*</span></label>
+                                <input type="text" required class="form-control" name="amount">       
+                            </div> 
+      
+                            <div style="text-align: center" class="col-md-12">
+                                <button type="submit" class="btn btn-gradient-info mr-2">Отправить
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     @endif
 @stop
 

@@ -1066,4 +1066,10 @@ footer {}
 
 .input-success, .input-success:focus{
 	border: 1px solid rgb(133, 181, 82);
-}
+} 
+
+.purchase-popup .btn{
+	text-decoration:none;
+	margin-right: 5px;
+	min-height: auto;
+} 

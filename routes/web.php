@@ -15,6 +15,8 @@ Route::get('page-404', function(){
 	return response()->view('errors.404', [], 404);
 })->name('404');
 
+Route::get('test-charged/{idTip}', 'Pay\PaymentWebhookController@testCharged'); 
+
 $adminPath = config('admin.path');
   
 Route::get($adminPath . '/login', 'Admin\LoginController@showLoginForm', ['guard' => 'admin'])->name('admin_login');
@@ -186,13 +188,16 @@ Route::group(['prefix' => '{lang}', 'middleware' => ['lang', 'web']], function()
     Route::post('questions', 'HomeController@questions')->name('questions'); 
     Route::post('set-code', 'Pay\PaymentController@setСode')->name('set_code_home');
     Route::post('give-thanks', 'HomeController@giveThanks')->name('give_thanks');
-    
+     
+
     Route::group(['middlewars' => 'guest'], function(){
         Route::get('registration', 'Auth\RegisterController@showForm')->name('registration');
-        Route::post('register', 'Auth\RegisterController@register')->name('register');
-        Route::get('finish-registration', 'Auth\RegisterController@finish_registration')->name('finish_registration');
+        Route::post('register', 'Auth\RegisterController@register')->name('register'); 
         Route::get('registration-confirm/{confirmation_hash}', 'Auth\RegisterController@confirmation')->name('registration_confirm');
 
+        Route::get('finish-registration/{hash}', 'Auth\RegisterController@finishRegistrationForm')->name('finish_registration');
+        Route::post('update-registration', 'Auth\RegisterController@finishRegistration')->name('update_registration');
+ 
         Route::post('login', 'Auth\LoginController@login')->name('login');
         Route::get('login', 'Auth\LoginController@showLogin')->name('show_login');
         Route::post('reset-password', 'Auth\ForgotPasswordController@sendResetPassword')->name('send_reset_pass');
@@ -204,7 +209,9 @@ Route::group(['prefix' => '{lang}', 'middleware' => ['lang', 'web']], function()
                 Route::post('edit-userdata', 'AccountController@edit')->name('edit_userdata');
                 Route::post('change-password', 'AccountController@changePassword')->name('change_password'); 
                 Route::post('save-avatar', 'AccountController@saveAvatar')->name('save_avatar');   
-                Route::post('upload-verification-file', 'AccountController@uploadVerificationFile')->name('upload_verification_file');  
+                Route::post('upload-verification-file', 'AccountController@uploadVerificationFile')->name('upload_verification_file'); 
+
+                Route::post('invitation-response', 'AccountController@invitationResponse')->name('invitation_response');
             }); 
 
             Route::group(['prefix' => 'contact-us'], function() {
@@ -228,8 +235,8 @@ Route::group(['prefix' => '{lang}', 'middleware' => ['lang', 'web']], function()
             Route::group(['prefix' => 'my-oficiants'], function() {
                 Route::get('/', 'OficiantsController@index')->name('my_oficiants'); 
                 Route::post('add-oficiant', 'OficiantsController@addNewOficiant')->name('add_oficiant'); 
-                Route::post('inviteOficiant', 'OficiantsController@inviteOficiant')->name('invite_oficiant'); 
-
+                Route::post('inviteOficiant', 'OficiantsController@inviteOficiant')->name('invite_oficiant');  
+                Route::post('request-money', 'OficiantsController@requestMoney')->name('request_money');   
             });  
              
             Route::get('enrollment', 'EnrollmentController@index')->name('enrollment');

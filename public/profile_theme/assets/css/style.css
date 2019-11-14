@@ -10826,10 +10826,8 @@ code {
     vertical-align: middle;
     line-height: 1; }
   .purchase-popup i {
-    vertical-align: middle;
-    line-height: 1;
-    margin: auto 0;
-    color: #b1b1b1; }
+    
+    color: #fff; }
 
 /*-------------------------------------------------------------------*/
 /* === Components === */

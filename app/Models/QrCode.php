@@ -17,6 +17,7 @@ class QrCode extends Model
 
 	protected $fillable = [
         'id_user', 
+        'id_location',
         'card_signature',
         'institution_name', 
         'id_background', 
@@ -33,5 +34,10 @@ class QrCode extends Model
     public function user()
     {
         return $this->hasOne('App\Models\User', 'id', 'id_user');
+    } 
+
+    public function location()
+    {
+        return $this->hasOne('App\Models\User', 'id', 'id_location');
     } 
 }

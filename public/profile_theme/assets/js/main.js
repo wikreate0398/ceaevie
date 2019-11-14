@@ -9,6 +9,17 @@ $(document).ready(function () {
       }
   });
 
+  $('.number').keypress(function(event) {
+    if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+        event.preventDefault();
+    }
+  });
+
+  $('.eq-table-cell').each(function(){  
+    $(this).find('thead td').css('width', (100/$(this).find('thead td').length) + '%');
+    $(this).find('tbody td').css('width', (100/$(this).find('thead td').length) + '%'); 
+  });
+
   $('input#verification_files').fileuploader({
     extensions: ['image/*'],
     addMore: true, 
@@ -133,5 +144,13 @@ function setMoney(input) {
     $(input).addClass('input-success');
     $('.total-withdraw').show();
     $('.total-withdraw span').text(val-commision_withdrawal);
+  }
+}
+
+function selectWorkType(select) {
+  if($(select).val() == 'percent'){
+    $('.percent_field').show();
+  }else{
+    $('.percent_field').hide();
   }
 }

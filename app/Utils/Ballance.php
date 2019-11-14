@@ -52,7 +52,7 @@ class Ballance
     } 
 
     public function replenish()
-    {
+    { 
         $this->ballance = $this->user->ballance + $this->price;
         $this->type     = 'replenish';
         $this->makeTransaction();

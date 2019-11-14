@@ -10,7 +10,40 @@
 	</div>
 	<div class="row">
 		<div class="col-md-8 grid-margin profile-data">
-			
+
+			@if($invitations->count()) 
+				@foreach($invitations as $invitation)
+					<form action="{{ route('invitation_response', ['lang' => $lang]) }}" class="ajax__submit invitaion_form" id="form_{{ $invitation->id }}">
+						{{ csrf_field() }}
+						<span class="d-flex align-items-center purchase-popup alert-warning" style="justify-content: space-between;">
+		                    <p style="color: #fff;">
+		                        Приглашение от <i>{{ $invitation->location->institution_name }}</i> 
+		                    </p>  
+		                    <div> 
+		                    	<input type="hidden" name="id" value="{{ $invitation->id }}">
+		                    	<input type="hidden" name="status" value="" id="status_{{ $invitation->id }}">
+	                    		<button type="button" 
+	                    				class="btn btn-xs btn-success" 
+	                    				onclick="$('input#status_{{ $invitation->id }}').val('confirmed'); confirmAction('Подтвердить', function(){
+	                    					$('form#form_{{ $invitation->id }}').submit();
+	                    				})">Одобрить</a> 
+                       			<button type="button" 
+                       					class="btn btn-xs btn-danger" 
+                       					onclick="$('input#status_{{ $invitation->id }}').val('rejected'); confirmAction('Подтвердить', function(){
+                       						$('form#form_{{ $invitation->id }}').submit();
+                       					})">Отклонить</a> 
+	                       	</div>
+		                </span> 
+	                </form>
+				@endforeach 
+			@endif
+			<script>
+				function confirmAction(alert, callback){
+					if (confirm(alert) == true) {
+						callback();
+					}
+				}
+			</script>
 			@if(Auth::user()->verification_status != 'confirm')
 				<div class="card" style="margin-bottom: 40px;">
 					<div class="card-body">
@@ -134,6 +167,34 @@
 							       value="{{ Auth::user()->payment_signature }}" 
 							       placeholder="Спасибо, за то что посетили нас">
 						</div>
+
+						@if(Auth::user()->type == 'admin')
+							<div class="form-group col-md-12">
+								<label>Финансовый рассчет:</label>
+								<select name="work_type" class="form-control" onchange="selectWorkType(this)">
+									<option value="common_sum" 
+											{{ (Auth::user()->work_type == 'comment_sum') ? 'selected' : '' }}>
+										Общий счет
+									</option>
+									<option value="percent" 
+											{{ (Auth::user()->work_type == 'percent') ? 'selected' : '' }}>
+										Процент
+									</option>
+								</select>
+							</div>
+
+							<div class="form-group col-md-12 percent_field" 
+							     style="display:{{ (Auth::user()->work_type == 'percent') ? 'block;' : 'none;' }}">
+								<label>
+									Укажите процент который вы хотите оставить себе: <span class="req">*</span>
+								</label>
+								<input type="text" class="form-control number" 
+								       name="self_percent" 
+								       value="{{ Auth::user()->self_percent }}" 
+								       placeholder=""
+								       autocomplete="off">
+							</div> 
+						@endif
 						 
 						<div class="col-md-6 col-sm-12">
 							<button type="submit" class="btn btn-gradient-info btn-rounded btn-block">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Profile;
  
 use Illuminate\Http\Request; 
 use App\Http\Controllers\Controller;
+use App\Utils\QrCodeGenerator;
 use App\Models\BackgroundColor; 
 use App\Models\QrCode;
 use App\Models\PaymentType;
@@ -20,26 +21,31 @@ class WorkspaceController extends Controller
         return view('profile.workspace', compact(['backgrounds', 'qr', 'payments', 'menu']));
     }  
 
-    public function addQrCode(Request $request)
+    public function addQrCode(Request $request, QrCodeGenerator $qrGenerator)
     {
     	if (!$request->card_signature or !$request->institution_name or !$request->background) 
         {
             return \JsonResponse::error(['messages' => \Constant::get('REQ_FIELDS')]);
         }
 
-        $code    = $this->generateCode();  
-        $qrImage = $this->genereateQrCode($code);
-          
+        if (QrCode::where('id_user', \Auth::user()->id)->count() == 3) 
+        {
+            return \JsonResponse::error(['messages' => 'Ошибка']);
+        }
+
+        $qrImage = $qrGenerator->generateCode()
+                               ->genereateImage();
+
         QrCode::create([
         	'id_user'          => \Auth::user()->id,
         	'card_signature'   => $request->card_signature,
         	'institution_name' => $request->institution_name,
         	'id_background'    => $request->background,
-        	'code'             => $code,
+        	'code'             => $qrGenerator->getCode(),
         	'qr_code'          => $qrImage
         ]);
 
-        return \JsonResponse::success(['messages' => \Constant::get('DATA_SAVED'), 'reload' => true]);
+        return \JsonResponse::success(['messages' => 'Qr Код успешно сгенерирован', 'reload' => true]);
     }
 
     public function deleteQrCode($lang, $id)

@@ -26,7 +26,7 @@
         @endif
     });
 </script> 
-<body class="{{ (@$page_data->page_type != 'home') ? 'no-home-page' : '' }} {{ (in_array(uri(2), ['registration']) or request()->getHost() != config('app.base_domain')) ? 'no-nav' : '' }}">
+<body class="{{ (@$page_data->page_type != 'home') ? 'no-home-page' : '' }} {{ (in_array(uri(2), ['registration', 'finish-registration']) or request()->getHost() != config('app.base_domain')) ? 'no-nav' : '' }}">
     <nav class="navbar navbar-expand-md bg-grey-red no-mob-bg-grey-red pt-45 justify-content-center">
         <div class="container">
             <a href="/" class="navbar-brand">

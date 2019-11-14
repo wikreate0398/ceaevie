@@ -17,7 +17,12 @@
                 <h4 class="font-weight-normal mb-3">
                     Заработано "чаевых" всего
                 </h4>
-                <h2>{{ \App\Models\Tips::confirmed()->where('id_user', Auth::id())->sum('amount') }} Р</h2>
+                <h2> 
+                    {{ sumTipAmount(\App\Models\Tips::confirmed()
+                                                     ->selectRaw('amount, status, created_at, location_work_type, id_location, location_amount')
+                                                     ->where(((\Auth::user()->type == 'admin') ? 'id_location' : 'id_user'), \Auth::id())
+                                                     ->get(), Auth::user()->type, Auth::id()) }} Р
+                </h2>
             </div>
         </div>
     </div>
@@ -28,7 +33,10 @@
                 <h4 class="font-weight-normal mb-3">
                     Заработано "чаевых" на этой неделе
                 </h4>
-                <h2>{{ \App\Models\Tips::confirmed(7)->where('id_user', Auth::id())->sum('amount') }} Р</h2>
+                <h2>{{ sumTipAmount(\App\Models\Tips::confirmed(7)
+                                                 ->selectRaw('amount, status, created_at, location_work_type, id_location, location_amount')
+                                                 ->where(((\Auth::user()->type == 'admin') ? 'id_location' : 'id_user'), \Auth::id())
+                                                 ->get(), Auth::user()->type, Auth::id()) }} Р</h2>
             </div>
         </div>
     </div>

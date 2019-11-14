@@ -17,7 +17,26 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'lastname', 'payment_signature', 'phone', 'email', 'password', 'confirm', 'confirm_hash', 'active',  'image', 'user_agent', 'last_entry', 'fee', 'ballance', 'verification_status', 'rand', 'institution_name', 'type'
+        'name', 
+        'lastname', 
+        'payment_signature', 
+        'phone', 
+        'email', 
+        'password', 
+        'confirm', 
+        'confirm_hash', 
+        'active',  
+        'image', 
+        'user_agent', 
+        'last_entry', 
+        'fee', 
+        'ballance', 
+        'verification_status', 
+        'rand', 
+        'institution_name', 
+        'type', 
+        'work_type', 
+        'self_percent'
     ];
 
     /**
@@ -34,7 +53,8 @@ class User extends Authenticatable
         'active'     => 'integer',
         'fee'        => 'float',    
         'ballance'   => 'float',      
-        'last_entry' => 'datetime' 
+        'last_entry' => 'datetime',
+        'self_percent' => 'float'
     ];
   
     public function scopeFilter($query)

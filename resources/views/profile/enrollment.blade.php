@@ -100,70 +100,84 @@
                 </div>
             </div>
         @endif
-         
-     
-    
-    <div class="row">
 
+    <div class="row"> 
         @if($tips->count())
-                <div class="col-md-12 grid-margin table-history">
-                    <table class="history">
-                        <thead>
-                            <tr>
-                                <td style="width: 16.6%;">№ транзакции</td>
-                                <td style="width: 16.6%;">Дата зачисления <!-- <i class="mdi mdi-chevron-down"></i> --></td>
-                                <td style="width: 16.6%;">Сумма <!-- <i class="mdi mdi-chevron-down"> </i>--> </td>
-                                <td style="width: 16.6%;">Комиссия <!-- <i class="mdi mdi-chevron-down"></i> --></td>
-                                <td style="width: 16.6%;">Заработано <!-- <i class="mdi mdi-chevron-down"></i> --></td> 
-                                <td style="width: 16.6%;" align="center">Способ оплаты <!-- <i class="mdi mdi-chevron-down"></i> --></td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($tips as $tip)
-                                <tr class="{{ $tip->open ? 'open-tr' : '' }}">
-                                    <td>{{ $tip->rand }}</td>
-                                    <td>{{ $tip->created_at->format('d.m.Y H:i') }}</td>
-                                    <td>{{ $tip->total_amount }} Р</td>
-                                    <td>{{ $tip->total_amount - $tip->amount }} P</td>
-                                    <td>
-                                        <span style="margin-bottom: 10px; display: inline-block;">{{ $tip->amount }} P</span>
-                                        @if($tip->rating)
-                                            <select class="rating-stars" data-readonly="true" data-current-rating="{{ $tip->rating }}" autocomplete="off">
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
-                                                <option value="5">5</option>
-                                            </select>
+            <div class="col-md-12 grid-margin table-history">
+                <table class="history eq-table-cell">
+                    <thead>
+                        <tr>
+                            <td style="width: 16.6%;">№ транзакции</td>
+                            <td style="width: 16.6%;">Дата зачисления</td>
+                            @if(Auth::user()->type == 'admin')
+                                <td style="width: 16.6%;">Официант</td>
+                            @endif
+                            <td style="width: 16.6%;">Сумма</td>
+                            <td style="width: 16.6%;">Комиссия</td>
+                            <td style="width: 16.6%;">Заработано</td> 
+                            <td style="width: 16.6%;" align="center">Способ оплаты</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($tips as $tip)
+                            <tr class="{{ $tip->open ? 'open-tr' : '' }}">
+                                <td>{{ $tip->rand }}</td>
+                                <td>{{ $tip->created_at->format('d.m.Y H:i') }}</td>
+                                @if(Auth::user()->type == 'admin')
+                                    <td style="width: 16.6%;">{{ $tip->user->name }} {{ $tip->user->lastname }}</td>
+                                @endif
+                                <td>{{ $tip->total_amount }} Р</td>
+                                <td>{{ $tip->total_amount - withdrawFee($tip->total_amount, $tip->fee) }} P</td>
+                                <td>
+                                    <span style="margin-bottom: 10px; display: inline-block;">
+                                        @if(!$tip->id_location)
+                                            {{ $tip->amount }} P
+                                        @else
+                                            @php
+                                                if($tip->location_work_type == 'percent' && $tip->id_location == Auth::id()){
+                                                    echo $tip->location_amount;  
+                                                }else{
+                                                    echo $tip->amount;
+                                                }
+                                            @endphp 
+                                        @endif 
+                                    </span>
+                                    @if($tip->rating)
+                                        <select class="rating-stars" data-readonly="true" data-current-rating="{{ $tip->rating }}" autocomplete="off">
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                        </select>
 
-                                            @if($tip->review)
-                                                <p style="margin-top: 5px;">{{ $tip->review }}</p>
-                                            @endif
+                                        @if($tip->review)
+                                            <p style="margin-top: 5px;">{{ $tip->review }}</p>
                                         @endif
-                                    </td> 
-                                    <td align="center">
-                                        <img src="{{ asset('profile_theme') }}/assets/images/dashboard/visa.png" alt="visa">
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div> 
-            
-                <div class="col-md-6 align-center"> 
-                    <span>Показано  {{ $tips->count() }} из {{ $tips->total() }}</span>
-                </div>
-                <div class="col-md-6">  
-                    {{ $tips->appends(request()->input())->links() }} 
-                </div>
-            @else 
-                <div class="col-12" style="margin-top: 20px;">
-                    <span class="d-flex align-items-center purchase-popup" style="justify-content: space-between;">
-                      <p>Нет зачислений</p>  
-                    </span>
-                </div>
-            @endif
-         
+                                    @endif
+                                </td> 
+                                <td align="center">
+                                    <img src="{{ asset('profile_theme') }}/assets/images/dashboard/visa.png" alt="visa">
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div> 
+        
+            <div class="col-md-6 align-center"> 
+                <span>Показано  {{ $tips->count() }} из {{ $tips->total() }}</span>
+            </div>
+            <div class="col-md-6">  
+                {{ $tips->appends(request()->input())->links() }} 
+            </div>
+        @else 
+            <div class="col-12" style="margin-top: 20px;">
+                <span class="d-flex align-items-center purchase-popup" style="justify-content: space-between;">
+                  <p>Нет зачислений</p>  
+                </span>
+            </div>
+        @endif 
     </div>
 
     @else 

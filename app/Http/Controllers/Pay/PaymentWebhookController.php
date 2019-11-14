@@ -14,7 +14,17 @@ use App\Utils\Payments\WithdrawalService;
 
 class PaymentWebhookController extends Controller
 {
-	public function visa(Request $request, Ballance $userBallance)
+
+	public function testCharged($idTip)
+	{
+		$tip = Tips::with('location')->whereId($idTip)->first();
+		$this->chargedTip($tip); 
+
+		$tip->status = 'CHARGED';  
+		$tip->save();
+	}
+
+	public function visa(Request $request)
 	{ 
 		$this->log($request->all(), @$request->Event, @$request->Order_Id); 
   
@@ -22,10 +32,9 @@ class PaymentWebhookController extends Controller
 		{
 			if ($request->Event == 'Payment') 
 			{ 
-				$tip = Tips::where('rand', $request->Order_Id)->first();
+				$tip = Tips::with('location')->where('rand', $request->Order_Id)->first();
 				if ($tip) 
 				{
-
 					if ($request->Event == 'Payment' && $request->Status == 'BLOCKED') 
 					{ 
 						$paymentClass = new VisaPayment; 
@@ -49,12 +58,7 @@ class PaymentWebhookController extends Controller
 
 					if ($request->Status == 'CHARGED') 
 					{
-						$userBallance->setUser($tip->user)
-				                     ->setOrderId($tip->id)
-				                     ->setPrice($tip->amount)
-				                     ->replenish();
-
-						$tip->user->notify(new NewTips($tip->amount));
+						$this->chargedTip($tip); 
 					}
 				} 
 			}
@@ -70,6 +74,42 @@ class PaymentWebhookController extends Controller
 				}
 			}
 		} 
+	}
+
+	private function chargedTip($tip)
+	{ 
+		$amount = $tip->amount;
+		if (!empty($tip->location)) 
+		{
+			if ($tip->location_work_type == 'percent') 
+			{  
+				// зачисляем деньги пользователю 
+ 				$this->enroll($tip->user, $tip->id, $amount);
+
+	            // зачисляем деньги заведению  
+	        	$this->enroll($tip->location, $tip->id, $tip->location_amount);
+			}
+			else
+			{
+				// зачисляем деньги заведению
+	            $this->enroll($tip->location, $tip->id, $amount);         
+			}
+		}
+		else
+		{ 
+	        $this->enroll($tip->user, $tip->id, $amount); 
+		}
+	}
+
+	private function enroll($user, $tipId, $amount)
+	{
+		$userBallance = new Ballance;
+		$userBallance->setUser($user)
+                     ->setOrderId($tipId)
+                     ->setPrice($amount)
+                     ->replenish();
+
+        $user->notify(new NewTips($amount));
 	}
 
 	private function log($data, $action = null, $rand = null)
