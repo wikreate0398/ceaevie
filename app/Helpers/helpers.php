@@ -57,7 +57,7 @@ function withdrawFee($price, $percent)
 function priceToPercent($price, $priceCommision)
 {
     if(empty($priceCommision)) return 0;
-    return (($price+$priceCommision)/100)*$priceCommision;
+    return (100/$price)*$priceCommision;
 }
 
 function percent($price, $percent = null)
