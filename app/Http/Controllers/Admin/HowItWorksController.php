@@ -105,9 +105,13 @@ class HowItWorksController extends Controller
             return trans('admin.req_fields');
         }
 
-        $uploadImage = new UploadImage;
-        $image = $uploadImage->upload('image', $this->uploadFolder);
-
+        try {
+            $uploadImage = new UploadImage;
+            $image = $uploadImage->upload('image', $this->uploadFolder);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+ 
         if (!empty($image)) {
             $input['image'] = $image;
         }  
