@@ -255,7 +255,7 @@
 <script src="{{ asset('profile_theme') }}/assets/js/todolist.js"></script>
 <!-- End custom js for this page -->
 
-<script src="{{ asset('js/inputmask.min.js') }}"></script>
+<script src="{{ asset('js/inputmask.min.js') }}?v={{ time() }}"></script>
 <script src="/js/ajax.js?v={{ time() }}"></script>
 <script src="/js/notify.js?v={{ time() }}"></script>
 <script src="{{ asset('profile_theme') }}/assets/js/main.js?v={{ time() }}"></script>
