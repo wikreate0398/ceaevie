@@ -67,11 +67,11 @@ function inputMask(){
     $("input.price-mask, input.home-price-mask").inputmask("decimal",{
         alias: 'numeric',
         radixPoint:".", 
-        groupSeparator: " ", 
+        groupSeparator: "", 
         digits: 2,
         autoGroup: true,
-        allowMinus: false,
-        placeholder: '',
+        allowMinus: false, 
+        placeholder: '', 
     });
  
     $('#ExpiryDate').inputmask('99/99');
@@ -113,4 +113,4 @@ function changeRegType(btn, type){
             }
         }
     });
-}
+} 

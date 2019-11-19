@@ -124,11 +124,11 @@ function inputMask(){
   $("input.price-mask, input.home-price-mask").inputmask("decimal",{
       alias: 'numeric',
       radixPoint:".", 
-      groupSeparator: " ", 
+      groupSeparator: "", 
       digits: 2,
       autoGroup: true,
       allowMinus: false,
-      placeholder: '',
+      placeholder: '', 
   });
 
   $('#ExpiryDate').inputmask('99/99');
@@ -137,14 +137,14 @@ function inputMask(){
 }
 
 function setMoney(input) {
-  var val = $(input).val();
-  if (!val || val <= 30) {
+  var val = parseFloat($(input).val().replace(/\s+/g, ''));
+  if (!val || val < minimum_withdrawal) {
     $(input).addClass('input-danger');
     $('.total-withdraw').hide();
   }else{
     $(input).addClass('input-success');
     $('.total-withdraw').show();
-    $('.total-withdraw span').text(val-commision_withdrawal);
+    $('.total-withdraw span').text(priceString(val-commision_withdrawal, 0));
   }
 }
 
@@ -155,3 +155,13 @@ function selectWorkType(select) {
     $('.percent_field').hide();
   }
 }
+
+function number_format(e,n,t,i){e=(e+"").replace(/[^0-9+\-Ee.]/g,"");var r=isFinite(+e)?+e:0,a=isFinite(+n)?Math.abs(n):0,o="undefined"==typeof i?",":i,d="undefined"==typeof t?".":t,u="",f=function(e,n){var t=Math.pow(10,n);return""+(Math.round(e*t)/t).toFixed(n)};return u=(a?f(r,a):""+Math.round(r)).split("."),u[0].length>3&&(u[0]=u[0].replace(/\B(?=(?:\d{3})+(?!\d))/g,o)),(u[1]||"").length<a&&(u[1]=u[1]||"",u[1]+=new Array(a-u[1].length+1).join("0")),u.join(d)}
+
+function priceString(price, a){  
+    var a = (a != undefined) ? a : 2;
+    if (!price) {
+        return '0';
+    } 
+    return number_format(price, a, '.', ' ');
+} 

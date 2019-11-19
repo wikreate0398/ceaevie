@@ -134,9 +134,11 @@ class WithdrawalService
             throw new \Exception("На вашем счету нет столько средств.");
         } 
 
-        if (setting('commision_withdrawal') && $request->price <= setting('commision_withdrawal')) 
+        $minPrice = setting('minimum_withdrawal'); 
+
+        if ($request->price < $minPrice) 
         {
-            throw new \Exception('Для вывода неоходимо указать сумму больше '.setting('commision_withdrawal').' рубл.'); 
+            throw new \Exception('Для вывода неоходимо указать сумму не менее '.setting('minimum_withdrawal').' рубл.'); 
         }
 
         if (!BankCards::whereId($request->card)->count()) 

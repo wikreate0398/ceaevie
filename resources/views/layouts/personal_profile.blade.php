@@ -32,6 +32,7 @@
 	<link rel="shortcut icon" href="/fav.ico"> 
 	<script>
 		var commision_withdrawal = {{ toFloat(setting('commision_withdrawal')) }};
+		var minimum_withdrawal = {{ (setting('commision_withdrawal') > setting('minimum_withdrawal')) ? toFloat(setting('commision_withdrawal')) : toFloat(setting('minimum_withdrawal')) }};
 	</script>
 </head>
 <body>

@@ -191,6 +191,11 @@
                         $open = \App\Models\WithdrawTips::where('open', '1')->where('moderation', '1')->count(); 
                      } 
 
+                     if ($key == 'clients') {
+                        $open = \App\Models\User::where('verification_status', 'pending') 
+                                                ->count(); 
+                     } 
+
                      if ($open) {
                         $open = "<span class='badge badge-roundless badge-danger'>+{$open}</span>";
                      } else{

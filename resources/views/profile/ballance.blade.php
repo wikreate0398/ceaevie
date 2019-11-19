@@ -176,8 +176,13 @@
                                        placeholder="Сумма"
                                        name="price"
                                        onkeyup="setMoney(this);">
-                                       <small class="text-danger">Комиссия -{{ setting('commision_withdrawal') }} руб.</small>
-                                       <small class="total-withdraw" style="display: none;">Итог: <span>150</span> руб.</small>
+                                       <small class="text-danger">
+                                            Минимальная сумма для вывода: <b>{{ setting('minimum_withdrawal') }} руб.</b> 
+                                            <br>
+                                            Комиссия <b>-{{ setting('commision_withdrawal') }} руб.</b>
+                                        </small>
+                                        <br>
+                                       <small class="total-withdraw" style="display: none; color: rgb(133, 181, 82)">Итог: <span></span> руб.</small>
                             </div> 
 
                             <div class="form-group col-md-12"> 

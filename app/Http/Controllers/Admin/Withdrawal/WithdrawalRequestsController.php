@@ -92,7 +92,7 @@ class WithdrawalRequestsController extends Controller
     {
         // возвращаем замороженные средства
         (new Ballance)->setUser($withdraw->user) 
-                      ->setPrice($withdraw->amount)
+                      ->setPrice($withdraw->amount + $withdraw->commision)
                       ->replenish(); 
 
         // отправляем уведомление

@@ -69,7 +69,7 @@
 								{{ $item->created_at->format('d.m.Y H:i') }}
 							</td> 
 							<td class="nw" align="center">
-								{{ priceString(priceToPercent($item->amount, $item->commision),2) }}
+								{{ priceString(priceToPercent($item->amount+$item->commision, $item->commision),2) }}
 							</td> 
 							<td class="nw" align="center">
 								{{ $item->amount }}
