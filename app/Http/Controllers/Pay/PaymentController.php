@@ -170,7 +170,7 @@ class PaymentController extends Controller
 
     private function checkFormData($request)
     { 
-    	if (!$request->payment or !$request->price or !$request->code) 
+    	if (!$request->payment or !toFloat($request->price) or !$request->code) 
     	{ 
     		throw new \Exception("Укажите все обязательные поля"); 
     	}
