@@ -24,7 +24,7 @@ $(document).ready(function () {
     extensions: ['image/*'],
     addMore: true, 
     limit: 5,
-    maxSize:2,
+    maxSize:10,
     captions: {
         button: function(options) { return 'Выбрать ' + (options.limit == 1 ? 'file' : 'файлы');},
         removeConfirmation: 'Подтвердить удаление',

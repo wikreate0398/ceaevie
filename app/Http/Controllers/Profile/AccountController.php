@@ -162,7 +162,7 @@ class AccountController extends Controller
         try {
             $uploadImage = new UploadImage;
             $files       = $uploadImage->setExtensions('jpeg,jpg,png')
-                                       ->setSize(5000)
+                                       ->setSize(10000)
                                        ->multipleUpload('files', 'clients');
 
             if (in_array(\Auth::user()->verification_status, ['confirm', 'pending'])) 

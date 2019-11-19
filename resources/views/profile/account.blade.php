@@ -102,7 +102,7 @@
 
 			                        <input type="file" name="files" id="verification_files">
 									
-									<span style="margin-top: 5px; display: inline-block; font-size: 13px; color: #fe7c96;">jpg,jpeg,png &nbsp;&nbsp; размер <= 5МБ</span>
+									<span style="margin-top: 5px; display: inline-block; font-size: 13px; color: #fe7c96;">jpg,jpeg,png &nbsp;&nbsp; размер <= 10МБ</span>
 			                         
 			                  	</div>
 			                  	<div class="col-md-6 col-sm-12">
