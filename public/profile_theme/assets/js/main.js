@@ -127,7 +127,8 @@ function inputMask(){
       groupSeparator: " ", 
       digits: 2,
       autoGroup: true,
-      allowMinus: false  
+      allowMinus: false,
+      placeholder: '',
   });
 
   $('#ExpiryDate').inputmask('99/99');
