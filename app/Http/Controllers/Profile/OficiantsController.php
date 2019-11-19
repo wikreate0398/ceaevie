@@ -83,6 +83,7 @@ class OficiantsController extends Controller
         $user = User::whereId($request->id_user)->first();  
         $userBallance->setUser($user) 
                      ->setPrice($request->amount)
+                     ->setSender(\Auth::id())
                      ->replenish();
 
         $location = User::whereId(\Auth::user()->id)->first(); 

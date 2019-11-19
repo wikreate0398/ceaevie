@@ -13,6 +13,8 @@ class Ballance
 {
     protected $user;
 
+    protected $id_sender;
+
     private $ballance; 
 
     private $type;
@@ -27,6 +29,21 @@ class Ballance
 
     function __construct() {}
 
+    public static function getUserBallance($idUser, $userType, $days = false)
+    {  
+        $senderMoneys = Transactions::where('id_user', $idUser)
+                                    ->where('id_sender', '!=', '')
+                                    ->forLast($days)
+                                    ->where('type', 'replenish')
+                                    ->sum('price'); 
+
+        $tipsMoney = sumTipAmount(\App\Models\Tips::confirmed($days)
+                                                     ->selectRaw('amount, status, created_at, location_work_type, id_location, location_amount')
+                                                     ->where((($userType == 'admin') ? 'id_location' : 'id_user'), \Auth::id())
+                                                     ->get(), $userType, $idUser);
+        return $tipsMoney+$senderMoneys;
+    }
+
     public function setUser($user)
     {
         $this->user = $user;
@@ -38,6 +55,12 @@ class Ballance
         $this->price = $price;
         return $this;
     } 
+
+    public function setSender($id_sender)
+    {
+        $this->id_sender = $id_sender;
+        return $this;
+    }  
 
     public function setOrderId($orderId)
     {
@@ -83,6 +106,7 @@ class Ballance
     {
         Transactions::create([
             'id_user'          => $this->user->id, 
+            'id_sender'        => $this->id_sender ?: 0,
             'type'             => $this->type,
             'price'            => $this->price, 
             'ballance'         => $this->user->ballance,

@@ -183,7 +183,7 @@
 
                             <div class="form-group col-md-12">
                                 <label>Укажите сумму <span class="req">*</span></label>
-                                <input type="text" required class="form-control" name="amount">       
+                                <input type="text" required class="form-control price-mask" name="amount">       
                             </div> 
       
                             <div style="text-align: center" class="col-md-12">
