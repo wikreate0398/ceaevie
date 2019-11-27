@@ -79,7 +79,20 @@
 	            </div>
 	        </div>
 	    </section>
-    @endif
+    @endif 
+
+    <section class="bg-white pb-90">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 с offset-lg-3"> 
+                      <iframe id="ytplayer" type="text/html" width="100%" height="360"
+  src="https://www.youtube.com/embed/N075G0jxDPg?showinfo=0&rel=0&fs=0"
+  frameborder="0"/></iframe>
+
+                </div>
+            </div>
+        </div>
+    </section>
 
     @if($whom->count())
 	    <section class="bg-grey pt-90 pb-90" id="whom">
