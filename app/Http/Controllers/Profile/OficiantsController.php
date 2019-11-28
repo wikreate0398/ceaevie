@@ -21,7 +21,7 @@ class OficiantsController extends Controller
     { 
         $data = [
             'menu'  => ProfileMenu::where('route', 'my_oficiants')->first(),
-            'users' => LocationUser::where('id_location', \Auth::id())->with('user')->orderBy('id', 'desc')->get()
+            'users' => LocationUser::where('id_location', \Auth::id())->with('user')->has('user')->orderBy('id', 'desc')->get()
         ]; 
 
         return view('profile.oficiants', $data);
