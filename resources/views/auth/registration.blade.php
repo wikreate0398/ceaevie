@@ -17,7 +17,7 @@
 
                         <input type="hidden" name="type" value="user" id="user_type">
                         
-                        <div class="row">
+                     <!--    <div class="row">
                             <ul class="btn-tabs reg-btn-tabs">
                                 @foreach($userTypes as $key => $type) 
                                     <li>
@@ -27,7 +27,26 @@
                                     </li> 
                                 @endforeach
                             </ul>
-                        </div> 
+                        </div>  -->
+
+                        <div class="row">
+                            <div class="col-12 col-sm-12 col-md-12" data-access="*" style="margin-bottom: 10px;"> 
+                                @foreach($userTypes as $key => $type)    
+                                    <div>
+                                        <input {{ ($key==0) ? 'checked' : '' }} 
+                                               type="radio" 
+                                               name="type" 
+                                               value="{{ $type->type }}" 
+                                               id="type_{{ $type["id"] }}"
+                                               onchange="changeRegType(this, '{{ $type->type }}')"> 
+                                        <label for="type_{{ $type["id"] }}">
+                                            {{ $type["name_$lang"] }}
+                                            <small style="display: block; color: #a7a7a7;">{{ $type["description_$lang"] }}</small>
+                                        </label>
+                                    </div>
+                                @endforeach 
+                            </div>
+                        </div>
 
                         <div class="row reg-fields">
                             <div class="form-group col-12 col-sm-12 col-md-12" data-access="*">
