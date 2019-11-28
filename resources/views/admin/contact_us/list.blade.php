@@ -25,7 +25,7 @@
 						<td class="nw">
 							{{ $item->phone }}
 						</td> 
-						<td class="nw">
+						<td>
 							{{ $item->message }}
 						</td> 
 						<td class="nw">
