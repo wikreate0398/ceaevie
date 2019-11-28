@@ -136,6 +136,8 @@
                                             @php
                                                 if($tip->location_work_type == 'percent' && $tip->id_location == Auth::id()){
                                                     echo $tip->location_amount;  
+                                                }else if($tip->location_work_type == 'common_sum'){
+                                                    echo 0;
                                                 }else{
                                                     echo $tip->amount;
                                                 }
