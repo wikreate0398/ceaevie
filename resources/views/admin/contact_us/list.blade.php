@@ -10,6 +10,7 @@
 				<tr> 
 					<th class="nw">Имя</th> 
 					<th class="nw">Телефон</th> 
+					<th class="nw">E-mail</th> 
 					<th class="nw">Сообщение</th> 
 					<th class="nw">Официант</th> 
 					<th class="nw">Число</th> 
@@ -24,6 +25,9 @@
 						</td> 
 						<td class="nw">
 							{{ $item->phone }}
+						</td> 
+						<td class="nw">
+							{{ @$item->user->email }}
 						</td> 
 						<td>
 							{{ $item->message }}
