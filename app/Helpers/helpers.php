@@ -22,6 +22,11 @@ if (!function_exists('key_to_id')) {
     }
 }
 
+function replaceSpaces($str)
+{
+    return str_replace(' ', '', $str);
+}
+
 function sumTipAmount($tips, $userType, $userId)
 {
     return $tips->sum(function($tip) use($userType, $userId){

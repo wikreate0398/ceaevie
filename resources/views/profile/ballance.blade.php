@@ -72,15 +72,17 @@
                                 </span>
                                 <span class="expiration-date">{{ $card->month }}/{{ $card->year }}</span>
                             </div>
-                            <div class="card-type">
-                                <img
-                                    src="{{ asset('uploads') }}/card_types/{{ $card->card_type->image }}"
-                                    alt="card-type"
-                                    style="max-width: 50px;">
-                                <!-- <img
-                                    src="{{ asset('profile_theme') }}/assets/images/socials/sberbank.png"
-                                    alt="bank"> -->
-                            </div>
+                            @if(@$card->card_type->image)
+                                <div class="card-type">
+                                    <img
+                                        src="{{ asset('uploads') }}/card_types/{{ @$card->card_type->image }}"
+                                        alt="card-type"
+                                        style="max-width: 50px;">
+                                    <!-- <img
+                                        src="{{ asset('profile_theme') }}/assets/images/socials/sberbank.png"
+                                        alt="bank"> -->
+                                </div>
+                            @endif
                            <a href="{{ route('delete_card', ['lang' => $lang, 'id' => $card->id]) }}" class="confirm_link" data-confirm="Вы действительно желаете удалить?">
                                 <img src="{{ asset('profile_theme') }}/assets/images/trash.png" alt="delete">
                            </a> 

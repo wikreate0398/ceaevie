@@ -56,8 +56,8 @@ class BallanceController extends Controller
         BankCards::create([
             'id_user'     => \Auth::id(),
             'name'        => $request->name,
-            'type'        => $this->validatecard($request->number),
-            'number'      => $crypt->encrypt($request->number),
+            'type'        => $this->validatecard(replaceSpaces($request->number)),
+            'number'      => $crypt->encrypt(replaceSpaces($request->number)),
             'hide_number' => self::getHideCardNumber($request->number),
             'month'       => $expiryDate[0],
             'year'        => $expiryDate[1] 
@@ -139,8 +139,8 @@ class BallanceController extends Controller
         {
             throw new \Exception('Фио должно быть на латинице');
         }
-
-        $cardType = $this->validatecard($request->number);
+ 
+        $cardType = $this->validatecard(replaceSpaces($request->number));
         if ($cardType === false) 
         {
             throw new \Exception('Этот номер кредитной карты недействителен');  
@@ -151,7 +151,7 @@ class BallanceController extends Controller
         {
             throw new \Exception('Срок действия карты не действителен');  
         }
-    }
+    } 
 
     public function validateLatin($string) 
     {
@@ -164,7 +164,7 @@ class BallanceController extends Controller
     }
 
     private static function validateCard($number)
-    { 
+    {  
         $cardtype = array(
             "visa"       => "/^4[0-9]{12}(?:[0-9]{3})?$/",
             "mastercard" => "/^5[1-5][0-9]{14}$/",
