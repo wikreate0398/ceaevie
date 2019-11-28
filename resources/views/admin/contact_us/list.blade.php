@@ -11,17 +11,20 @@
 					<th class="nw">Имя</th> 
 					<th class="nw">Телефон</th> 
 					<th class="nw">E-mail</th> 
-					<th class="nw">Сообщение</th> 
-					<th class="nw">Официант</th> 
+					<th class="nw">Сообщение</th>  
 					<th class="nw">Число</th> 
 					<th style="width:5%; text-align: center"><i class="fa fa-cogs" aria-hidden="true"></i></th>
 				</tr>
 				</tbody>
 				<tbody>
 				@foreach($data as $item)
-					<tr> 
-						<td class="nw">
-							{{ $item->name }}
+					<tr>  
+						<td class="nw"> 
+							@if($item->id_user)
+								{{ $item->user->name }} {{ $item->user->lastname }}
+							@else
+								{{ $item->name }}
+							@endif 
 						</td> 
 						<td class="nw">
 							{{ $item->phone }}
@@ -31,14 +34,7 @@
 						</td> 
 						<td>
 							{{ $item->message }}
-						</td> 
-						<td class="nw">
-							@if($item->id_user)
-								{{ $item->user->name }} {{ $item->user->lastname }}
-							@else
-								--
-							@endif
-						</td> 
+						</td>  
 						<td>{{ $item->created_at->format('d.m.Y H:i') }}</td>
 						<td style="width: 5px; white-space: nowrap"> 
 							<a class="btn btn-danger btn-xs" data-toggle="modal" href="#deleteModal_{{ $table }}_{{ $item['id'] }}"><i class="fa fa-trash-o "></i></a>
