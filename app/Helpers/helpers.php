@@ -26,27 +26,7 @@ function replaceSpaces($str)
 {
     return str_replace(' ', '', $str);
 }
-
-function sumTipAmount($tips, $userType, $userId)
-{
-    return $tips->sum(function($tip) use($userType, $userId){
-        if(empty($tip->id_location))
-        {
-            return $tip->amount;
-        }
-        else
-        { 
-            if($tip->location_work_type == 'percent')
-            { 
-                return ($tip->id_location == $userId) ? $tip->location_amount : $tip->amount;
-            }
-            else
-            {
-                return ($tip->id_location == $userId) ? $tip->amount : 0;
-            } 
-        }
-    });
-}
+ 
 
 function savePercent($retail, $price)
 {
