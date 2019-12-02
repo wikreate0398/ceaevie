@@ -139,6 +139,7 @@
                       const paymentsClient = getGooglePaymentsClient();
                       paymentsClient.loadPaymentData(paymentDataRequest)
                           .then(function(paymentData) {
+                            $("#payment_type").val(2);
                             // handle the response
                             processPayment(paymentData);
                           })
@@ -157,6 +158,7 @@
                     function processPayment(paymentData) {
                       // show returned data in developer console for debugging
                         console.log(paymentData);
+                        $('#google_pay_input').val(paymentData);
                       // @todo pass payment token to your gateway to process payment
                       paymentToken = paymentData.paymentMethodData.tokenizationData.token;
                     }
@@ -198,6 +200,7 @@
                                     <div class="col-12 text-center">
                                         <div class="payment-sistems">
                                             <input type="hidden" name="payment" value="" id="payment_type">
+                                            <input type="hidden" name="google_pay" id="google_pay_input">
                                             @foreach($payments as $payment)
                                               @php
                                                 $id = '';
