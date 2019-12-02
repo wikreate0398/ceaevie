@@ -13,21 +13,7 @@
                 </div>
                 <div class="col-md-6 offset-md-3">
                     <form class="ajax__submit" action="{{ route('register', ['lang' => $lang]) }}">
-                    	{{ csrf_field() }}
-
-                        <input type="hidden" name="type" value="user" id="user_type">
-                        
-                     <!--    <div class="row">
-                            <ul class="btn-tabs reg-btn-tabs">
-                                @foreach($userTypes as $key => $type) 
-                                    <li>
-                                        <button type="button" class="btn-tab {{ ($key==0) ? 'active' : '' }}" onclick="changeRegType(this, '{{ $type->type }}')">
-                                            {{ $type["name_$lang"] }}
-                                        </button>
-                                    </li> 
-                                @endforeach
-                            </ul>
-                        </div>  -->
+                    	{{ csrf_field() }} 
 
                         <div class="row">
                             <div class="col-12 col-sm-12 col-md-12" data-access="*" style="margin-bottom: 10px;"> 

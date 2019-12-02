@@ -45,6 +45,13 @@ class PaymentController extends Controller
 		return view('public.payment.make_payment', compact(['data', 'payments']));
 	}
 
+    public function payment2($lang, $code)
+    { 
+        $data     = QrCode::where('code', $code)->with('user')->firstOrFail();
+        $payments = PaymentType::orderByPageUp()->visible()->get();
+        return view('public.payment.make_payment2', compact(['data', 'payments']));
+    } 
+
 	public function handlePayment(Request $request)
     {
     	\DB::beginTransaction();
