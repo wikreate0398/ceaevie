@@ -133,13 +133,13 @@
                      * Show Google Pay payment sheet when Google Pay payment button is clicked
                      */
                     function onGooglePaymentButtonClicked() {
+                        
                       const paymentDataRequest = getGooglePaymentDataRequest();
                       paymentDataRequest.transactionInfo = getGoogleTransactionInfo();
 
                       const paymentsClient = getGooglePaymentsClient();
                       paymentsClient.loadPaymentData(paymentDataRequest)
-                          .then(function(paymentData) {
-                            $("#payment_type").val(2);
+                          .then(function(paymentData) { 
                             // handle the response
                             processPayment(paymentData);
                           })
@@ -158,7 +158,7 @@
                     function processPayment(paymentData) {
                       // show returned data in developer console for debugging
                         console.log(paymentData);
-                        $('#google_pay_input').val(paymentData);
+                        $('#google_pay_input').val(JSON.stringify(paymentData));
                       // @todo pass payment token to your gateway to process payment
                       paymentToken = paymentData.paymentMethodData.tokenizationData.token;
                     }
@@ -206,15 +206,13 @@
                                                 $id = '';
                                                 $onclick="return false;";
                                                 if($payment->id == '2'){
-                                                  $id = 'google_pay_btn';
-                                                  $onclick = 'onGooglePaymentButtonClicked()';
+                                                  $id = 'google_pay_btn'; 
                                                 }
                                               @endphp
                                               <button type="button" 
                                                       id="{{ $id }}" 
-                                                      class="btn btn-white"
-                                                      onclick="{{ $onclick }}">
-                                                      <!-- onclick="setPaymentType(this, {{ $payment->id }})" -->
+                                                      class="btn btn-white" 
+                                                      onclick="setPaymentType(this, {{ $payment->id }})" -->
                                                 <img src="/uploads/payment_types/{{ $payment->image }}" alt="">
                                               </button>
                                             @endforeach 
@@ -285,12 +283,17 @@
 
                           $('.active-payment-type').removeClass('active-payment-type');
                           $(button).addClass('active-payment-type'); 
-                          checkPaymentForm();
+
+                          if (idPayment == 2) {
+                            onGooglePaymentButtonClicked(); 
+                          }else{
+                            checkPaymentForm();
+                          }
                         }
 
                         function setPrice(price) {
                           document.getElementById("priceInput").value = price;
-                          checkPaymentForm();
+                          //checkPaymentForm();
                         }
 
                         function checkPaymentForm(){
@@ -309,7 +312,7 @@
 
                         $(document).ready(function(){
                             $('#priceInput').change(function(){
-                                checkPaymentForm();
+                                //checkPaymentForm();
                             }); 
                         });
                     </script>
