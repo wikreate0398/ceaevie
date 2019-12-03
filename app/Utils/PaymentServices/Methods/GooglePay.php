@@ -1,7 +1,8 @@
 <?php 
 
- 
-class GooglePay 
+namespace App\Utils\PaymentServices\Methods; 
+
+class GooglePay extends PaymentMethod
 {
 	
 	function __construct()

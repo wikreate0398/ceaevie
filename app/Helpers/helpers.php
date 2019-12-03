@@ -96,7 +96,7 @@ function generate_id($length=6)
         $number .= mt_rand(0,9);
     }
     return $number;
-}
+} 
 
 function random_str(
     $length=6,

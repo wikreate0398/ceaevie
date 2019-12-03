@@ -12,6 +12,10 @@ use App\Models\Tips;
 use App\Models\EnrollmentPercents;
 use App\Models\TipPercents;
 
+use App\Utils\PaymentServices\HandlePaymentMethod; 
+use App\Utils\PaymentServices\Methods\Visa;
+use App\Utils\PaymentServices\Components\Invoice;  
+
 class PaymentController extends Controller
 {
 	private $paymentServices = [
@@ -52,7 +56,7 @@ class PaymentController extends Controller
         return view('public.payment.make_payment2', compact(['data', 'payments']));
     } 
 
-	public function handlePayment(Request $request)
+	public function formPayment(Request $request)
     {
     	\DB::beginTransaction();
     	try {
@@ -80,6 +84,66 @@ class PaymentController extends Controller
     		\DB::rollback();
     		return \JsonResponse::error(['messages' => $e->getMessage()]);
     	}
+    } 
+
+    public function formPayment2(Request $request, Invoice $invoice, HandlePaymentMethod $paymentMethod)
+    {
+        \DB::beginTransaction();
+        try {
+            $this->checkFormData2($request); 
+        } catch (\Exception $e) {
+            return \JsonResponse::error(['messages' => $e->getMessage()]);
+        }
+
+        try {
+ 
+            $idOrder = $this->makeOrder($request);
+            $order   = Tips::whereId($idOrder)->first();
+            
+            // $invoiceData = $invoice->create([
+            //     'amount'     => toFloat($order->total_amount),
+            //     'product'    => 'Чаевые официанту ' . $order->user->name, 
+            //     'cart'       => [
+            //         [
+            //             'product' => 'Чаевые официанту ' . $order->user->name,
+            //             'quantity' => 1,
+            //             'price'    => toFloat($order->total_amount),
+            //             'taxMode'  => [
+            //                 'type' => 'InvoiceLineTaxVAT',
+            //                 'rate' => '0%'
+            //             ]
+            //         ]
+            //     ],
+            //     'metadata' => [ 
+            //         'order_id'=> $order->rand
+            //     ]
+            // ]); 
+
+            if ($order->id_payment == 1)
+            {
+                $expiryDate = prepareExpiryDate($request->card['expiry_date'], true);
+                $paymentData = $paymentMethod->handle(new Visa([
+                    'number'      => replaceSpaces($request->card['number']),
+                    'expiry_date' => $request->card['expiry_date'],
+                    'name'        => $request->card['name']
+                ]));
+
+                exit(print_arr($paymentData));
+            } 
+            elseif ($order->id_payment == 2) 
+            {
+                # code...
+            }
+            else
+            {
+                throw new \Exception("Данные метод оплаты не работает. Попробуйте оплатить с помощью VISA"); 
+            } 
+
+            \DB::commit();
+        } catch (\Exception $e) {
+            \DB::rollback();
+            return \JsonResponse::error(['messages' => $e->getMessage()]);
+        }
     }
 
     public function visaWebPay($lang, $orderRand)
@@ -175,12 +239,43 @@ class PaymentController extends Controller
         return $tipId;
     }
 
+    private function checkFormData2($request)
+    { 
+        if (!$request->payment or !toFloat($request->price) or !$request->code or 
+            ($request->payment == 1 && !$request->card['name'] or !$request->card['number'] or !$request->card['expiry_date'])) 
+        { 
+            throw new \Exception("Укажите все обязательные поля"); 
+        }
+
+        if (!preg_match("/^\d{12,19}$/", replaceSpaces($request->card['number']))) 
+        {
+            throw new \Exception('Этот номер кредитной карты недействителен');  
+        }
+
+        $expiryDate = prepareExpiryDate($request->card['expiry_date'], true);
+
+        if (!preg_match("/^\d{2}\/(\d{2}|\d{4})$/", @$expiryDate[0] . '/' . @$expiryDate[1])) 
+        {
+            throw new \Exception('Некорректный срок действия карты'); 
+        }
+
+        if (date('y') > $expiryDate[1] or date('y') == $expiryDate[1] && date('m') > $expiryDate[0]) 
+        {
+            throw new \Exception('Срок действия карты не действителен');  
+        } 
+ 
+        if (!QrCode::where('code', $request->code)->count() or !PaymentType::visible()->whereId($request->payment)->count()) 
+        {
+            throw new \Exception("Во время обработки данных возникла ошибка");   
+        } 
+    } 
+
     private function checkFormData($request)
     { 
     	if (!$request->payment or !toFloat($request->price) or !$request->code) 
     	{ 
     		throw new \Exception("Укажите все обязательные поля"); 
-    	}
+    	} 
  
 		if (!QrCode::where('code', $request->code)->count() or !PaymentType::visible()->whereId($request->payment)->count()) 
     	{

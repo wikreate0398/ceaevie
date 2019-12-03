@@ -16,7 +16,7 @@
                     <p class="grey">{{ $data->card_signature }}</p>
                 </div>
                 <div class="col-md-6 offset-md-3">
-
+                   
                   <script>
                     /**
                      https://developers.google.com/pay/api/web/guides/tutorial#apiversion
@@ -133,7 +133,6 @@
                      * Show Google Pay payment sheet when Google Pay payment button is clicked
                      */
                     function onGooglePaymentButtonClicked() {
-                        
                       const paymentDataRequest = getGooglePaymentDataRequest();
                       paymentDataRequest.transactionInfo = getGoogleTransactionInfo();
 
@@ -141,7 +140,7 @@
                       paymentsClient.loadPaymentData(paymentDataRequest)
                           .then(function(paymentData) { 
                             // handle the response
-                            processPayment(paymentData);
+                            // processPayment(paymentData);
                           })
                           .catch(function(err) {
                             // show error in developer console for debugging
@@ -155,17 +154,19 @@
                      * @param {object} paymentData response from Google Pay API after user approves payment
                      * @see {@link https://developers.google.com/pay/api/web/reference/object#PaymentData|PaymentData object reference}
                      */
-                    function processPayment(paymentData) {
-                      // show returned data in developer console for debugging
-                        console.log(paymentData);
-                        $('#google_pay_input').val(JSON.stringify(paymentData));
+                    function processPayment(paymentData) { 
+
+                      $('#google_pay_input').val(JSON.stringify(paymentData));
+                      $('#make-payment-form').submit();
+
                       // @todo pass payment token to your gateway to process payment
-                      paymentToken = paymentData.paymentMethodData.tokenizationData.token;
+                      //paymentToken = paymentData.paymentMethodData.tokenizationData.token;
                     }
               </script>
-              <script async src="https://pay.google.com/gp/p/js/pay.js" onload="onGooglePayLoaded()"></script>
+              <!-- <script async src="https://pay.google.com/gp/p/js/pay.js" onload="onGooglePayLoaded()"></script> -->
 
-                    <form class="ajax__submit" id="make-payment-form" action="{{ route('make_payment', ['lang' => $lang]) }}">
+
+                    <form class="ajax__submit" id="make-payment-form" action="{{ route('make_payment2', ['lang' => $lang]) }}">
                     	{{ csrf_field() }}
                         <input type="hidden" name="code" value="{{ $data->code }}">
                           
@@ -220,8 +221,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
-                            @if(false)
+                             
                               <div class="card-info" id="Checkout" style="display: none;">
                                   <div class="row">
                                       <div class="col-12 col-sm-12 col-md-12"> 
@@ -235,42 +235,29 @@
                                           </div>
 
                                           <div class="row">
-                                              <div class="col-6">
+                                              <div class="col-12">
                                                   <div class="expiry-date-group form-group">
                                                       <label for="ExpiryDate">Срок действия <span class="req">*</span></label>
                                                       <input id="ExpiryDate" name="card[expiry_date]" class="form-control" type="text" placeholder="MM / YY" maxlength="7"> 
                                                   </div>
-                                              </div>
-
-                                              <div class="col-6">
-                                                  <div class="security-code-group form-group">
-                                                  <label for="SecurityCode">Код безопасности <span class="req">*</span></label>
-                                                      <div class="input-container" >
-                                                          <input id="SecurityCode" name="card[cvc]" class="form-control" type="text" >
-                                                          <i id="cvc" class="fa fa-question-circle"></i>
-                                                      </div>
-                                                      <div class="cvc-preview-container two-card hide"> 
-                                                          <div class="visa-mc-dis-cvc-preview"></div>
-                                                      </div>
-                                                  </div> 
-                                              </div>
+                                              </div> 
                                           </div> 
                                       </div>
                                   </div>  
                               </div>
 
                               <div class="row make-payment-btn text-center" style="margin-top: 50px; display: none;">
-                                  <!-- <div class="col-md-5">
-                                      <button type="button" class="btn btn-blue btn-v2 btn-back" onclick="toggleBlocks('.card-info, .btn-pay, .btn-back', '.btn-next, .payment-info');">Назад</button> 
+                                  <div class="col-md-5">
+                                      <button type="button" class="btn btn-blue btn-v2 btn-back" onclick="toggleBlocks('.card-info, .make-payment-btn', '.payment-info');">Назад</button> 
 
-                                      <button type="button" class="btn btn-blue btn-v2 btn-next" onclick="toggleBlocks('.btn-next, .payment-info', '.btn-back, .card-info, .btn-pay');">Далее</button> 
-                                  </div> -->
+                                     <!--  <button type="button" class="btn btn-blue btn-v2 btn-next" onclick="toggleBlocks('.btn-next, .payment-info', '.btn-back, .card-info, .btn-pay');">Далее</button>  -->
+                                  </div>
                                   <div class="col-md-7 btn-pay">
                                       <button type="submit" class="btn btn-blue">Оплатить</button>
                                   </div>
-                              </div> 
-                            @endif
-                    </form> 
+                              </div>  
+                    </form>  
+ 
 
                     <script>
                         function setPaymentType(button, idPayment) { 
@@ -292,29 +279,27 @@
                         }
 
                         function setPrice(price) {
-                          document.getElementById("priceInput").value = price;
-                          //checkPaymentForm();
+                          document.getElementById("priceInput").value = price; 
                         }
 
                         function checkPaymentForm(){
                           var idPayment = $('#payment_type').val();
-                          if($('#payment_type').val() && $('#priceInput').val()){  
-                              $('#make-payment-form').submit();
-                              //$('.make-payment-btn').show();
-                              //toggleBlocks('.btn-back, .btn-pay', '.btn-next');
-                          }else{
-                            if(!$('#priceInput').val()){
 
-                              //$('.make-payment-btn').hide();
-                            }
-                          } 
-                        }
+                          if (idPayment == 1) {
+                            toggleBlocks('.payment-info', '.card-info, .make-payment-btn');
+                          }
 
-                        $(document).ready(function(){
-                            $('#priceInput').change(function(){
-                                //checkPaymentForm();
-                            }); 
-                        });
+                          // if($('#payment_type').val() && $('#priceInput').val()){  
+                          //     //$('#make-payment-form').submit();
+                          //     $('.make-payment-btn').show();
+                          //     toggleBlocks('.btn-back, .btn-pay', '.btn-next');
+                          // }else{
+                          //   if(!$('#priceInput').val()){
+
+                          //     $('.make-payment-btn').hide();
+                          //   }
+                          // } 
+                        } 
                     </script>
                 </div>
             </div>

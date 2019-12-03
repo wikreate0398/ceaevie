@@ -10,8 +10,12 @@ Route::get('/', 'Pay\PaymentController@indicateСode')->middleware(['lang', 'web
 Route::group(['prefix' => '{lang}', 'namespace' => 'Pay', 'middleware' => ['lang', 'web']], function() { 
 	Route::get('/', 'PaymentController@indicateСode')->name('show_payment_code');
 	Route::post('set-code', 'PaymentController@setСode')->name('set_code');
+
 	Route::get('make-payment/{code}', 'PaymentController@payment')->name('payment');
 	Route::get('make-payment2/{code}', 'PaymentController@payment2');
-	Route::post('handle-payment', 'PaymentController@handlePayment')->name('make_payment');
+
+	Route::post('form-payment', 'PaymentController@formPayment')->name('make_payment');
+	Route::post('form-payment2', 'PaymentController@formPayment2')->name('make_payment2');
+	 
 	Route::get('visa-webpay/{orderRand}', 'PaymentController@visaWebPay')->name('visa_webpay'); 
 }); 
