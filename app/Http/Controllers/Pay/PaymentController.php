@@ -148,7 +148,7 @@ exit(print_arr($googlePayResponse));
 
                 $paymentData = $paymentMethod->handle(new GooglePay($googlePayResponse, $request->invoiceId));     
 
-                 
+
             }
             else
             {
@@ -258,7 +258,8 @@ exit(print_arr($googlePayResponse));
     private function checkFormData2($request)
     { 
         if (!$request->payment or !toFloat($request->price) or !$request->code or 
-            ($request->payment == 1 && !$request->paymentToolToken or !$request->paymentSession)) 
+            $request->payment == 1 && (!$request->paymentToolToken or !$request->paymentSession)
+            or $request->payment == 2 && !$request->google_pay) 
         { 
             throw new \Exception("Укажите все обязательные поля"); 
         } 
