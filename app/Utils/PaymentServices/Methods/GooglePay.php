@@ -8,6 +8,8 @@ class GooglePay extends PaymentMethod
 
 	public function __construct($paymentData, $invoiceId)
 	{
+		parent::__construct();
+		
 		$this->paymentData = $paymentData;
 		$this->invoiceId   = $invoiceId;
 	}
