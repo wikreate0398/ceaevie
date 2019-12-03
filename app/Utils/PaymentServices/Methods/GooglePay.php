@@ -22,7 +22,7 @@ class GooglePay extends PaymentMethod
 
 	public function createPaymentResource()
 	{
-		$data = [
+		return $this->http->post('https://api.rbk.money/v2/processing/payment-resources', [
 			'paymentTool' => [
 				'paymentToolType'   => 'TokenizedCardData',
 				'provider'          => 'GooglePay',
@@ -37,6 +37,6 @@ class GooglePay extends PaymentMethod
 			'clientInfo' => [
 				'fingerprint' => random_str(10)
 			]
-		];
+		]);
 	} 
 }

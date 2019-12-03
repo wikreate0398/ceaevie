@@ -29,9 +29,7 @@ class Curl
 		  	CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
 		  	CURLOPT_CUSTOMREQUEST => "POST",
 		  	CURLOPT_POSTFIELDS => json_encode($params),
-		  	CURLOPT_HTTPHEADER => $this->prepare_headers(),
-		  	// CURLOPT_VERBOSE => true,
-		  	// CURLOPT_STDERR => fopen(storage_path('logs/curl.log'), 'w+') 
+		  	CURLOPT_HTTPHEADER => $this->prepare_headers() 
 		));
  
 		$response = curl_exec($curl);   
