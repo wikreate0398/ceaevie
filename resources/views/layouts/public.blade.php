@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <link rel="shortcut icon" href="/fav.ico">
     <title>Чаевые онлайн</title>
 
@@ -25,6 +27,7 @@
             scrollToBlock('#{{ request()->toggle }}'); 
         @endif
     });
+    var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content'); 
 </script> 
 <body class="{{ (@$page_data->page_type != 'home') ? 'no-home-page' : '' }} {{ (in_array(uri(2), ['registration', 'finish-registration']) or request()->getHost() != config('app.base_domain')) ? 'no-nav' : '' }}">
     <nav class="navbar navbar-expand-md bg-grey-red no-mob-bg-grey-red pt-45 justify-content-center">

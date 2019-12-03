@@ -19,7 +19,7 @@ class Invoice extends Component
 			'dueDate'  => $dueTime->format('Y-m-d').'T'.$dueTime->format('H:i:s').'Z',
 			'currency' => 'RUB' 
 		], $params); 
-
+		
 		return $this->http->post(self::CREATE_URI, $requestData);
 	} 
 }

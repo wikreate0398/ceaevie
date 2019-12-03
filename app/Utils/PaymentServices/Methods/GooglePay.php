@@ -4,36 +4,35 @@ namespace App\Utils\PaymentServices\Methods;
 
 class GooglePay extends PaymentMethod
 {
-	
-	function __construct()
+	private $paymentToken;
+
+	public function __construct($paymentToken, $invoiceId)
 	{
+		$this->paymentToken = $paymentToken;
+		$this->invoiceId    = $invoiceId;
+	}
+
+	public function pay()
+	{
+		$paymentResource = $this->createPaymentResource(); 
+		$this->paymentToolToken = $paymentResource['paymentToolToken'];
+		$this->paymentSession   = $paymentResource['paymentSession']; 
+		$this->createPayment();
 	}
 
 	public function createPaymentResource()
 	{
 		$data = [
 			'paymentTool' => [
-				'paymentToolType' => 'TokenizedCardData',
-				'provider'        => 'GooglePay',
+				'paymentToolType'   => 'TokenizedCardData',
+				'provider'          => 'GooglePay',
 				'gatewayMerchantID' => 'rbkmoney-test',
-				'paymentToken' => [
-					'cardInfo' => [
-						'cardNetwork'     => '',
-						'cardDetails'     => '',
-						'cardImageUri'    => '',
-						'cardDescription' => '',
-						'cardClass'       => ''
-					],
-					'paymentMethodToken' => [
-						'tokenizationType' => 'PAYMENT_GATEWAY',
-						'token' => []
-					]
-				]
+				'paymentToken'      => $this->paymentToken
 			],
 
 			'clientInfo' => [
 				'fingerprint' => random_str(10)
 			]
 		];
-	}
+	} 
 }

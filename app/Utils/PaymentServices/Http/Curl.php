@@ -18,7 +18,7 @@ class Curl
 	}
 
 	public function post($endpoint, $params)
-	{    
+	{     
 		$curl = curl_init(); 
 		curl_setopt_array($curl, array(
 			CURLOPT_URL => $endpoint,
@@ -30,9 +30,12 @@ class Curl
 		  	CURLOPT_CUSTOMREQUEST => "POST",
 		  	CURLOPT_POSTFIELDS => json_encode($params),
 		  	CURLOPT_HTTPHEADER => $this->prepare_headers(),
+		  	// CURLOPT_VERBOSE => true,
+		  	// CURLOPT_STDERR => fopen(storage_path('logs/curl.log'), 'w+') 
 		));
+ 
+		$response = curl_exec($curl);   
 
-		$response = curl_exec($curl);
 		$err = curl_error($curl); 
 		curl_close($curl);  
  

@@ -14,6 +14,7 @@ use App\Models\TipPercents;
 
 use App\Utils\PaymentServices\HandlePaymentMethod; 
 use App\Utils\PaymentServices\Methods\Visa;
+use App\Utils\PaymentServices\Methods\GooglePay; 
 use App\Utils\PaymentServices\Components\Invoice;  
 
 class PaymentController extends Controller
@@ -50,11 +51,39 @@ class PaymentController extends Controller
 	}
 
     public function payment2($lang, $code)
-    { 
+    {    
         $data     = QrCode::where('code', $code)->with('user')->firstOrFail();
         $payments = PaymentType::orderByPageUp()->visible()->get();
         return view('public.payment.make_payment2', compact(['data', 'payments']));
     } 
+
+    public function generateInvoice(Request $request, Invoice $invoice)
+    { 
+        $qrCode = QrCode::where('code', $request->code)->with('user')->first();  
+        $amount = toFloat($request->amount) . '00';  
+
+        $invoiceData = $invoice->create([
+            'amount'     => intval($amount),
+            'currency'   => 'RUB',
+            'product'    => 'Чаевые официанту ' . $qrCode->user->name, 
+            'cart'       => [
+                [
+                    'product' => 'Чаевые официанту ' . $qrCode->user->name,
+                    'quantity' => 1,
+                    'price'    => intval($amount),
+                    'taxMode'  => [
+                        'type' => 'InvoiceLineTaxVAT',
+                        'rate' => '0%'
+                    ]
+                ]
+            ],
+            'metadata' => [
+                'order_id' => uniqid()
+            ]
+        ]);  
+
+        return $invoiceData;
+    }
 
 	public function formPayment(Request $request)
     {
@@ -86,8 +115,8 @@ class PaymentController extends Controller
     	}
     } 
 
-    public function formPayment2(Request $request, Invoice $invoice, HandlePaymentMethod $paymentMethod)
-    {
+    public function formPayment2(Request $request, HandlePaymentMethod $paymentMethod)
+    {  
         \DB::beginTransaction();
         try {
             $this->checkFormData2($request); 
@@ -99,40 +128,27 @@ class PaymentController extends Controller
  
             $idOrder = $this->makeOrder($request);
             $order   = Tips::whereId($idOrder)->first();
-            
-            // $invoiceData = $invoice->create([
-            //     'amount'     => toFloat($order->total_amount),
-            //     'product'    => 'Чаевые официанту ' . $order->user->name, 
-            //     'cart'       => [
-            //         [
-            //             'product' => 'Чаевые официанту ' . $order->user->name,
-            //             'quantity' => 1,
-            //             'price'    => toFloat($order->total_amount),
-            //             'taxMode'  => [
-            //                 'type' => 'InvoiceLineTaxVAT',
-            //                 'rate' => '0%'
-            //             ]
-            //         ]
-            //     ],
-            //     'metadata' => [ 
-            //         'order_id'=> $order->rand
-            //     ]
-            // ]); 
-
+             
             if ($order->id_payment == 1)
-            {
-                $expiryDate = prepareExpiryDate($request->card['expiry_date'], true);
+            { 
                 $paymentData = $paymentMethod->handle(new Visa([
-                    'number'      => replaceSpaces($request->card['number']),
-                    'expiry_date' => $request->card['expiry_date'],
-                    'name'        => $request->card['name']
-                ]));
-
-                exit(print_arr($paymentData));
+                    'paymentToolToken' => $request->paymentToolToken,
+                    'paymentSession'   => $request->paymentSession, 
+                    'invoiceId'        => $request->invoiceId,
+                ]));  
             } 
             elseif ($order->id_payment == 2) 
             {
-                # code...
+                $googlePayResponse = json_decode($request->google_pay, true);
+exit(print_arr($googlePayResponse)); 
+                if (empty($googlePayResponse['paymentMethodToken']['token'])) 
+                {
+                    throw new \Exception("Произошла ошибка. Попробуйте повторить попытку сново.");
+                }
+
+                $paymentData = $paymentMethod->handle(new GooglePay($googlePayResponse, $request->invoiceId));     
+
+                 
             }
             else
             {
@@ -242,26 +258,9 @@ class PaymentController extends Controller
     private function checkFormData2($request)
     { 
         if (!$request->payment or !toFloat($request->price) or !$request->code or 
-            ($request->payment == 1 && !$request->card['name'] or !$request->card['number'] or !$request->card['expiry_date'])) 
+            ($request->payment == 1 && !$request->paymentToolToken or !$request->paymentSession)) 
         { 
             throw new \Exception("Укажите все обязательные поля"); 
-        }
-
-        if (!preg_match("/^\d{12,19}$/", replaceSpaces($request->card['number']))) 
-        {
-            throw new \Exception('Этот номер кредитной карты недействителен');  
-        }
-
-        $expiryDate = prepareExpiryDate($request->card['expiry_date'], true);
-
-        if (!preg_match("/^\d{2}\/(\d{2}|\d{4})$/", @$expiryDate[0] . '/' . @$expiryDate[1])) 
-        {
-            throw new \Exception('Некорректный срок действия карты'); 
-        }
-
-        if (date('y') > $expiryDate[1] or date('y') == $expiryDate[1] && date('m') > $expiryDate[0]) 
-        {
-            throw new \Exception('Срок действия карты не действителен');  
         } 
  
         if (!QrCode::where('code', $request->code)->count() or !PaymentType::visible()->whereId($request->payment)->count()) 

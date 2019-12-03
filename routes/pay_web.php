@@ -16,6 +16,7 @@ Route::group(['prefix' => '{lang}', 'namespace' => 'Pay', 'middleware' => ['lang
 
 	Route::post('form-payment', 'PaymentController@formPayment')->name('make_payment');
 	Route::post('form-payment2', 'PaymentController@formPayment2')->name('make_payment2');
-	 
+	Route::post('generate-invoice', 'PaymentController@generateInvoice')->name('generate_invoice');
+ 
 	Route::get('visa-webpay/{orderRand}', 'PaymentController@visaWebPay')->name('visa_webpay'); 
 }); 

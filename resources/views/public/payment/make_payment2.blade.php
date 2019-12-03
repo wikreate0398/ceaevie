@@ -157,13 +157,17 @@
                     function processPayment(paymentData) { 
 
                       $('#google_pay_input').val(JSON.stringify(paymentData));
-                      $('#make-payment-form').submit();
+
+                      generateInvoice(function(response){
+                        $('#invoiceId').val(response.invoice.id);
+                        $('#make-payment-form').submit();
+                      });
 
                       // @todo pass payment token to your gateway to process payment
                       //paymentToken = paymentData.paymentMethodData.tokenizationData.token;
                     }
               </script>
-              <!-- <script async src="https://pay.google.com/gp/p/js/pay.js" onload="onGooglePayLoaded()"></script> -->
+              <script async src="https://pay.google.com/gp/p/js/pay.js" onload="onGooglePayLoaded()"></script>  
 
 
                     <form class="ajax__submit" id="make-payment-form" action="{{ route('make_payment2', ['lang' => $lang]) }}">
@@ -202,6 +206,9 @@
                                         <div class="payment-sistems">
                                             <input type="hidden" name="payment" value="" id="payment_type">
                                             <input type="hidden" name="google_pay" id="google_pay_input">
+                                            <input type="hidden" name="paymentSession" id="paymentSession">
+                                            <input type="hidden" name="paymentToolToken" id="paymentToolToken">
+                                            <input type="hidden" name="invoiceId" id="invoiceId">
                                             @foreach($payments as $payment)
                                               @php
                                                 $id = '';
@@ -213,7 +220,7 @@
                                               <button type="button" 
                                                       id="{{ $id }}" 
                                                       class="btn btn-white" 
-                                                      onclick="setPaymentType(this, {{ $payment->id }})" -->
+                                                      onclick="setPaymentType(this, {{ $payment->id }})">
                                                 <img src="/uploads/payment_types/{{ $payment->image }}" alt="">
                                               </button>
                                             @endforeach 
@@ -222,84 +229,122 @@
                                 </div>
                             </div>
                              
-                              <div class="card-info" id="Checkout" style="display: none;">
-                                  <div class="row">
-                                      <div class="col-12 col-sm-12 col-md-12"> 
-                                          <div class="form-group">
-                                              <label or="NameOnCard">Имя влядельца <span class="req">*</span></label>
-                                              <input id="NameOnCard" name="card[name]" class="form-control" type="text" maxlength="255"> 
-                                          </div>
-                                          <div class="form-group">
-                                              <label for="CreditCardNumber">Номер карты <span class="req">*</span></label>
-                                              <input id="CreditCardNumber" name="card[number]" class="form-control" type="text"> 
-                                          </div>
+                            <div class="card-info" id="Checkout" style="display: none;">
+                                <div class="row">
+                                    <div class="col-12 col-sm-12 col-md-12"> 
+                                        <div class="form-group">
+                                            <label or="NameOnCard">Имя влядельца <span class="req">*</span></label>
+                                            <input id="NameOnCard" name="card[name]" class="form-control" type="text" maxlength="255"> 
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="CreditCardNumber">Номер карты <span class="req">*</span></label>
+                                            <input id="CreditCardNumber" name="card[number]" class="form-control" type="text"> 
+                                        </div>
 
-                                          <div class="row">
-                                              <div class="col-12">
-                                                  <div class="expiry-date-group form-group">
-                                                      <label for="ExpiryDate">Срок действия <span class="req">*</span></label>
-                                                      <input id="ExpiryDate" name="card[expiry_date]" class="form-control" type="text" placeholder="MM / YY" maxlength="7"> 
-                                                  </div>
-                                              </div> 
-                                          </div> 
-                                      </div>
-                                  </div>  
-                              </div>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="expiry-date-group form-group">
+                                                    <label for="ExpiryDate">Срок действия <span class="req">*</span></label>
+                                                    <input id="ExpiryDate" name="card[expiry_date]" class="form-control" type="text" placeholder="MM / YY" maxlength="7"> 
+                                                </div>
+                                            </div>
 
-                              <div class="row make-payment-btn text-center" style="margin-top: 50px; display: none;">
-                                  <div class="col-md-5">
-                                      <button type="button" class="btn btn-blue btn-v2 btn-back" onclick="toggleBlocks('.card-info, .make-payment-btn', '.payment-info');">Назад</button> 
+                                            <div class="col-6">
+                                                <div class="security-code-group form-group">
+                                                <label for="SecurityCode">Код безопасности <span class="req">*</span></label>
+                                                    <div class="input-container" >
+                                                        <input id="SecurityCode" name="card[cvc]" class="form-control" type="text" >
+                                                        <i id="cvc" class="fa fa-question-circle"></i>
+                                                    </div>
+                                                    <div class="cvc-preview-container two-card hide"> 
+                                                        <div class="visa-mc-dis-cvc-preview"></div>
+                                                    </div>
+                                                </div> 
+                                            </div>
+                                        </div> 
+                                    </div>
+                                </div>  
+                            </div>
 
-                                     <!--  <button type="button" class="btn btn-blue btn-v2 btn-next" onclick="toggleBlocks('.btn-next, .payment-info', '.btn-back, .card-info, .btn-pay');">Далее</button>  -->
-                                  </div>
-                                  <div class="col-md-7 btn-pay">
-                                      <button type="submit" class="btn btn-blue">Оплатить</button>
-                                  </div>
-                              </div>  
+                            <div class="row make-payment-btn text-center" style="margin-top: 50px; display: none;">
+                                <div class="col-md-5">
+                                    <button type="button" class="btn btn-blue btn-v2 btn-back" onclick="toggleBlocks('.card-info, .make-payment-btn', '.payment-info');">Назад</button> 
+
+                                   <!--  <button type="button" class="btn btn-blue btn-v2 btn-next" onclick="toggleBlocks('.btn-next, .payment-info', '.btn-back, .card-info, .btn-pay');">Далее</button>  -->
+                                </div>
+                                <div class="col-md-7 btn-pay">
+                                    <button type="button" onclick="visaPayment()" class="btn btn-blue">Оплатить</button>
+                                </div>
+                            </div>  
                     </form>  
  
-
-                    <script>
-                        function setPaymentType(button, idPayment) { 
-                          if (!$('#priceInput').val()) {
-                            alert('Укажите сумму');
-                            return;
-                          } 
-
-                          $('#payment_type').val(idPayment);
-
-                          $('.active-payment-type').removeClass('active-payment-type');
-                          $(button).addClass('active-payment-type'); 
-
-                          if (idPayment == 2) {
-                            onGooglePaymentButtonClicked(); 
-                          }else{
-                            checkPaymentForm();
-                          }
-                        }
-
-                        function setPrice(price) {
-                          document.getElementById("priceInput").value = price; 
-                        }
-
-                        function checkPaymentForm(){
-                          var idPayment = $('#payment_type').val();
-
-                          if (idPayment == 1) {
-                            toggleBlocks('.payment-info', '.card-info, .make-payment-btn');
-                          }
-
-                          // if($('#payment_type').val() && $('#priceInput').val()){  
-                          //     //$('#make-payment-form').submit();
-                          //     $('.make-payment-btn').show();
-                          //     toggleBlocks('.btn-back, .btn-pay', '.btn-next');
-                          // }else{
-                          //   if(!$('#priceInput').val()){
-
-                          //     $('.make-payment-btn').hide();
-                          //   }
-                          // } 
+                    <script src="https://rbkmoney.st/tokenizer.js"></script> 
+                    <script> 
+                      function setPaymentType(button, idPayment) { 
+                        if (!$('#priceInput').val()) {
+                          alert('Укажите сумму');
+                          return;
                         } 
+
+                        $('#payment_type').val(idPayment);
+
+                        $('.active-payment-type').removeClass('active-payment-type');
+                        $(button).addClass('active-payment-type'); 
+
+                        if (idPayment == 2) {
+                          onGooglePaymentButtonClicked(); 
+                        }else{
+                          checkPaymentForm();
+                        }
+                      }
+
+                      function setPrice(price) {
+                        document.getElementById("priceInput").value = price; 
+                      }
+
+                      function checkPaymentForm(){
+                        var idPayment = $('#payment_type').val();
+
+                        if (idPayment == 1) {
+                          toggleBlocks('.payment-info', '.card-info, .make-payment-btn');
+                        } 
+                      } 
+
+                      function generateInvoice(callback){
+                        $.ajax({
+                          url: '{{ route('generate_invoice', ['lang' => $lang]) }}',
+                          type: 'POST', 
+                          data: {'amount': $('#priceInput').val() , 'code': '{{ $data->code }}', _token: CSRF_TOKEN},
+                          headers: {'X-CSRF-TOKEN': CSRF_TOKEN},  
+                          dataType: 'json',
+                          beforeSend: function() {},
+                          error: function(XMLHttpRequest, textStatus, errorThrown) {},
+                          success: function(jsonResponse, textStatus, request) {
+                            callback(jsonResponse);
+                          },
+                          complete: function() {}
+                        });
+                      }
+
+                      function visaPayment() {
+                        generateInvoice(function(response){
+                          $('#invoiceId').val(response.invoice.id);
+                          Tokenizer.setAccessToken(response.invoiceAccessToken.payload);
+                          Tokenizer.card.createToken({
+                              paymentToolType: "CardData",
+                              cardHolder: $('#NameOnCard').val(),
+                              cardNumber: $('#CreditCardNumber').val().split(" ").join(""),
+                              expDate: $('#ExpiryDate').val(), 
+                              cvv: $('#SecurityCode').val()
+                          }, (token) => { 
+                            $('#paymentSession').val(token.paymentSession);
+                            $('#paymentToolToken').val(token.paymentToolToken);
+                            $('#make-payment-form').submit();
+                          }, (error) => {
+                            alert('При обработке данных возникла ошибка. Попробуйде перезагрузить страницу и повторить операцию.'); 
+                          });
+                        }); 
+                      } 
                     </script>
                 </div>
             </div>

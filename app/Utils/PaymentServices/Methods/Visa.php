@@ -3,30 +3,18 @@
 namespace App\Utils\PaymentServices\Methods; 
   
 class Visa extends PaymentMethod
-{ 
-	private $cardCredentials = [];
-	
-	public function __construct($cardCredentials)
+{    
+	public function __construct($paymentData)
 	{
 		parent::__construct();
-		$this->cardCredentials = $cardCredentials;
+
+		$this->invoiceId        = $paymentData['invoiceId'];
+		$this->paymentToolToken = $paymentData['paymentToolToken'];
+		$this->paymentSession   = $paymentData['paymentSession'];
 	}
 
 	public function pay()
-	{  
-		$expiryDate = prepareExpiryDate($this->cardCredentials['expiry_date'], true);
-
-		return $this->http->post('https://api.rbk.money/v2/processing/payment-resources', [  
-			'paymentTool' => [
-				'paymentToolType' => 'CardData',
-				'cardNumber' => $this->cardCredentials['number'],
-				'expDate'    => $expiryDate[0] . '/' . $expiryDate[1],
-				'cardHolder' => $this->cardCredentials['name']
-			],
-
-			'clientInfo' => [
-				'fingerprint' => uniqid()
-			]
-		]);
+	{   
+		return $this->createPayment();
 	} 
 }
