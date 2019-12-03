@@ -4,12 +4,12 @@ namespace App\Utils\PaymentServices\Methods;
 
 class GooglePay extends PaymentMethod
 {
-	private $paymentToken;
+	private $paymentData;
 
-	public function __construct($paymentToken, $invoiceId)
+	public function __construct($paymentData, $invoiceId)
 	{
-		$this->paymentToken = $paymentToken;
-		$this->invoiceId    = $invoiceId;
+		$this->paymentData = $paymentData;
+		$this->invoiceId   = $invoiceId;
 	}
 
 	public function pay()
@@ -27,7 +27,11 @@ class GooglePay extends PaymentMethod
 				'paymentToolType'   => 'TokenizedCardData',
 				'provider'          => 'GooglePay',
 				'gatewayMerchantID' => 'rbkmoney-test',
-				'paymentToken'      => $this->paymentToken
+				'paymentToken'      => [
+					'cardInfo'           => $this->paymentData['info'],
+					'paymentMethodToken' => 'PAYMENT_GATEWAY',
+					'token'              => $this->paymentData['tokenizationData']['token']
+				]
 			],
 
 			'clientInfo' => [

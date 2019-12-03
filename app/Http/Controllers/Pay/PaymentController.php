@@ -140,15 +140,15 @@ class PaymentController extends Controller
             elseif ($order->id_payment == 2) 
             {
                 $googlePayResponse = json_decode($request->google_pay, true);
-exit(print_arr($googlePayResponse)); 
-                if (empty($googlePayResponse['paymentMethodToken']['token'])) 
+ 
+                if (empty($googlePayResponse['paymentMethodData']['tokenizationData']['token'])) 
                 {
                     throw new \Exception("Произошла ошибка. Попробуйте повторить попытку сново.");
                 }
 
-                $paymentData = $paymentMethod->handle(new GooglePay($googlePayResponse, $request->invoiceId));     
+                $paymentData = $paymentMethod->handle(new GooglePay($googlePayResponse['paymentMethodData'], $request->invoiceId));     
 
-
+                exit(print_arr($paymentData)); 
             }
             else
             {
