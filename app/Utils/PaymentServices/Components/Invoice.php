@@ -25,6 +25,6 @@ class Invoice extends Component
 
 	public function get($id)
 	{ 
-		return $this->http->get('https://api.rbk.money/v2/processing/invoices/' . $id, $requestData);
+		return $this->http->get('https://api.rbk.money/v2/processing/invoices/' . $id);
 	} 
 }
