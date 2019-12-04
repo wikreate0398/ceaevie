@@ -5,13 +5,13 @@ namespace App\Utils\PaymentServices\Methods;
 class GooglePay extends PaymentMethod
 {
 	private $paymentData;
-
-	public function __construct($paymentData, $invoiceId)
+ 
+	public function __construct($paymentData, $invoiceId, $invoiceToken)
 	{
-		parent::__construct();
+		parent::__construct($invoiceToken);
 		
-		$this->paymentData = $paymentData;
-		$this->invoiceId   = $invoiceId;
+		$this->paymentData  = $paymentData;
+		$this->invoiceId    = $invoiceId; 
 	}
 
 	public function pay()

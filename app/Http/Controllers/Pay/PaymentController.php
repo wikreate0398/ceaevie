@@ -139,17 +139,14 @@ class PaymentController extends Controller
             } 
             elseif ($order->id_payment == 2) 
             {
-                $googlePayResponse = json_decode($request->google_pay, true);
-
-                $getInvoice = $invoice->get($request->invoiceId);
-                exit(print_arr($getInvoice)); 
+                $googlePayResponse = json_decode($request->google_pay, true); 
 
                 if (empty($googlePayResponse['paymentMethodData']['tokenizationData']['token'])) 
                 {
                     throw new \Exception("Произошла ошибка. Попробуйте повторить попытку сново.");
                 }
 
-                $paymentData = $paymentMethod->handle(new GooglePay($googlePayResponse['paymentMethodData'], $request->invoiceId));     
+                $paymentData = $paymentMethod->handle(new GooglePay($googlePayResponse['paymentMethodData'], $request->invoiceId, $request->invoiceToken));     
 
                 exit(print_arr($paymentData)); 
             }
@@ -261,8 +258,8 @@ class PaymentController extends Controller
     private function checkFormData2($request)
     { 
         if (!$request->payment or !toFloat($request->price) or !$request->code or 
-            $request->payment == 1 && (!$request->paymentToolToken or !$request->paymentSession)
-            or $request->payment == 2 && !$request->google_pay) 
+            $request->payment == 1 && (!$request->paymentToolToken or !$request->paymentSession or !$request->invoiceId)
+            or $request->payment == 2 && (!$request->google_pay or !$request->invoiceToken or !$request->invoiceId)) 
         { 
             throw new \Exception("Укажите все обязательные поля"); 
         } 

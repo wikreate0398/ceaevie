@@ -56,6 +56,7 @@
                                             <input type="hidden" name="paymentSession" id="paymentSession">
                                             <input type="hidden" name="paymentToolToken" id="paymentToolToken">
                                             <input type="hidden" name="invoiceId" id="invoiceId">
+                                            <input type="hidden" name="invoiceToken" id="invoiceToken">
                                             @foreach($payments as $payment)
                                               @php
                                                 $id = '';
@@ -175,7 +176,7 @@
 
                       function visaPayment() {
                         generateInvoice(function(response){
-                          $('#invoiceId').val(response.invoice.id);
+                          $('#invoiceId').val(response.invoice.id); 
                           Tokenizer.setAccessToken(response.invoiceAccessToken.payload);
                           Tokenizer.card.createToken({
                               paymentToolType: "CardData",
@@ -336,6 +337,7 @@
                       $('#google_pay_input').val(JSON.stringify(paymentData));
 
                       generateInvoice(function(response){
+                        $('#invoiceToken').val(response.invoiceAccessToken.payload);
                         $('#invoiceId').val(response.invoice.id);
                         $('#make-payment-form').submit();
                       });

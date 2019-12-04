@@ -15,10 +15,10 @@ abstract class PaymentMethod
 	protected $paymentToolToken;
 
 	protected $paymentSession;
-
-	public function __construct() 
+  
+	public function __construct($invoiceToken = false) 
 	{ 
-		$this->http = new Curl;  
+		$this->http = new Curl($invoiceToken);  
 	} 
 
 	public function createPayment()
