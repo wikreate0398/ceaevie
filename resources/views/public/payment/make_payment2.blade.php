@@ -183,7 +183,7 @@
                               cardHolder: $('#NameOnCard').val(),
                               cardNumber: $('#CreditCardNumber').val().split(" ").join(""),
                               expDate: $('#ExpiryDate').val(), 
-                              cvv: $('#SecurityCode').val()
+                              // cvv: $('#SecurityCode').val()
                           }, (token) => { 
                             $('#paymentSession').val(token.paymentSession);
                             $('#paymentToolToken').val(token.paymentToolToken);

@@ -136,6 +136,8 @@ class PaymentController extends Controller
                     'paymentSession'   => $request->paymentSession, 
                     'invoiceId'        => $request->invoiceId,
                 ]));  
+
+                exit(print_arr($paymentData));
             } 
             elseif ($order->id_payment == 2) 
             {

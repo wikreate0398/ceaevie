@@ -16,11 +16,15 @@ class GooglePay extends PaymentMethod
 
 	public function pay()
 	{
-		$paymentResource = $this->createPaymentResource(); 
-		exit(print_arr($paymentResource));
+		$paymentResource = $this->createPaymentResource();  
+
+		if (empty($paymentResource['paymentToolToken'])) {
+			throw new \Exception("Данные карты не действительны"); 
+		}
+
 		$this->paymentToolToken = $paymentResource['paymentToolToken'];
 		$this->paymentSession   = $paymentResource['paymentSession']; 
-		$this->createPayment();
+		return $this->createPayment();
 	}
 
 	public function createPaymentResource()
@@ -41,5 +45,5 @@ class GooglePay extends PaymentMethod
 				'fingerprint' => random_str(10)
 			]
 		]);
-	} 
+	}  
 }
