@@ -17,6 +17,7 @@ class GooglePay extends PaymentMethod
 	public function pay()
 	{
 		$paymentResource = $this->createPaymentResource(); 
+		exit(print_arr($paymentResource));
 		$this->paymentToolToken = $paymentResource['paymentToolToken'];
 		$this->paymentSession   = $paymentResource['paymentSession']; 
 		$this->createPayment();
