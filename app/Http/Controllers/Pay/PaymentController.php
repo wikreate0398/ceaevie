@@ -115,7 +115,7 @@ class PaymentController extends Controller
     	}
     } 
 
-    public function formPayment2(Request $request, HandlePaymentMethod $paymentMethod)
+    public function formPayment2(Request $request, HandlePaymentMethod $paymentMethod, Invoice $invoice)
     {  
         \DB::beginTransaction();
         try {
@@ -140,7 +140,10 @@ class PaymentController extends Controller
             elseif ($order->id_payment == 2) 
             {
                 $googlePayResponse = json_decode($request->google_pay, true);
- 
+
+                $getInvoice = $invoice->get($request->invoiceId);
+                exit(print_arr($getInvoice)); 
+
                 if (empty($googlePayResponse['paymentMethodData']['tokenizationData']['token'])) 
                 {
                     throw new \Exception("Произошла ошибка. Попробуйте повторить попытку сново.");
