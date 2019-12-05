@@ -51,82 +51,17 @@
 
                                     <div class="col-12 text-center">
                                         <div class="payment-sistems">
-                                            <input type="hidden" name="payment" value="" id="payment_type">
-                                            <input type="hidden" name="google_pay" id="google_pay_input">
-                                            <input type="hidden" name="paymentSession" id="paymentSession">
-                                            <input type="hidden" name="paymentToolToken" id="paymentToolToken">
                                             <input type="hidden" name="invoiceId" id="invoiceId">
-                                            <input type="hidden" name="invoiceToken" id="invoiceToken">
-                                            @foreach($payments as $payment)
-                                              @php
-                                                $id = '';
-                                                $onclick="return false;";
-                                                if($payment->id == '2'){
-                                                  $id = 'google_pay_btn'; 
-                                                }
-                                              @endphp
-                                              <button type="button" 
-                                                      id="{{ $id }}" 
-                                                      class="btn btn-white" 
-                                                      onclick="setPaymentType(this, {{ $payment->id }})">
-                                                <img src="/uploads/payment_types/{{ $payment->image }}" alt="">
-                                              </button>
-                                            @endforeach 
                                          </div>
+                                         <button type="button" class="btn btn-blue" style="width: auto;" onclick="makePayment()">Оплатить</button>
                                     </div>
                                 </div>
                             </div>
-                             
-                            <div class="card-info" id="Checkout" style="display: none;">
-                                <div class="row">
-                                    <div class="col-12 col-sm-12 col-md-12"> 
-                                        <div class="form-group">
-                                            <label or="NameOnCard">Имя влядельца <span class="req">*</span></label>
-                                            <input id="NameOnCard" name="card[name]" class="form-control" type="text" maxlength="255"> 
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="CreditCardNumber">Номер карты <span class="req">*</span></label>
-                                            <input id="CreditCardNumber" name="card[number]" class="form-control" type="text"> 
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <div class="expiry-date-group form-group">
-                                                    <label for="ExpiryDate">Срок действия <span class="req">*</span></label>
-                                                    <input id="ExpiryDate" name="card[expiry_date]" class="form-control" type="text" placeholder="MM / YY" maxlength="7"> 
-                                                </div>
-                                            </div>
-
-                                            <div class="col-6">
-                                                <div class="security-code-group form-group">
-                                                <label for="SecurityCode">Код безопасности <span class="req">*</span></label>
-                                                    <div class="input-container" >
-                                                        <input id="SecurityCode" name="card[cvc]" class="form-control" type="text" >
-                                                        <i id="cvc" class="fa fa-question-circle"></i>
-                                                    </div>
-                                                    <div class="cvc-preview-container two-card hide"> 
-                                                        <div class="visa-mc-dis-cvc-preview"></div>
-                                                    </div>
-                                                </div> 
-                                            </div>
-                                        </div> 
-                                    </div>
-                                </div>  
-                            </div>
-
-                            <div class="row make-payment-btn text-center" style="margin-top: 50px; display: none;">
-                                <div class="col-md-5">
-                                    <button type="button" class="btn btn-blue btn-v2 btn-back" onclick="toggleBlocks('.card-info, .make-payment-btn', '.payment-info');">Назад</button> 
-
-                                   <!--  <button type="button" class="btn btn-blue btn-v2 btn-next" onclick="toggleBlocks('.btn-next, .payment-info', '.btn-back, .card-info, .btn-pay');">Далее</button>  -->
-                                </div>
-                                <div class="col-md-7 btn-pay">
-                                    <button type="button" onclick="visaPayment()" class="btn btn-blue">Оплатить</button>
-                                </div>
-                            </div>  
+                              
                     </form>  
+
+                    <script src="https://checkout.rbk.money/checkout.js"></script>
  
-                    <script src="https://rbkmoney.st/tokenizer.js"></script> 
                     <script> 
                       function setPaymentType(button, idPayment) { 
                         if (!$('#priceInput').val()) {
@@ -174,181 +109,42 @@
                         });
                       }
 
-                      function visaPayment() {
-                        generateInvoice(function(response){
-                          $('#invoiceId').val(response.invoice.id); 
-                          Tokenizer.setAccessToken(response.invoiceAccessToken.payload);
-                          Tokenizer.card.createToken({
-                              paymentToolType: "CardData",
-                              cardHolder: $('#NameOnCard').val(),
-                              cardNumber: $('#CreditCardNumber').val().split(" ").join(""),
-                              expDate: $('#ExpiryDate').val(), 
-                              // cvv: $('#SecurityCode').val()
-                          }, (token) => { 
-                            $('#paymentSession').val(token.paymentSession);
-                            $('#paymentToolToken').val(token.paymentToolToken);
-                            $('#make-payment-form').submit();
-                          }, (error) => {
-                            alert('При обработке данных возникла ошибка. Попробуйде перезагрузить страницу и повторить операцию.'); 
-                          });
+                      function makePayment(){ 
+                        $('#make-payment-form').closest('.loader-v2-inner').addClass('load-page');
+                        generateInvoice(function(jsonResponse){  
+                          $('#invoiceId').val(jsonResponse.invoice.id);
+                          const checkout = RbkmoneyCheckout.configure({
+                            invoiceID: jsonResponse.invoice.id,
+                            invoiceAccessToken: jsonResponse.invoiceAccessToken.payload,
+                            name: 'Chaevie Online',
+                            description: jsonResponse.invoice.product,
+                            applePay: true,
+                            googlePay: true,
+                            samsungPay: false,
+                            bankCard:true,
+                            opened: function () {
+                              $('#make-payment-form').closest('.loader-v2-inner').removeClass('load-page');
+                              console.log('Checkout opened');
+                            },
+                            closed: function () {
+                              console.log('Checkout closed');
+                            },
+                            finished: function () {
+                              $('#make-payment-form').submit();
+                            }
+                          });  
+
+                          checkout.open();
                         }); 
-                      } 
+                      }
+
+                      window.addEventListener('popstate', function () {
+                        checkout.close();
+                      });
+                       
                     </script>
 
-                    <script>
-                    /**
-                     https://developers.google.com/pay/api/web/guides/tutorial#apiversion
-                     */
-                    const baseRequest = {
-                      apiVersion: 1,
-                      apiVersionMinor: 0
-                    }; 
-                    const allowedCardNetworks = ["AMEX", "DISCOVER", "INTERAC", "JCB", "MASTERCARD", "VISA"]; 
-
-                    const allowedCardAuthMethods = ["PAN_ONLY", "CRYPTOGRAM_3DS"];
-
-                    var allowedPaymentMethods = ['CARD', 'TOKENIZED_CARD'];
- 
-                    const tokenizationSpecification = {
-                      type: 'PAYMENT_GATEWAY',
-                      parameters: {
-                        'gateway': 'rbkmoney',
-                        'gatewayMerchantId': 'rbkmoney-test'
-                      }
-                    };
- 
-                    const baseCardPaymentMethod = {
-                      type: 'CARD',
-                      parameters: {
-                        allowedAuthMethods: allowedCardAuthMethods,
-                        allowedCardNetworks: allowedCardNetworks
-                      }
-                    };
- 
-                    const cardPaymentMethod = Object.assign(
-                      {},
-                      baseCardPaymentMethod,
-                      {
-                        tokenizationSpecification: tokenizationSpecification
-                      }
-                    );
- 
-                    let paymentsClient = null;
- 
-                    function getGoogleIsReadyToPayRequest() {
-                      return Object.assign(
-                          {},
-                          baseRequest,
-                          {
-                            allowedPaymentMethods: [baseCardPaymentMethod]
-                          }
-                      );
-                    }
- 
-                    function getGooglePaymentDataRequest() {
-                      const paymentDataRequest = Object.assign({}, baseRequest);
-                      paymentDataRequest.allowedPaymentMethods = [cardPaymentMethod];
-                      paymentDataRequest.transactionInfo = getGoogleTransactionInfo();
-                      paymentDataRequest.merchantInfo = {
-                        // @todo a merchant ID is available for a production environment after approval by Google
-                        // See {@link https://developers.google.com/pay/api/web/guides/test-and-deploy/integration-checklist|Integration checklist}
-                        // merchantId: '01234567890123456789',
-                        merchantName: 'Example Merchant'
-                      };
-                      return paymentDataRequest;
-                    }
- 
-                    function getGooglePaymentsClient() {
-                      if ( paymentsClient === null ) {
-                        paymentsClient = new google.payments.api.PaymentsClient({environment: 'TEST'});
-                      }
-                      return paymentsClient;
-                    }
- 
-                    function onGooglePayLoaded() {
-                      const paymentsClient = getGooglePaymentsClient();
-                      paymentsClient.isReadyToPay(getGoogleIsReadyToPayRequest())
-                          .then(function(response) {
-                            if (response.result) {
-                              // addGooglePayButton();
-                              // @todo prefetch payment data to improve performance after confirming site functionality
-                              // prefetchGooglePaymentData();
-                            }
-                          })
-                          .catch(function(err) {
-                            $('#google_pay_btn').hide();
-                            // show error in developer console for debugging
-                            console.error(err);
-                          });
-                    }
- 
-                    function addGooglePayButton() {
-                      const paymentsClient = getGooglePaymentsClient();
-                      const button =
-                          paymentsClient.createButton({onClick: onGooglePaymentButtonClicked});
-                      document.getElementById('container').appendChild(button);
-                    }
- 
-                    function getGoogleTransactionInfo() {
-                      return {
-                        countryCode: 'RU',
-                        currencyCode: 'RUB',
-                        totalPriceStatus: 'FINAL', 
-                        totalPrice: $('#priceInput').val()
-                      };
-                    }
- 
-                    function prefetchGooglePaymentData() {
-                      const paymentDataRequest = getGooglePaymentDataRequest();
-                      // transactionInfo must be set but does not affect cache
-                      paymentDataRequest.transactionInfo = {
-                        totalPriceStatus: 'NOT_CURRENTLY_KNOWN',
-                        currencyCode: 'USD'
-                      };
-                      const paymentsClient = getGooglePaymentsClient();
-                      paymentsClient.prefetchPaymentData(paymentDataRequest);
-                    }
-
-                    /**
-                     * Show Google Pay payment sheet when Google Pay payment button is clicked
-                     */
-                    function onGooglePaymentButtonClicked() {
-                      const paymentDataRequest = getGooglePaymentDataRequest();
-                      paymentDataRequest.transactionInfo = getGoogleTransactionInfo();
-
-                      const paymentsClient = getGooglePaymentsClient();
-                      paymentsClient.loadPaymentData(paymentDataRequest)
-                          .then(function(paymentData) { 
-                            // handle the response
-                            processPayment(paymentData);
-                          })
-                          .catch(function(err) {
-                            // show error in developer console for debugging
-                            console.error(err);
-                          });
-                    }
-
-                    /**
-                     * Process payment data returned by the Google Pay API
-                     *
-                     * @param {object} paymentData response from Google Pay API after user approves payment
-                     * @see {@link https://developers.google.com/pay/api/web/reference/object#PaymentData|PaymentData object reference}
-                     */
-                    function processPayment(paymentData) { 
-
-                      $('#google_pay_input').val(JSON.stringify(paymentData));
-
-                      generateInvoice(function(response){
-                        $('#invoiceToken').val(response.invoiceAccessToken.payload);
-                        $('#invoiceId').val(response.invoice.id);
-                        $('#make-payment-form').submit();
-                      });
-
-                      // @todo pass payment token to your gateway to process payment
-                      //paymentToken = paymentData.paymentMethodData.tokenizationData.token;
-                    }
-              </script>
-              <script async src="https://pay.google.com/gp/p/js/pay.js" onload="onGooglePayLoaded()"></script>  
+                    
                 </div>
             </div>
         </div>

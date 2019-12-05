@@ -47,6 +47,11 @@ class PaymentController extends Controller
 	{ 
 		$data     = QrCode::where('code', $code)->with('user')->firstOrFail();
 		$payments = PaymentType::orderByPageUp()->visible()->get();
+
+        if($data->code == '138-1'){
+            return view('public.payment.make_payment2', compact(['data', 'payments']));
+        }
+
 		return view('public.payment.make_payment', compact(['data', 'payments']));
 	}
 
@@ -129,35 +134,39 @@ class PaymentController extends Controller
             $idOrder = $this->makeOrder($request);
             $order   = Tips::whereId($idOrder)->first();
 
-            if ($order->id_payment == 1)
-            { 
-                $paymentData = $paymentMethod->handle(new Visa([
-                    'paymentToolToken' => $request->paymentToolToken,
-                    'paymentSession'   => $request->paymentSession, 
-                    'invoiceId'        => $request->invoiceId,
-                ]));  
+            // if ($order->id_payment == 1)
+            // { 
+            //     $paymentData = $paymentMethod->handle(new Visa([
+            //         'paymentToolToken' => $request->paymentToolToken,
+            //         'paymentSession'   => $request->paymentSession, 
+            //         'invoiceId'        => $request->invoiceId,
+            //     ]));  
 
-                exit(print_arr($paymentData));
-            } 
-            elseif ($order->id_payment == 2) 
-            {
-                $googlePayResponse = json_decode($request->google_pay, true); 
+            //     exit(print_arr($paymentData));
+            // } 
+            // elseif ($order->id_payment == 2) 
+            // {
+            //     $googlePayResponse = json_decode($request->google_pay, true); 
 
-                if (empty($googlePayResponse['paymentMethodData']['tokenizationData']['token'])) 
-                {
-                    throw new \Exception("Произошла ошибка. Попробуйте повторить попытку сново.");
-                }
+            //     if (empty($googlePayResponse['paymentMethodData']['tokenizationData']['token'])) 
+            //     {
+            //         throw new \Exception("Произошла ошибка. Попробуйте повторить попытку сново.");
+            //     }
 
-                $paymentData = $paymentMethod->handle(new GooglePay($googlePayResponse['paymentMethodData'], $request->invoiceId, $request->invoiceToken));     
+            //     $paymentData = $paymentMethod->handle(new GooglePay($googlePayResponse['paymentMethodData'], $request->invoiceId, $request->invoiceToken));     
 
-                exit(print_arr($paymentData)); 
-            }
-            else
-            {
-                throw new \Exception("Данные метод оплаты не работает. Попробуйте оплатить с помощью VISA"); 
-            } 
+            //     exit(print_arr($paymentData)); 
+            // }
+            // else
+            // {
+            //     throw new \Exception("Данные метод оплаты не работает. Попробуйте оплатить с помощью VISA"); 
+            // } 
 
             \DB::commit();
+
+            return \JsonResponse::success([
+                'redirect' => route('visaCallback', ['lang' => lang()])
+            ], 'Оплата прошла успешно');
         } catch (\Exception $e) {
             \DB::rollback();
             return \JsonResponse::error(['messages' => $e->getMessage()]);
@@ -236,6 +245,7 @@ class PaymentController extends Controller
     		'id_payment'          => $request->payment,
             'id_qrcode'           => $qrCode->id,
     		'rand'                => generate_id(7),
+            'id_invoice'          => $request->invoiceId ?: '',
     		'total_amount'        => $totalAmount,
             'amount'              => $location_amount ? $amount - $location_amount : $amount,
             'location_fee'        => $location_fee,
@@ -259,9 +269,7 @@ class PaymentController extends Controller
 
     private function checkFormData2($request)
     { 
-        if (!$request->payment or !toFloat($request->price) or !$request->code or 
-            $request->payment == 1 && (!$request->paymentToolToken or !$request->paymentSession or !$request->invoiceId)
-            or $request->payment == 2 && (!$request->google_pay or !$request->invoiceToken or !$request->invoiceId)) 
+        if (!toFloat($request->price) or !$request->code or !$request->invoiceId) 
         { 
             throw new \Exception("Укажите все обязательные поля"); 
         } 

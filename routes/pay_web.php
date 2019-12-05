@@ -1,8 +1,7 @@
 <?php
- 
 
 Route::post('webhook/visa', 'Pay\PaymentWebhookController@visa');  
-Route::post('webhook/v2', 'Pay\PaymentWebhookV2Controller@handle');  
+Route::post('webhook/v2', 'Pay\PaymentWebhook2Controller@handle');  
 
 Route::any('visa-callback', 'Pay\PaymentController@visaCallback')->name('visa_callback'); 
 
