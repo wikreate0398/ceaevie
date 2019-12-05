@@ -274,7 +274,7 @@ class PaymentController extends Controller
             throw new \Exception("Укажите все обязательные поля"); 
         } 
  
-        if (!QrCode::where('code', $request->code)->count() or !PaymentType::visible()->whereId($request->payment)->count()) 
+        if (!QrCode::where('code', $request->code)->count()) 
         {
             throw new \Exception("Во время обработки данных возникла ошибка");   
         } 
