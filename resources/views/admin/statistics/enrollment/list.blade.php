@@ -99,7 +99,9 @@
                                 @endif
 							</td> 
 							<td class="nw" align="center">
-								<img src="/uploads/payment_types/{{ $item->payment->image_black_white }}" style="height: 15px;" alt=""> 
+								@if(@$item->payment)
+									<img src="/uploads/payment_types/{{ $item->payment->image_black_white }}" style="height: 15px;" alt=""> 
+								@endif
 							</td> 
 							<td style="width: 5px; white-space: nowrap"> 
 								<a class="btn btn-danger btn-xs" data-toggle="modal" href="#deleteModal_{{ $table }}_{{ $item['id'] }}"><i class="fa fa-trash-o "></i></a>
