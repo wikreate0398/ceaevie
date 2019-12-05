@@ -53,9 +53,11 @@ iwIDAQAB
 		    echo json_encode(['message' => 'Webhook notification signature mismatch']); 
 		    exit();
 		}
- 
+ 	
+ 		\Log::channel('payment')->info($this->request['eventType'] . 'asd');
+
 		if (!empty($this->request['eventType'])) {
-  
+  	
 			switch ($this->request['eventType']) {
 				case 'PaymentProcessed ':
 					$this->paymentProcessed();
