@@ -128,7 +128,7 @@ class PaymentController extends Controller
  
             $idOrder = $this->makeOrder($request);
             $order   = Tips::whereId($idOrder)->first();
-             
+
             if ($order->id_payment == 1)
             { 
                 $paymentData = $paymentMethod->handle(new Visa([

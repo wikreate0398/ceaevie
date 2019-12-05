@@ -200,7 +200,7 @@
                      https://developers.google.com/pay/api/web/guides/tutorial#apiversion
                      */
                     const baseRequest = {
-                      apiVersion: 2,
+                      apiVersion: 1,
                       apiVersionMinor: 0
                     }; 
                     const allowedCardNetworks = ["AMEX", "DISCOVER", "INTERAC", "JCB", "MASTERCARD", "VISA"]; 
