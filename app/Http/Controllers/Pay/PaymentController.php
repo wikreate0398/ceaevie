@@ -130,43 +130,38 @@ class PaymentController extends Controller
         }
 
         try {
- 
+            
             $idOrder = $this->makeOrder($request);
             $order   = Tips::whereId($idOrder)->first();
 
-            // if ($order->id_payment == 1)
-            // { 
-            //     $paymentData = $paymentMethod->handle(new Visa([
-            //         'paymentToolToken' => $request->paymentToolToken,
-            //         'paymentSession'   => $request->paymentSession, 
-            //         'invoiceId'        => $request->invoiceId,
-            //     ]));  
+            $invoiceData = $invoice->create([
+                'amount'     => intval($order->total_amount . '00'),
+                'currency'   => 'RUB',
+                'product'    => 'Чаевые официанту ' . $order->user->name, 
+                'cart'       => [
+                    [
+                        'product' => 'Чаевые официанту ' . $order->user->name,
+                        'quantity' => 1,
+                        'price'    => intval($order->total_amount . '00'),
+                        'taxMode'  => [
+                            'type' => 'InvoiceLineTaxVAT',
+                            'rate' => '0%'
+                        ]
+                    ]
+                ],
+                'metadata' => [
+                    'order_id' => uniqid()
+                ]
+            ]);   
 
-            //     exit(print_arr($paymentData));
-            // } 
-            // elseif ($order->id_payment == 2) 
-            // {
-            //     $googlePayResponse = json_decode($request->google_pay, true); 
-
-            //     if (empty($googlePayResponse['paymentMethodData']['tokenizationData']['token'])) 
-            //     {
-            //         throw new \Exception("Произошла ошибка. Попробуйте повторить попытку сново.");
-            //     }
-
-            //     $paymentData = $paymentMethod->handle(new GooglePay($googlePayResponse['paymentMethodData'], $request->invoiceId, $request->invoiceToken));     
-
-            //     exit(print_arr($paymentData)); 
-            // }
-            // else
-            // {
-            //     throw new \Exception("Данные метод оплаты не работает. Попробуйте оплатить с помощью VISA"); 
-            // } 
+            $order->id_invoice = $invoiceData['invoice']['id'];
+            $order->save();
 
             \DB::commit();
 
             return \JsonResponse::success([
-                'redirect' => route('visa_callback', ['lang' => lang()])
-            ], 'Оплата прошла успешно');
+                'redirect' => 'https://checkout.rbk.money/v1/checkout.html?invoiceID='.$order->id_invoice.'&invoiceAccessToken='.$invoiceData['invoiceAccessToken']['payload'].'&name=Chaevie%20Online&description=Чаевые официанту '.$order->user->name.'&applePay=true&googlePay=true&samsungPay=false&bankCard=true&popupMode=true&locale=auto'
+            ]);
         } catch (\Exception $e) {
             \DB::rollback();
             return \JsonResponse::error(['messages' => $e->getMessage()]);
@@ -244,8 +239,7 @@ class PaymentController extends Controller
             'id_location'         => $qrCode->id_location,
     		'id_payment'          => $request->payment ?: '',
             'id_qrcode'           => $qrCode->id,
-    		'rand'                => generate_id(7),
-            'id_invoice'          => $request->invoiceId ?: '',
+    		'rand'                => generate_id(7), 
     		'total_amount'        => $totalAmount,
             'amount'              => $location_amount ? $amount - $location_amount : $amount,
             'location_fee'        => $location_fee,
@@ -269,7 +263,7 @@ class PaymentController extends Controller
 
     private function checkFormData2($request)
     { 
-        if (!toFloat($request->price) or !$request->code or !$request->invoiceId) 
+        if (!toFloat($request->price) or !$request->code) 
         { 
             throw new \Exception("Укажите все обязательные поля"); 
         } 

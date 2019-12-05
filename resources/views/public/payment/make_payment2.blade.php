@@ -49,11 +49,8 @@
                                                 style="margin-top: 10px; display: none"></textarea>
                                     </div>
 
-                                    <div class="col-12 text-center">
-                                        <div class="payment-sistems">
-                                            <input type="hidden" name="invoiceId" id="invoiceId">
-                                         </div>
-                                         <button type="button" class="btn btn-blue" style="width: auto;" onclick="makePayment()">Оплатить</button>
+                                    <div class="col-12 text-center"> 
+                                         <button type="submit" class="btn btn-blue" style="width: auto;">Оплатить</button>
                                     </div>
                                 </div>
                             </div>
@@ -109,38 +106,38 @@
                         });
                       }
 
-                      function makePayment(){ 
-                        $('#make-payment-form').closest('.loader-v2-inner').addClass('load-page');
-                        generateInvoice(function(jsonResponse){  
-                          $('#invoiceId').val(jsonResponse.invoice.id);
-                          const checkout = RbkmoneyCheckout.configure({
-                            invoiceID: jsonResponse.invoice.id,
-                            invoiceAccessToken: jsonResponse.invoiceAccessToken.payload,
-                            name: 'Chaevie Online',
-                            description: jsonResponse.invoice.product,
-                            applePay: true,
-                            googlePay: true,
-                            samsungPay: false,
-                            bankCard:true,
-                            opened: function () {
-                              $('#make-payment-form').closest('.loader-v2-inner').removeClass('load-page');
-                              console.log('Checkout opened');
-                            },
-                            closed: function () {
-                              console.log('Checkout closed');
-                            },
-                            finished: function () {
-                              $('#make-payment-form').submit();
-                            }
-                          });  
+                      // function makePayment(){ 
+                      //   $('#make-payment-form').closest('.loader-v2-inner').addClass('load-page');
+                      //   generateInvoice(function(jsonResponse){  
+                      //     $('#invoiceId').val(jsonResponse.invoice.id);
+                      //     const checkout = RbkmoneyCheckout.configure({
+                      //       invoiceID: jsonResponse.invoice.id,
+                      //       invoiceAccessToken: jsonResponse.invoiceAccessToken.payload,
+                      //       name: 'Chaevie Online',
+                      //       description: jsonResponse.invoice.product,
+                      //       applePay: true,
+                      //       googlePay: true,
+                      //       samsungPay: false,
+                      //       bankCard:true, 
+                      //       opened: function () {
+                      //         $('#make-payment-form').closest('.loader-v2-inner').removeClass('load-page');
+                      //         console.log('Checkout opened');
+                      //       },
+                      //       closed: function () {
+                      //         console.log('Checkout closed');
+                      //       },
+                      //       finished: function () {
+                      //         $('#make-payment-form').submit();
+                      //       }
+                      //     });  
 
-                          checkout.open();
-                        }); 
-                      }
+                      //     checkout.open();
+                      //   }); 
+                      // }
 
-                      window.addEventListener('popstate', function () {
-                        checkout.close();
-                      });
+                      // window.addEventListener('popstate', function () {
+                      //   checkout.close();
+                      // });
                        
                     </script>
 
