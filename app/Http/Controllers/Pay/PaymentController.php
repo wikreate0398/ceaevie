@@ -242,7 +242,7 @@ class PaymentController extends Controller
     	$tipId = Tips::create([
     		'id_user'             => $qrCode->id_user,
             'id_location'         => $qrCode->id_location,
-    		'id_payment'          => $request->payment,
+    		'id_payment'          => $request->payment ?: '',
             'id_qrcode'           => $qrCode->id,
     		'rand'                => generate_id(7),
             'id_invoice'          => $request->invoiceId ?: '',
