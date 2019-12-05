@@ -51,9 +51,9 @@ iwIDAQAB';
 		    exit();
 		}
  
-		if (!empty($this->request['event'])) {
+		if (!empty($this->request['eventType'])) {
   
-			switch ($this->request['event']) {
+			switch ($this->request['eventType']) {
 				case 'PaymentProcessed ':
 					$this->paymentProcessed();
 					break;
@@ -82,10 +82,10 @@ iwIDAQAB';
 		$tip->status = $this->request['payment']['status'];
 		$tip->save();
 
-		$this->capturePayment();
+		$this->capturePayment($tip);
 	}
 
-	private function capturePayment()
+	private function capturePayment($tip)
 	{
 		$response = $this->http->post('https://api.rbk.money/v2/processing/invoices/'.$this->request['invoice']['id'].'/payments/'.$this->request['payment']['id'].'/capture', [
 			'reason'   => 'Express capture payment',
@@ -95,8 +95,7 @@ iwIDAQAB';
 
 		\Log::channel('payment')->info('PaymentWebhook2Controller -> capturePayment()');
 		\Log::channel('payment')->info($response);
-
-		$tip         = Tips::with('location')->where('id_invoice', $this->request['invoice']['id'])->first(); 
+ 
 		$tip->status = 'CHARGED';
 		$tip->save(); 
 
