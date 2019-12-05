@@ -16,13 +16,15 @@ use App\Utils\PaymentServices\Http\Curl;
 
 class PaymentWebhook2Controller extends Controller
 {
-	protected $publicKey = 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhzFOW9Nfs/DLQcT5NX9x
+	protected $publicKey = '-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhzFOW9Nfs/DLQcT5NX9x
 2yoCweh1nmveslBCVWEYkeBy3jX84YqosFSRgUhP55u0wwvG+G+xojw2fmuibuyV
 +RIU+puHAADc9V1Bh/96gtJp9BLrqqND3+9Y5d+kVcZszqBK+Ku/QUs+Mr79a9HB
 4xvaLPjzdGtcQ7t7B0D5lzKDJ1zTOcmOVPKlJ+dzhMxsgAj1j7iBlHDnQ+E41ODP
 YotF3/QDGsYwG6YMz1N+ey9ngnwPZMx7EwFGDv50i2jrPF4AgPmMRDZ7edj/ixCA
 z80N89ltVn5YRvBOj4/AcigY3nKV5D12XwMxqst6Pb6uHaIq0S9GGGlFipLVOHyw
-iwIDAQAB';
+iwIDAQAB
+-----END PUBLIC KEY-----';
 
 	private $request; 
 
