@@ -35,19 +35,20 @@ iwIDAQAB';
 	{ 
 		$content = $this->getBodyData();
 		$this->request = json_decode($content, TRUE);  
-		$this->log($this->request, @$this->request['event']); 
+		$this->log($this->request, @$this->request['eventType']); 
 
 		try {
 			$signatureFromHeader = $this->get_signature_from_header($_SERVER['HTTP_CONTENT_SIGNATURE']); 
 		} catch (\Exception $e) {
-			
+			\Log::channel('payment')->info($e->getMessage());
 		}
 
 		$decodedSignature = $this->urlsafe_base64decode($signatureFromHeader); 
 		    
 		if(!$this->verify_signature($content, $decodedSignature, $this->publicKey)) {
+			\Log::channel('payment')->info('Webhook notification signature mismatch');
 		    http_response_code(400);
-		    echo json_encode(['message' => 'Webhook notification signature mismatch']);
+		    echo json_encode(['message' => 'Webhook notification signature mismatch']); 
 		    exit();
 		}
  
@@ -167,7 +168,7 @@ iwIDAQAB';
         $signature = preg_replace("/alg=(\S+);\sdigest=/", '', $contentSignature);
 
         if (empty($signature)) {
-            throw new Exception('Signature is missing');
+            throw new \Exception('Signature is missing');
         }
 
         return $signature;
