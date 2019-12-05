@@ -82,7 +82,8 @@ iwIDAQAB
 	private function paymentProcessed()
 	{
 		$tip         = Tips::with('location')->where('id_invoice', $this->request['invoice']['id'])->first(); 
-		$tip->status = $this->request['payment']['status'];
+		\Log::channel('payment')->info($tip->toArray());
+		$tip->status = 'CHARGED';
 		$tip->save();
 
 		$this->capturePayment($tip);
@@ -98,9 +99,7 @@ iwIDAQAB
 
 		\Log::channel('payment')->info('PaymentWebhook2Controller -> capturePayment()');
 		\Log::channel('payment')->info($response);
- 
-		$tip->status = 'CHARGED';
-		$tip->save(); 
+  
 
 		$this->chargedTip($tip);
 	}	
