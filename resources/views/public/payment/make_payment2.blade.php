@@ -206,6 +206,8 @@
                     const allowedCardNetworks = ["AMEX", "DISCOVER", "INTERAC", "JCB", "MASTERCARD", "VISA"]; 
 
                     const allowedCardAuthMethods = ["PAN_ONLY", "CRYPTOGRAM_3DS"];
+
+                    var allowedPaymentMethods = ['CARD', 'TOKENIZED_CARD'];
  
                     const tokenizationSpecification = {
                       type: 'PAYMENT_GATEWAY',
