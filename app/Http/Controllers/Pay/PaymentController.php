@@ -165,7 +165,7 @@ class PaymentController extends Controller
             \DB::commit();
 
             return \JsonResponse::success([
-                'redirect' => route('visaCallback', ['lang' => lang()])
+                'redirect' => route('visa_callback', ['lang' => lang()])
             ], 'Оплата прошла успешно');
         } catch (\Exception $e) {
             \DB::rollback();
