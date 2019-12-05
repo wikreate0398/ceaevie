@@ -53,25 +53,22 @@ iwIDAQAB
 		    echo json_encode(['message' => 'Webhook notification signature mismatch']); 
 		    exit();
 		}
- 	
- 		\Log::channel('payment')->info($this->request['eventType'] . 'asd');
-
-		if (!empty($this->request['eventType'])) {
-  	
+ 	 	 
+		if (!empty($this->request['eventType'])) {  
 			switch ($this->request['eventType']) {
-				case 'PaymentProcessed ':
+				case 'PaymentProcessed': 
 					$this->paymentProcessed();
 					break;
 
-				case 'PaymentCaptured ':
+				case 'PaymentCaptured':
 					$this->paymentCaptured();
 					break;
 
-				case 'PaymentCancelled ':
+				case 'PaymentCancelled':
 					$this->paymentCancelled();
 					break; 
 
-				case 'PaymentFailed ':
+				case 'PaymentFailed':
 					$this->paymentFailed();
 					break;  
 				
@@ -83,8 +80,7 @@ iwIDAQAB
 
 	private function paymentProcessed()
 	{
-		$tip         = Tips::with('location')->where('id_invoice', $this->request['invoice']['id'])->first(); 
-		\Log::channel('payment')->info($tip->toArray());
+		$tip         = Tips::with('location')->where('id_invoice', $this->request['invoice']['id'])->first();  
 		$tip->status = 'CHARGED';
 		$tip->save();
 
@@ -100,8 +96,7 @@ iwIDAQAB
 		]);
 
 		\Log::channel('payment')->info('PaymentWebhook2Controller -> capturePayment()');
-		\Log::channel('payment')->info($response);
-  
+		\Log::channel('payment')->info($response); 
 
 		$this->chargedTip($tip);
 	}	
