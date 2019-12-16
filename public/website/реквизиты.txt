@@ -16,3 +16,7 @@ https://secured.payment.center вместо hostname
 https://auth.rbk.money
 chaevieonline@gmail.com 
 Bgdertpcs2019
+
+GMAIL 
+chaevieonline@gmail.com 
+bgdertpcs
