@@ -6,7 +6,7 @@ use App\Utils\PaymentServices\Http\Curl;
 
 abstract class Component
 {  
-	const SHOP_ID = '42a87c14-eeee-41e8-ac15-751ece64e417';
+	const SHOP_ID = '9e7497e4-fb8b-4c42-a4a6-ffb76600cff8';
 
 	protected $http;
 	
