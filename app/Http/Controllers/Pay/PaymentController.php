@@ -52,7 +52,7 @@ class PaymentController extends Controller
         //     return view('public.payment.make_payment2', compact(['data', 'payments']));
         // }
 
-		return view('public.payment.make_payment2', compact(['data', 'payments']));
+		return view('public.payment.make_payment', compact(['data', 'payments']));
 	}
 
     public function payment2($lang, $code)
