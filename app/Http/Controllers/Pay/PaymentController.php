@@ -48,9 +48,9 @@ class PaymentController extends Controller
 		$data     = QrCode::where('code', $code)->with('user')->firstOrFail();
 		$payments = PaymentType::orderByPageUp()->visible()->get();
 
-        if($data->code == '138-1'){
-            return view('public.payment.make_payment2', compact(['data', 'payments']));
-        }
+        // if($data->code == '138-1'){
+        //     return view('public.payment.make_payment2', compact(['data', 'payments']));
+        // }
 
 		return view('public.payment.make_payment2', compact(['data', 'payments']));
 	}
