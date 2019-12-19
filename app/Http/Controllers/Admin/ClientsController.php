@@ -106,14 +106,14 @@ class ClientsController extends Controller
     {
         $data        = $this->model->findOrFail($id);
         $this->input = $this->prepareData($data, $request->all());
-
-        $this->input['rbk']            = @$request->rbk ? 1 : 0;
-        $this->input['payment_center'] = @$request->payment_center ? 1 : 0;
-
+ 
         if(!is_array($this->input))
         {
             return \JsonResponse::error(['messages' => $this->input]);
         }
+
+        $this->input['rbk']            = !empty($request->rbk) ? 1 : 0;
+        $this->input['payment_center'] = !empty($request->payment_center) ? 1 : 0;
 
         $data->fill($this->input)->save();
         return \App\Utils\JsonResponse::success(['redirect' => route($this->redirectRoute)], trans('admin.save')); 
