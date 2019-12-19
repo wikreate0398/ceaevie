@@ -52,15 +52,16 @@
                                 <div class="col-12 text-center">  
                                   <div class="payment-sistems">
                                     <input type="hidden" name="payment" value="" id="payment_type"> 
-                                    @if($data->user->payment_center)
-                                      <button type="button" class="btn btn-white" onclick="setPaymentType(this, 'payment_center')">
-                                          <img src="/img/visa_pay.png" style="max-width: 145px;">
-                                      </button>
-                                    @endif
 
                                     @if($data->user->rbk)
                                       <button type="button" class="btn btn-white" onclick="setPaymentType(this, 'rbk')">
                                         <img src="/img/apple_google_pay.png" style="max-width: 130px;">
+                                      </button>
+                                    @endif 
+                                    
+                                    @if($data->user->payment_center)
+                                      <button type="button" class="btn btn-white" onclick="setPaymentType(this, 'payment_center')">
+                                          <img src="/img/visa_pay.png" style="max-width: 145px;">
                                       </button>
                                     @endif 
                                   </div>
