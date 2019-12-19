@@ -10,11 +10,10 @@ use App\Utils\Ballance;
 use App\Models\PaymentLogResponse; 
 use App\Models\Tips; 
 use App\Models\WithdrawTips; 
-use App\Utils\Payments\WithdrawalService; 
+use App\Utils\Payments\PaymentCenterService\WithdrawalService; 
 
 class PaymentWebhookController extends Controller
 {
-
 	public function testCharged($idTip)
 	{
 		$tip = Tips::with('location')->whereId($idTip)->first();

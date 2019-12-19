@@ -1,6 +1,6 @@
 <?php 
 
-namespace App\Utils\Payments;
+namespace App\Utils\Payments\PaymentCenterService;
  
 use App\Utils\Encryption; 
 use App\Utils\Ballance; 

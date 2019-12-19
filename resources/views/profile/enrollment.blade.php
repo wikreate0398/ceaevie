@@ -159,7 +159,11 @@
                                     @endif
                                 </td> 
                                 <td align="center">
-                                    <img src="{{ asset('profile_theme') }}/assets/images/dashboard/visa.png" alt="visa">
+                                    @if(@$tip->id_payment == 1)
+                                        <img src="/img/visa_pay.png" style="height: 48px;" alt=""> 
+                                    @else
+                                        <img src="/img/apple_google_pay.png" style="height: 48px;" alt=""> 
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach

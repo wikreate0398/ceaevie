@@ -4,18 +4,15 @@ namespace App\Http\Controllers\Pay;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller; 
-use App\Utils\Ballance; 
-use App\Utils\Payments\VisaPayment;
+use App\Utils\Ballance;  
 use App\Models\QrCode;
 use App\Models\PaymentType; 
 use App\Models\Tips; 
 use App\Models\EnrollmentPercents;
 use App\Models\TipPercents;
 
-use App\Utils\PaymentServices\HandlePaymentMethod; 
-use App\Utils\PaymentServices\Methods\Visa;
-use App\Utils\PaymentServices\Methods\GooglePay; 
-use App\Utils\PaymentServices\Components\Invoice;  
+use App\Utils\Payments\RbkService\Components\Invoice;  
+use App\Utils\Payments\PaymentCenterService\VisaPayment;
 
 class PaymentController extends Controller
 {
@@ -47,11 +44,7 @@ class PaymentController extends Controller
 	{ 
 		$data     = QrCode::where('code', $code)->with('user')->firstOrFail();
 		$payments = PaymentType::orderByPageUp()->visible()->get();
-
-        // if($data->code == '138-1'){
-        //     return view('public.payment.make_payment2', compact(['data', 'payments']));
-        // }
-
+ 
 		return view('public.payment.make_payment2', compact(['data', 'payments']));
 	}
 
@@ -61,35 +54,7 @@ class PaymentController extends Controller
         $payments = PaymentType::orderByPageUp()->visible()->get();
         return view('public.payment.make_payment2', compact(['data', 'payments']));
     } 
-
-    public function generateInvoice(Request $request, Invoice $invoice)
-    { 
-        $qrCode = QrCode::where('code', $request->code)->with('user')->first();  
-        $amount = toFloat($request->amount) . '00';  
-
-        $invoiceData = $invoice->create([
-            'amount'     => intval($amount),
-            'currency'   => 'RUB',
-            'product'    => 'Чаевые официанту ' . $qrCode->user->name, 
-            'cart'       => [
-                [
-                    'product' => 'Чаевые официанту ' . $qrCode->user->name,
-                    'quantity' => 1,
-                    'price'    => intval($amount),
-                    'taxMode'  => [
-                        'type' => 'InvoiceLineTaxVAT',
-                        'rate' => '0%'
-                    ]
-                ]
-            ],
-            'metadata' => [
-                'order_id' => uniqid()
-            ]
-        ]);  
-
-        return $invoiceData;
-    }
-
+ 
 	public function formPayment(Request $request)
     {
     	\DB::beginTransaction();
@@ -120,7 +85,7 @@ class PaymentController extends Controller
     	}
     } 
 
-    public function formPayment2(Request $request, HandlePaymentMethod $paymentMethod, Invoice $invoice)
+    public function formPayment2(Request $request)
     {  
         \DB::beginTransaction();
         try {
@@ -134,34 +99,45 @@ class PaymentController extends Controller
             $idOrder = $this->makeOrder($request);
             $order   = Tips::whereId($idOrder)->first();
 
-            $invoiceData = $invoice->create([
-                'amount'     => intval($order->total_amount . '00'),
-                'currency'   => 'RUB',
-                'product'    => 'Чаевые официанту ' . $order->user->name, 
-                'cart'       => [
-                    [
-                        'product' => 'Чаевые официанту ' . $order->user->name,
-                        'quantity' => 1,
-                        'price'    => intval($order->total_amount . '00'),
-                        'taxMode'  => [
-                            'type' => 'InvoiceLineTaxVAT',
-                            'rate' => '0%'
+            if ($request->payment == 'payment_center') 
+            {
+                \DB::commit();
+                return \JsonResponse::success([
+                    'redirect' => route('visa_webpay', ['lang' => lang(), 'orderRand' => $order->rand])
+                ]);
+            }
+            else
+            {
+                $invoice = new Invoice;
+                $invoiceData = $invoice->create([
+                    'amount'     => intval($order->total_amount . '00'),
+                    'currency'   => 'RUB',
+                    'product'    => 'Чаевые официанту ' . $order->user->name, 
+                    'cart'       => [
+                        [
+                            'product' => 'Чаевые официанту ' . $order->user->name,
+                            'quantity' => 1,
+                            'price'    => intval($order->total_amount . '00'),
+                            'taxMode'  => [
+                                'type' => 'InvoiceLineTaxVAT',
+                                'rate' => '0%'
+                            ]
                         ]
+                    ],
+                    'metadata' => [
+                        'order_id' => uniqid()
                     ]
-                ],
-                'metadata' => [
-                    'order_id' => uniqid()
-                ]
-            ]);   
+                ]);   
 
-            $order->id_invoice = $invoiceData['invoice']['id'];
-            $order->save();
+                $order->id_invoice = $invoiceData['invoice']['id'];
+                $order->save();
 
-            \DB::commit();
-
-            return \JsonResponse::success([
-                'redirect' => 'https://checkout.rbk.money/v1/checkout.html?invoiceID='.$order->id_invoice.'&invoiceAccessToken='.$invoiceData['invoiceAccessToken']['payload'].'&name=Chaevie%20Online&description=Чаевые официанту '.$order->user->name.'&applePay=true&googlePay=true&samsungPay=false&bankCard=true&popupMode=false&locale=auto'
-            ]);
+                \DB::commit(); 
+                return \JsonResponse::success([
+                    'redirect' => 'https://checkout.rbk.money/v1/checkout.html?invoiceID='.$order->id_invoice.'&invoiceAccessToken='.$invoiceData['invoiceAccessToken']['payload'].'&name=Chaevie%20Online&description=Чаевые официанту '.$order->user->name.'&applePay=true&googlePay=true&samsungPay=false&bankCard=true&popupMode=false&locale=auto'
+                ]);
+            }
+             
         } catch (\Exception $e) {
             \DB::rollback();
             return \JsonResponse::error(['messages' => $e->getMessage()]);
@@ -223,7 +199,7 @@ class PaymentController extends Controller
 
         $qrCode      = QrCode::where('code', $request->code)->with('location')->first();
 
-        $location_fee = 0;
+        $location_fee    = 0;
         $location_amount = 0;
         if (!empty($qrCode->location)) 
         {
@@ -237,7 +213,8 @@ class PaymentController extends Controller
     	$tipId = Tips::create([
     		'id_user'             => $qrCode->id_user,
             'id_location'         => $qrCode->id_location,
-    		'id_payment'          => $request->payment ?: '',
+    		'id_payment'          => ($request->payment == 'payment_center') ? 1 : '',
+            'payment_service'     => $request->payment ?: '',
             'id_qrcode'           => $qrCode->id,
     		'rand'                => generate_id(7), 
     		'total_amount'        => $totalAmount,
@@ -263,15 +240,17 @@ class PaymentController extends Controller
 
     private function checkFormData2($request)
     { 
-        if (!toFloat($request->price) or !$request->code) 
-        { 
-            throw new \Exception("Укажите все обязательные поля"); 
-        } 
- 
-        if (!QrCode::where('code', $request->code)->count()) 
+        $qrCode = QrCode::where('code', $request->code)->with('user')->first();
+
+        if (empty($qrCode) or @$qrCode->user->{$request->payment} == false) 
         {
             throw new \Exception("Во время обработки данных возникла ошибка");   
         } 
+
+        if (!toFloat($request->price) or !$request->code or !in_array($request->payment, ['payment_center', 'rbk'])) 
+        { 
+            throw new \Exception("Укажите все обязательные поля"); 
+        }  
     } 
 
     private function checkFormData($request)

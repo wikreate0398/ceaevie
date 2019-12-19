@@ -17,6 +17,7 @@ class Tips extends Model
         'id_user', 
         'id_location',
         'id_payment',
+        'payment_service',
         'id_qrcode',
         'rand',
         'total_amount',
@@ -75,6 +76,11 @@ class Tips extends Model
     public function payment()
     {
         return $this->hasOne('App\Models\PaymentType', 'id', 'id_payment');
+    }
+
+    public function payment_service_data()
+    {
+        return $this->hasOne('App\Models\PaymentService', 'define', 'payment_service');
     }
 
     public function percents()

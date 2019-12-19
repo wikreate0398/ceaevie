@@ -2,15 +2,16 @@
 <html lang="ru">
 
 <head>
+    <title>Чаевые онлайн – сервис оплаты с банковской карты</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
+    <meta name="description" content="Получить чаевые на банковскую карту с помощью QR кода. Сервис оплаты чаевых картой клиента безналичным расчетом. Увеличение доходов официантов, курьеров, таксистов и другого персонала.">
+    <meta name="keywords" content="чаевые картой, чаевые онлайн, чаевые перевод, чаевые официанту, чаевые курьеру, чаевые водителю, сервис чаевых"> 
     <meta name="author" content="">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link rel="shortcut icon" href="/fav.ico">
-    <title>Чаевые онлайн</title>
-
+      
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.1.25/jquery.fancybox.min.css" /> 
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link href="/css/all.min.css" rel="stylesheet">

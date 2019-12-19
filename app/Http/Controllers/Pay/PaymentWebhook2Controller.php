@@ -9,10 +9,9 @@ use App\Utils\Payments\VisaPayment;
 use App\Utils\Ballance; 
 use App\Models\PaymentLogResponse; 
 use App\Models\Tips; 
-use App\Models\WithdrawTips; 
-use App\Utils\Payments\WithdrawalService; 
+use App\Models\WithdrawTips;  
 
-use App\Utils\PaymentServices\Http\Curl; 
+use App\Utils\Payments\RbkService\Http\Curl; 
 
 class PaymentWebhook2Controller extends Controller
 {

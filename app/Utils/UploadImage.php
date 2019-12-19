@@ -28,6 +28,9 @@ class UploadImage
 
 	public function upload($name, $path, $fileName = '')
 	{    
+        $file     = \Request::file($name);
+        if (empty($file)) return false;
+
         if ($this->validate($name) == false) 
         {
             throw new \Exception('Убедитесь что ваш файл содержит формат ' . $this->ext . ' и его размер не превышает ' . ($this->size/1000) . 'Мб' );

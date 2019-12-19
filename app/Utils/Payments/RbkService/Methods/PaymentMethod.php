@@ -1,8 +1,8 @@
 <?php 
 
-namespace App\Utils\PaymentServices\Methods; 
+namespace App\Utils\Payments\RbkService\Methods; 
  
-use App\Utils\PaymentServices\Http\Curl; 
+use App\Utils\Payments\RbkService\Http\Curl; 
 
 abstract class PaymentMethod
 {  

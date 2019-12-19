@@ -1,6 +1,6 @@
 <?php 
 
-namespace App\Utils\PaymentServices\Http; 
+namespace App\Utils\Payments\RbkService\Http; 
 
 use GuzzleHttp\Client;
 use Symfony\Component\HttpFoundation\Response;

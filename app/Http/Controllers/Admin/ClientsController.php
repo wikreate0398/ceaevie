@@ -107,6 +107,9 @@ class ClientsController extends Controller
         $data        = $this->model->findOrFail($id);
         $this->input = $this->prepareData($data, $request->all());
 
+        $this->input['rbk']            = !empty($request->rbk) ? 1 : 0;
+        $this->input['payment_center'] = !empty($request->payment_center) ? 1 : 0;
+
         if(!is_array($this->input))
         {
             return \JsonResponse::error(['messages' => $this->input]);
@@ -152,7 +155,7 @@ class ClientsController extends Controller
         } 
 
         $uploadImage = new UploadImage;
-        $image = $uploadImage->upload('image', $this->uploadFolder);
+        $image       = $uploadImage->upload('image', $this->uploadFolder);
 
         if (!empty($image)) {
             $input['image'] = $image;

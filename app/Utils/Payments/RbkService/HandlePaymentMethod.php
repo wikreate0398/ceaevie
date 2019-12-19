@@ -1,8 +1,8 @@
 <?php 
 
-namespace App\Utils\PaymentServices; 
+namespace App\Utils\Payments\RbkService; 
 
-use App\Utils\PaymentServices\Methods\PaymentMethod; 
+use App\Utils\Payments\RbkService\Methods\PaymentMethod; 
 
 class HandlePaymentMethod
 {	

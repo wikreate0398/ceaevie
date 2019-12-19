@@ -1,6 +1,6 @@
 <?php 
 
-namespace App\Utils\PaymentServices\Components;  
+namespace App\Utils\Payments\RbkService\Components;  
 
 class Invoice extends Component
 { 
@@ -15,7 +15,7 @@ class Invoice extends Component
 	{
 		$dueTime = \Carbon\Carbon::now()->addMinutes(40); 
 		$requestData = array_replace_recursive([
-			'shopID'   => self::SHOP_ID,
+			'shopID'   => $this->shopId,
 			'dueDate'  => $dueTime->format('Y-m-d').'T'.$dueTime->format('H:i:s').'Z',
 			'currency' => 'RUB' 
 		], $params); 

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin\Withdrawal;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Notifications\ManageWithdrawalRequest;
-use App\Utils\Payments\WithdrawalService; 
+use App\Utils\Payments\PaymentCenterService\WithdrawalService; 
 use App\Utils\Ballance;  
 use App\Models\WithdrawTips;  
 use App\Models\WithdrawalRequestStatus;  

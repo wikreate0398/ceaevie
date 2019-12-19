@@ -54,6 +54,7 @@
 						<th class="nw" style="text-align: center;">Комиссия руб.</th> 
 						<th class="nw" style="text-align: center;">Заработано руб.</th> 
 						<th class="nw">Способ оплаты</th> 
+						<th class="nw">Сервис</th> 
 						<th style="width:5%; text-align: center"><i class="fa fa-cogs" aria-hidden="true"></i></th>
 					</tr>
 					</tbody>
@@ -99,10 +100,15 @@
                                 @endif
 							</td> 
 							<td class="nw" align="center">
-								@if(@$item->payment)
-									<img src="/uploads/payment_types/{{ $item->payment->image_black_white }}" style="height: 15px;" alt=""> 
+								@if(@$item->id_payment == 1)
+									<img src="/img/visa_pay.png" style="height: 39px;" alt=""> 
+								@else
+									<img src="/img/apple_google_pay.png" style="height: 39px;" alt=""> 
 								@endif
 							</td> 
+							<td>
+								{{ $item->payment_service_data->name }}
+							</td>
 							<td style="width: 5px; white-space: nowrap"> 
 								<a class="btn btn-danger btn-xs" data-toggle="modal" href="#deleteModal_{{ $table }}_{{ $item['id'] }}"><i class="fa fa-trash-o "></i></a>
 								<!-- Modal -->

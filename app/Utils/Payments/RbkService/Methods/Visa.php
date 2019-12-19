@@ -1,6 +1,6 @@
 <?php 
 
-namespace App\Utils\PaymentServices\Methods; 
+namespace App\Utils\Payments\RbkService\Methods; 
   
 class Visa extends PaymentMethod
 {    

@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Profile;
  
 use Illuminate\Http\Request; 
 use App\Http\Controllers\Controller;
-use App\Utils\Payments\VisaPayment;
-use App\Utils\Payments\WithdrawalService; 
+use App\Utils\Payments\PaymentCenterService\VisaPayment;
+use App\Utils\Payments\PaymentCenterService\WithdrawalService; 
 use App\Utils\Encryption; 
 use App\Utils\Ballance;  
 use App\Notifications\NewWithdrawalRequest;

@@ -35,6 +35,8 @@ class User extends Authenticatable
         'rand', 
         'institution_name', 
         'type', 
+        'rbk',
+        'payment_center',
         'work_type', 
         'self_percent'
     ];

@@ -1,6 +1,6 @@
 <?php 
 
-namespace App\Utils\Payments;
+namespace App\Utils\Payments\PaymentCenterService;
 
 class VisaPayment extends PaymentService implements PaymentInterface
 {

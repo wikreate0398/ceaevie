@@ -147,6 +147,27 @@
 											@include('admin.utils.input', ['label' => 'Телефон', 'name' => 'phone', 'data' => $data])
 											@include('admin.utils.input', ['label' => 'E-mail', 'req' => true, 'name' => 'email', 'data' => $data])
 											@include('admin.utils.input', ['label' => 'Процент', 'name' => 'fee', 'data' => $data]) 
+											<div class="form-group">
+												<div class="col-md-1">
+													<input type="checkbox"
+														   class="make-switch" data-size="mini" {{ !empty($data['rbk']) ? 'checked' : '' }}
+														   data-on-text="<i class='fa fa-check'></i>"
+														   data-off-text="<i class='fa fa-times'></i>"
+														   name="rbk">
+												</div>
+												<label class="control-label col-md-2">Rbk</label>
+											</div>
+
+											<div class="form-group">
+												<div class="col-md-1">
+													<input type="checkbox"
+														   class="make-switch" data-size="mini" {{ !empty($data['payment_center']) ? 'checked' : '' }}
+														   data-on-text="<i class='fa fa-check'></i>"
+														   data-off-text="<i class='fa fa-times'></i>"
+														   name="payment_center">
+												</div>
+												<label class="control-label col-md-2">Payment Center</label>
+											</div>
 											@include('admin.utils.image', [
 													'inputName' => 'image',
 													'table' => $table,
@@ -192,32 +213,34 @@
 					@endif
 				</div>
 
-				<div class="tab-pane" id="tab_4">
-					<table class="table table-bordered">
-						<thead>
-							<tr>
-								<th>ФИО</th>
-								<th>Тип карты</th>
-								<th>Номер карты</th>
-								<th>Срок</th>
-								<th>Дата добавления</th>
-								<th>Статус</th>
-							</tr>
-						</thead>
-
-						<tbody>
-							@foreach($data->cards as $card)
+				<div class="tab-pane" id="tab_4"> 
+					@if($data->cards)
+						<table class="table table-bordered">
+							<thead>
 								<tr>
-									<td>{{ $card->name }}</td>
-									<td>{{ ucfirst($card->type) }}</td>
-									<td>{{ $encriptionService->decrypt($card->number) }}</td>
-									<td>{{ $card->month }}/{{ $card->year }}</td>
-									<td>{{ $card->created_at->format('d.m.Y H:i:s') }}</td>
-									<td>{{ $card->deleted_at ? 'Удалена' : 'Активна' }}</td>
+									<th>ФИО</th>
+									<th>Тип карты</th>
+									<th>Номер карты</th>
+									<th>Срок</th>
+									<th>Дата добавления</th>
+									<th>Статус</th>
 								</tr>
-							@endforeach
-						</tbody>
-					</table>
+							</thead>
+
+							<tbody>
+								@foreach($data->cards as $card)
+									<tr>
+										<td>{{ $card->name }}</td>
+										<td>{{ ucfirst($card->type) }}</td>
+										<td>{{ $encriptionService->decrypt($card->number) }}</td>
+										<td>{{ $card->month }}/{{ $card->year }}</td>
+										<td>{{ $card->created_at->format('d.m.Y H:i:s') }}</td>
+										<td>{{ $card->deleted_at ? 'Удалена' : 'Активна' }}</td>
+									</tr>
+								@endforeach
+							</tbody>
+						</table>
+					@endif
 				</div>
 			</div>
 		</div>
