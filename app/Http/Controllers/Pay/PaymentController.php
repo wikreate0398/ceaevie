@@ -42,6 +42,28 @@ class PaymentController extends Controller
 
 	public function payment($lang, $code)
 	{ 
+
+        $invoice = new Invoice;
+                $invoiceData = $invoice->create([
+                    'amount'     => intval(20 . '00'),
+                    'currency'   => 'RUB',
+                    'product'    => 'Чаевые официанту', 
+                    'cart'       => [
+                        [
+                            'product' => 'Чаевые официанту',
+                            'quantity' => 1,
+                            'price'    => intval(20 . '00'),
+                            'taxMode'  => [
+                                'type' => 'InvoiceLineTaxVAT',
+                                'rate' => '0%'
+                            ]
+                        ]
+                    ],
+                    'metadata' => [
+                        'order_id' => uniqid()
+                    ]
+                ]);  
+
 		$data     = QrCode::where('code', $code)->with('user')->firstOrFail();
 		$payments = PaymentType::orderByPageUp()->visible()->get();
  
@@ -134,10 +156,10 @@ class PaymentController extends Controller
 
                 \DB::commit(); 
                 return \JsonResponse::success([
-                    'redirect' => 'https://checkout.rbk.money/v1/checkout.html?invoiceID='.$order->id_invoice.'&invoiceAccessToken='.$invoiceData['invoiceAccessToken']['payload'].'&name=Chaevie%20Online&description=Чаевые официанту '.$order->user->name.'&applePay=true&googlePay=true&samsungPay=false&bankCard=true&popupMode=false&locale=auto'
+                    'redirect' => 'https://checkout.rbk.money/v1/checkout.html?invoiceID='.$order->id_invoice.'&invoiceAccessToken='.$invoiceData['invoiceAccessToken']['payload'].'&name=Chaevie%20Online&description=Чаевые официанту '.$order->user->name.'&applePay=true&googlePay=true&samsungPay=false&bankCard=true&popupMode=true&locale=auto'
                 ]);
             }
-             
+            
         } catch (\Exception $e) {
             \DB::rollback();
             return \JsonResponse::error(['messages' => $e->getMessage()]);
