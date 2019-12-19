@@ -58,7 +58,7 @@
                                         <img src="/img/apple_google_pay.png" style="max-width: 130px;">
                                       </button>
                                     @endif 
-
+                                    
                                     @if($data->user->payment_center)
                                       <button type="button" class="btn btn-white" onclick="setPaymentType(this, 'payment_center')">
                                           <img src="/img/visa_pay.png" style="max-width: 145px;">
@@ -92,18 +92,7 @@
                       }  
                     </script>
 
-                    <form action="https://your-web-site.address/success.action.php" method="GET">
-                      <script src="https://checkout.rbk.money/checkout.js" class="rbkmoney-checkout"
-                              data-invoice-id="1Fsube051vM"
-                              data-invoice-access-token="eyJhbGciOiJFUzI1NiIsImtpZCI6IllKSWl0UWNNNll6TkgtT0pyS2s4VWdjdFBVMlBoLVFCLS1tLXJ5TWtrU3MiLCJ0eXAiOiJKV1QifQ.eyJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbImh0dHA6Ly9sb2NhbGhvc3Q6ODAwMCIsImh0dHBzOi8vZGFzaGJvYXJkLnJiay5tb25leSJdLCJhdWQiOiJrb2ZmaW5nIiwiYXV0aF90aW1lIjoxNTc2NDkzMjc2LCJhenAiOiJrb2ZmaW5nIiwiY29ucyI6ImNsaWVudCIsImVtYWlsIjoiY2hhZXZpZW9ubGluZUBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiZXhwIjoxNTc3MDEwNzI3LCJmYW1pbHlfbmFtZSI6ItCf0LDRiNCw0Y_QvSIsImdpdmVuX25hbWUiOiLQmtCw0YDQsNC_0LXRgiIsImlhdCI6MTU3NjQ5MzI3NywiaXNzIjoiaHR0cHM6Ly9hdXRoLnJiay5tb25leS9hdXRoL3JlYWxtcy9leHRlcm5hbCIsImp0aSI6IjFGc3ViZjFzSTUyIiwibmFtZSI6ItCa0LDRgNCw0L_QtdGCINCf0LDRiNCw0Y_QvSIsIm5iZiI6MCwibm9uY2UiOiI4MmJkZjNhMi0xMDVhLTQ5M2ItYmM1ZC0zZDczZDVlZTMzMmMiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJjaGFldmllb25saW5lQGdtYWlsLmNvbSIsInJlc291cmNlX2FjY2VzcyI6eyJiaW4tYXBpIjp7InJvbGVzIjpbImNhcmRfYmluczpyZWFkIl19LCJjb21tb24tYXBpIjp7InJvbGVzIjpbImludm9pY2VzLjFGc3ViZTA1MXZNLnBheW1lbnRzOnJlYWQiLCJpbnZvaWNlcy4xRnN1YmUwNTF2TS5wYXltZW50czp3cml0ZSIsImludm9pY2VzLjFGc3ViZTA1MXZNOnJlYWQiLCJwYXltZW50X3Jlc291cmNlczp3cml0ZSJdfX0sInNjb3BlIjoib3BlbmlkIiwic2Vzc2lvbl9zdGF0ZSI6ImIyMTEzZjY5LWJkNjMtNGJhOC04MzY4LWMzMTRiNTJmYTFkMSIsInN1YiI6IjI5OTc3MGViLWFjZDEtNDg4Yi04NzJiLWU4MWY1NzlkNzA0ZiIsInR5cCI6IkJlYXJlciJ9.Yo3EqEvFpALaoHxPMJwUpJGsQ-JyoJpLDYCDqVFESm8_KlQZM15oqSeVYuhYPUVzXZhBMjDWVowBewogd6ql-w"
-                                    
-                              data-name="Заказ №12345"
-                              data-email='hungry-man@email.ru'
-                              data-label="Оплатить с карты"
-                              data-description="Изысканная кухня"
-                              data-popup-mode="true" >
-                      </script>
-                  </form>  
+                    
                 </div>
             </div>
         </div>

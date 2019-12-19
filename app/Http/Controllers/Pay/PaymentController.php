@@ -42,28 +42,6 @@ class PaymentController extends Controller
 
 	public function payment($lang, $code)
 	{ 
-
-        $invoice = new Invoice;
-                $invoiceData = $invoice->create([
-                    'amount'     => intval(20 . '00'),
-                    'currency'   => 'RUB',
-                    'product'    => 'Чаевые официанту', 
-                    'cart'       => [
-                        [
-                            'product' => 'Чаевые официанту',
-                            'quantity' => 1,
-                            'price'    => intval(20 . '00'),
-                            'taxMode'  => [
-                                'type' => 'InvoiceLineTaxVAT',
-                                'rate' => '0%'
-                            ]
-                        ]
-                    ],
-                    'metadata' => [
-                        'order_id' => uniqid()
-                    ]
-                ]);  
-
 		$data     = QrCode::where('code', $code)->with('user')->firstOrFail();
 		$payments = PaymentType::orderByPageUp()->visible()->get();
  
