@@ -100,7 +100,7 @@
 										Подтвердить
 									</a>
 								@else
-									{{ $item->requestStatusData->name_ru }}
+									{{ @$item->requestStatusData->name_ru }}
 								@endif 
 							</td>  
 							<td style="width: 5px; white-space: nowrap"> 
