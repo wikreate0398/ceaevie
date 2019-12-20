@@ -78,7 +78,7 @@ class PaymentWebhookController extends Controller
 				if ($withdraw) 
 				{ 
 					$withdraw->status         = 'FAIL'; 
-					$withdraw->request_status = 'fail'; 
+					$withdraw->request_status = 'rejected'; 
 					$withdraw->id_transaction = $request->Transaction_Id;
        				$withdraw->save();
 
