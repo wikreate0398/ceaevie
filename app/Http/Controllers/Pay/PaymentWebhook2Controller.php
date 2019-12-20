@@ -80,10 +80,13 @@ iwIDAQAB
 	private function paymentProcessed()
 	{
 		$tip         = Tips::with('location')->where('id_invoice', $this->request['invoice']['id'])->first();  
-		$tip->status = 'CHARGED';
-		$tip->save();
+		if (!empty($tip)) 
+		{ 
+			$tip->status = 'CHARGED';
+			$tip->save();
 
-		$this->capturePayment($tip);
+			$this->capturePayment($tip);
+		}
 	}
 
 	private function capturePayment($tip)

@@ -88,7 +88,7 @@ class WithdrawalRequestsController extends Controller
         return redirect()->back()->with('admin_flash_message', 'Статус успешно изменен');
     }
 
-    private function rejectedRequest($withdraw)
+    public function rejectedRequest($withdraw)
     {
         // возвращаем замороженные средства
         (new Ballance)->setUser($withdraw->user) 

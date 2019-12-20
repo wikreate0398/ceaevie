@@ -72,6 +72,18 @@ class PaymentWebhookController extends Controller
        				$withdraw->save();
 				}
 			}
+			elseif ($request->Event == 'Fail') 
+			{
+				$withdraw = WithdrawTips::where('rand', $request->Order_Id)->first();
+				if ($withdraw) 
+				{ 
+					$withdraw->status         = 'FAIL'; 
+					$withdraw->id_transaction = $request->Transaction_Id;
+       				$withdraw->save();
+
+       				(new \App\Http\Controllers\Admin\WithdrawalWithdrawalRequestsController)->rejectedRequest($withdraw);
+				}
+			}
 		} 
 	}
 
