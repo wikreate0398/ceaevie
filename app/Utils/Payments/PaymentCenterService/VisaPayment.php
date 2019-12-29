@@ -70,7 +70,7 @@ class VisaPayment extends PaymentService implements PaymentInterface
 			'amount'      => $this->amount,
 			'currency'    => $this->currency, 
 			'description' => $this->description,
-			'customFields' => 'IP='. base64_encode(\Request::getClientIp(true)) .';'
+			'customFields' => 'IP='. \Request::getClientIp(true) .';'
 		], 'pay');   
  
 		$this->log('pay', $xmlData);
@@ -91,7 +91,7 @@ class VisaPayment extends PaymentService implements PaymentInterface
 			'amount'      => $this->amount,
 			'currency'    => $this->currency, 
 			'description' => $this->description,
-			'customFields' => 'IP='. base64_encode(\Request::getClientIp(true)) .';',
+			'customFields' => 'IP='. \Request::getClientIp(true) .';',
 			'extra'       => json_encode([
 				'success_url' => route('visa_callback', ['type' => 'success']),
 				'decline_url' =>  route('visa_callback', ['type' => 'decline']),
@@ -113,7 +113,7 @@ class VisaPayment extends PaymentService implements PaymentInterface
 			'amount'      => $this->amount,
 			'currency'    => $this->currency, 
 			'description' => $this->description,
-			'customFields' => 'IP='. base64_encode(\Request::getClientIp(true)) .';'
+			'customFields' => 'IP='. \Request::getClientIp(true) .';'
 		], 'payout');   
  
 		$this->log('payout', $xmlData);   
