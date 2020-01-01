@@ -45,51 +45,14 @@ class PaymentController extends Controller
 		$data     = QrCode::where('code', $code)->with('user')->firstOrFail();
 		$payments = PaymentType::orderByPageUp()->visible()->get();
  
-		return view('public.payment.make_payment2', compact(['data', 'payments']));
-	}
+		return view('public.payment.make_payment', compact(['data', 'payments']));
+	} 
 
-    public function payment2($lang, $code)
-    {    
-        $data     = QrCode::where('code', $code)->with('user')->firstOrFail();
-        $payments = PaymentType::orderByPageUp()->visible()->get();
-        return view('public.payment.make_payment2', compact(['data', 'payments']));
-    } 
- 
-	public function formPayment(Request $request)
-    {
-    	\DB::beginTransaction();
-    	try {
-    		$this->checkFormData($request); 
-    	} catch (\Exception $e) {
-    		return \JsonResponse::error(['messages' => $e->getMessage()]);
-    	}
-
-    	$idOrder = $this->makeOrder($request);
-    	$order   = Tips::whereId($idOrder)->first();
-
-    	\DB::commit();
-    	try {
-            if ($order->id_payment == 1)
-            {
-                return \JsonResponse::success([
-                    'redirect' => route('visa_webpay', ['lang' => lang(), 'orderRand' => $order->rand])
-                ]);
-            } 
-            else
-            {
-                throw new \Exception("Данные метод оплаты не работает. Попробуйте оплатить с помощью VISA"); 
-            } 
-    	} catch (\Exception $e) {
-    		\DB::rollback();
-    		return \JsonResponse::error(['messages' => $e->getMessage()]);
-    	}
-    } 
-
-    public function formPayment2(Request $request)
+    public function formPayment(Request $request)
     {  
         \DB::beginTransaction();
         try {
-            $this->checkFormData2($request); 
+            $this->checkFormData($request); 
         } catch (\Exception $e) {
             return \JsonResponse::error(['messages' => $e->getMessage()]);
         }
@@ -238,31 +201,23 @@ class PaymentController extends Controller
         return $tipId;
     }
 
-    private function checkFormData2($request)
+    private function checkFormData($request)
     { 
         $qrCode = QrCode::where('code', $request->code)->with('user')->first();
+
+        if (empty($request->payment) or !in_array($request->payment, ['payment_center', 'rbk'])) 
+        {
+            throw new \Exception("Укажите тип оплаты"); 
+        } 
+        
+        if (!toFloat($request->price) or !$request->code) 
+        { 
+            throw new \Exception("Укажите все обязательные поля"); 
+        }  
 
         if (empty($qrCode) or @$qrCode->user->{$request->payment} == false) 
         {
             throw new \Exception("Во время обработки данных возникла ошибка");   
         } 
-
-        if (!toFloat($request->price) or !$request->code or !in_array($request->payment, ['payment_center', 'rbk'])) 
-        { 
-            throw new \Exception("Укажите все обязательные поля"); 
-        }  
-    } 
-
-    private function checkFormData($request)
-    { 
-    	if (!$request->payment or !toFloat($request->price) or !$request->code) 
-    	{ 
-    		throw new \Exception("Укажите все обязательные поля"); 
-    	} 
- 
-		if (!QrCode::where('code', $request->code)->count() or !PaymentType::visible()->whereId($request->payment)->count()) 
-    	{
-    		throw new \Exception("Во время обработки данных возникла ошибка");   
-    	} 
-    } 
+    }  
 }
