@@ -41,7 +41,7 @@ class ReportController extends Controller
         $data = [
             'data'    => $this->model->orderByRaw('id desc')
                                      ->confirmed()
-                                     ->with(['user', 'qr_code', 'payment', 'percents', 'location'])
+                                     ->with(['user.typeData', 'qr_code', 'payment', 'percents', 'location'])
                                      ->filter()
                                      ->get(),
             'percents' => EnrollmentPercents::orderBy('percent', 'asc')->get(),

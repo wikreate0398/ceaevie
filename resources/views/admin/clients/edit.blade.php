@@ -183,8 +183,10 @@
 													'id' => $data['id'],
 													'filename' => $data['image']])
 
-											@include('admin.utils.input', ['label' => 'Новый Пароль', 'name' => 'password', 'type' => 'password', 'data' => []])
-											@include('admin.utils.input', ['label' => 'Повторите Пароль', 'name' => 'repeat_password', 'type' => 'password']) 
+											<div class="usr_pass">
+												@include('admin.utils.input', ['label' => 'Новый Пароль', 'name' => 'password', 'type' => 'password', 'data' => []])
+												@include('admin.utils.input', ['label' => 'Повторите Пароль', 'name' => 'repeat_password', 'type' => 'password']) 
+											</div>
 										</div> 
 									</div>
 									<div class="form-actions">

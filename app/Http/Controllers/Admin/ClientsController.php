@@ -44,7 +44,7 @@ class ClientsController extends Controller
     public function show()
     {  
         $data = [
-            'data'      => $this->model->orderByRaw('id desc')->filter()->get(),
+            'data'      => $this->model->orderByRaw('id desc')->with('typeData')->filter()->get()->sortBy('typeData.page_up'),
             'table'     => $this->model->getTable(),
             'method'    => $this->method,
             'today_reg' => $this->model->registered('today')->count(),
@@ -161,7 +161,7 @@ class ClientsController extends Controller
             return trans('admin.req_fields');
         } 
 
-        if(!empty($input['password']) or !empty($input['repeat_password']))
+        if($input['type'] != 'agent' && !empty($input['password']) or !empty($input['repeat_password']))
         {
             if($input['password'] != $input['repeat_password'])
             {

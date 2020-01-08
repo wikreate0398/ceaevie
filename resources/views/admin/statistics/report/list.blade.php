@@ -27,7 +27,7 @@
 	<div class="row">  
 	   	<div class="col-md-12">  
 	   		@if($data->count())
-	   			<a href="/{{ $method }}/export" class="btn btn-sm btn-info">Экспорт</a>
+	   			<a href="/{{ $method }}/export?from={{ request()->from }}&to={{ request()->to }}" class="btn btn-sm btn-info">Экспорт</a>
 	   			<table class="table table-bordered eq-table-cell" style="margin-bottom: 30px; margin-top: 15px;">
 	   				<thead>
 	   					<tr>

@@ -44,8 +44,11 @@
 									@include('admin.utils.input', ['label' => 'E-mail', 'req' => true, 'name' => 'email']) 
 									@include('admin.utils.input', ['label' => 'Код Агента', 'name' => 'agent_code'])
 									@include('admin.utils.image', ['inputName' => 'image'])
-									@include('admin.utils.input', ['label' => 'Пароль', 'req' => true, 'name' => 'password', 'type' => 'password']) 
-									@include('admin.utils.input', ['label' => 'Повторите Пароль', 'req' => true, 'name' => 'repeat_password', 'type' => 'password']) 
+
+									<div class="usr_pass"> 
+										@include('admin.utils.input', ['label' => 'Пароль', 'req' => true, 'name' => 'password', 'type' => 'password']) 
+										@include('admin.utils.input', ['label' => 'Повторите Пароль', 'req' => true, 'name' => 'repeat_password', 'type' => 'password']) 
+									</div>
 								</div>
 							<div class="form-actions">
 								<div class="btn-set pull-left"> 

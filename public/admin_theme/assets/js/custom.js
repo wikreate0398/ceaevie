@@ -419,7 +419,12 @@ function priceString(price, a){
 
 function selectUserType(select){
     $('.institution_name').hide();  
+    $('.usr_pass').hide();
     if ($(select).val() == 'admin') { 
         $('.institution_name').show(); 
     } 
+
+    if ($(select).val() != 'agent') {
+        $('.usr_pass').show();
+    }
 }
