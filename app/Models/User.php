@@ -23,6 +23,8 @@ class User extends Authenticatable
         'phone', 
         'email', 
         'password', 
+        'code',
+        'agent_code',
         'confirm', 
         'confirm_hash', 
         'active',  
@@ -99,6 +101,11 @@ class User extends Authenticatable
         }
 
         return $query;
+    } 
+
+    public function agent()
+    {
+      return $this->hasOne('App\Models\User', 'code', 'agent_code');
     } 
 
     public function tips()

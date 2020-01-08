@@ -39,7 +39,7 @@
                                 <label>Email <span class="req">*</span></label>
                                 <input type="email" required name="email" class="form-control" placeholder="Email">
                             </div>
-                            <div class="form-group col-12 col-sm-12 col-md-12" data-access="admin">
+                            <div class="form-group col-12 col-sm-12 col-md-12" data-access="admin" style="display: none;">
                                 <label>Название заведения <span class="req">*</span></label>
                                 <input type="text" name="institution_name" class="form-control" placeholder="Название заведения">
                             </div>
@@ -54,6 +54,10 @@
                             <div class="form-group col-12 col-sm-12 col-md-12" data-access="*">
                                 <label>Телефон <span class="req">*</span></label>
                                 <input type="text" required name="phone" class="form-control" placeholder="Телефон">
+                            </div>
+                            <div class="form-group col-12 col-sm-12 col-md-12" data-access="*">
+                                <label>Код Агента</label>
+                                <input type="text" required name="agent_code" class="form-control" placeholder="Код агента">
                             </div>
                             <div class="form-group col-12 col-sm-12 col-md-12" data-access="*">
                                 <label>Пароль <span class="req">*</span></label>

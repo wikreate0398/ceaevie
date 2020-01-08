@@ -9,6 +9,7 @@ use App\Utils\UploadImage;
 use App\Utils\Encryption; 
 use App\Notifications\SendLetter;
 use App\Notifications\ChangeVerificationStatus;
+use App\Models\UserType; 
 
 class ClientsController extends Controller
 {
@@ -41,7 +42,7 @@ class ClientsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show()
-    { 
+    {  
         $data = [
             'data'      => $this->model->orderByRaw('id desc')->filter()->get(),
             'table'     => $this->model->getTable(),
@@ -49,6 +50,7 @@ class ClientsController extends Controller
             'today_reg' => $this->model->registered('today')->count(),
             'week_reg'  => $this->model->registered('week')->count(),
             'total_reg' => $this->model->registered()->count(),
+            'userTypes' => UserType::all(),
             'total_pending_verification' => $this->model->registered()->where('verification_status', 'pending')->count(),
         ]; 
 
@@ -76,10 +78,20 @@ class ClientsController extends Controller
             return \JsonResponse::error(['messages' => 'Пользователь с таким имейлом уже существует']);
         }
 
-        $this->input['active'] = 1;
-        $this->input['confirm'] = 1; 
-        $this->input['rand'] = generate_id(7);  
- 
+        if (!empty($request->agent_code) && !User::where('code', '=', $request->agent_code)->count()) 
+        { 
+            return \JsonResponse::error(['messages' => 'Код агента не действителен']);
+        } 
+
+        $this->input['active']           = 1;
+        $this->input['confirm']          = 1; 
+        $this->input['rand']             = generate_id(7);
+        $this->input['type']             = $request->type;
+        $this->input['work_type']        = ($request->type == 'admin') ? 'common_sum' : '';
+        $this->input['institution_name'] = $request->institution_name ?: '';
+        $this->input['code']             = ($request->type == 'agent') ? generate_id(4) : '';
+        $this->input['agent_code']       = $request->agent_code ?: '';
+
         $this->model->create($this->input)->id; 
 
         return \App\Utils\JsonResponse::success(['redirect' => route($this->redirectRoute)], trans('admin.save')); 
@@ -112,8 +124,15 @@ class ClientsController extends Controller
             return \JsonResponse::error(['messages' => $this->input]);
         }
 
-        $this->input['rbk']            = !empty($request->rbk) ? 1 : 0;
-        $this->input['payment_center'] = !empty($request->payment_center) ? 1 : 0;
+        if (!empty($request->agent_code) && !User::where('code', '=', $request->agent_code)->count()) 
+        { 
+            return \JsonResponse::error(['messages' => 'Код агента не действителен']);
+        } 
+        
+        $this->input['rbk']              = !empty($request->rbk) ? 1 : 0;
+        $this->input['payment_center']   = !empty($request->payment_center) ? 1 : 0;
+        $this->input['institution_name'] = $request->institution_name ?: '';
+        $this->input['agent_code']       = $request->agent_code ?: '';
 
         $data->fill($this->input)->save();
         return \App\Utils\JsonResponse::success(['redirect' => route($this->redirectRoute)], trans('admin.save')); 

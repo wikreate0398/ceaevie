@@ -27,7 +27,8 @@
 	<div class="row">  
 	   	<div class="col-md-12">  
 	   		@if($data->count())
-	   			<table class="table table-bordered eq-table-cell" style="margin-bottom: 30px;">
+	   			<a href="/{{ $method }}/export" class="btn btn-sm btn-info">Экспорт</a>
+	   			<table class="table table-bordered eq-table-cell" style="margin-bottom: 30px; margin-top: 15px;">
 	   				<thead>
 	   					<tr>
 	   						<th class="ac">Всего руб.</th>
@@ -53,6 +54,7 @@
 							<th>Дата</th>
 							<th class="nw">№ Перевода</th>  
 							<th class="nw">Официант</th> 
+							<th class="nw">Агент</th> 
 							<th class="ac">Всего руб.</th>
 							<th class="ac">Чаевые руб.</th> 
 							@foreach($percents as $percent)
@@ -78,6 +80,13 @@
 									@else
 										{{ $item->location->institution_name }} ({{ $item->location->rand }})
 									@endif 
+								</td>
+								<td> 
+									@if(!$item->id_location && @$item->user->agent_code)
+										{{ $item->user->agent->name }} {{ $item->user->agent->lastname }}
+									@elseif($item->id_location && @$item->location->agent_code)
+										{{ $item->location->agent->name }} {{ $item->location->agent->lastname }}
+									@endif   
 								</td> 
 								<td class="nw ac">
 									{{ $item->total_amount }}

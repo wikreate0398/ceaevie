@@ -48,7 +48,7 @@ class RegisterController extends Controller
 
     public function showForm()
     {  
-        $userTypes = UserType::all();
+        $userTypes = UserType::where('type', '!=', 'agent')->get();
         return view('auth/registration', compact('userTypes'));
     }
 
@@ -75,20 +75,26 @@ class RegisterController extends Controller
             return \JsonResponse::error(['messages' => \Constant::get('USER_EXIST')]);
         }
 
+        if (!empty($request->agent_code) && !User::where('code', '=', $request->agent_code)->count()) 
+        { 
+            return \JsonResponse::error(['messages' => 'Код агента не действителен']);
+        } 
+
         $confirm_hash = md5(microtime());
 
         $user = User::create([
-            'name'         => $request->name,
-            'type'         => $request->type,
-            'work_type'    => ($request->type == 'admin') ? 'common_sum' : '',
-            'lastname'     => $request->lastname,
+            'name'             => $request->name,
+            'type'             => $request->type,
+            'work_type'        => ($request->type == 'admin') ? 'common_sum' : '',
+            'lastname'         => $request->lastname,
             'institution_name' => $request->institution_name ?: '',
-            'phone'        => $request->phone,
-            'email'        => $request->email,
-            'confirm_hash' => $confirm_hash,
-            'password'     => bcrypt($request->password),
-            'lang'         => lang(),
-            'rand'         => generate_id(7)
+            'agent_code'       => $request->agent_code ?: '',
+            'phone'            => $request->phone,
+            'email'            => $request->email,
+            'confirm_hash'     => $confirm_hash,
+            'password'         => bcrypt($request->password),
+            'lang'             => lang(),
+            'rand'             => generate_id(7)
         ]);
 
         $user->notify(new ConfirmRegistration($confirm_hash, lang()));

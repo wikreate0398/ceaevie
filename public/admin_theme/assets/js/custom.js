@@ -416,3 +416,10 @@ function priceString(price, a){
     } 
     return number_format(price, a, '.', ' ');
 } 
+
+function selectUserType(select){
+    $('.institution_name').hide();  
+    if ($(select).val() == 'admin') { 
+        $('.institution_name').show(); 
+    } 
+}

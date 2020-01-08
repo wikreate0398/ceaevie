@@ -19,10 +19,30 @@
 
 							<div class="form-body" style="padding-top: 20px;"> 
 								<div class="tab-content">
-									@include('admin.utils.input', ['label' => 'Имя', 'req' => true, 'name' => 'name'])
-									@include('admin.utils.input', ['label' => 'Фамилия', 'req' => true, 'name' => 'lastname'])
+									<div class="form-group">
+		                                <label class="col-md-12 control-label">Тип</label>
+		                                <div class="col-md-12">
+		                                    <select name="type"  class="form-control" onchange="selectUserType(this)">
+		                                    	@foreach($userTypes as $key => $type)    
+													<option value="{{ $type->type }}">
+														{{ $type["name_ru"] }}
+													</option>
+		                                    	@endforeach
+		                                    </select>
+		                                </div>
+		                           	</div> 
+
+		                           	<div class="institution_name" style="display: none;">
+		                           		@include('admin.utils.input', ['label' => 'Название заведения', 'name' => 'institution_name']) 
+		                           	</div>
+
+									<div class="fio">
+										@include('admin.utils.input', ['label' => 'Имя', 'req' => true, 'name' => 'name'])
+										@include('admin.utils.input', ['label' => 'Фамилия', 'req' => true, 'name' => 'lastname'])
+									</div>
 									@include('admin.utils.input', ['label' => 'Телефон', 'name' => 'phone'])
 									@include('admin.utils.input', ['label' => 'E-mail', 'req' => true, 'name' => 'email']) 
+									@include('admin.utils.input', ['label' => 'Код Агента', 'name' => 'agent_code'])
 									@include('admin.utils.image', ['inputName' => 'image'])
 									@include('admin.utils.input', ['label' => 'Пароль', 'req' => true, 'name' => 'password', 'type' => 'password']) 
 									@include('admin.utils.input', ['label' => 'Повторите Пароль', 'req' => true, 'name' => 'repeat_password', 'type' => 'password']) 
@@ -148,6 +168,9 @@
 			
 			@if($data->count()) 
 				@foreach($data->groupBy('typeData.name_ru') as $type_name => $clients)
+					@php
+						$userType = $clients->first()->type;
+					@endphp
 					<h2>{{ $type_name }}</h2>
 					<table class="table table-bordered">
 						<tbody>
@@ -158,9 +181,16 @@
 							<th class="nw">Тип</th>
 							<th>E-mail</th>
 							<th>Телефон</th>  
-							<th>Баланс руб.</th>
+							@if($userType != 'agent')
+								<th>Баланс руб.</th>
+								<th>Агент</th>
+							@else
+								<th>Код</th>
+							@endif
 							<th>Последний визит</th>
-							<th>Идентификация</th>
+							@if($userType != 'agent')
+								<th>Идентификация</th>
+							@endif
 							<th style="width:5%; text-align: center"><i class="fa fa-cogs" aria-hidden="true"></i></th>
 						</tr>
 						</tbody>
@@ -179,11 +209,22 @@
 								<td>{{ $item->typeData->name_ru }}</td>
 								<td>{{ $item->email }}</td>
 								<td>{{ $item->phone }}</td> 
-								<td>{{ $item->ballance }}</td>
+								@if($userType != 'agent')
+									<td>{{ $item->ballance }}</td>
+									<td>
+										@if($item->agent_code)
+											{{ @$item->agent->name }} {{ @$item->agent->lastname }}
+										@endif
+									</td>
+									@else
+									<td>{{ $item->code }}</td>
+								@endif
 								<td class="nw">{{ $item->last_entry ? $item->last_entry->format('d.m.Y H:i') : '' }}</td>
-								<td class="nw">
-									{{ $item->verificationStatusData->name_ru }}
-								</td>
+								@if($userType != 'agent')
+									<td class="nw">
+										{{ $item->verificationStatusData->name_ru }}
+									</td>
+								@endif
 								<td style="width: 5px; white-space: nowrap">
 									<a href="/{{ $method }}/{{ $item['id'] }}/autologin/" target="_blank" class="btn btn-primary btn-xs">
 										<i class="fa fa-sign-in" aria-hidden="true"></i>

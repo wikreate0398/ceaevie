@@ -140,7 +140,8 @@ Route::group(['prefix' => $adminPath, 'namespace' => 'Admin', 'middleware' => ['
         }); 
 
         Route::group(['prefix' => 'report'], function() { 
-            Route::get('/', 'ReportController@show')->name('admin_report');   
+            Route::get('/', 'ReportController@show')->name('admin_report');
+            Route::get('export', 'ReportController@export'); 
         });   
     });
 

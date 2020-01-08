@@ -142,10 +142,18 @@
 									
 									<div class="form-body" style="padding-top: 20px;"> 
 										<div class="tab-content"> 
-											@include('admin.utils.input', ['label' => 'Имя', 'req' => true, 'name' => 'name', 'data' => $data])
-											@include('admin.utils.input', ['label' => 'Фамилия', 'req' => true, 'name' => 'lastname', 'data' => $data])
+
+											<div class="institution_name" style="{{ ($data->type != 'admin') ? 'display: none;' : '' }}">
+				                           		@include('admin.utils.input', ['label' => 'Название заведения', 'name' => 'institution_name']) 
+				                           	</div>
+
+		                           			<div class="fio" style="{{ ($data->type == 'admin') ? 'display: none;' : '' }}">
+												@include('admin.utils.input', ['label' => 'Имя', 'req' => true, 'name' => 'name', 'data' => $data])
+												@include('admin.utils.input', ['label' => 'Фамилия', 'req' => true, 'name' => 'lastname', 'data' => $data])
+											</div> 
 											@include('admin.utils.input', ['label' => 'Телефон', 'name' => 'phone', 'data' => $data])
 											@include('admin.utils.input', ['label' => 'E-mail', 'req' => true, 'name' => 'email', 'data' => $data])
+											@include('admin.utils.input', ['label' => 'Код Агента', 'name' => 'agent_code', 'data' => $data])
 											@include('admin.utils.input', ['label' => 'Процент', 'name' => 'fee', 'data' => $data]) 
 											<div class="form-group">
 												<div class="col-md-1">

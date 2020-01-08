@@ -52,4 +52,20 @@ class ReportController extends Controller
 
         return view('admin.'.$this->folder.'.list', $data);
     }  
+
+    public function export(Request $request)
+    {   
+        $data = $this->model->orderByRaw('id desc')
+                                     ->confirmed()
+                                     ->with(['user', 'qr_code', 'payment', 'percents', 'location'])
+                                     ->filter()
+                                     ->get();
+
+        $percents = EnrollmentPercents::orderBy('percent', 'asc')->get();
+
+        return \Excel::download(
+            new \App\Exports\ReportExport($data, $percents), 
+            'Report.xlsx'
+          ); 
+    }
 }
