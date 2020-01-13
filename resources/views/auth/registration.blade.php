@@ -57,7 +57,7 @@
                             </div>
                             <div class="form-group col-12 col-sm-12 col-md-12" data-access="*">
                                 <label>Код Агента</label>
-                                <input type="text" required name="agent_code" class="form-control" placeholder="Код агента">
+                                <input type="text" name="agent_code" class="form-control" placeholder="Код агента">
                             </div>
                             <div class="form-group col-12 col-sm-12 col-md-12" data-access="*">
                                 <label>Пароль <span class="req">*</span></label>

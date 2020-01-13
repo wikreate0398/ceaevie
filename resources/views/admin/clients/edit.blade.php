@@ -139,6 +139,8 @@
 								<form action="/{{ $method }}/{{ $data['id'] }}/update" class="ajax__submit form-horizontal">  
 
 									{{ csrf_field() }}
+
+									<input type="hidden" name="type" value="{{ $data->type }}">
 									
 									<div class="form-body" style="padding-top: 20px;"> 
 										<div class="tab-content"> 
