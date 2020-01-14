@@ -4,7 +4,8 @@
 			<th>Дата</th>
 			<th>№ Перевода</th>  
 			<th>Официант</th> 
-			<th>Агент</th> 
+			<th>Сервис оплаты</th>
+			<th>Партнер</th> 
 			<th>Всего руб.</th>
 			<th>Чаевые руб.</th> 
 			@foreach($percents as $percent)
@@ -31,6 +32,7 @@
 						{{ $item->location->institution_name }} ({{ $item->location->rand }})
 					@endif 
 				</td>
+				<td>{{ $item->payment_service_data->name }}</td>
 				<td>
 					@if(!$item->id_location && @$item->user->agent_code)
 						{{ $item->user->agent->name }} {{ $item->user->agent->lastname }}

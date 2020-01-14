@@ -80,7 +80,7 @@ class ClientsController extends Controller
 
         if (!empty($request->agent_code) && !User::where('code', '=', $request->agent_code)->count()) 
         { 
-            return \JsonResponse::error(['messages' => 'Код агента не действителен']);
+            return \JsonResponse::error(['messages' => 'Код партнера не действителен']);
         } 
 
         $this->input['active']           = 1;
@@ -126,7 +126,7 @@ class ClientsController extends Controller
 
         if (!empty($request->agent_code) && !User::where('code', '=', $request->agent_code)->count()) 
         { 
-            return \JsonResponse::error(['messages' => 'Код агента не действителен']);
+            return \JsonResponse::error(['messages' => 'Код партнера не действителен']);
         } 
         
         $this->input['rbk']              = !empty($request->rbk) ? 1 : 0;

@@ -51,6 +51,20 @@ class EnrollmentController extends Controller
         return view('admin.'.$this->folder.'.list', $data);
     }    
 
+    public function export(Request $request)
+    {   
+        $data = $this->model->orderByRaw('id desc')
+                                     ->confirmed()
+                                     ->with(['user', 'location', 'qr_code', 'payment', 'payment_service_data'])
+                                     ->filter()
+                                     ->get(); 
+
+        return \Excel::download(
+            new \App\Exports\EnrollmentExport($data), 
+            'Enrollment.xlsx'
+          ); 
+    }
+
     private static function closeOpenTips()
     {
         Tips::where('open_admin', '1')->update(['open_admin' => 0]); 

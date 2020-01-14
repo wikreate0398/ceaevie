@@ -99,14 +99,10 @@ function changeByKeyup(){
 } 
 
 function changeRegType(btn, type){
-    // $('input#user_type').val(type);
-    // $('.reg-btn-tabs button').removeClass('active');
-    // $(btn).addClass('active');
-
     $('.reg-fields .form-group').each(function(){
         var access = $(this).attr('data-access');
-        if (access != '*') {
-            if(access != type){
+        if (access != '*') { 
+            if($.inArray(type, access.split('|')) == -1){
                 $(this).hide();
             } else {
                 $(this).show();

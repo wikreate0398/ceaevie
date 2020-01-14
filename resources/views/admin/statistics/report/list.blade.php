@@ -54,7 +54,7 @@
 							<th>Дата</th>
 							<th class="nw">№ Перевода</th>  
 							<th class="nw">Официант</th> 
-							<th class="nw">Агент</th> 
+							<th class="nw">Партнер</th> 
 							<th class="ac">Всего руб.</th>
 							<th class="ac">Чаевые руб.</th> 
 							@foreach($percents as $percent)

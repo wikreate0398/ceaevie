@@ -42,7 +42,7 @@
 									</div>
 									@include('admin.utils.input', ['label' => 'Телефон', 'name' => 'phone'])
 									@include('admin.utils.input', ['label' => 'E-mail', 'req' => true, 'name' => 'email']) 
-									@include('admin.utils.input', ['label' => 'Код Агента', 'name' => 'agent_code'])
+									@include('admin.utils.input', ['label' => 'Код партнера', 'name' => 'agent_code'])
 									@include('admin.utils.image', ['inputName' => 'image'])
 
 									<div class="usr_pass"> 
@@ -186,7 +186,7 @@
 							<th>Телефон</th>  
 							@if($userType != 'agent')
 								<th>Баланс руб.</th>
-								<th>Агент</th>
+								<th>Партнер</th>
 							@else
 								<th>Код</th>
 							@endif

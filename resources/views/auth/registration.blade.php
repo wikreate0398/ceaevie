@@ -55,8 +55,8 @@
                                 <label>Телефон <span class="req">*</span></label>
                                 <input type="text" required name="phone" class="form-control" placeholder="Телефон">
                             </div>
-                            <div class="form-group col-12 col-sm-12 col-md-12" data-access="*">
-                                <label>Код Агента</label>
+                            <div class="form-group col-12 col-sm-12 col-md-12" data-access="admin|user">
+                                <label>Код Партнера</label>
                                 <input type="text" name="agent_code" class="form-control" placeholder="Код агента">
                             </div>
                             <div class="form-group col-12 col-sm-12 col-md-12" data-access="*">

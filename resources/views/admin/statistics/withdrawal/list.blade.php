@@ -43,7 +43,9 @@
 	<div class="row">  
 	   	<div class="col-md-12">  
 	   		@if($data->count())
-		      	<table class="table table-bordered">
+		      	<a href="/{{ $method }}/export?from={{ request()->from }}&to={{ request()->to }}" class="btn btn-sm btn-info">Экспорт</a>
+
+		      	<table class="table table-bordered eq-table-cell" style="margin-top: 15px;">
 					<tbody>
 					<tr> 
 						<th class="nw">№ Транзакции</th>  

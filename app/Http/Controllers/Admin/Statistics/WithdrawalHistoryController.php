@@ -51,6 +51,20 @@ class WithdrawalHistoryController extends Controller
         return view('admin.'.$this->folder.'.list', $data);
     }    
 
+    public function export(Request $request)
+    {   
+        $data = $this->model->orderByRaw('id desc') 
+                         ->whidrawHistory()
+                         ->with(['user', 'card', 'statusData'])
+                         ->filter()
+                         ->get(); 
+
+        return \Excel::download(
+            new \App\Exports\WithdrawalHistoryExport($data), 
+            'Enrollment.xlsx'
+          ); 
+    }
+
     private static function closeOpenWithdraw()
     {
         WithdrawTips::where('open_admin', '1')->update(['open_admin' => 0]); 

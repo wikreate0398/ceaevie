@@ -57,7 +57,7 @@ class ReportController extends Controller
     {   
         $data = $this->model->orderByRaw('id desc')
                                      ->confirmed()
-                                     ->with(['user', 'qr_code', 'payment', 'percents', 'location'])
+                                     ->with(['user', 'qr_code', 'payment', 'percents', 'location', 'payment_service_data'])
                                      ->filter()
                                      ->get();
 

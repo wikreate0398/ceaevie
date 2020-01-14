@@ -155,29 +155,32 @@
 											</div> 
 											@include('admin.utils.input', ['label' => 'Телефон', 'name' => 'phone', 'data' => $data])
 											@include('admin.utils.input', ['label' => 'E-mail', 'req' => true, 'name' => 'email', 'data' => $data])
-											@include('admin.utils.input', ['label' => 'Код Агента', 'name' => 'agent_code', 'data' => $data])
+											@include('admin.utils.input', ['label' => 'Код партнера', 'name' => 'agent_code', 'data' => $data])
 											@include('admin.utils.input', ['label' => 'Процент', 'name' => 'fee', 'data' => $data]) 
-											<div class="form-group">
-												<div class="col-md-1">
-													<input type="checkbox"
-														   class="make-switch" data-size="mini" {{ !empty($data['rbk']) ? 'checked' : '' }}
-														   data-on-text="<i class='fa fa-check'></i>"
-														   data-off-text="<i class='fa fa-times'></i>"
-														   name="rbk">
-												</div>
-												<label class="control-label col-md-2">Rbk</label>
-											</div>
 
-											<div class="form-group">
-												<div class="col-md-1">
-													<input type="checkbox"
-														   class="make-switch" data-size="mini" {{ !empty($data['payment_center']) ? 'checked' : '' }}
-														   data-on-text="<i class='fa fa-check'></i>"
-														   data-off-text="<i class='fa fa-times'></i>"
-														   name="payment_center">
+											@if($data->type == 'user')
+												<div class="form-group">
+													<div class="col-md-1">
+														<input type="checkbox"
+															   class="make-switch" data-size="mini" {{ !empty($data['rbk']) ? 'checked' : '' }}
+															   data-on-text="<i class='fa fa-check'></i>"
+															   data-off-text="<i class='fa fa-times'></i>"
+															   name="rbk">
+													</div>
+													<label class="control-label col-md-2">Rbk</label>
 												</div>
-												<label class="control-label col-md-2">Payment Center</label>
-											</div>
+
+												<div class="form-group">
+													<div class="col-md-1">
+														<input type="checkbox"
+															   class="make-switch" data-size="mini" {{ !empty($data['payment_center']) ? 'checked' : '' }}
+															   data-on-text="<i class='fa fa-check'></i>"
+															   data-off-text="<i class='fa fa-times'></i>"
+															   name="payment_center">
+													</div>
+													<label class="control-label col-md-2">Payment Center</label>
+												</div>
+											@endif
 											@include('admin.utils.image', [
 													'inputName' => 'image',
 													'table' => $table,

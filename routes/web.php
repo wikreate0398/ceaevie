@@ -133,10 +133,12 @@ Route::group(['prefix' => $adminPath, 'namespace' => 'Admin', 'middleware' => ['
     Route::group(['prefix' => 'statistics', 'namespace' => 'Statistics'], function() { 
         Route::group(['prefix' => 'enrollment'], function() { 
             Route::get('/', 'EnrollmentController@show')->name('admin_enrollment');   
+            Route::get('export', 'EnrollmentController@export'); 
         });    
 
         Route::group(['prefix' => 'withdrawal-history'], function() { 
             Route::get('/', 'WithdrawalHistoryController@show')->name('admin_withdrawal');   
+            Route::get('export', 'WithdrawalHistoryController@export'); 
         }); 
 
         Route::group(['prefix' => 'report'], function() { 

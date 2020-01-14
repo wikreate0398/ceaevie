@@ -48,7 +48,7 @@ class RegisterController extends Controller
 
     public function showForm()
     {  
-        $userTypes = UserType::where('type', '!=', 'agent')->get();
+        $userTypes = UserType::get();
         return view('auth/registration', compact('userTypes'));
     }
 
@@ -77,7 +77,7 @@ class RegisterController extends Controller
 
         if (!empty($request->agent_code) && !User::where('code', '=', $request->agent_code)->count()) 
         { 
-            return \JsonResponse::error(['messages' => 'Код агента не действителен']);
+            return \JsonResponse::error(['messages' => 'Код партнера не действителен']);
         } 
 
         $confirm_hash = md5(microtime());
@@ -94,7 +94,8 @@ class RegisterController extends Controller
             'confirm_hash'     => $confirm_hash,
             'password'         => bcrypt($request->password),
             'lang'             => lang(),
-            'rand'             => generate_id(7)
+            'rand'             => generate_id(7),
+            'code'             => ($request->type == 'agent') ? generate_id(4) : ''
         ]);
 
         $user->notify(new ConfirmRegistration($confirm_hash, lang()));
