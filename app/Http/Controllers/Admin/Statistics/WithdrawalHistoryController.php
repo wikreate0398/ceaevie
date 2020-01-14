@@ -61,7 +61,7 @@ class WithdrawalHistoryController extends Controller
 
         return \Excel::download(
             new \App\Exports\WithdrawalHistoryExport($data), 
-            'Enrollment.xlsx'
+            'Withdrawal.xlsx'
           ); 
     }
 
