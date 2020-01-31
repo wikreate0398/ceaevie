@@ -61,7 +61,25 @@ class WorkspaceController extends Controller
         $file   = public_path('uploads/qr_codes/' . $qrCode->qr_code);
         $image  = new \Imagick($file); 
         $image->setImageFormat('pdf');
-        $image->writeImage(public_path('uploads/qr_codes/pdf/' . $this->fileNameToPdf($qrCode->qr_code)));
+
+        $filename = $this->fileNameToPdf($qrCode->qr_code);
+        $filePath = public_path('uploads/qr_codes/pdf/'); 
+        $image->writeImage($filePath . $filename); 
+        
+        $this->downloadPdf($filePath, $filename); 
+    }
+
+    private function downloadPdf($filePath, $filename)
+    {
+        $content = file_get_contents($filePath . $filename);
+        header('Content-Type: application/pdf');
+        header('Content-Length: '.strlen( $content ));
+        header('Content-disposition: attachment; filename="' . $filename . '"');
+        header('Cache-Control: public, must-revalidate, max-age=0');
+        header('Pragma: public');
+        header('Expires: Sat, 26 Jul 1997 05:00:00 GMT');
+        header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
+        echo $content; 
     }
 
     private function fileNameToPdf($filename)

@@ -107,10 +107,10 @@
                                 @endforeach 
                             </div>
                             <div class="action">
-                                <div>
-                                    <a href="{{ route('qr_to_pdf', ['lang' => $lang, 'id' => $item->id]) }}">
-                                        <img src="{{ asset('profile_theme') }}/assets/images/print.png" alt="print">
-                                    </a>
+                                <div> 
+                                    <img src="{{ asset('profile_theme') }}/assets/images/print.png" 
+                                         alt="print"
+                                         onclick="window.location='{{ route('qr_to_pdf', ['lang' => $lang, 'id' => $item->id]) }}'">
                                     <a href="{{ route('payment', ['lang' => $lang, 'code' => $item->code]) }}" target="_blank">
                                         <i class="fa fa-external-link" 
                                            aria-hidden="true" 
