@@ -226,6 +226,7 @@ Route::group(['prefix' => '{lang}', 'middleware' => ['lang', 'web']], function()
                 Route::get('/', 'WorkspaceController@index')->name('workspace');
                 Route::post('add-qr', 'WorkspaceController@addQrCode')->name('add_qr'); 
                 Route::get('delete-qr/{id}', 'WorkspaceController@deleteQrCode')->name('delete_qr'); 
+                Route::get('to-pdf/{id}', 'WorkspaceController@qrCodeToPdf')->name('qr_to_pdf');  
             }); 
 
             Route::group(['prefix' => 'ballance'], function() {

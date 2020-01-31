@@ -8,7 +8,7 @@
           {!! $menu["icon"] !!}
         </span> {{ $menu["name_$lang"] }} </h3>
     </div>
-
+    
     @include('profile.utils.cards')
     
     @if(Auth::user()->type == 'user')
@@ -107,7 +107,16 @@
                                 @endforeach 
                             </div>
                             <div class="action">
-                                <img src="{{ asset('profile_theme') }}/assets/images/print.png" alt="print">
+                                <div>
+                                    <a href="{{ route('qr_to_pdf', ['lang' => $lang, 'id' => $item->id]) }}">
+                                        <img src="{{ asset('profile_theme') }}/assets/images/print.png" alt="print">
+                                    </a>
+                                    <a href="{{ route('payment', ['lang' => $lang, 'code' => $item->code]) }}" target="_blank">
+                                        <i class="fa fa-external-link" 
+                                           aria-hidden="true" 
+                                           style="position: relative; font-size: 19px; font-weight: bold; top: 2px; padding-left: 5px;"></i> 
+                                    </a>
+                                </div>
                                 <a href="{{ route('delete_qr', ['lang' => $lang, 'id' => $item->id]) }}" class="confirm_link" data-confirm="Вы действительно желаете удалить?">
                                     <img src="{{ asset('profile_theme') }}/assets/images/trash.png" alt="trash-icon">
                                 </a> 

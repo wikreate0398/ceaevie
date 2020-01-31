@@ -161,7 +161,7 @@ class ClientsController extends Controller
             return trans('admin.req_fields');
         } 
 
-        if($input['type'] != 'agent' && !empty($input['password']) or !empty($input['repeat_password']))
+        if(!empty($input['password']) or !empty($input['repeat_password']))
         {
             if($input['password'] != $input['repeat_password'])
             {
@@ -169,9 +169,7 @@ class ClientsController extends Controller
             }
 
             $input['password'] = bcrypt($input['password']);
-        }else{
-            unset($input['password']);
-        } 
+        }
 
         $uploadImage = new UploadImage;
         $image       = $uploadImage->upload('image', $this->uploadFolder);

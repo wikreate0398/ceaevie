@@ -424,7 +424,5 @@ function selectUserType(select){
         $('.institution_name').show(); 
     } 
 
-    if ($(select).val() != 'agent') {
-        $('.usr_pass').show();
-    }
+    $('.usr_pass').show();
 }

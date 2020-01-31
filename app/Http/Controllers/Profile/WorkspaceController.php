@@ -55,6 +55,21 @@ class WorkspaceController extends Controller
         return redirect()->back()->with('lk_success', 'Запись успешно удалена');
     }
 
+    public function qrCodeToPdf($lang, $id)
+    { 
+        $qrCode = QrCode::where('id_user', \Auth::user()->id)->whereId($id)->firstOrFail();
+        $file   = public_path('uploads/qr_codes/' . $qrCode->qr_code);
+        $image  = new \Imagick($file); 
+        $image->setImageFormat('pdf');
+        $image->writeImage(public_path('uploads/qr_codes/pdf/' . $this->fileNameToPdf($qrCode->qr_code)));
+    }
+
+    private function fileNameToPdf($filename)
+    {
+        $explodeFileName = explode('.', $filename);
+        return $explodeFileName[0] . '.pdf';
+    }
+
     private function genereateQrCode($code)
     { 
         $qrImage = "qrcode_{$code}.svg";
@@ -62,8 +77,7 @@ class WorkspaceController extends Controller
         $url = getAppUrl('pay') . '/ru/make-payment/' . $code;
     	\QrCode::format('svg')
                ->size(500)  
-               ->margin(0) 
-               
+               ->margin(0)  
                ->generate($url, public_path("uploads/qr_codes/{$qrImage}"));
 
         return $qrImage;
