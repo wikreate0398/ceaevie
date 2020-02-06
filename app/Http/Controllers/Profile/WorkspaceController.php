@@ -57,20 +57,21 @@ class WorkspaceController extends Controller
 
     public function qrCodeToPdf($lang, $id)
     { 
+        //return redirect()->back();
         $qrCode = QrCode::where('id_user', \Auth::user()->id)->whereId($id)->firstOrFail();
-        // $file   = public_path('uploads/qr_codes/' . $qrCode->qr_code);
-        // $image  = new \Imagick($file); 
-        // $image->setImageFormat('pdf');
-
+        $file   = public_path('uploads/qr_codes/' . $qrCode->qr_code);
+        $image  = new \Imagick($file); 
+        $image->setImageFormat('pdf');
+ 
         $filename = $this->fileNameToPdf($qrCode->qr_code);
         $filePath = public_path('uploads/qr_codes/pdf/'); 
-        // $image->writeImage($filePath . $filename); 
+        $image->writeImage($filePath . $filename); 
 
-        $this->downloadPdf($filePath, $filename); 
+       $this->downloadPdf($filePath, $filename); 
 
-        return PDF::loadFile(public_path('uploads/qr_codes/' . $qrCode->qr_code))
-                  ->save($filePath . $filename)
-                  ->stream($filename);
+        // return \PDF::loadFile(public_path('uploads/qr_codes/' . $qrCode->qr_code))
+        //           ->save($filePath . $filename)
+        //           ->stream($filename);
 
     }
 
