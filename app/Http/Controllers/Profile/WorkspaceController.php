@@ -60,6 +60,8 @@ class WorkspaceController extends Controller
         //return redirect()->back();
         $qrCode = QrCode::where('id_user', \Auth::user()->id)->whereId($id)->firstOrFail();
         $file   = public_path('uploads/qr_codes/' . $qrCode->qr_code);
+
+        exit($file );
         $image  = new \Imagick($file); 
         $image->setImageFormat('pdf');
  
