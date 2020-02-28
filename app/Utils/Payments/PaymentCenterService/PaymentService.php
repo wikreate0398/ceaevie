@@ -59,9 +59,10 @@ class PaymentService
 	}
 
 	protected function makeRequest($arrayRequest, $requestType)
-	{  
+	{   
 		$body      = http_build_query($arrayRequest);
-		$signature = $this->getSignature($body, $this->secretKey[$this->mode]);
+		$secretKey = ($this->payoutBranch == 'special') ? $this->secretKey['payout'] : $this->secretKey[$this->mode];
+		$signature = $this->getSignature($body, $secretKey);
 		
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $this->serviceHostname . $requestType);
@@ -78,7 +79,8 @@ class PaymentService
 
 	protected function getSignature($body)
 	{
-		$hash = hash_hmac('sha256', $body, $this->secretKey[$this->mode], false);
+		$secretKey = ($this->payoutBranch == 'special') ? $this->secretKey['payout'] : $this->secretKey[$this->mode];
+		$hash = hash_hmac('sha256', $body, $secretKey, false);
  		return base64_encode($hash);	
 	}
 }

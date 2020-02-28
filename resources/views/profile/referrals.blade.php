@@ -7,6 +7,8 @@
         class="page-title-icon bg-gradient-danger text-white mr-2">
       {!! $menu["icon"] !!}
     </span> {{ $menu["name_$lang"] }} </h3>
+
+    <span><b>Ваш Код:</b> {{ \Auth::user()->code }}</span>
 	</div>
    
 	@if($users->count())
