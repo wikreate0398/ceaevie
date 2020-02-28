@@ -92,6 +92,7 @@ class BallanceController extends Controller
                 'amount'         => $amount-setting('commision_withdrawal'),
                 'commision'      => setting('commision_withdrawal') ?: 0,
                 'moderation'     => '1',
+                'payout_branch'  => $request->payout_branch ?: 'common',
                 'request_status' => 'pending'
             ]); 
 
@@ -115,6 +116,7 @@ class BallanceController extends Controller
                 $withdrawalService->setIdCard($request->card)
                                   ->setAmount($amount)
                                   ->setUserId(\Auth::user()->id)
+                                  ->setPayoutService($request->payout_branch ?: 'common')
                                   ->handle();
 
                 \DB::commit();

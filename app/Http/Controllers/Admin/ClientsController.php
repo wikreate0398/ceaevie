@@ -88,6 +88,7 @@ class ClientsController extends Controller
         $this->input['rand']             = generate_id(7);
         $this->input['type']             = $request->type;
         $this->input['work_type']        = ($request->type == 'admin') ? 'common_sum' : '';
+        $this->input['special_payout']   = $request->special_payout ? 1 : 0;
         $this->input['institution_name'] = $request->institution_name ?: '';
         $this->input['code']             = ($request->type == 'agent') ? generate_id(4) : '';
         $this->input['agent_code']       = $request->agent_code ?: '';
@@ -133,7 +134,8 @@ class ClientsController extends Controller
         $this->input['payment_center']   = !empty($request->payment_center) ? 1 : 0;
         $this->input['institution_name'] = $request->institution_name ?: '';
         $this->input['agent_code']       = $request->agent_code ?: '';
-
+        $this->input['special_payout']   = $request->special_payout ? 1 : 0;
+  
         $data->fill($this->input)->save();
         return \App\Utils\JsonResponse::success(['redirect' => route($this->redirectRoute)], trans('admin.save')); 
     }

@@ -59,7 +59,7 @@ class PaymentService
 	}
 
 	protected function makeRequest($arrayRequest, $requestType)
-	{ 
+	{  
 		$body      = http_build_query($arrayRequest);
 		$signature = $this->getSignature($body, $this->secretKey[$this->mode]);
 		

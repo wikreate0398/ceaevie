@@ -43,7 +43,21 @@
 									@include('admin.utils.input', ['label' => 'Телефон', 'name' => 'phone'])
 									@include('admin.utils.input', ['label' => 'E-mail', 'req' => true, 'name' => 'email']) 
 									@include('admin.utils.input', ['label' => 'Код партнера', 'name' => 'agent_code'])
-									@include('admin.utils.image', ['inputName' => 'image'])
+
+									<div class="form-group"> 
+		                                <div class="col-md-1">
+		                                    <input
+											   type="checkbox"
+											   data-size="mini"
+											   class="make-switch" 
+											   data-on-text="<i class='fa fa-check'></i>"
+											   data-off-text="<i class='fa fa-times'></i>"
+											   name="special_payout">
+		                                </div>
+		                                <label class="col-md-2 control-label">Вывод с спец-счета</label>
+		                           	</div> 
+
+									@include('admin.utils.image', ['inputName' => 'image']) 
 
 									<div class="usr_pass"> 
 										@include('admin.utils.input', ['label' => 'Пароль', 'req' => true, 'name' => 'password', 'type' => 'password']) 

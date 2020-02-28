@@ -6,14 +6,18 @@ class VisaPayment extends PaymentService implements PaymentInterface
 {
 	protected $serviceHostname = 'https://secured.payment.center/v2/';
 
+	protected $payoutBranch = 'common';
+
 	protected $serviceId = [
 		'dev'        => 796,
-		'production' => 805
+		'production' => 805,
+		'payout'     => 859
 	];
 
 	protected $secretKey = [
 		'dev'        => 'ZsuvzNBPrEzzNaxr',
-		'production' => 'Ef9tqLRSZ3PsNAsb'
+		'production' => 'Ef9tqLRSZ3PsNAsb',
+		'payout'     => '4Dnh2qvq8QVGxfj8'
 	]; 
 	
 	private $currency = 'RUB'; 
@@ -34,10 +38,16 @@ class VisaPayment extends PaymentService implements PaymentInterface
 		return $this->serviceHostname;
 	}
 
+	public function setPayoutBranch($branch = 'common')
+    {
+    	$this->payoutBranch = $branch;
+    	return $this;
+    }
+
 	public function getToken()
-	{    
+	{      
 		$xmlData = $this->makeRequest([
-			'serviceId'   => $this->serviceId[$this->mode],
+			'serviceId'   => ($this->payoutBranch == 'special') ? $this->serviceId['payout'] : $this->serviceId[$this->mode],
 			'orderId'     => $this->orderId,
 			'amount'      => $this->amount,
 			'currency'    => $this->currency, 
@@ -104,7 +114,7 @@ class VisaPayment extends PaymentService implements PaymentInterface
 	public function payout()
 	{
 		$xmlData = $this->makeRequest([
-			'serviceId'   => $this->serviceId[$this->mode],
+			'serviceId'   => ($this->payoutBranch == 'special') ? $this->serviceId['payout'] : $this->serviceId[$this->mode],
 			'cardNumber'  => $this->cardCredentials['number'],
 			'expMonth'    => $this->cardCredentials['month'],
 			'expYear'     => $this->cardCredentials['year'],

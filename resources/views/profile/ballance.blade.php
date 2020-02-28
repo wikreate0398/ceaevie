@@ -196,6 +196,16 @@
                                     @endforeach
                                 </select> 
                             </div>  
+
+                            @if(\Auth::user()->special_payout)
+                                <div class="form-group col-md-12"> 
+                                    <label>Сервис</label>
+                                    <select name="payout_branch" class="form-control">
+                                        <option value="common" selected>Общий</option>
+                                        <option value="special">Специальный</option>
+                                    </select> 
+                                </div>  
+                            @endif
                             
                             <div style="text-align: center" class="col-md-12">
                                 <button type="submit"

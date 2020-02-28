@@ -40,7 +40,8 @@ class User extends Authenticatable
         'rbk',
         'payment_center',
         'work_type', 
-        'self_percent'
+        'self_percent',
+        'special_payout',
     ];
 
     /**
@@ -58,7 +59,8 @@ class User extends Authenticatable
         'fee'        => 'float',    
         'ballance'   => 'float',      
         'last_entry' => 'datetime',
-        'self_percent' => 'float'
+        'self_percent' => 'float',
+        'special_payout' => 'integer'
     ];
   
     public function scopeFilter($query)

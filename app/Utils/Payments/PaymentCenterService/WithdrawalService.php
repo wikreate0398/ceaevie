@@ -77,17 +77,18 @@ class WithdrawalService
         return $this->withdrawTips->whereId($id)->first();
     }
 
-    public function handle()
+    public function handle($payoutBranch)
     { 
     	$withdraw = $this->registerWithdraw(); 
         
         if (!$this->withdrawId) 
         {
             $this->offUserBallance($withdraw);
-        }    	 
+        }     
          
         $this->payoutService->setOrderId($withdraw->rand)
                       ->setAmount(toFloat($withdraw->amount))
+                      ->setPayoutBranch($payoutBranch)
                       ->setDescription('Вывод средств официанту ' . $this->user->name)
                       ->setCardCredentials([
                         'name'   => $this->card->name,

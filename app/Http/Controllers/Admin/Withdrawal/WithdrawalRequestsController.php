@@ -105,7 +105,7 @@ class WithdrawalRequestsController extends Controller
                           ->setWithdrawId($withdraw->id)
                           ->setAmount($withdraw->amount)
                           ->setUserId($withdraw->id_user)
-                          ->handle(); 
+                          ->handle($withdraw->payout_branch); 
     }
 
     private static function closeOpenRequests()

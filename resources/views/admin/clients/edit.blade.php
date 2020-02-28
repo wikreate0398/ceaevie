@@ -155,7 +155,8 @@
 											</div> 
 											@include('admin.utils.input', ['label' => 'Телефон', 'name' => 'phone', 'data' => $data])
 											@include('admin.utils.input', ['label' => 'E-mail', 'req' => true, 'name' => 'email', 'data' => $data])
-											@include('admin.utils.input', ['label' => 'Код партнера', 'name' => 'agent_code', 'data' => $data])
+											@include('admin.utils.input', ['label' => 'Код партнера', 'name' => 'agent_code', 'data' => $data]) 
+
 											@include('admin.utils.input', ['label' => 'Процент', 'name' => 'fee', 'data' => $data]) 
 
 											@if($data->type == 'user')
@@ -181,6 +182,21 @@
 													<label class="control-label col-md-2">Payment Center</label>
 												</div>
 											@endif
+
+											<div class="form-group"> 
+				                                <div class="col-md-1">
+				                                    <input
+													   type="checkbox"
+													   data-size="mini"
+													   class="make-switch"
+													   data-on-text="<i class='fa fa-check'></i>"
+													   data-off-text="<i class='fa fa-times'></i>"
+													   {{ $data->special_payout ? 'checked' : '' }}  
+													   name="special_payout">
+				                                </div>
+				                                <label class="col-md-2 control-label">Вывод с спец-счета</label>
+				                           	</div> 
+
 											@include('admin.utils.image', [
 													'inputName' => 'image',
 													'table' => $table,
