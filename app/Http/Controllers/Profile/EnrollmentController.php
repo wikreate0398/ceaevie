@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Profile;
  
 use Illuminate\Http\Request; 
 use App\Http\Controllers\Controller; 
+use App\Models\User; 
 use App\Models\Tips; 
 use App\Models\ProfileMenu;
   
@@ -12,15 +13,18 @@ class EnrollmentController extends Controller
     public function index()
     {    
         $menu     = ProfileMenu::where('route', 'enrollment')->first();
-    
+            
+          
     	$tips = Tips::confirmed()
                     ->select('tips.*')
                     ->where(function($query){ 
                         if (\Auth::user()->type == 'admin') {
                             return $query->where('id_location', \Auth::id());
+                        }else if(\Auth::user()->type == 'user'){
+                            return $query->where('id_user', \Auth::id()); 
                         }else{
-                            return $query->where('id_user', \Auth::id());
-                                         //->where('location_work_type', '!=', 'common_sum');
+                            $ids = User::where('id', \Auth::id())->with('referrals')->first();
+                            return $query->whereIn('id_user', $ids->referrals->pluck('id')->toArray()); 
                         }
                     })
                     ->filter() 

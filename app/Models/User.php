@@ -110,6 +110,11 @@ class User extends Authenticatable
       return $this->hasOne('App\Models\User', 'code', 'agent_code');
     } 
 
+    public function referrals()
+    {
+      return $this->hasMany('App\Models\User', 'agent_code', 'code');
+    } 
+
     public function tips()
     {
         return $this->hasMany('App\Models\Tips', 'id_user', 'id');

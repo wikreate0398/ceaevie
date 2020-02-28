@@ -112,7 +112,10 @@ class ClientsController extends Controller
     {
         $client = User::findOrFail($id);
         \Auth::guard('web')->login($client);
-        return redirect()->route('workspace', ['lang' => 'ru']);
+
+        $route = ($client->type == 'agent') ? 'my_referrals' : 'workspace';
+
+        return redirect()->route($route, ['lang' => 'ru']);
     }
 
     public function update($id, Request $request)

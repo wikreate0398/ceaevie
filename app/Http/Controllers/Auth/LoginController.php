@@ -63,7 +63,9 @@ class LoginController extends Controller
                     'last_entry' => date('Y-m-d H:i:s'), 
                     'user_agent' => request()->server('HTTP_USER_AGENT')
                 ]);
-                return \JsonResponse::success(['redirect' => route('workspace', ['lang' => lang()])], false);
+
+                $route = (\Auth::user()->type == 'agent') ? 'my_referrals' : 'workspace';
+                return \JsonResponse::success(['redirect' => route($route, ['lang' => lang()])], false);
             }
             else
             {

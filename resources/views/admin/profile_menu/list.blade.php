@@ -49,7 +49,7 @@
 						<th class="nw">Название</th> 
 						@foreach($user_types as $type)
 							<th style="width: 50px;">
-								{{ $type->name }}
+								{{ $type->name_ru }}
 							</th>
 						@endforeach
 						<th style="width:5%; text-align: center"><i class="fa fa-cogs" aria-hidden="true"></i></th>

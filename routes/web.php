@@ -222,6 +222,10 @@ Route::group(['prefix' => '{lang}', 'middleware' => ['lang', 'web']], function()
                 Route::post('send', 'ContactController@send')->name('send_contact_us'); 
             }); 
 
+            Route::group(['prefix' => 'my-referrals'], function() {
+                Route::get('/', 'MyReferralsController@index')->name('my_referrals'); 
+            });  
+
             Route::group(['prefix' => 'workspace'], function() {
                 Route::get('/', 'WorkspaceController@index')->name('workspace');
                 Route::post('add-qr', 'WorkspaceController@addQrCode')->name('add_qr'); 
