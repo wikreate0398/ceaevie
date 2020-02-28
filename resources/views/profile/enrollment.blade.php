@@ -109,7 +109,7 @@
                         <tr>
                             <td style="width: 16.6%;">№ транзакции</td>
                             <td style="width: 16.6%;">Дата зачисления</td>
-                            @if(Auth::user()->type == 'admin')
+                            @if(in_array(Auth::user()->type, ['admin', 'agent']))
                                 <td style="width: 16.6%;">Официант</td>
                             @endif
                             <td style="width: 16.6%;">Сумма</td>
@@ -123,7 +123,7 @@
                             <tr class="{{ $tip->open ? 'open-tr' : '' }}">
                                 <td>{{ $tip->rand }}</td>
                                 <td>{{ $tip->created_at->format('d.m.Y H:i') }}</td>
-                                @if(Auth::user()->type == 'admin')
+                                @if(in_array(Auth::user()->type, ['admin', 'agent']))
                                     <td style="width: 16.6%;">{{ $tip->user->name }} {{ $tip->user->lastname }}</td>
                                 @endif
                                 <td>{{ $tip->total_amount }} Р</td>
