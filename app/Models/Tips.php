@@ -87,6 +87,15 @@ class Tips extends Model
     {
         return $this->hasMany('App\Models\TipPercents', 'id_tip', 'id');
     }
+
+    public function scopeWithPartnerPercent($query)
+    {
+        return $query->with(['percents' => function($query){
+            return $query->whereHas('enrollment_percent', function($query){
+                return $query->where('type', 'agent');
+            });
+        }]);
+    }
  
     public function scopeFilter($query)
     { 

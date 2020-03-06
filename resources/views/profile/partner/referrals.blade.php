@@ -10,24 +10,26 @@
 
     <span><b>Ваш Код:</b> {{ \Auth::user()->code }}</span>
 	</div>
+
+	@include('profile.utils.cards')
    
-	@if($users->count())
+	@if($referrals->count())
 	    <div class="row" style="margin-top: 30px;">  
 	        <div class="col-md-12 grid-margin table-history">
 	            <table class="history eq-table-cell">
 	                <thead>
 	                    <tr>
-	                        <td>Фио</td>
-	                        <td>E-mail</td>
-	                        <td>Телфон</td> 
+	                        <td class="ac" style="33.3%">Фио</td>
+	                        <td class="ac" style="33.3%">E-mail</td>
+	                        <td class="ac" style="33.3%">Телфон</td>
 	                    </tr>
 	                </thead>
 	                <tbody>
-	                    @foreach($users as $user)
+	                    @foreach($referrals as $user)
 	                        <tr>
-	                            <td>{{ @$user->name }} {{ $user->lastname }}</td>
-	                            <td>{{ $user->email }}</td>
-	                            <td>{{ $user->phone }}</td> 
+	                            <td class="ac">{{ @$user->name }} {{ $user->lastname }}</td>
+	                            <td class="ac">{{ $user->email }}</td>
+	                            <td class="ac">{{ $user->phone }}</td>
 	                        </tr>
 	                    @endforeach
 	                </tbody>

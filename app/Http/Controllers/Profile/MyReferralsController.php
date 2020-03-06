@@ -12,7 +12,17 @@ class MyReferralsController extends Controller
     public function index()
     {    
         $menu = ProfileMenu::where('route', 'my_referrals')->first(); 
-    	$users = User::where('agent_code', \Auth::user()->code)->get();  
-        return view('profile.referrals', compact(['users', 'menu']));
+    	$users = User::where('agent_code', \Auth::user()->code)->with('locationUsers')->get();
+
+        $referrals = collect();
+        foreach ($users as $user) {
+            foreach ($user->locationUsers as $locationUser){
+                $referrals->push($locationUser);
+            }
+            $user->unsetRelation('locationUsers');
+            $referrals->push($user);
+    	}
+
+        return view('profile.partner.referrals', compact(['referrals', 'menu']));
     }   
 }

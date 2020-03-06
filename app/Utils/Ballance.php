@@ -8,6 +8,9 @@
 
 namespace App\Utils;
 use App\Models\Transactions;
+use App\Models\Tips;
+use App\Models\User;
+use function foo\func;
 
 class Ballance
 {
@@ -30,18 +33,42 @@ class Ballance
     function __construct() {}
 
     public static function getUserBallance($idUser, $userType, $days = false)
-    {  
+    {
+
         $senderMoneys = Transactions::where('id_user', $idUser)
                                     ->where('id_sender', '!=', '')
                                     ->forLast($days)
                                     ->where('type', 'replenish')
-                                    ->sum('price'); 
+                                    ->sum('price');
 
         $tipsMoney = self::sumTipAmount(\App\Models\Tips::confirmed($days)
                                                      ->selectRaw('amount, status, created_at, location_work_type, id_location, location_amount')
                                                      ->where((($userType == 'admin') ? 'id_location' : 'id_user'), $idUser)
                                                      ->get(), $userType, $idUser);
         return $tipsMoney+$senderMoneys;
+    }
+
+    public static function getPartnerBallance($idPartner, $userType, $days = false)
+    {
+        $data = User::where('id', $idPartner)->with('referrals.locationUsers')->first();
+
+        foreach ($data->referrals as $referral){
+            foreach ($referral->locationUsers as $user){
+                $ids[$user->id] = $user->id;
+            }
+            $ids[$referral->id] = $referral->id;
+        }
+
+        $tips = Tips::confirmed($days)
+                    ->selectRaw('id, total_amount')
+                    ->withPartnerPercent()
+                    ->whereIn('id_user', $ids)
+                    ->get()
+                    ->sum(function($item){
+                        return percent($item->total_amount, $item['percents'][0]->percent);
+                    });
+
+        return $tips;
     }
 
     private static function sumTipAmount($tips, $userType, $userId)

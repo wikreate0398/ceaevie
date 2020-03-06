@@ -1,4 +1,4 @@
-@if(in_array(Auth::user()->type, ['user', 'admin']))
+
     <div class="row">
         <div class="col-md-4 stretch-card grid-margin">
             <div
@@ -18,8 +18,8 @@
                     <h4 class="font-weight-normal mb-3">
                         Заработано "чаевых" всего
                     </h4>
-                    <h2>  
-                        {{ \Ballance::getUserBallance(Auth::id(), Auth::user()->type) }} Р
+                    <h2>
+                        {{ (Auth::user()->type == 'agent') ? \Ballance::getPartnerBallance(Auth::id(), Auth::user()->type) : \Ballance::getUserBallance(Auth::id(), Auth::user()->type) }} Р
                     </h2>
                 </div>
             </div>
@@ -31,11 +31,10 @@
                     <h4 class="font-weight-normal mb-3">
                         Заработано "чаевых" на этой неделе
                     </h4>
-                    <h2> 
-                        {{ \Ballance::getUserBallance(Auth::id(), Auth::user()->type, 7) }} Р
+                    <h2>
+                        {{ (Auth::user()->type == 'agent') ? \Ballance::getPartnerBallance(Auth::id(), Auth::user()->type, 7) : \Ballance::getUserBallance(Auth::id(), Auth::user()->type, 7) }} Р
                     </h2>
                 </div>
             </div>
         </div>
     </div>
-@endif

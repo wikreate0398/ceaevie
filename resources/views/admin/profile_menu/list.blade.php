@@ -46,7 +46,8 @@
 					<tr>
 						<td style="width:50px; text-align:center;"></td>
 						<th style="width:5%; text-align: center"><i class="fa fa-check-square" aria-hidden="true"></i></th>
-						<th class="nw">Название</th> 
+						<th class="nw">Название</th>
+						<th class="nw">Описание</th>
 						@foreach($user_types as $type)
 							<th style="width: 50px;">
 								{{ $type->name_ru }}
@@ -66,7 +67,8 @@
 									   data-off-text="<i class='fa fa-times'></i>"
 									   onchange="Ajax.buttonView(this, '{{ $table }}', '{{ $item["id"] }}', 'view')">
 							</td>
-							<td class="nw">{{ $item->name_ru }}</td> 
+							<td class="nw">{{ $item->name_ru }}</td>
+							<td>{{ $item->description }}</td>
 							@php
 								$access = $item->access->count() ? $item->access->keyBy('type') : [];
 							@endphp

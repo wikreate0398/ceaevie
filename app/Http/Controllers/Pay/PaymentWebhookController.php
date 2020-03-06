@@ -16,7 +16,7 @@ class PaymentWebhookController extends Controller
 {
 	public function testCharged($idTip)
 	{
-		$tip = Tips::with('location')->whereId($idTip)->first();
+		$tip = Tips::with('location')->withPartnerPercent()->whereId($idTip)->first();
 		$this->chargedTip($tip); 
 
 		$tip->status = 'CHARGED';  
@@ -27,15 +27,11 @@ class PaymentWebhookController extends Controller
 	{ 
 		$this->log($request->all(), @$request->Event, @$request->Order_Id); 
   
-		if ($request->Order_Id) 
-		{
-			if ($request->Event == 'Payment') 
-			{ 
-				$tip = Tips::with('location')->where('rand', $request->Order_Id)->first();
-				if ($tip) 
-				{
-					if ($request->Event == 'Payment' && $request->Status == 'BLOCKED') 
-					{ 
+		if ($request->Order_Id) {
+			if ($request->Event == 'Payment') {
+				$tip = Tips::with('location')->withPartnerPercent()->where('rand', $request->Order_Id)->first();
+				if ($tip) {
+					if ($request->Event == 'Payment' && $request->Status == 'BLOCKED') {
 						$paymentClass = new VisaPayment; 
 			    		$data = $paymentClass->setTranId($request->Transaction_Id)
 			    		                     ->setAmount(toFloat($tip->amount))
@@ -48,35 +44,27 @@ class PaymentWebhookController extends Controller
 					$tip->rrn            = @$request->RRN;
 					$tip->id_transaction = $request->Transaction_Id;
 
-					if (!empty($request->NewAmount)) 
-					{
+					if (!empty($request->NewAmount)) {
 						$tip->amount = toFloat($request->NewAmount); 
 					} 
 	 
 					$tip->save();
 
-					if ($request->Status == 'CHARGED') 
-					{
+					if ($request->Status == 'CHARGED') {
 						$this->chargedTip($tip); 
 					}
 				} 
-			}
-			elseif ($request->Event == 'Payout') 
-			{
+			} elseif ($request->Event == 'Payout') {
 				$withdraw = WithdrawTips::where('rand', $request->Order_Id)->first();
-				if ($withdraw) 
-				{ 
+				if ($withdraw) {
 					$withdraw->status         = ($request->Status == 'CHARGED') ? 'SUCCESS' : ''; 
 					$withdraw->id_transaction = $request->Transaction_Id;
        				$withdraw->pan_ref_token  = $request->panRefToken ?: ''; 
        				$withdraw->save();
 				}
-			}
-			elseif ($request->Event == 'Fail') 
-			{
+			} elseif ($request->Event == 'Fail') {
 				$withdraw = WithdrawTips::where('rand', $request->Order_Id)->first();
-				if ($withdraw) 
-				{ 
+				if ($withdraw) {
 					$withdraw->status         = 'FAIL'; 
 					$withdraw->request_status = 'rejected'; 
 					$withdraw->id_transaction = $request->Transaction_Id;
@@ -91,27 +79,37 @@ class PaymentWebhookController extends Controller
 	private function chargedTip($tip)
 	{ 
 		$amount = $tip->amount;
-		if (!empty($tip->location)) 
-		{
-			if ($tip->location_work_type == 'percent') 
-			{  
-				// зачисляем деньги пользователю 
+		if (!empty($tip->location)) {
+			if ($tip->location_work_type == 'percent') {
+				// зачисляем деньги пользователю
  				$this->enroll($tip->user, $tip->id, $amount);
 
-	            // зачисляем деньги заведению  
+	            // зачисляем деньги заведению
 	        	$this->enroll($tip->location, $tip->id, $tip->location_amount);
-			}
-			else
-			{
+			} else {
 				// зачисляем деньги заведению
-	            $this->enroll($tip->location, $tip->id, $amount);         
+	            $this->enroll($tip->location, $tip->id, $amount);
 			}
+		} else {
+	        $this->enroll($tip->user, $tip->id, $amount);
 		}
-		else
-		{ 
-	        $this->enroll($tip->user, $tip->id, $amount); 
-		}
+
+        // зачисляем деньги партнеру
+		$this->enrollToPartner($tip);
 	}
+
+	private function enrollToPartner($tip, $partner = false)
+    {
+        if ($tip->user->agent) {
+            $partner = $tip->user->agent;
+        }else if ($tip->user->location->count() && $tip->user->location->first()){
+            $partner = $tip->user->location->first()->agent;
+        }
+
+        if ($partner) {
+            $this->enroll($partner, $tip->id, percent($tip->total_amount, $tip['percents'][0]->percent));
+        }
+    }
 
 	private function enroll($user, $tipId, $amount)
 	{

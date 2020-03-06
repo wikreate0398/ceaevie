@@ -17,7 +17,8 @@ class ProfileMenu extends Model
 	protected $fillable = [
         'name_ru', 
         'name_en', 
-        'route'
+        'route',
+        'description'
     ]; 
 
     public function access()

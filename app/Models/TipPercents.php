@@ -14,5 +14,10 @@ class TipPercents extends Model
         'id_tip', 
         'id_percent',
         'percent'
-    ]; 
+    ];
+
+    public function enrollment_percent()
+    {
+        return $this->hasOne('App\Models\EnrollmentPercents', 'id', 'id_percent');
+    }
 }

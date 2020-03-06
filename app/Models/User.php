@@ -107,8 +107,13 @@ class User extends Authenticatable
 
     public function agent()
     {
-      return $this->hasOne('App\Models\User', 'code', 'agent_code');
-    } 
+      return $this->hasOne('App\Models\User', 'code', 'agent_code')->where('code', '>', 0);
+    }
+
+    public function location()
+    {
+        return $this->belongsToMany('App\Models\User', 'location_users', 'id_user', 'id_location');
+    }
 
     public function referrals()
     {
@@ -173,6 +178,6 @@ class User extends Authenticatable
 
     public function locationUsers()
     {
-      return $this->belongsToMany('App\Models\User', 'location_users', 'id_location', 'id');
+      return $this->belongsToMany('App\Models\User', 'location_users', 'id_location', 'id_user');
     }
 }

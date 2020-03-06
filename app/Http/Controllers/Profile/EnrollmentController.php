@@ -12,9 +12,8 @@ class EnrollmentController extends Controller
 { 
     public function index()
     {    
-        $menu     = ProfileMenu::where('route', 'enrollment')->first();
-            
-          
+        $menu = ProfileMenu::where('route', 'enrollment')->first();
+
     	$tips = Tips::confirmed()
                     ->select('tips.*')
                     ->where(function($query){ 
@@ -22,9 +21,6 @@ class EnrollmentController extends Controller
                             return $query->where('id_location', \Auth::id());
                         }else if(\Auth::user()->type == 'user'){
                             return $query->where('id_user', \Auth::id()); 
-                        }else{
-                            $ids = User::where('id', \Auth::id())->with('referrals')->first();
-                            return $query->whereIn('id_user', $ids->referrals->pluck('id')->toArray()); 
                         }
                     })
                     ->filter() 
@@ -41,7 +37,7 @@ class EnrollmentController extends Controller
     	Tips::confirmed()->where('id_user', \Auth::user()->id)->where('open', '1')->update(['open' => 0]); 
     }
 
-    private static function getPerPage()
+    protected static function getPerPage()
     {
     	$perPage = request()->per_page ? request()->per_page : \Session::get('per_page'); 
     	if (\Session::get('per_page') != $perPage or !\Session::get('per_page')) 
