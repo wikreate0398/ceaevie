@@ -122,7 +122,7 @@
                                 <td class="ac">{{ $tip->user->name }} {{ $tip->user->lastname }}</td>
                                 <td class="ac">{{ $tip->total_amount }} Р</td>
                                 <td class="ac">
-                                    {{ percent($tip->total_amount, $tip['percents'][0]->percent) }} Р
+                                    {{ percent($tip->total_amount, @$tip['percents'][0]->percent) }} Р
                                 </td>
                             </tr>
                         @endforeach

@@ -65,7 +65,7 @@ class Ballance
                     ->whereIn('id_user', $ids)
                     ->get()
                     ->sum(function($item){
-                        return percent($item->total_amount, $item['percents'][0]->percent);
+                        return percent($item->total_amount, @$item['percents'][0]->percent);
                     });
 
         return $tips;
