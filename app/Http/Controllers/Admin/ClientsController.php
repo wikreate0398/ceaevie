@@ -9,7 +9,8 @@ use App\Utils\UploadImage;
 use App\Utils\Encryption; 
 use App\Notifications\SendLetter;
 use App\Notifications\ChangeVerificationStatus;
-use App\Models\UserType; 
+use App\Models\UserType;
+use App\Models\EnrollmentPercents;
 
 class ClientsController extends Controller
 {
@@ -33,7 +34,7 @@ class ClientsController extends Controller
     public function __construct() 
     {
         $this->model  = new User;
-        $this->method = config('admin.path') . '/' . $this->method; 
+        $this->method = config('admin.path') . '/' . $this->method;
     }
 
     /**
@@ -138,6 +139,15 @@ class ClientsController extends Controller
         $this->input['institution_name'] = $request->institution_name ?: '';
         $this->input['agent_code']       = $request->agent_code ?: '';
         $this->input['special_payout']   = $request->special_payout ? 1 : 0;
+
+        if ($request->fee){
+            $percents           = EnrollmentPercents::all()->keyBy('type');
+            $permissiblePercent = $percents['agent']['percent'] + $percents['income']['percent'];
+
+            if ($permissiblePercent < $request->fee){
+                return \JsonResponse::error(['messages' => 'Процент может быть не больше ' . $permissiblePercent]);
+            }
+        }
   
         $data->fill($this->input)->save();
         return \App\Utils\JsonResponse::success(['redirect' => route($this->redirectRoute)], trans('admin.save')); 

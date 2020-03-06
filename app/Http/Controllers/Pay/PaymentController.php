@@ -149,18 +149,37 @@ class PaymentController extends Controller
         return view('public.payment.message', compact(['message', 'lang']));
     }
  
-    private function makeOrder($request)
+    private function makeOrder($request, $partner = null)
     {  
-        $qrCode      = QrCode::where('code', $request->code)->with('user')->first();
+        $qrCode      = QrCode::where('code', $request->code)->with(['user.agent', 'location.agent'])->first();
 
         // процент приложния
-        $percents    = EnrollmentPercents::select('percent', 'id')->get(); 
-        $fee         = $qrCode->user->fee ?: $percents->sum('percent');
+        $percents    = EnrollmentPercents::select('percent', 'id', 'type')->get()->keyBy('type');
 
+        if ($qrCode->user->agent) {
+            $partner = $qrCode->user->agent;
+        } else if ($qrCode->user->location->count() && $qrCode->user->location->first()){
+            $partner = $qrCode->user->location->first()->agent;
+        }
+
+        if (@$partner->fee){
+            $incomePercent = $percents['income']->percent;
+
+            if ($partner->fee > $percents['agent']->percent) {
+                $incomePercent = ($percents['agent']->percent+$percents['income']->percent) - $partner->fee;
+            } else if($partner->fee < $percents['agent']['percent']) {
+                $incomePercent = ($percents['agent']->percent - $partner->fee) + $percents['income']->percent;
+            }
+
+            if ($incomePercent <> $percents['income']->percent){
+                $percents['income']->percent = $incomePercent;
+                $percents['agent']->percent = $partner->fee;
+            }
+        }
+
+        $fee         = $percents->sum('percent');
         $totalAmount = toFloat($request->price);
         $amount      = withdrawFee($totalAmount, $fee);
-
-        $qrCode      = QrCode::where('code', $request->code)->with('location')->first();
 
         $location_fee    = 0;
         $location_amount = 0;

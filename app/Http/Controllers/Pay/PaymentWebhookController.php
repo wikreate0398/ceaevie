@@ -106,7 +106,7 @@ class PaymentWebhookController extends Controller
             $partner = $tip->user->location->first()->agent;
         }
 
-        if ($partner) {
+        if ($partner && @$tip['percents'][0]->percent) {
             $this->enroll($partner, $tip->id, percent($tip->total_amount, $tip['percents'][0]->percent));
         }
     }

@@ -157,7 +157,9 @@
 											@include('admin.utils.input', ['label' => 'E-mail', 'req' => true, 'name' => 'email', 'data' => $data])
 											@include('admin.utils.input', ['label' => 'Код партнера', 'name' => 'agent_code', 'data' => $data]) 
 
-											@include('admin.utils.input', ['label' => 'Процент', 'name' => 'fee', 'data' => $data]) 
+											@if($data->type == 'agent')
+												@include('admin.utils.input', ['label' => 'Процент', 'name' => 'fee', 'data' => $data])
+											@endif
 
 											@if($data->type == 'user')
 												<div class="form-group">
