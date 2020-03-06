@@ -26,6 +26,8 @@ class PartnerEnrollmentController extends EnrollmentController
                     ->groupBy('tips.id')
                     ->paginate(self::getPerPage());
 
+        exit(print_arr($tips->toArray()));
+
         return view('profile.partner.enrollment', compact(['tips', 'menu']));
     }
 
