@@ -52,6 +52,7 @@ class Ballance
     {
         $data = User::where('id', $idPartner)->with('referrals.locationUsers')->first();
 
+        $ids = [];
         foreach ($data->referrals as $referral){
             foreach ($referral->locationUsers as $user){
                 $ids[$user->id] = $user->id;
