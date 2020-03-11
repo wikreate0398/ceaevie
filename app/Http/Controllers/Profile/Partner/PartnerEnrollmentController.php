@@ -19,6 +19,7 @@ class PartnerEnrollmentController extends EnrollmentController
 
         $tips = Tips::confirmed()
                     ->withPartnerPercent()
+                    ->hasPartnerPercents()
                     ->select('tips.*')
                     ->whereIn('id_user', $ids)
                     ->filter()

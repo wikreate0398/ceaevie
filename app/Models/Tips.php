@@ -94,7 +94,12 @@ class Tips extends Model
             return $query->whereHas('enrollment_percent', function($query){
                 return $query->where('type', 'agent');
             });
-        }])->whereHas('percents', function ($query){
+        }]);
+    }
+
+    public function scopeHasPartnerPercents($query)
+    {
+        return $query->whereHas('percents', function ($query){
             return $query->whereHas('enrollment_percent', function($query){
                 return $query->where('type', 'agent');
             });

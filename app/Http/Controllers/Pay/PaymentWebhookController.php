@@ -19,7 +19,7 @@ class PaymentWebhookController extends Controller
 		$tip = Tips::with('location')->withPartnerPercent()->whereId($idTip)->first();
 		$this->chargedTip($tip); 
 
-		$tip->status = 'CHARGED';  
+		$tip->status = 'CHARGED';
 		$tip->save();
 	}
 

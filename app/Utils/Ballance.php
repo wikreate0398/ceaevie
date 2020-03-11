@@ -63,6 +63,7 @@ class Ballance
         $tips = Tips::confirmed($days)
                     ->selectRaw('id, total_amount')
                     ->withPartnerPercent()
+                    ->hasPartnerPercents()
                     ->whereIn('id_user', $ids)
                     ->get()
                     ->sum(function($item){

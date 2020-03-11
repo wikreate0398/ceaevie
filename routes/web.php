@@ -191,8 +191,7 @@ Route::group(['prefix' => '{lang}', 'middleware' => ['lang', 'web']], function()
     Route::post('questions', 'HomeController@questions')->name('questions');
     Route::post('set-code', 'Pay\PaymentController@setСode')->name('set_code_home');
     Route::post('give-thanks', 'HomeController@giveThanks')->name('give_thanks');
-
-
+    
     Route::group(['middlewars' => 'guest'], function(){
         Route::get('registration', 'Auth\RegisterController@showForm')->name('registration');
         Route::post('register', 'Auth\RegisterController@register')->name('register');
