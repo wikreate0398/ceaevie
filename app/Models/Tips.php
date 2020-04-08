@@ -32,7 +32,8 @@ class Tips extends Model
         'open',
         'open_admin',
         'rating',
-        'review'
+        'review',
+        'from_bill'
     ];  
 
     protected $casts = [
@@ -44,7 +45,8 @@ class Tips extends Model
         'fee'          => 'float',
         'location_fee' => 'float',
         'location_amount' => 'float',
-        'rating'       => 'integer'
+        'rating'       => 'integer',
+        'from_bill'    => 'integer'
     ];
  
 

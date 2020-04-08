@@ -59,7 +59,7 @@ class PaymentService
 	}
 
 	protected function makeRequest($arrayRequest, $requestType)
-	{   
+	{
 		$body      = http_build_query($arrayRequest);
 		$secretKey = ($this->payoutBranch == 'special') ? $this->secretKey['payout'] : $this->secretKey[$this->mode];
 		$signature = $this->getSignature($body, $secretKey);

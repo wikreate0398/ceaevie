@@ -137,7 +137,8 @@ class ClientsController extends Controller
             $orderCreator = new Order;
             $orderCreator->requestData([
                 'code'  => $request->qr_code,
-                'price' => $request->price
+                'price' => $request->price,
+                'from_bill' => 1
             ])->make();
 
             $order = $orderCreator->getOrder();

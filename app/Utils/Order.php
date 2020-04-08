@@ -19,6 +19,8 @@ class Order
 
     private $review;
 
+    private $from_bill;
+
     private $order;
 
     public function requestData($array)
@@ -87,6 +89,7 @@ class Order
             'fee'                 => $fee,
             'rating'              => $this->rating ?: '',
             'review'              => $this->review ?: '',
+            'from_bill'           => $this->from_bill ?: 0
         ]);
 
         $percents->each(function($percent) use($tip){
