@@ -20,6 +20,13 @@
 					Банковские карты </a>
 				</li>
 
+				@if($data->type == 'user')
+					<li class="">
+						<a href="#tab_5" data-toggle="tab">
+							Выставить счет </a>
+					</li>
+				@endif
+
 				@if($data->verification_status != 'not_passed')
 					<li>
 						<a href="#tab_3" data-toggle="tab">
@@ -33,6 +40,7 @@
 			</ul>
 
 			<div class="tab-content">
+
 				<div class="tab-pane active" id="tab_1"> 
 					<div class="portlet blue-hoki box">
 						<div class="portlet-title">
@@ -131,6 +139,87 @@
 						</div>
 					</div> 
 				</div>
+
+				@if($data->type == 'user')
+					<div class="tab-pane active" id="tab_5">
+						@if($qr_codes->count())
+							<form action="/{{ $method }}/{{ $data['id'] }}/waiter-bill" class="bill__form form-horizontal">
+
+								{{ csrf_field() }}
+								<div class="form-group">
+									<label class="control-label col-md-12">Тип</label>
+									<div class="col-md-12">
+										<select name="type" class="form-control" onchange="selectBillType(this)">
+											<option value="0">Выбрать</option>
+											<option value="1">Сгенерировать ссылку</option>
+											<option value="2">Отправить на почту</option>
+										</select>
+									</div>
+								</div>
+
+								<div class="bill-inputs" style="display: none;">
+									<div class="form-group">
+										<label class="control-label col-md-12">Email плательщика</label>
+										<div class="col-md-12">
+											<input type="text" name="email" class="form-control" autocomplete="off">
+										</div>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label class="control-label col-md-12">Qr код</label>
+									<div class="col-md-12">
+										<select name="qr_code" class="form-control">
+											<option value="0">Выбрать</option>
+											@foreach($qr_codes as $qr_code)
+												<option value="{{ $qr_code->code }}">
+													{{ $qr_code->code }}
+													@if($qr_code->id_location)
+														(общий)
+													@else
+														(личный)
+													@endif
+												</option>
+											@endforeach
+										</select>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label class="control-label col-md-12">Сумма</label>
+									<div class="col-md-12">
+										<input type="text" name="sum" class="form-control number" autocomplete="off">
+									</div>
+								</div>
+								<div class="form-actions">
+									<div class="btn-set pull-left">
+										<button type="submit" class="btn green">Готово</button>
+									</div>
+								</div>
+							</form>
+
+							<div class="link__block" style="display: none;">
+								<div class="alert alert-info">
+									<p class="link_label">lorem</p>
+								</div>
+								<button class="btn btn-sm btn-warning" onclick="$('.link__block').hide(); $('.link_label').text(''); $('.bill__form').show();">Назад</button>
+							</div>
+						@else
+							<div class="alert alert-warning">
+								У клиента нет добавленых Qr кодов что бы сгенерировать выписку
+							</div>
+						@endif
+					</div>
+
+					<script>
+						function selectBillType(select) {
+							$('.bill-inputs').hide();
+							if($(select).val() == 2) {
+								$('.bill-inputs').show();
+							}
+						}
+					</script>
+				@endif
 
 				<div class="tab-pane" id="tab_2">
 					<div class="portlet light bg-inverse"> 

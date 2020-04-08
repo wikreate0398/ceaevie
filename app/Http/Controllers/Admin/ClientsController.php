@@ -2,15 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Notifications\SendBill;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Utils\Payments\PaymentCenterService\VisaPayment;
 use App\Utils\UploadImage;  
-use App\Utils\Encryption; 
+use App\Utils\Encryption;
+use App\Utils\Order;
 use App\Notifications\SendLetter;
 use App\Notifications\ChangeVerificationStatus;
+use App\Models\User;
 use App\Models\UserType;
 use App\Models\EnrollmentPercents;
+use App\Models\QrCode;
 
 class ClientsController extends Controller
 {
@@ -100,13 +104,61 @@ class ClientsController extends Controller
     }
 
     public function showeditForm($id)
-    { 
+    {
+        $user    = $this->model->withTrashedCard()->findOrFail($id);
+        $qrCodes = QrCode::where('id_user', $user->id)->with('location')->get();
+
         return view('admin.'.$this->folder.'.edit', [
-            'method'        => $this->method,
-            'table'         => $this->model->getTable(),
-            'data'          => $this->model->withTrashedCard()->findOrFail($id),
-            'encriptionService' => new Encryption
+            'method'            => $this->method,
+            'table'             => $this->model->getTable(),
+            'data'              => $user,
+            'encriptionService' => new Encryption,
+            'qr_codes'          => $qrCodes
         ]);
+    }
+
+    public function waiterBill($id, Request $request)
+    {
+        try {
+            $waiter  = User::whereId($id)->active()->first();
+
+            if (!$waiter) {
+                throw new \Exception('Официант не активен');
+            }
+
+            if (!$request->type or !$request->sum or !$request->qr_code) {
+                throw new \Exception('Заполните все поля');
+            }
+
+            if ($request->type === '2' && !$request->email) {
+                throw new \Exception('Укажите email плательщика');
+            }
+
+            $orderCreator = new Order;
+            $orderCreator->requestData([
+                'code'  => $request->qr_code,
+                'price' => $request->price
+            ])->make();
+
+            $order = $orderCreator->getOrder();
+
+            $paymentClass = new VisaPayment;
+            $paymentClass->setOrderId($order->rand)
+                         ->setAmount(toFloat($order->total_amount))
+                         ->setDescription('Чаевые официанту ' . $order->user->name);
+
+            $link = $paymentClass->getToken();
+
+            if ($request->type === '1') {
+                return \JsonResponse::success(['message' => 'Ссылка успешно сгенерирована', 'link' => $link]);
+            } else {
+                $waiter->notify(new SendBill($order->rand, $request->price, $link));
+                return \JsonResponse::success(['message' => 'Выписка успешно отправлена']);
+            }
+
+        } catch (\Exception $e) {
+            return \JsonResponse::error(['message' => $e->getMessage()]);
+        }
     }
 
     public function autologin($id)

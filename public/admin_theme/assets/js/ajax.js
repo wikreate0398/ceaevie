@@ -50,6 +50,39 @@ $(document).ready(function(){
     });
 
     changeByKeyup();
+
+    $('form.bill__form').on('submit', function (e) {
+        e.preventDefault();
+        const form = $(this);
+        $.ajax({
+            type: 'POST',
+            url: $(form).attr('action'),
+            data: new FormData(form[0]),
+            contentType: false,
+            cache: false,
+            processData: false,
+            async: true,
+            dataType: 'json',
+            success: function (jsonResponse) {
+                console.log(jsonResponse);
+                if (jsonResponse.msg === false) {
+                    Ajax.notify('danger', jsonResponse.message);
+                } else {
+                    if (jsonResponse.message) {
+                        Ajax.notify('success', jsonResponse.message);
+                    }
+
+                    if (jsonResponse.link) {
+                        $('.bill__form').hide();
+                        $('.link__block').show();
+                        $('.link_label').text(jsonResponse.link);
+                    } else {
+
+                    }
+                }
+            }
+        });
+    });
 });
 
 function changeByKeyup(){

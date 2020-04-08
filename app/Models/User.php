@@ -180,4 +180,14 @@ class User extends Authenticatable
     {
       return $this->belongsToMany('App\Models\User', 'location_users', 'id_location', 'id_user');
     }
+
+    public function scopeActive($query)
+    {
+        return $query->where('active', 1)->where('confirm', 1);
+    }
+
+    public function scopeWaiters($query)
+    {
+        return $query->where('type', 'user')->active();
+    }
 }

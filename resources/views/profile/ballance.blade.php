@@ -41,14 +41,14 @@
                 <span class="d-flex align-items-center purchase-popup alert-warning" style="justify-content: space-between;">
                     <p style="color: #fff;">
                         @if(Auth::user()->verification_status != 'confirm')
-                            Длы вывода средств необходимо пройти верификацию в разделе &nbsp;
+                            Для вывода средств необходимо пройти верификацию в разделе &nbsp;
                             <a href="{{ route('account', ['lang' => $lang]) }}">
                                 Мой профиль
-                            </a> 
+                            </a>
                         @elseif($total_amount < setting('minimum_withdrawal'))
-                            Длы вывода средств необходимо иметь на счету не менее {{ setting('minimum_withdrawal') }} P 
+                            Для вывода средств необходимо иметь на счету не менее {{ setting('minimum_withdrawal') }} P
                         @else
-                            Длы вывода средств необходимо привязать банковскую карту
+                            Для вывода средств необходимо привязать банковскую карту
                         @endif
                     </p>  
                 </span>

@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Pay;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller; 
-use App\Utils\Ballance;  
+use App\Utils\Ballance;
+use App\Utils\Order;
 use App\Models\QrCode;
 use App\Models\PaymentType; 
 use App\Models\Tips; 
@@ -58,9 +59,10 @@ class PaymentController extends Controller
         }
 
         try {
-            
-            $idOrder = $this->makeOrder($request);
-            $order   = Tips::whereId($idOrder)->first();
+
+            $orderCreator = new Order;
+            $orderCreator->requestData($request->all())->make();
+            $order = Tips::whereId($orderCreator->getId())->first();
 
             if ($request->payment == 'payment_center') 
             {
@@ -147,77 +149,6 @@ class PaymentController extends Controller
  
         $lang = lang();
         return view('public.payment.message', compact(['message', 'lang']));
-    }
- 
-    private function makeOrder($request, $partner = null)
-    {  
-        $qrCode      = QrCode::where('code', $request->code)->with(['user.agent', 'location.agent'])->first();
-
-        // процент приложния
-        $percents    = EnrollmentPercents::select('percent', 'id', 'type')->get()->keyBy('type');
-
-        if ($qrCode->user->agent) {
-            $partner = $qrCode->user->agent;
-        } else if ($qrCode->user->location->count() && $qrCode->user->location->first()){
-            $partner = $qrCode->user->location->first()->agent;
-        }
-
-        if (@$partner->fee){
-            $incomePercent = $percents['income']->percent;
-
-            if ($partner->fee > $percents['agent']->percent) {
-                $incomePercent = ($percents['agent']->percent+$percents['income']->percent) - $partner->fee;
-            } else if($partner->fee < $percents['agent']['percent']) {
-                $incomePercent = ($percents['agent']->percent - $partner->fee) + $percents['income']->percent;
-            }
-
-            if ($incomePercent <> $percents['income']->percent){
-                $percents['income']->percent = $incomePercent;
-                $percents['agent']->percent = $partner->fee;
-            }
-        }
-
-        $fee         = $percents->sum('percent');
-        $totalAmount = toFloat($request->price);
-        $amount      = withdrawFee($totalAmount, $fee);
-
-        $location_fee    = 0;
-        $location_amount = 0;
-        if (!empty($qrCode->location)) 
-        {
-            if ($qrCode->location->work_type == 'percent') 
-            {
-                $location_fee = $qrCode->location->self_percent; 
-                $location_amount = withdrawFee($amount, $location_fee);
-            } 
-        }
-
-    	$tipId = Tips::create([
-    		'id_user'             => $qrCode->id_user,
-            'id_location'         => $qrCode->id_location,
-    		'id_payment'          => ($request->payment == 'payment_center') ? 1 : '',
-            'payment_service'     => $request->payment ?: '',
-            'id_qrcode'           => $qrCode->id,
-    		'rand'                => generate_id(7), 
-    		'total_amount'        => $totalAmount,
-            'amount'              => $location_amount ? $amount - $location_amount : $amount,
-            'location_fee'        => $location_fee,
-            'location_amount'     => $location_amount,
-            'location_work_type'  => @$qrCode->location->work_type ?: '',
-            'fee'                 => $fee, 
-            'rating'              => $request->rating ?: '',
-            'review'              => $request->review ?: '',
-    	])->id; 
-
-        $percents->each(function($percent) use($tipId){
-            TipPercents::insert([
-                'id_tip'     => $tipId,
-                'id_percent' => $percent->id,
-                'percent'    => $percent->percent
-            ]);
-        });
-
-        return $tipId;
     }
 
     private function checkFormData($request)

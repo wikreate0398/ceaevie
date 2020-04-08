@@ -11,6 +11,11 @@
 |
 */
 
+Route::get('preview-notification', function () {
+    $user = \App\Models\User::whereId(1)->first();
+    return (new \App\Notifications\SendBill('123123', '21312', 'asd'))->toMail($user);
+});
+
 Route::get('page-404', function(){
 	return response()->view('errors.404', [], 404);
 })->name('404');
@@ -109,6 +114,7 @@ Route::group(['prefix' => $adminPath, 'namespace' => 'Admin', 'middleware' => ['
         Route::post('create', 'ClientsController@create');
         Route::post('{id}/update', 'ClientsController@update');
         Route::post('{id}/send-letter', 'ClientsController@sendLetter');
+        Route::post('{id}/waiter-bill', 'ClientsController@waiterBill');
         Route::get('{id}/autologin', 'ClientsController@autologin');
 
         Route::get('change-verification-status/{id}/{status}', 'ClientsController@changeVerificationStatus')->name('admin_change_verification_status');
