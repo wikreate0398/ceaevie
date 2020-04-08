@@ -65,7 +65,7 @@ class VisaPayment extends PaymentService implements PaymentInterface
 			throw new \Exception("Ошибка оплаты, попробуйте позже"); 
 		} 
 
-		return $this->serviceHostname . 'webblock/?token=' . $xmlData->token; 
+		return $this->serviceHostname . 'webpay/?token=' . $xmlData->token;
 	}
 
 	public function pay()
