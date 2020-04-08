@@ -122,7 +122,7 @@ class ClientsController extends Controller
         try {
             $waiter  = User::whereId($id)->active()->first();
 
-            if (!$waiter) {
+            if (!$waiter or @$waiter->type != 'user') {
                 throw new \Exception('Официант не активен');
             }
 
