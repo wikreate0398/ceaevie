@@ -76,9 +76,9 @@ $(document).ready(function(){
                         $('.bill__form').hide();
                         $('.link__block').show();
                         $('.link_label').text(jsonResponse.link);
-                    } else {
-
                     }
+
+                    $(form)[0].reset();
                 }
             }
         });

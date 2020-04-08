@@ -126,7 +126,7 @@ class ClientsController extends Controller
                 throw new \Exception('Официант не активен');
             }
 
-            if (!$request->type or !$request->sum or !$request->qr_code) {
+            if (!$request->type or !$request->price or !$request->qr_code) {
                 throw new \Exception('Заполните все поля');
             }
 

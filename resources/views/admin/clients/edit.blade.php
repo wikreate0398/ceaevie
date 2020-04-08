@@ -188,7 +188,7 @@
 								<div class="form-group">
 									<label class="control-label col-md-12">Сумма</label>
 									<div class="col-md-12">
-										<input type="text" name="sum" class="form-control number" autocomplete="off">
+										<input type="text" name="price" class="form-control number" autocomplete="off">
 									</div>
 								</div>
 								<div class="form-actions">
