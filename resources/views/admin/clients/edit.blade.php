@@ -164,6 +164,8 @@
 											<input type="text" name="email" class="form-control" autocomplete="off">
 										</div>
 									</div>
+
+									@include('admin.utils.input', ['label' => 'Описание', 'name' => 'description'])
 								</div>
 
 								<div class="form-group">
@@ -200,7 +202,7 @@
 
 							<div class="link__block" style="display: none;">
 								<div class="alert alert-info">
-									<p class="link_label">lorem</p>
+									<p class="link_label"></p>
 								</div>
 								<button class="btn btn-sm btn-warning" onclick="$('.link__block').hide(); $('.link_label').text(''); $('.bill__form').show();">Назад</button>
 							</div>

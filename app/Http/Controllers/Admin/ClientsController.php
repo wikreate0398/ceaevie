@@ -145,7 +145,7 @@ class ClientsController extends Controller
             $paymentClass = new VisaPayment;
             $paymentClass->setOrderId($order->rand)
                          ->setAmount(toFloat($order->total_amount))
-                         ->setDescription('Чаевые официанту ' . $order->user->name);
+                         ->setDescription( $request->description ?: 'Чаевые официанту ' . $order->user->name);
 
             $link = $paymentClass->getToken();
 
