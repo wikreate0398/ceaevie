@@ -86,7 +86,7 @@
 							<td align="center">
 								{{ $item->total_amount - withdrawFee($item->total_amount, $item->fee) }}
 							</td>
-							<td class="nw" align="center" style="width: 250px;">
+							<td align="center" style="width: 250px;">
 								{{ $item->location_amount+$item->amount }} P
 								@if($item->rating)
                                     <select class="rating-stars" data-readonly="true" data-current-rating="{{ $item->rating }}" autocomplete="off">
