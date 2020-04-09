@@ -55,7 +55,7 @@
 						<th class="nw">Дата зачисления</th> 
 						<th class="nw" style="text-align: center;">Сумма руб.</th> 
 						<th class="nw" style="text-align: center;">Комиссия руб.</th> 
-						<th class="nw" style="text-align: center;">Заработано руб.</th> 
+						<th class="nw" style="text-align: center; width: 250px;">Заработано руб.</th>
 						<th class="nw">Способ оплаты</th> 
 						<th class="nw">Сервис</th> 
 						<th style="width:5%; text-align: center"><i class="fa fa-cogs" aria-hidden="true"></i></th>
@@ -86,7 +86,7 @@
 							<td align="center">
 								{{ $item->total_amount - withdrawFee($item->total_amount, $item->fee) }}
 							</td>
-							<td class="nw" align="center">
+							<td class="nw" align="center" style="width: 250px;">
 								{{ $item->location_amount+$item->amount }} P
 								@if($item->rating)
                                     <select class="rating-stars" data-readonly="true" data-current-rating="{{ $item->rating }}" autocomplete="off">

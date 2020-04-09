@@ -93,6 +93,11 @@
 								</td> 
 								<td class="nw ac">
 									{{ $item->location_amount+$item->amount }}
+									@if($item->from_bill)
+										<label class="badge badge-info">
+											по выписка счета
+										</label>
+									@endif
 								</td> 
 								@foreach($percents as $percent)
 									@php($value = percent($item->total_amount, @$tipPercents[$percent->id]->percent))
