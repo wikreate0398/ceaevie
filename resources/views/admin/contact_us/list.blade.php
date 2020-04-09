@@ -19,7 +19,7 @@
 				<tbody>
 				@foreach($data as $item)
 					<tr>  
-						<td class="nw"> 
+						<td class="">
 							@if($item->id_user)
 								{{ $item->user->name }} {{ $item->user->lastname }}
 							@else
