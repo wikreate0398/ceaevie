@@ -111,6 +111,11 @@
 							</td> 
 							<td>
 								{{ $item->payment_service_data->name }}
+								@if($item->from_bill)
+									<label class="badge badge-info">
+										по выписка счета
+									</label>
+								@endif
 							</td>
 							<td style="width: 5px; white-space: nowrap"> 
 								<a class="btn btn-danger btn-xs" data-toggle="modal" href="#deleteModal_{{ $table }}_{{ $item['id'] }}"><i class="fa fa-trash-o "></i></a>
