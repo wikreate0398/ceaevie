@@ -12,19 +12,23 @@ class SendBill extends Notification
 {
     use Queueable;
 
+    private $waiter;
+
     private $order_number;
 
     private $price;
 
     private $link;
 
+
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($order_number, $price, $link)
+    public function __construct($waiter, $order_number, $price, $link)
     {
+        $this->waiter       = $waiter;
         $this->order_number = $order_number;
         $this->price        = $price;
         $this->link         = $link;
@@ -53,7 +57,7 @@ class SendBill extends Notification
                     ->subject('Вам выставлен счет для оплаты заказа')
                     ->from(setting('mailbox'))
                     ->markdown('mails.bill', [
-                        'waiter'       => $notifiable->name,
+                        'waiter'       => $this->waiter->name,
                         'order_number' => $this->order_number,
                         'price'        => $this->price,
                         'link'         => $this->link
