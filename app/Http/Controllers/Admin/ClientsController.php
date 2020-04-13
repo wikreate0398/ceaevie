@@ -153,7 +153,7 @@ class ClientsController extends Controller
             if ($request->type === '1') {
                 return \JsonResponse::success(['message' => 'Ссылка успешно сгенерирована', 'link' => $link]);
             } else {
-                $waiter->notify(new SendBill($order->rand, $request->price, $link));
+                (new SendBill($order->rand, $request->price, $link))->toEmail($request->email);
                 return \JsonResponse::success(['message' => 'Выписка успешно отправлена']);
             }
 
