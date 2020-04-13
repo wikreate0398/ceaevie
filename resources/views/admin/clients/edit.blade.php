@@ -164,9 +164,9 @@
 											<input type="text" name="email" class="form-control" autocomplete="off">
 										</div>
 									</div>
-
-									@include('admin.utils.input', ['label' => 'Описание', 'name' => 'description'])
 								</div>
+
+								@include('admin.utils.input', ['label' => 'Описание', 'name' => 'description'])
 
 								<div class="form-group">
 									<label class="control-label col-md-12">Qr код</label>
