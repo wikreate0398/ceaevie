@@ -21,7 +21,7 @@
 	                    <tr>
 	                        <td class="ac" style="33.3%">Фио</td>
 	                        <td class="ac" style="33.3%">E-mail</td>
-	                        <td class="ac" style="33.3%">Телфон</td>
+	                        <td class="ac" style="33.3%">Телефон</td>
 	                    </tr>
 	                </thead>
 	                <tbody>

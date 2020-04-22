@@ -114,7 +114,7 @@
 	                    <tr>
 	                        <td>Фио</td>
 	                        <td>E-mail</td>
-	                        <td>Телфон</td>
+	                        <td>Телефон</td>
 	                        <td>Статус</td>
 	                        <td>Дата привязки</td>  
                             @if(Auth::user()->work_type == 'common_sum')

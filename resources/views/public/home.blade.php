@@ -188,7 +188,7 @@
 	                        @endforeach
 	                    </ul>
                         @if(!Auth::check())
-                            <a href="{{ route('registration', ['lang' => $lang]) }}" class="btn btn-red">Присоединится к нам</a>
+                            <a href="{{ route('registration', ['lang' => $lang]) }}" class="btn btn-red">Присоединиться к нам</a>
                         @endif 
 	                </div>
                 @endif
