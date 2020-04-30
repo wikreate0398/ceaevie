@@ -60,7 +60,6 @@
 <!-- END THEME STYLES -->
 <link rel="shortcut icon" href="/fav.ico">
 
-
 <script src="{{ asset('admin_theme') }}/theme/assets/global/plugins/jquery.min.js" type="text/javascript"></script>
 <script src="{{ asset('admin_theme') }}/theme/assets/global/plugins/jstree/dist/jstree.min.js"></script>
     <script type="text/javascript" src="{{ asset('admin_theme') }}/theme/assets/global/plugins/select2/select2.min.js"></script>
